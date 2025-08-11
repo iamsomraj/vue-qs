@@ -48,8 +48,8 @@
     "lint:fix": "eslint . --ext .ts,.tsx,.cts,.mts --fix",
     "format": "prettier --check \"**/*.{ts,tsx,js,json,md,yml,yaml}\"",
     "format:fix": "prettier --write \"**/*.{ts,tsx,js,json,md,yml,yaml}\"",
-    "prepare": "husky",
-  "prepublishOnly": "bun run typecheck && bun run lint && bun run test && bun run build"
+    "prepare": "echo 'no git hooks'",
+    "prepublishOnly": "bun run typecheck && bun run lint && bun run test && bun run build"
   },
   "peerDependencies": {
     "vue": "^3.5.0",
@@ -63,21 +63,11 @@
     "eslint": "^9.12.0",
     "globals": "^16.3.0",
     "happy-dom": "^15.11.7",
-    "husky": "^9.1.6",
-    "lint-staged": "^15.2.8",
     "prettier": "^3.3.3",
     "tsup": "^8.2.4",
     "typescript": "^5.9.2",
     "vitest": "^2.1.2",
     "vue": "^3.5.10",
     "vue-router": "^4.4.5"
-  },
-  "lint-staged": {
-    "*.{ts,tsx,js,jsx,cts,mts}": [
-      "eslint --fix"
-    ],
-    "**/*.{ts,tsx,js,jsx,json,md,yml,yaml}": [
-      "prettier --write"
-    ]
   }
 }
