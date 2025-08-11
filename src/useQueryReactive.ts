@@ -1,4 +1,4 @@
-import { reactive, watch } from 'vue';
+import { onBeforeUnmount, reactive, watch } from 'vue';
 import type {
   ParamOption,
   ParamSchema,
@@ -19,6 +19,7 @@ export function useQueryReactive<TSchema extends ParamSchema>(
 ): UseQueryReactiveReturn<TSchema> {
   const adapter = options.adapter ?? createQuerySync().adapter;
   const current = adapter.getQuery();
+  const twoWay = options.twoWay === true;
 
   type Out = { [K in keyof TSchema]: TSchema[K] extends ParamOption<infer T> ? T : never };
 
@@ -52,6 +53,7 @@ export function useQueryReactive<TSchema extends ParamSchema>(
   }
 
   // Watch individual keys with a single reactive effect
+  let isApplyingPopState = false;
   watch(
     () => {
       const snap: Partial<Out> = {};
@@ -59,6 +61,8 @@ export function useQueryReactive<TSchema extends ParamSchema>(
       return snap;
     },
     (val) => {
+      if (isApplyingPopState) return;
+
       const entries = serializeAll(val as Partial<Out>);
       adapter.setQuery(entries, { history: options.history ?? 'replace' });
     },
@@ -69,6 +73,29 @@ export function useQueryReactive<TSchema extends ParamSchema>(
     for (const k in update) (state as any)[k] = (update as any)[k];
     const entries = serializeAll(update);
     adapter.setQuery(entries, { history: batchOptions?.history ?? options.history ?? 'replace' });
+  }
+
+  if (typeof window !== 'undefined' && twoWay) {
+    const onPopState = () => {
+      const q = adapter.getQuery();
+      isApplyingPopState = true;
+      try {
+        for (const key in schema) {
+          const opt = schema[key];
+          const parseFn: Parser<any> = opt.parse ?? defaultParse;
+          const raw = q[key] ?? null;
+          (state as any)[key] = raw != null ? parseFn(raw) : opt.default;
+        }
+      } finally {
+        queueMicrotask(() => {
+          isApplyingPopState = false;
+        });
+      }
+    };
+    window.addEventListener('popstate', onPopState);
+    onBeforeUnmount(() => {
+      window.removeEventListener('popstate', onPopState);
+    });
   }
 
   return { state: state as Out, batch, sync: syncAll };

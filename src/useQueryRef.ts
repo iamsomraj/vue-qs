@@ -1,4 +1,4 @@
-import { ref, watch } from 'vue';
+import { onBeforeUnmount, ref, watch } from 'vue';
 import type { Parser, Serializer, UseQueryRefOptions, UseQueryRefReturn } from '@/types';
 import { string as stringCodec } from '@/serializers';
 import { createQuerySync } from '@/querySync';
@@ -17,6 +17,7 @@ export function useQueryRef<T>(
     omitIfDefault = true,
     history = 'replace',
     adapter: customAdapter,
+    twoWay = false,
   } = options as any;
   const adapter = customAdapter ?? createQuerySync().adapter;
 
@@ -34,9 +35,12 @@ export function useQueryRef<T>(
   }
 
   // Watch for changes and update URL
+  let isApplyingPopState = false;
   watch(
     state,
     (val: T) => {
+      if (isApplyingPopState) return; // avoid feedback loop when applying popstate
+
       const s = serializeFn(val as T);
       const isDefault = defVal !== undefined && val === (defVal as T);
       const shouldOmit = omitIfDefault && isDefault;
@@ -52,6 +56,26 @@ export function useQueryRef<T>(
     const shouldOmit = omitIfDefault && isDefault;
     adapter.setQuery({ [param]: shouldOmit ? undefined : (s ?? undefined) }, { history });
   };
+
+  if (typeof window !== 'undefined' && twoWay) {
+    const onPopState = () => {
+      const raw = adapter.getQuery()[param] ?? null;
+      const next = raw != null ? parseFn(raw) : (defVal as T);
+      isApplyingPopState = true;
+      try {
+        (state as any).value = next;
+      } finally {
+        // next microtask to ignore our own watch tick
+        queueMicrotask(() => {
+          isApplyingPopState = false;
+        });
+      }
+    };
+    window.addEventListener('popstate', onPopState);
+    onBeforeUnmount(() => {
+      window.removeEventListener('popstate', onPopState);
+    });
+  }
 
   return state;
 }

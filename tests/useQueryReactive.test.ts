@@ -98,4 +98,37 @@ describe('useQueryReactive', () => {
     expect(url2.searchParams.get('a')).toBe('9');
     expect(url2.searchParams.get('e')).toBe(null);
   });
+
+  it('twoWay: reactive state updates on popstate', () => {
+    const { state } = useQueryReactive(
+      {
+        q: {
+          default: '',
+          parse: serializers.string.parse,
+          serialize: serializers.string.serialize,
+        },
+        p: { default: 0, parse: serializers.number.parse, serialize: serializers.number.serialize },
+      },
+      { history: 'push', twoWay: true }
+    );
+
+    expect(state.q).toBe('');
+    expect(state.p).toBe(0);
+
+    // change state which updates URL (push)
+    state.q = 'first';
+    state.p = 1;
+    const u1 = new URL(window.location.href);
+    expect(u1.searchParams.get('q')).toBe('first');
+    expect(u1.searchParams.get('p')).toBe('1');
+
+    // simulate navigating to a new URL and popstate back
+    const u2 = new URL(window.location.href);
+    u2.searchParams.set('q', 'second');
+    u2.searchParams.set('p', '2');
+    window.history.pushState({}, '', u2);
+    window.dispatchEvent(new PopStateEvent('popstate'));
+    expect(state.q).toBe('second');
+    expect(state.p).toBe(2);
+  });
 });

@@ -92,4 +92,26 @@ describe('useQueryRef', () => {
     en.value = 'desc';
     expect(new URL(window.location.href).searchParams.get('enum1')).toBe('desc');
   });
+
+  it('twoWay: ref updates on popstate', () => {
+    const page = useQueryRef<number>('twPage', {
+      default: 1,
+      parse: Number,
+      serialize: (n) => String(n),
+      history: 'push',
+      twoWay: true,
+    });
+    expect(page.value).toBe(1);
+    // push a new value
+    page.value = 2;
+    const url1 = new URL(window.location.href);
+    expect(url1.searchParams.get('twPage')).toBe('2');
+
+    // simulate user going back by changing URL and dispatching popstate
+    const url2 = new URL(window.location.href);
+    url2.searchParams.set('twPage', '5');
+    window.history.pushState({}, '', url2);
+    window.dispatchEvent(new PopStateEvent('popstate'));
+    expect(page.value).toBe(5);
+  });
 });
