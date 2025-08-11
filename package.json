@@ -1,6 +1,6 @@
 {
   "name": "vue-qs",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Type-safe URL query params state for Vue 3 (nuqs for Vue)",
   "license": "MIT",
   "author": "Somraj Mukherjee",
@@ -50,9 +50,9 @@
     "format:fix": "prettier --write \"**/*.{ts,tsx,js,json,md,yml,yaml}\"",
     "prepare": "echo 'no git hooks'",
     "prepublishOnly": "bun run typecheck && bun run lint && bun run test && bun run build",
-  "release:patch": "bunx changelogen@latest --patch && git add CHANGELOG.md && (git diff --cached --quiet -- CHANGELOG.md || git commit -m \"docs: update changelog\") && npm version patch -m \"chore: release v%s\" && git push --follow-tags",
-  "release:minor": "bunx changelogen@latest --minor && git add CHANGELOG.md && (git diff --cached --quiet -- CHANGELOG.md || git commit -m \"docs: update changelog\") && npm version minor -m \"chore: release v%s\" && git push --follow-tags",
-  "release:major": "bunx changelogen@latest --major && git add CHANGELOG.md && (git diff --cached --quiet -- CHANGELOG.md || git commit -m \"docs: update changelog\") && npm version major -m \"chore: release v%s\" && git push --follow-tags"
+    "release:patch": "bunx changelogen@latest --patch && git add CHANGELOG.md && (git diff --cached --quiet -- CHANGELOG.md || git commit -m \"docs: update changelog\") && npm version patch -m \"chore: release v%s\" && git push --follow-tags",
+    "release:minor": "bunx changelogen@latest --minor && git add CHANGELOG.md && (git diff --cached --quiet -- CHANGELOG.md || git commit -m \"docs: update changelog\") && npm version minor -m \"chore: release v%s\" && git push --follow-tags",
+    "release:major": "bunx changelogen@latest --major && git add CHANGELOG.md && (git diff --cached --quiet -- CHANGELOG.md || git commit -m \"docs: update changelog\") && npm version major -m \"chore: release v%s\" && git push --follow-tags"
   },
   "peerDependencies": {
     "vue": "^3.3.0",
