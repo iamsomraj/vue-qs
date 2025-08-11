@@ -2,10 +2,20 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
   workflow_dispatch:
+    inputs:
+      scope:
+        description: "What to run"
+        required: false
+        default: all
+        type: choice
+        options:
+          - all
+          - lint
+          - test
 
 jobs:
   build:
@@ -22,10 +32,14 @@ jobs:
       - name: Install dependencies
         run: bun install
       - name: Lint
+        if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.scope == 'all' || github.event.inputs.scope == 'lint' }}
         run: bun run lint
       - name: Typecheck
+        if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.scope == 'all' }}
         run: bun run typecheck
       - name: Test
+        if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.scope == 'all' || github.event.inputs.scope == 'test' }}
         run: bun run test
       - name: Build
+        if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.scope == 'all' }}
         run: bun run build
