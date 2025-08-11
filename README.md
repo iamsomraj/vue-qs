@@ -12,6 +12,44 @@ npm install vue-qs
 
 Peer deps: `vue@^3.3`, `vue-router@^4.2` (router is optional).
 
+## Quick start
+
+A minimal example that keeps an input bound to a `name` query param.
+
+```vue
+<script setup lang="ts">
+import { useQueryRef } from 'vue-qs';
+
+const name = useQueryRef('name', { default: '', parse: String });
+</script>
+
+<template>
+  <input v-model="name" placeholder="Your name" />
+</template>
+```
+
+A small reactive group of params using `useQueryReactive`:
+
+```vue
+<script setup lang="ts">
+import { useQueryReactive } from 'vue-qs';
+
+const { state } = useQueryReactive({
+  search: { default: '' },
+  sort: { default: 'asc' as 'asc' | 'desc' },
+});
+</script>
+
+<template>
+  <input v-model="state.search" placeholder="Search" />
+  <select v-model="state.sort">
+    <option value="asc">asc</option>
+    <option value="desc">desc</option>
+  </select>
+  <!-- URL: ?search=...&sort=asc|desc -->
+</template>
+```
+
 ## Usage
 
 ```ts
