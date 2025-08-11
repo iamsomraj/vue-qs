@@ -1,0 +1,72 @@
+import type { Ref } from 'vue';
+
+export type Parser<T> = (value: string | null) => T;
+export type Serializer<T> = (value: T) => string | null;
+export type QueryCodec<T> = { parse: Parser<T>; serialize: Serializer<T> };
+
+export type ParamOption<T> = {
+  default?: T;
+  parse?: Parser<T>;
+  serialize?: Serializer<T>;
+  /**
+   * If true, will not write to URL when value equals default.
+   * Defaults to true.
+   */
+  omitIfDefault?: boolean;
+  /**
+   * If true, updates to multiple params can be batched without multiple history entries
+   */
+  batchKey?: string;
+};
+
+export type ParamSchema = Record<string, ParamOption<any>>;
+
+export type UseQueryRefOptions<T> = ParamOption<T> & {
+  /**
+   * History strategy when updating the URL
+   * - 'replace': replaceState (default)
+   * - 'push': pushState
+   */
+  history?: 'replace' | 'push';
+  /** Optional adapter override (e.g., Vue Router adapter) */
+  adapter?: QueryAdapter;
+};
+
+export type UseQueryRefReturn<T> = Ref<T> & {
+  /** Immediately write the current value to the URL */
+  sync(): void;
+};
+
+export type UseQueryReactiveReturn<TSchema extends ParamSchema> = {
+  state: { [K in keyof TSchema]: TSchema[K] extends ParamOption<infer T> ? T : never };
+  /**
+   * Batch update multiple params in a single history entry.
+   */
+  batch(
+    update: Partial<{ [K in keyof TSchema]: TSchema[K] extends ParamOption<infer T> ? T : never }>,
+    options?: { history?: 'replace' | 'push' }
+  ): void;
+  /** Immediately write the current state to the URL */
+  sync(): void;
+};
+
+export type UseQueryReactiveOptions = {
+  history?: 'replace' | 'push';
+  adapter?: QueryAdapter;
+};
+
+export type QueryAdapter = {
+  /** Read current query params as a plain object. Values are strings or undefined. */
+  getQuery(): Record<string, string | undefined>;
+  /** Replace the query params, merging with existing by default. */
+  setQuery(
+    next: Record<string, string | undefined>,
+    options?: { history?: 'replace' | 'push' }
+  ): void;
+};
+
+export type RuntimeEnv = {
+  isClient: boolean;
+  /** Safe access to window if on client */
+  win: Window | null;
+};

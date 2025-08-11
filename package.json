@@ -1,0 +1,75 @@
+{
+  "name": "vue-qs",
+  "version": "0.1.0",
+  "description": "Type-safe URL query params state for Vue 3 (nuqs for Vue)",
+  "license": "MIT",
+  "author": "",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "vue",
+    "querystring",
+    "url",
+    "router",
+    "state",
+    "nuqs"
+  ],
+  "packageManager": "bun@1.2.19",
+  "engines": {
+    "bun": ">=1.0.0"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --ext .ts,.tsx,.cts,.mts",
+    "lint:fix": "eslint . --ext .ts,.tsx,.cts,.mts --fix",
+    "format": "prettier --check \"**/*.{ts,tsx,js,json,md,yml,yaml}\"",
+    "format:fix": "prettier --write \"**/*.{ts,tsx,js,json,md,yml,yaml}\"",
+    "prepare": "husky",
+    "prepublishOnly": "bun run typecheck && bun run lint && bun test && bun run build"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.0",
+    "vue-router": "^4.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.4",
+    "@typescript-eslint/eslint-plugin": "^8.5.0",
+    "@typescript-eslint/parser": "^8.5.0",
+    "eslint": "^9.12.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "happy-dom": "^15.11.7",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.8",
+    "prettier": "^3.3.3",
+    "tsup": "^8.2.4",
+    "typescript": "^5.9.2",
+    "vitest": "^2.1.2",
+    "vue": "^3.5.10",
+    "vue-router": "^4.4.5"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,cts,mts}": [
+      "eslint --fix"
+    ],
+    "**/*.{ts,tsx,js,jsx,json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  }
+}
