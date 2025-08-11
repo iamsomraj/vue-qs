@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
-npx --no -- lint-staged
+# Husky v9+: run tools directly, no helper sourcing
+command -v bunx >/dev/null 2>&1 && exec bunx lint-staged
+exec npx --no -- lint-staged

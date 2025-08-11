@@ -11,7 +11,7 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-  "import": "./dist/index.js",
+      "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
   },
@@ -49,19 +49,19 @@
     "format": "prettier --check \"**/*.{ts,tsx,js,json,md,yml,yaml}\"",
     "format:fix": "prettier --write \"**/*.{ts,tsx,js,json,md,yml,yaml}\"",
     "prepare": "husky",
-    "prepublishOnly": "bun run typecheck && bun run lint && bun test && bun run build"
+  "prepublishOnly": "bun run typecheck && bun run lint && bun run test && bun run build"
   },
   "peerDependencies": {
     "vue": "^3.5.0",
     "vue-router": "^4.4.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.33.0",
     "@types/node": "^22.7.4",
     "@typescript-eslint/eslint-plugin": "^8.5.0",
     "@typescript-eslint/parser": "^8.5.0",
     "eslint": "^9.12.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-prettier": "^5.2.1",
+    "globals": "^16.3.0",
     "happy-dom": "^15.11.7",
     "husky": "^9.1.6",
     "lint-staged": "^15.2.8",
