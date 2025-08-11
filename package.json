@@ -55,7 +55,7 @@
     "docs:preview": "vitepress preview docs",
     "docs:api": "typedoc && cp docs/api/README.md docs/api/index.md",
     "docs:all": "bun run docs:api && bun run docs:build",
-    "docs:deploy": "DOCS_BASE=/vue-qs/ bun run docs:api && DOCS_BASE=/vue-qs/ vitepress build docs && gh-pages -d docs/.vitepress/dist -b gh-pages -t true"
+    "docs:deploy": "DOCS_BASE=/vue-qs/ bun run docs:api && DOCS_BASE=/vue-qs/ vitepress build docs && gh-pages -d docs/.vitepress/dist -b gh-pages --dotfiles"
   },
   "peerDependencies": {
     "vue": "^3.3.0",

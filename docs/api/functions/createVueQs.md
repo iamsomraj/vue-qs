@@ -8,7 +8,7 @@
 
 > **createVueQs**(`options`): `object`
 
-Defined in: [adapterContext.ts:19](https://github.com/iamsomraj/vue-qs/blob/8dd8b9116f5f79adc1bc1b23a2ea361a3c83a0ab/src/adapterContext.ts#L19)
+Defined in: [adapterContext.ts:19](https://github.com/iamsomraj/vue-qs/blob/b9909ff029be0e52ce297bc89945187d8e2b539f/src/adapterContext.ts#L19)
 
 Create a Vue plugin that provides the given [QueryAdapter](../type-aliases/QueryAdapter.md).
 

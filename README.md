@@ -6,6 +6,8 @@
 
 [![CI](https://github.com/iamsomraj/vue-qs/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/iamsomraj/vue-qs/actions/workflows/ci.yml)
 
+Docs: https://iamsomraj.github.io/vue-qs/ · 中文文档: https://iamsomraj.github.io/vue-qs/zh/
+
 Type-safe, reactive URL query params for Vue 3 — like nuqs, but for Vue.
 
 ## Install

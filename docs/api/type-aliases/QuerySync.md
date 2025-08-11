@@ -8,7 +8,7 @@
 
 > **QuerySync** = `object`
 
-Defined in: [querySync.ts:37](https://github.com/iamsomraj/vue-qs/blob/8dd8b9116f5f79adc1bc1b23a2ea361a3c83a0ab/src/querySync.ts#L37)
+Defined in: [querySync.ts:37](https://github.com/iamsomraj/vue-qs/blob/b9909ff029be0e52ce297bc89945187d8e2b539f/src/querySync.ts#L37)
 
 Result of [createQuerySync](../functions/createQuerySync.md).
 
@@ -18,6 +18,6 @@ Result of [createQuerySync](../functions/createQuerySync.md).
 
 > **adapter**: [`QueryAdapter`](QueryAdapter.md)
 
-Defined in: [querySync.ts:39](https://github.com/iamsomraj/vue-qs/blob/8dd8b9116f5f79adc1bc1b23a2ea361a3c83a0ab/src/querySync.ts#L39)
+Defined in: [querySync.ts:39](https://github.com/iamsomraj/vue-qs/blob/b9909ff029be0e52ce297bc89945187d8e2b539f/src/querySync.ts#L39)
 
 SSR-safe adapter backed by the History API.
