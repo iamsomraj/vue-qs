@@ -38,5 +38,11 @@ export function createVueRouterQueryAdapter(router: Router): QueryAdapter {
       const method = options?.history === 'push' ? router.push : router.replace;
       method.call(router, { query: merged });
     },
+    subscribe(cb) {
+      const unregister = router.afterEach(() => {
+        cb();
+      });
+      return () => unregister();
+    },
   };
 }

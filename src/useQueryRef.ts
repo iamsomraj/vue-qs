@@ -2,6 +2,7 @@ import { getCurrentInstance, onBeforeUnmount, ref, watch } from 'vue';
 import type { Parser, Serializer, UseQueryRefOptions, UseQueryRefReturn } from '@/types';
 import { string as stringCodec } from '@/serializers';
 import { createQuerySync } from '@/querySync';
+import { useQueryAdapter } from '@/adapterContext';
 
 const defaultSerialize = stringCodec.serialize as Serializer<any>;
 const defaultParse = stringCodec.parse as Parser<any>;
@@ -20,7 +21,8 @@ export function useQueryRef<T>(
     adapter: customAdapter,
     twoWay = false,
   } = options as any;
-  const adapter = customAdapter ?? createQuerySync().adapter;
+  const injected = getCurrentInstance() ? useQueryAdapter() : undefined;
+  const adapter = customAdapter ?? injected ?? createQuerySync().adapter;
 
   const initialRaw = adapter.getQuery()[param] ?? null;
   const parseFn: Parser<T> = parse ?? defaultParse;
@@ -60,26 +62,29 @@ export function useQueryRef<T>(
     adapter.setQuery({ [param]: shouldOmit ? undefined : (s ?? undefined) }, { history });
   };
 
-  if (typeof window !== 'undefined' && twoWay) {
-    const onPopState = () => {
+  if (twoWay) {
+    const applyFromAdapter = () => {
       const raw = adapter.getQuery()[param] ?? null;
       const next = raw != null ? parseFn(raw) : (defVal as T);
       isApplyingPopState = true;
       try {
         (state as any).value = next;
       } finally {
-        // next microtask to ignore our own watch tick
         queueMicrotask(() => {
           isApplyingPopState = false;
         });
       }
     };
-    window.addEventListener('popstate', onPopState);
-    if (getCurrentInstance()) {
-      onBeforeUnmount(() => {
-        window.removeEventListener('popstate', onPopState);
-      });
+
+    let unsubscribe: (() => void) | undefined;
+    if (adapter.subscribe) {
+      unsubscribe = adapter.subscribe(applyFromAdapter);
+    } else if (typeof window !== 'undefined') {
+      const handler = () => applyFromAdapter();
+      window.addEventListener('popstate', handler);
+      unsubscribe = () => window.removeEventListener('popstate', handler);
     }
+    if (unsubscribe && getCurrentInstance()) onBeforeUnmount(unsubscribe);
   }
 
   return state;

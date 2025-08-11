@@ -75,6 +75,12 @@ export function createQuerySync(): QuerySync {
         }
       }
     },
+    subscribe(cb) {
+      if (!env.isClient || !env.win) return () => {};
+      const handler = () => cb();
+      env.win.addEventListener('popstate', handler);
+      return () => env.win?.removeEventListener('popstate', handler);
+    },
   };
 
   return { adapter };

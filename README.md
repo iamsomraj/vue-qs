@@ -34,7 +34,7 @@ A small reactive group of params using `useQueryReactive`:
 <script setup lang="ts">
 import { useQueryReactive } from 'vue-qs';
 
-const filters = useQueryReactive({
+const { state } = useQueryReactive({
   search: { default: '' },
   sort: { default: 'asc' as 'asc' | 'desc' },
 });
@@ -54,7 +54,7 @@ Using Vue Router (optional; recommended if your app uses vue-router):
 
 ```vue
 <script setup lang="ts">
-import { useQueryRef, useQueryReactive, createVueRouterQueryAdapter } from 'vue-qs';\
+import { useQueryRef, useQueryReactive, createVueRouterQueryAdapter } from 'vue-qs';
 
 import { useRouter } from 'vue-router';
 
@@ -63,7 +63,7 @@ const adapter = createVueRouterQueryAdapter(router);
 
 const page = useQueryRef<number>('page', { default: 1, parse: Number, adapter });
 
-const filters = useQueryReactive(
+const { state } = useQueryReactive(
   {
     search: { default: '' },
     sort: { default: 'asc' as 'asc' | 'desc' },
@@ -72,6 +72,33 @@ const filters = useQueryReactive(
 );
 </script>
 ```
+
+Global adapter (plugin) for DX:
+
+```ts
+// main.ts
+import { createApp } from 'vue';
+import { createVueQs, createVueRouterQueryAdapter } from 'vue-qs';
+import { router } from './router';
+import App from './App.vue';
+
+const app = createApp(App);
+app.use(createVueQs({ adapter: createVueRouterQueryAdapter(router) }));
+app.use(router);
+app.mount('#app');
+```
+
+Then you can omit `adapter` in hooks; they pick the injected one.
+
+Two-way sync (URL -> state):
+
+```ts
+const page = useQueryRef('page', { default: 1, twoWay: true });
+// or
+const { state } = useQueryReactive({ q: { default: '' } }, { twoWay: true });
+```
+
+When using the router adapter, internal navigation (router.push/replace or back/forward) triggers updates via the adapter's subscription.
 
 ## Advanced usage with serializers
 
@@ -113,6 +140,8 @@ No direct `window` access on import. When not in a browser, changes write to an 
 
 - `useQueryRef(name, options)` -> `ref` with `.sync()`
 - `useQueryReactive(schema)` -> `{ state, batch, sync }`
+- `createVueQs({ adapter })` Vue plugin to provide a global adapter
+- `provideQueryAdapter(adapter)` and `useQueryAdapter()` for manual DI
 
 See `src/` for full types and options.
 

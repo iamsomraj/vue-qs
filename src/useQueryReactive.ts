@@ -9,6 +9,7 @@ import type {
 } from '@/types';
 import { string as stringCodec } from '@/serializers';
 import { createQuerySync } from '@/querySync';
+import { useQueryAdapter } from '@/adapterContext';
 
 const defaultSerialize = stringCodec.serialize as Serializer<any>;
 const defaultParse = stringCodec.parse as Parser<any>;
@@ -17,7 +18,8 @@ export function useQueryReactive<TSchema extends ParamSchema>(
   schema: TSchema,
   options: UseQueryReactiveOptions = {}
 ): UseQueryReactiveReturn<TSchema> {
-  const adapter = options.adapter ?? createQuerySync().adapter;
+  const injected = getCurrentInstance() ? useQueryAdapter() : undefined;
+  const adapter = options.adapter ?? injected ?? createQuerySync().adapter;
   const current = adapter.getQuery();
   const twoWay = options.twoWay === true;
 
@@ -76,8 +78,8 @@ export function useQueryReactive<TSchema extends ParamSchema>(
     adapter.setQuery(entries, { history: batchOptions?.history ?? options.history ?? 'replace' });
   }
 
-  if (typeof window !== 'undefined' && twoWay) {
-    const onPopState = () => {
+  if (twoWay) {
+    const applyFromAdapter = () => {
       const q = adapter.getQuery();
       isApplyingPopState = true;
       try {
@@ -93,12 +95,16 @@ export function useQueryReactive<TSchema extends ParamSchema>(
         });
       }
     };
-    window.addEventListener('popstate', onPopState);
-    if (getCurrentInstance()) {
-      onBeforeUnmount(() => {
-        window.removeEventListener('popstate', onPopState);
-      });
+
+    let unsubscribe: (() => void) | undefined;
+    if (adapter.subscribe) {
+      unsubscribe = adapter.subscribe(applyFromAdapter);
+    } else if (typeof window !== 'undefined') {
+      const handler = () => applyFromAdapter();
+      window.addEventListener('popstate', handler);
+      unsubscribe = () => window.removeEventListener('popstate', handler);
     }
+    if (unsubscribe && getCurrentInstance()) onBeforeUnmount(unsubscribe);
   }
 
   return { state: state as Out, batch, sync: syncAll };
