@@ -101,6 +101,15 @@ createApp(App)
   });
   ```
 
+  Prefer a single codec field for brevity:
+
+  ```ts
+  const tags2 = useQueryRef<string[]>('tags2', {
+    default: [],
+    codec: serializers.arrayOf(serializers.string),
+  });
+  ```
+
 - Batch updates (fewer history entries):
 
   ```ts

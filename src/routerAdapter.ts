@@ -1,10 +1,11 @@
 import type { Router } from 'vue-router';
 import type { QueryAdapter } from '@/types';
 
-/** Create an adapter backed by Vue Router instance */
+/** Create an adapter backed by a Vue Router instance. */
 export function createVueRouterQueryAdapter(router: Router): QueryAdapter {
   return {
     getQuery() {
+      // Normalize vue-router's LocationQuery to a simple { [k]: string | undefined }
       const q = router.currentRoute.value.query;
       const out: Record<string, string | undefined> = {};
       for (const [k, v] of Object.entries(q)) {
@@ -14,6 +15,7 @@ export function createVueRouterQueryAdapter(router: Router): QueryAdapter {
       return out;
     },
     setQuery(next, options) {
+      // Merge with current query and avoid redundant navigations
       const route = router.currentRoute.value;
       const merged: Record<string, any> = { ...route.query };
       for (const [k, v] of Object.entries(next)) {
@@ -39,6 +41,7 @@ export function createVueRouterQueryAdapter(router: Router): QueryAdapter {
       method.call(router, { query: merged });
     },
     subscribe(cb) {
+      // Re-run callback after each successful navigation
       const unregister = router.afterEach(() => {
         cb();
       });

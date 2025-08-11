@@ -6,6 +6,8 @@ export type QueryCodec<T> = { parse: Parser<T>; serialize: Serializer<T> };
 
 export type ParamOption<T> = {
   default?: T;
+  /** Pass a single codec instead of separate parse/serialize. */
+  codec?: QueryCodec<T>;
   parse?: Parser<T>;
   serialize?: Serializer<T>;
   /**

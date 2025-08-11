@@ -99,6 +99,17 @@ describe('useQueryReactive', () => {
     expect(url2.searchParams.get('e')).toBe(null);
   });
 
+  it('supports codec field in schema for simpler DX', () => {
+    const codec = serializers.arrayOf(serializers.string);
+    const { state, sync } = useQueryReactive({
+      tags: { default: [], codec },
+    });
+    expect(state.tags).toEqual([]);
+    state.tags = ['x', 'y'];
+    sync();
+    expect(new URL(window.location.href).searchParams.get('tags')).toBe('x,y');
+  });
+
   it('twoWay: reactive state updates on popstate', () => {
     const { state } = useQueryReactive(
       {

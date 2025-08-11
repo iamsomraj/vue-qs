@@ -1,6 +1,7 @@
 import { reactive } from 'vue';
 import type { QueryAdapter, RuntimeEnv } from '@/types';
 
+// Basic environment gate to keep SSR-safe behavior
 function isClient(): boolean {
   return typeof window !== 'undefined' && typeof document !== 'undefined';
 }
@@ -12,6 +13,7 @@ function getRuntimeEnv(): RuntimeEnv {
   };
 }
 
+// Convert search string -> plain object
 function parseSearch(search: string): Record<string, string> {
   const params = new URLSearchParams(search.startsWith('?') ? search : `?${search}`);
   const out: Record<string, string> = {};
@@ -21,6 +23,7 @@ function parseSearch(search: string): Record<string, string> {
   return out;
 }
 
+// Convert plain object -> search string
 function stringifySearch(query: Record<string, string | undefined>): string {
   const params = new URLSearchParams();
   for (const [k, v] of Object.entries(query)) {

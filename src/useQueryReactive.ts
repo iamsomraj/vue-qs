@@ -29,25 +29,27 @@ export function useQueryReactive<TSchema extends ParamSchema>(
 
   for (const key in schema) {
     const opt = schema[key];
-    const parseFn: Parser<any> = opt.parse ?? defaultParse;
+    const parseParam: Parser<any> = opt.parse ?? opt.codec?.parse ?? defaultParse;
     const raw = current[key] ?? null;
-    (state as any)[key] = raw != null ? parseFn(raw) : opt.default;
+    (state as any)[key] = raw != null ? parseParam(raw) : opt.default;
   }
 
-  function serializeAll(src: Partial<Out>) {
+  const isEqual = (a: any, b: any, eq?: (x: any, y: any) => boolean) =>
+    eq ? eq(a, b) : Object.is(a, b);
+
+  const serializeAll = (src: Partial<Out>) => {
     const entries: Record<string, string | undefined> = {};
     for (const key in schema) {
       if (!(key in src)) continue;
       const val = (src as any)[key];
       const opt = schema[key];
-      const serializeFn: Serializer<any> = opt.serialize ?? defaultSerialize;
-      const eq = (a: any, b: any) => (opt.equals ? opt.equals(a, b) : Object.is(a, b));
-      const isDefault = opt.default !== undefined && eq(val, opt.default);
-      const omit = (opt.omitIfDefault ?? true) && isDefault;
-      entries[key] = omit ? undefined : (serializeFn(val) ?? undefined);
+      const toString: Serializer<any> = opt.serialize ?? opt.codec?.serialize ?? defaultSerialize;
+      const defaulted = opt.default !== undefined && isEqual(val, opt.default, opt.equals);
+      const omit = (opt.omitIfDefault ?? true) && defaulted;
+      entries[key] = omit ? undefined : (toString(val) ?? undefined);
     }
     return entries;
-  }
+  };
 
   function syncAll() {
     const obj: Partial<Out> = {};
@@ -55,8 +57,7 @@ export function useQueryReactive<TSchema extends ParamSchema>(
     adapter.setQuery(serializeAll(obj), { history: options.history ?? 'replace' });
   }
 
-  // Watch individual keys with a single reactive effect
-  let isApplyingPopState = false;
+  let isSyncingFromAdapter = false;
   watch(
     () => {
       const snap: Partial<Out> = {};
@@ -64,10 +65,10 @@ export function useQueryReactive<TSchema extends ParamSchema>(
       return snap;
     },
     (val) => {
-      if (isApplyingPopState) return;
-
-      const entries = serializeAll(val as Partial<Out>);
-      adapter.setQuery(entries, { history: options.history ?? 'replace' });
+      if (isSyncingFromAdapter) return;
+      adapter.setQuery(serializeAll(val as Partial<Out>), {
+        history: options.history ?? 'replace',
+      });
     },
     { deep: true, flush: 'sync' }
   );
@@ -81,17 +82,17 @@ export function useQueryReactive<TSchema extends ParamSchema>(
   if (twoWay) {
     const applyFromAdapter = () => {
       const q = adapter.getQuery();
-      isApplyingPopState = true;
+      isSyncingFromAdapter = true;
       try {
         for (const key in schema) {
           const opt = schema[key];
-          const parseFn: Parser<any> = opt.parse ?? defaultParse;
+          const parseParam: Parser<any> = opt.parse ?? opt.codec?.parse ?? defaultParse;
           const raw = q[key] ?? null;
-          (state as any)[key] = raw != null ? parseFn(raw) : opt.default;
+          (state as any)[key] = raw != null ? parseParam(raw) : opt.default;
         }
       } finally {
         queueMicrotask(() => {
-          isApplyingPopState = false;
+          isSyncingFromAdapter = false;
         });
       }
     };
