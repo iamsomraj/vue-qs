@@ -8,7 +8,7 @@
 
 > **arrayOf**\<`T`\>(`elem`, `sep`): [`QueryCodec`](../../../../type-aliases/QueryCodec.md)\<`T`[]\>
 
-Defined in: [serializers.ts:45](https://github.com/iamsomraj/vue-qs/blob/378080a2660a9e11e7a8aeeb6d49a010f9b64ee4/src/serializers.ts#L45)
+Defined in: [serializers.ts:45](https://github.com/iamsomraj/vue-qs/blob/3914abe3b71638946c178175ac5cb09af4684d1b/src/serializers.ts#L45)
 
 ## Type Parameters
 
