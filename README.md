@@ -1,5 +1,9 @@
 # vue-qs
 
+<p align="center">
+  <img src="./docs/public/banner.svg" alt="vue-qs banner" width="800" />
+</p>
+
 [![CI](https://github.com/iamsomraj/vue-qs/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/iamsomraj/vue-qs/actions/workflows/ci.yml)
 
 Type-safe, reactive URL query params for Vue 3 — like nuqs, but for Vue.
