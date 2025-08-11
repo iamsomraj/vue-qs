@@ -6,9 +6,9 @@ import type {
   Serializer,
   UseQueryReactiveOptions,
   UseQueryReactiveReturn,
-} from './types';
-import { string as stringCodec } from './serializers';
-import { createQuerySync } from './querySync';
+} from '@/types';
+import { string as stringCodec } from '@/serializers';
+import { createQuerySync } from '@/querySync';
 
 const defaultSerialize = stringCodec.serialize as Serializer<any>;
 const defaultParse = stringCodec.parse as Parser<any>;

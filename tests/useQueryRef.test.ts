@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { useQueryRef } from '../src/useQueryRef';
-import { serializers } from '../src';
+import { useQueryRef } from '@/useQueryRef';
+import { serializers } from '@/index';
 
 describe('useQueryRef', () => {
   it('reads default when missing and writes when sync called', () => {

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { useQueryReactive } from '../src/useQueryReactive';
-import { serializers } from '../src';
+import { useQueryReactive } from '@/useQueryReactive';
+import { serializers } from '@/index';
 
 describe('useQueryReactive', () => {
   it('initializes from defaults and batches updates', () => {

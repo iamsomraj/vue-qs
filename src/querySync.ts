@@ -1,5 +1,5 @@
 import { reactive } from 'vue';
-import type { QueryAdapter, RuntimeEnv } from './types';
+import type { QueryAdapter, RuntimeEnv } from '@/types';
 
 function isClient(): boolean {
   return typeof window !== 'undefined' && typeof document !== 'undefined';

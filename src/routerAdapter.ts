@@ -1,5 +1,5 @@
 import type { Router } from 'vue-router';
-import type { QueryAdapter } from './types';
+import type { QueryAdapter } from '@/types';
 
 /** Create an adapter backed by Vue Router instance */
 export function createVueRouterQueryAdapter(router: Router): QueryAdapter {

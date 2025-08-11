@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { serializers } from '../src';
+import { serializers } from '@/index';
 
 describe('serializers', () => {
   it('string', () => {
