@@ -16,7 +16,7 @@ const page = useQueryRef<number>('page', {
   codec: { parse: Number, serialize: String },
   adapter,
 });
-const { state } = useQueryReactive({ q: { default: '' } }, { adapter });
+const { state } = useQueryReactive({ searchQuery: { default: '' } }, { adapter });
 </script>
 ```
 

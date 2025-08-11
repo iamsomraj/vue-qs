@@ -8,4 +8,4 @@
 
 > **ParamSchema** = `Record`\<`string`, [`ParamOption`](ParamOption.md)\<`any`\>\>
 
-Defined in: [types.ts:33](https://github.com/iamsomraj/vue-qs/blob/b9909ff029be0e52ce297bc89945187d8e2b539f/src/types.ts#L33)
+Defined in: [types.ts:34](https://github.com/iamsomraj/vue-qs/blob/378080a2660a9e11e7a8aeeb6d49a010f9b64ee4/src/types.ts#L34)

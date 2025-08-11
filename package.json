@@ -35,7 +35,7 @@
   "bugs": {
     "url": "https://github.com/iamsomraj/vue-qs/issues"
   },
-  "homepage": "https://github.com/iamsomraj/vue-qs#readme",
+  "homepage": "https://iamsomraj.github.io/vue-qs/",
   "publishConfig": {
     "access": "public"
   },

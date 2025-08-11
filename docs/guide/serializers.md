@@ -26,5 +26,5 @@ const percentNumber: QueryCodec<number> = {
 Use it:
 
 ```ts
-const pct = useQueryRef('pct', { default: 0, codec: percentNumber });
+const discountRate = useQueryRef('discountRate', { default: 0, codec: percentNumber });
 ```

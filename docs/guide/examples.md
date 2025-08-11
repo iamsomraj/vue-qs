@@ -7,8 +7,8 @@ Use built-in serializers for common types.
 ```ts
 import { useQueryRef, serializers } from 'vue-qs';
 
-const n = useQueryRef('n', { default: 0, codec: serializers.number });
-const b = useQueryRef('b', { default: false, codec: serializers.boolean });
+const itemCount = useQueryRef('itemCount', { default: 0, codec: serializers.number });
+const isPublished = useQueryRef('isPublished', { default: false, codec: serializers.boolean });
 const tags = useQueryRef<string[]>('tags', {
   default: [],
   codec: serializers.arrayOf(serializers.string),
@@ -24,8 +24,8 @@ const page = useQueryRef('page', { default: 1, codec: serializers.number, omitIf
 ## Batch updates (fewer history entries)
 
 ```ts
-const { state, batch } = useQueryReactive({ q: { default: '' }, page: { default: 1 } });
-batch({ q: 'hello', page: 2 }, { history: 'push' });
+const { state, batch } = useQueryReactive({ search: { default: '' }, page: { default: 1 } });
+batch({ search: 'hello', page: 2 }, { history: 'push' });
 ```
 
 ## Two-way sync with browser navigation

@@ -4,3 +4,9 @@ dist
 .DS_Store
 coverage
 *.tgz
+docs/.vitepress/dist
+docs/.vitepress/cache
+docs/api
+
+# Bun artifacts
+bun.lockb

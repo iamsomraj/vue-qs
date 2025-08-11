@@ -8,7 +8,7 @@
 
 > **QueryAdapter** = `object`
 
-Defined in: [types.ts:85](https://github.com/iamsomraj/vue-qs/blob/b9909ff029be0e52ce297bc89945187d8e2b539f/src/types.ts#L85)
+Defined in: [types.ts:86](https://github.com/iamsomraj/vue-qs/blob/378080a2660a9e11e7a8aeeb6d49a010f9b64ee4/src/types.ts#L86)
 
 Abstraction over how to read/write query string values.
 
@@ -18,7 +18,7 @@ Abstraction over how to read/write query string values.
 
 > **getQuery**(): `Record`\<`string`, `string` \| `undefined`\>
 
-Defined in: [types.ts:87](https://github.com/iamsomraj/vue-qs/blob/b9909ff029be0e52ce297bc89945187d8e2b539f/src/types.ts#L87)
+Defined in: [types.ts:88](https://github.com/iamsomraj/vue-qs/blob/378080a2660a9e11e7a8aeeb6d49a010f9b64ee4/src/types.ts#L88)
 
 Read current query params as a plain object. Values are strings or undefined.
 
@@ -32,7 +32,7 @@ Read current query params as a plain object. Values are strings or undefined.
 
 > **setQuery**(`next`, `options?`): `void`
 
-Defined in: [types.ts:89](https://github.com/iamsomraj/vue-qs/blob/b9909ff029be0e52ce297bc89945187d8e2b539f/src/types.ts#L89)
+Defined in: [types.ts:90](https://github.com/iamsomraj/vue-qs/blob/378080a2660a9e11e7a8aeeb6d49a010f9b64ee4/src/types.ts#L90)
 
 Replace the query params, merging with existing by default.
 
@@ -58,7 +58,7 @@ Replace the query params, merging with existing by default.
 
 > `optional` **subscribe**(`cb`): () => `void`
 
-Defined in: [types.ts:97](https://github.com/iamsomraj/vue-qs/blob/b9909ff029be0e52ce297bc89945187d8e2b539f/src/types.ts#L97)
+Defined in: [types.ts:98](https://github.com/iamsomraj/vue-qs/blob/378080a2660a9e11e7a8aeeb6d49a010f9b64ee4/src/types.ts#L98)
 
 Optional: subscribe to external query changes (e.g., router nav, popstate).
 Returns an unsubscribe. Not required by all adapters; if absent, callers can fallback to window popstate.

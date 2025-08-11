@@ -37,13 +37,13 @@ Multiple params with a reactive object:
 import { useQueryReactive } from 'vue-qs';
 
 const { state } = useQueryReactive({
-  q: { default: '' },
+  search: { default: '' },
   page: { default: 1, codec: { parse: Number, serialize: (n: number) => String(n) } },
 });
 </script>
 
 <template>
-  <input v-model="state.q" />
+  <input v-model="state.search" />
   <button @click="state.page++">Next</button>
 </template>
 ```

@@ -8,4 +8,4 @@
 
 > `const` **number**: [`QueryCodec`](../../../../type-aliases/QueryCodec.md)\<`number`\>
 
-Defined in: [serializers.ts:9](https://github.com/iamsomraj/vue-qs/blob/b9909ff029be0e52ce297bc89945187d8e2b539f/src/serializers.ts#L9)
+Defined in: [serializers.ts:9](https://github.com/iamsomraj/vue-qs/blob/378080a2660a9e11e7a8aeeb6d49a010f9b64ee4/src/serializers.ts#L9)

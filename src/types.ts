@@ -25,7 +25,8 @@ export type ParamOption<T> = {
    */
   omitIfDefault?: boolean;
   /**
-   * If true, updates to multiple params can be batched without multiple history entries
+   * Optional key to conceptually group params when batching updates. Not used internally yet,
+   * but reserved for future heuristics or custom adapters.
    */
   batchKey?: string;
 };
