@@ -1,8 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { useQueryRef } from '../src/useQueryRef';
 
-// happy-dom environment provides window
-
 describe('useQueryRef', () => {
   it('reads default when missing and writes when sync called', () => {
     const page = useQueryRef<number>('page', { default: 1, parse: Number, omitIfDefault: false });

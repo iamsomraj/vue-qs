@@ -24,7 +24,6 @@ export function useQueryReactive<TSchema extends ParamSchema>(
 
   const state = reactive({} as Out);
 
-  // Initialize from URL or defaults
   for (const key in schema) {
     const opt = schema[key];
     const parseFn: Parser<any> = opt.parse ?? defaultParse;

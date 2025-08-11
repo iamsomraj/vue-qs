@@ -1,4 +1,3 @@
-// ESLint v9 flat config
 import js from '@eslint/js';
 import globals from 'globals';
 import tsParser from '@typescript-eslint/parser';
