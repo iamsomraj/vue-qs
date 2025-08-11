@@ -1,6 +1,6 @@
 # vue-qs
 
-[![.github/workflows/ci.yml](https://github.com/iamsomraj/vue-qs/actions/workflows/ci.yml/badge.svg)](https://github.com/iamsomraj/vue-qs/actions/workflows/ci.yml)
+[![CI](https://github.com/iamsomraj/vue-qs/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/iamsomraj/vue-qs/actions/workflows/ci.yml)
 
 Type-safe URL query params state for Vue 3 (nuqs for Vue).
 
