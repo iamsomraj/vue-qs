@@ -52,8 +52,16 @@
     "prepublishOnly": "bun run typecheck && bun run lint && bun run test && bun run build"
   },
   "peerDependencies": {
-    "vue": "^3.5.0",
-    "vue-router": "^4.4.0"
+    "vue": "^3.3.0",
+    "vue-router": "^4.2.0"
+  },
+  "peerDependenciesMeta": {
+    "vue-router": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=18"
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",

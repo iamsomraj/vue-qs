@@ -8,7 +8,7 @@ Type-safe URL query params state for Vue 3 (nuqs for Vue).
 npm install vue-qs
 ```
 
-Peer deps: `vue@^3.3`, `vue-router@^4.2`.
+Peer deps: `vue@^3.3`, `vue-router@^4.2` (router is optional).
 
 ## Usage
 
@@ -77,3 +77,10 @@ From `import { serializers } from 'vue-qs'`:
 - `serializers.json<T>()` for object-like values
 - `serializers.arrayOf(codec, sep?)` to handle arrays
 - `serializers.enumOf(['a','b'] as const)` for enums
+
+## Publish (maintainers)
+
+1. Update `CHANGELOG.md` and bump version in `package.json`.
+2. Run checks locally: `bun run typecheck && bun run lint && bun run test && bun run build`.
+3. Login to npm once: `npm login` (2FA recommended).
+4. Publish: `npm publish --access public`.
