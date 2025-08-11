@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Type-safe URL query params state for Vue 3 (nuqs for Vue)",
   "license": "MIT",
-  "author": "",
+  "author": "Somraj Mukherjee",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -50,7 +50,10 @@
     "format": "prettier --check \"**/*.{ts,tsx,js,json,md,yml,yaml}\"",
     "format:fix": "prettier --write \"**/*.{ts,tsx,js,json,md,yml,yaml}\"",
     "prepare": "echo 'no git hooks'",
-    "prepublishOnly": "bun run typecheck && bun run lint && bun run test && bun run build"
+    "prepublishOnly": "bun run typecheck && bun run lint && bun run test && bun run build",
+    "release:patch": "npm version patch -m \"chore: release %s\" && git push --follow-tags",
+    "release:minor": "npm version minor -m \"chore: release %s\" && git push --follow-tags",
+    "release:major": "npm version major -m \"chore: release %s\" && git push --follow-tags"
   },
   "peerDependencies": {
     "vue": "^3.3.0",
@@ -78,5 +81,6 @@
     "vitest": "^2.1.2",
     "vue": "^3.5.10",
     "vue-router": "^4.4.5"
-  }
+  },
+  "funding": "https://github.com/sponsors/iamsomraj"
 }
