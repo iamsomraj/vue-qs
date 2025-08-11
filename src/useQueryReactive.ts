@@ -19,13 +19,13 @@ export function useQueryReactive<TSchema extends ParamSchema>(
   options: UseQueryReactiveOptions = {}
 ): UseQueryReactiveReturn<TSchema> {
   const injected = getCurrentInstance() ? useQueryAdapter() : undefined;
-  let defaultAdapter: ReturnType<typeof createQuerySync>['adapter'];
+  let cachedDefaultAdapter: ReturnType<typeof createQuerySync>['adapter'] | undefined;
 
   function getDefaultAdapter() {
-    if (!defaultAdapter) {
-      defaultAdapter = createQuerySync().adapter;
+    if (!cachedDefaultAdapter) {
+      cachedDefaultAdapter = createQuerySync().adapter;
     }
-    return defaultAdapter;
+    return cachedDefaultAdapter;
   }
 
   const adapter = options.adapter ?? injected ?? getDefaultAdapter();
