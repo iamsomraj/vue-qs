@@ -1,0 +1,15 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#42b883"/>
+      <stop offset="100%" stop-color="#35495e"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="120" rx="18" fill="#0f172a"/>
+  <g transform="translate(24,24)">
+    <path d="M16 64 L0 24 L16 0 L32 24 L16 64 Z" fill="url(#g)"/>
+    <circle cx="52" cy="40" r="20" stroke="#e2e8f0" stroke-width="6" fill="none"/>
+    <path d="M42 40 H62" stroke="#e2e8f0" stroke-width="6" stroke-linecap="round"/>
+  </g>
+  <text x="60" y="112" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12" fill="#cbd5e1">vue-qs</text>
+</svg>
