@@ -2,13 +2,13 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
     inputs:
       scope:
-        description: "What to run"
+        description: 'What to run'
         required: false
         default: all
         type: choice
