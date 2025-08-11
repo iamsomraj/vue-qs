@@ -50,9 +50,9 @@
     "format:fix": "prettier --write \"**/*.{ts,tsx,js,json,md,yml,yaml}\"",
     "prepare": "echo 'no git hooks'",
     "prepublishOnly": "bun run typecheck && bun run lint && bun run test && bun run build",
-    "release:patch": "bunx changelogen@latest --bump && git add . && git commit -m \"chore: release %s\" && git push --follow-tags",
-    "release:minor": "bunx changelogen@latest --bump && git add . && git commit -m \"chore: release %s\" && git push --follow-tags",
-    "release:major": "bunx changelogen@latest --bump && git add . && git commit -m \"chore: release %s\" && git push --follow-tags"
+  "release:patch": "npm version patch && bunx changelogen@latest --patch && git add CHANGELOG.md && git commit -m \"chore: release v$(node -p \"require('./package.json').version\")\" && git push --follow-tags",
+  "release:minor": "npm version minor && bunx changelogen@latest --minor && git add CHANGELOG.md && git commit -m \"chore: release v$(node -p \"require('./package.json').version\")\" && git push --follow-tags",
+  "release:major": "npm version major && bunx changelogen@latest --major && git add CHANGELOG.md && git commit -m \"chore: release v$(node -p \"require('./package.json').version\")\" && git push --follow-tags"
   },
   "peerDependencies": {
     "vue": "^3.3.0",
