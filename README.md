@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/iamsomraj/vue-qs/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/iamsomraj/vue-qs/actions/workflows/ci.yml)
 
-Type-safe URL query params state for Vue 3 (nuqs for Vue).
+Type-safe, reactive URL query params state for Vue 3 (nuqs for Vue).
 
 ## Install
 
@@ -34,7 +34,7 @@ A small reactive group of params using `useQueryReactive`:
 <script setup lang="ts">
 import { useQueryReactive } from 'vue-qs';
 
-const { state } = useQueryReactive({
+const filters = useQueryReactive({
   search: { default: '' },
   sort: { default: 'asc' as 'asc' | 'desc' },
 });
@@ -50,7 +50,30 @@ const { state } = useQueryReactive({
 </template>
 ```
 
-## Usage
+Using Vue Router (optional; recommended if your app uses vue-router):
+
+```vue
+<script setup lang="ts">
+import { useQueryRef, useQueryReactive, createVueRouterQueryAdapter } from 'vue-qs';\
+
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+const adapter = createVueRouterQueryAdapter(router);
+
+const page = useQueryRef<number>('page', { default: 1, parse: Number, adapter });
+
+const filters = useQueryReactive(
+  {
+    search: { default: '' },
+    sort: { default: 'asc' as 'asc' | 'desc' },
+  },
+  { adapter }
+);
+</script>
+```
+
+## Advanced usage with serializers
 
 ```ts
 import { useQueryRef, useQueryReactive, serializers } from 'vue-qs';
@@ -79,28 +102,12 @@ export default {
 ```
 
 - SSR-safe (no window access on server).
-- Works without Vue Router; when present, uses History API-compatible URL updates.
-- Defaults omitted from URL by default; configurable per param.
-
-### With Vue Router
-
-```ts
-import { useQueryRef, createVueRouterQueryAdapter } from 'vue-qs';
-import { useRouter } from 'vue-router';
-
-export default {
-  setup() {
-    const router = useRouter();
-    const adapter = createVueRouterQueryAdapter(router);
-    const page = useQueryRef<number>('page', { default: 1, parse: Number, adapter });
-    return { page };
-  },
-};
-```
+- Works with or without Vue Router; when present, uses History API-compatible URL updates.
+- Defaults are omitted from the URL; configurable per param.
 
 ### SSR
 
-No direct `window` access on import. When not in a browser, changes write to an internal cache until hydrated on client.
+No direct `window` access on import. When not in a browser, changes write to an internal cache until hydration on the client.
 
 ## API
 
