@@ -9,6 +9,11 @@ export type ParamOption<T> = {
   parse?: Parser<T>;
   serialize?: Serializer<T>;
   /**
+   * Custom equality to compare with `default` when deciding to omit from URL.
+   * Defaults to Object.is.
+   */
+  equals?: (a: T, b: T) => boolean;
+  /**
    * If true, will not write to URL when value equals default.
    * Defaults to true.
    */
@@ -30,6 +35,11 @@ export type UseQueryRefOptions<T> = ParamOption<T> & {
   history?: 'replace' | 'push';
   /** Optional adapter override (e.g., Vue Router adapter) */
   adapter?: QueryAdapter;
+  /**
+   * If true, also listen to window popstate and rehydrate the ref from the URL.
+   * Defaults to false
+   */
+  twoWay?: boolean;
 };
 
 export type UseQueryRefReturn<T> = Ref<T> & {
@@ -53,6 +63,11 @@ export type UseQueryReactiveReturn<TSchema extends ParamSchema> = {
 export type UseQueryReactiveOptions = {
   history?: 'replace' | 'push';
   adapter?: QueryAdapter;
+  /**
+   * If true, also listen to window popstate and rehydrate the state from the URL.
+   * Defaults to false
+   */
+  twoWay?: boolean;
 };
 
 export type QueryAdapter = {

@@ -1,4 +1,4 @@
-import type { QueryCodec } from './types';
+import type { QueryCodec } from '@/types';
 
 // Primitive coders
 export const string: QueryCodec<string> = {

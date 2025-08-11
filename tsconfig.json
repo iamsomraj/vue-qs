@@ -13,8 +13,12 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "types": ["vite/client"],
-    "outDir": "dist"
+    "outDir": "dist",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
-  "include": ["src"],
+  "include": ["src", "tests"],
   "exclude": ["dist", "node_modules"]
 }
