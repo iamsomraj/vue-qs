@@ -8,4 +8,4 @@
 
 > `const` **boolean**: [`QueryCodec`](../../../../type-aliases/QueryCodec.md)\<`boolean`\>
 
-Defined in: [serializers.ts:14](https://github.com/iamsomraj/vue-qs/blob/ab438db5bb6a3e0a51e2435f962a383278df5579/src/serializers.ts#L14)
+Defined in: [serializers.ts:14](https://github.com/iamsomraj/vue-qs/blob/8dd8b9116f5f79adc1bc1b23a2ea361a3c83a0ab/src/serializers.ts#L14)

@@ -1,4 +1,3 @@
-</svg>
 <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
@@ -13,5 +12,4 @@
     <path d="M42 40 H62" stroke="#e2e8f0" stroke-width="6" stroke-linecap="round"/>
   </g>
   <text x="60" y="112" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12" fill="#cbd5e1">vue-qs</text>
-</svg>
 </svg>

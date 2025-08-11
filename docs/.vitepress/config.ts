@@ -21,6 +21,18 @@ export default defineConfig({
     ['meta', { property: 'og:image', content: `${base}og-image.svg` }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
   ],
+  locales: {
+    root: {
+      label: 'English',
+      lang: 'en-US',
+      link: '/',
+    },
+    zh: {
+      label: '简体中文',
+      lang: 'zh-CN',
+      link: '/zh/',
+    },
+  },
   themeConfig: {
     logo: { src: '/logo.svg', alt: 'vue-qs' },
     nav: [
@@ -45,6 +57,17 @@ export default defineConfig({
         {
           text: 'API',
           items: [{ text: 'Reference', link: '/api/' }],
+        },
+      ],
+      '/zh/guide/': [
+        {
+          text: '指南',
+          items: [
+            { text: '快速开始', link: '/zh/guide/getting-started' },
+            { text: '示例', link: '/zh/guide/examples' },
+            { text: 'Vue Router', link: '/zh/guide/vue-router' },
+            { text: '双向同步', link: '/zh/guide/two-way-sync' },
+          ],
         },
       ],
     },

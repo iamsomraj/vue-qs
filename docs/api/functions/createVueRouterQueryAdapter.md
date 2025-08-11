@@ -8,7 +8,7 @@
 
 > **createVueRouterQueryAdapter**(`router`): [`QueryAdapter`](../type-aliases/QueryAdapter.md)
 
-Defined in: [routerAdapter.ts:5](https://github.com/iamsomraj/vue-qs/blob/ab438db5bb6a3e0a51e2435f962a383278df5579/src/routerAdapter.ts#L5)
+Defined in: [routerAdapter.ts:5](https://github.com/iamsomraj/vue-qs/blob/8dd8b9116f5f79adc1bc1b23a2ea361a3c83a0ab/src/routerAdapter.ts#L5)
 
 Create an adapter backed by a Vue Router instance.
 

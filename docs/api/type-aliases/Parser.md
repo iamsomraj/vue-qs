@@ -8,7 +8,9 @@
 
 > **Parser**\<`T`\> = (`value`) => `T`
 
-Defined in: [types.ts:3](https://github.com/iamsomraj/vue-qs/blob/ab438db5bb6a3e0a51e2435f962a383278df5579/src/types.ts#L3)
+Defined in: [types.ts:4](https://github.com/iamsomraj/vue-qs/blob/8dd8b9116f5f79adc1bc1b23a2ea361a3c83a0ab/src/types.ts#L4)
+
+Parses a raw query-string value into a typed value.
 
 ## Type Parameters
 

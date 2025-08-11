@@ -33,11 +33,16 @@ function stringifySearch(query: Record<string, string | undefined>): string {
   return s ? `?${s}` : '';
 }
 
+/** Result of {@link createQuerySync}. */
 export type QuerySync = {
-  /** SSR-safe adapter backed by history API */
+  /** SSR-safe adapter backed by the History API. */
   adapter: QueryAdapter;
 };
 
+/**
+ * Create a default query adapter using the History API.
+ * SSR-safe: returns an in-memory cache on the server.
+ */
 export function createQuerySync(): QuerySync {
   const env = getRuntimeEnv();
   const state = reactive<{ cache: Record<string, string | undefined> }>({ cache: {} });

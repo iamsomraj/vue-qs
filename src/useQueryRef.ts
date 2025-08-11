@@ -16,6 +16,10 @@ function getDefaultAdapter() {
   return cachedDefaultAdapter;
 }
 
+/**
+ * Manage a single query parameter as a Vue Ref.
+ * Keeps the URL in sync as the ref changes; optionally syncs URL -> state.
+ */
 export function useQueryRef<T>(
   param: string,
   options: UseQueryRefOptions<T> = {}

@@ -8,4 +8,6 @@
 
 > `const` **AdapterSymbol**: unique `symbol`
 
-Defined in: [adapterContext.ts:5](https://github.com/iamsomraj/vue-qs/blob/ab438db5bb6a3e0a51e2435f962a383278df5579/src/adapterContext.ts#L5)
+Defined in: [adapterContext.ts:6](https://github.com/iamsomraj/vue-qs/blob/8dd8b9116f5f79adc1bc1b23a2ea361a3c83a0ab/src/adapterContext.ts#L6)
+
+Injection symbol used to provide the active QueryAdapter.

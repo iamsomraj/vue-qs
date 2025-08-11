@@ -8,7 +8,9 @@
 
 > **QueryCodec**\<`T`\> = `object`
 
-Defined in: [types.ts:5](https://github.com/iamsomraj/vue-qs/blob/ab438db5bb6a3e0a51e2435f962a383278df5579/src/types.ts#L5)
+Defined in: [types.ts:8](https://github.com/iamsomraj/vue-qs/blob/8dd8b9116f5f79adc1bc1b23a2ea361a3c83a0ab/src/types.ts#L8)
+
+A pair of parse/serialize functions for a given type.
 
 ## Type Parameters
 
@@ -22,7 +24,7 @@ Defined in: [types.ts:5](https://github.com/iamsomraj/vue-qs/blob/ab438db5bb6a3e
 
 > **parse**: [`Parser`](Parser.md)\<`T`\>
 
-Defined in: [types.ts:5](https://github.com/iamsomraj/vue-qs/blob/ab438db5bb6a3e0a51e2435f962a383278df5579/src/types.ts#L5)
+Defined in: [types.ts:8](https://github.com/iamsomraj/vue-qs/blob/8dd8b9116f5f79adc1bc1b23a2ea361a3c83a0ab/src/types.ts#L8)
 
 ***
 
@@ -30,4 +32,4 @@ Defined in: [types.ts:5](https://github.com/iamsomraj/vue-qs/blob/ab438db5bb6a3e
 
 > **serialize**: [`Serializer`](Serializer.md)\<`T`\>
 
-Defined in: [types.ts:5](https://github.com/iamsomraj/vue-qs/blob/ab438db5bb6a3e0a51e2435f962a383278df5579/src/types.ts#L5)
+Defined in: [types.ts:8](https://github.com/iamsomraj/vue-qs/blob/8dd8b9116f5f79adc1bc1b23a2ea361a3c83a0ab/src/types.ts#L8)

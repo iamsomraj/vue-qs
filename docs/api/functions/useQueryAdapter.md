@@ -8,7 +8,9 @@
 
 > **useQueryAdapter**(): `undefined` \| [`QueryAdapter`](../type-aliases/QueryAdapter.md)
 
-Defined in: [adapterContext.ts:11](https://github.com/iamsomraj/vue-qs/blob/ab438db5bb6a3e0a51e2435f962a383278df5579/src/adapterContext.ts#L11)
+Defined in: [adapterContext.ts:14](https://github.com/iamsomraj/vue-qs/blob/8dd8b9116f5f79adc1bc1b23a2ea361a3c83a0ab/src/adapterContext.ts#L14)
+
+Retrieve the injected [QueryAdapter](../type-aliases/QueryAdapter.md), if any.
 
 ## Returns
 

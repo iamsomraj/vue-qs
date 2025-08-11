@@ -8,7 +8,9 @@
 
 > **UseQueryReactiveReturn**\<`TSchema`\> = `object`
 
-Defined in: [types.ts:52](https://github.com/iamsomraj/vue-qs/blob/ab438db5bb6a3e0a51e2435f962a383278df5579/src/types.ts#L52)
+Defined in: [types.ts:59](https://github.com/iamsomraj/vue-qs/blob/8dd8b9116f5f79adc1bc1b23a2ea361a3c83a0ab/src/types.ts#L59)
+
+The return type from [useQueryReactive](../functions/useQueryReactive.md).
 
 ## Type Parameters
 
@@ -22,7 +24,9 @@ Defined in: [types.ts:52](https://github.com/iamsomraj/vue-qs/blob/ab438db5bb6a3
 
 > **state**: `{ [K in keyof TSchema]: TSchema[K] extends ParamOption<infer T> ? T : never }`
 
-Defined in: [types.ts:53](https://github.com/iamsomraj/vue-qs/blob/ab438db5bb6a3e0a51e2435f962a383278df5579/src/types.ts#L53)
+Defined in: [types.ts:61](https://github.com/iamsomraj/vue-qs/blob/8dd8b9116f5f79adc1bc1b23a2ea361a3c83a0ab/src/types.ts#L61)
+
+Reactive object with typed values for each parameter in the schema.
 
 ## Methods
 
@@ -30,7 +34,7 @@ Defined in: [types.ts:53](https://github.com/iamsomraj/vue-qs/blob/ab438db5bb6a3
 
 > **batch**(`update`, `options?`): `void`
 
-Defined in: [types.ts:57](https://github.com/iamsomraj/vue-qs/blob/ab438db5bb6a3e0a51e2435f962a383278df5579/src/types.ts#L57)
+Defined in: [types.ts:65](https://github.com/iamsomraj/vue-qs/blob/8dd8b9116f5f79adc1bc1b23a2ea361a3c83a0ab/src/types.ts#L65)
 
 Batch update multiple params in a single history entry.
 
@@ -56,7 +60,7 @@ Batch update multiple params in a single history entry.
 
 > **sync**(): `void`
 
-Defined in: [types.ts:62](https://github.com/iamsomraj/vue-qs/blob/ab438db5bb6a3e0a51e2435f962a383278df5579/src/types.ts#L62)
+Defined in: [types.ts:70](https://github.com/iamsomraj/vue-qs/blob/8dd8b9116f5f79adc1bc1b23a2ea361a3c83a0ab/src/types.ts#L70)
 
 Immediately write the current state to the URL
 

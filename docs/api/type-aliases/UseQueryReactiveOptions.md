@@ -8,7 +8,9 @@
 
 > **UseQueryReactiveOptions** = `object`
 
-Defined in: [types.ts:65](https://github.com/iamsomraj/vue-qs/blob/ab438db5bb6a3e0a51e2435f962a383278df5579/src/types.ts#L65)
+Defined in: [types.ts:74](https://github.com/iamsomraj/vue-qs/blob/8dd8b9116f5f79adc1bc1b23a2ea361a3c83a0ab/src/types.ts#L74)
+
+Options for [useQueryReactive](../functions/useQueryReactive.md).
 
 ## Properties
 
@@ -16,7 +18,7 @@ Defined in: [types.ts:65](https://github.com/iamsomraj/vue-qs/blob/ab438db5bb6a3
 
 > `optional` **history**: `"replace"` \| `"push"`
 
-Defined in: [types.ts:66](https://github.com/iamsomraj/vue-qs/blob/ab438db5bb6a3e0a51e2435f962a383278df5579/src/types.ts#L66)
+Defined in: [types.ts:75](https://github.com/iamsomraj/vue-qs/blob/8dd8b9116f5f79adc1bc1b23a2ea361a3c83a0ab/src/types.ts#L75)
 
 ***
 
@@ -24,7 +26,7 @@ Defined in: [types.ts:66](https://github.com/iamsomraj/vue-qs/blob/ab438db5bb6a3
 
 > `optional` **adapter**: [`QueryAdapter`](QueryAdapter.md)
 
-Defined in: [types.ts:67](https://github.com/iamsomraj/vue-qs/blob/ab438db5bb6a3e0a51e2435f962a383278df5579/src/types.ts#L67)
+Defined in: [types.ts:76](https://github.com/iamsomraj/vue-qs/blob/8dd8b9116f5f79adc1bc1b23a2ea361a3c83a0ab/src/types.ts#L76)
 
 ***
 
@@ -32,7 +34,7 @@ Defined in: [types.ts:67](https://github.com/iamsomraj/vue-qs/blob/ab438db5bb6a3
 
 > `optional` **twoWay**: `boolean`
 
-Defined in: [types.ts:72](https://github.com/iamsomraj/vue-qs/blob/ab438db5bb6a3e0a51e2435f962a383278df5579/src/types.ts#L72)
+Defined in: [types.ts:81](https://github.com/iamsomraj/vue-qs/blob/8dd8b9116f5f79adc1bc1b23a2ea361a3c83a0ab/src/types.ts#L81)
 
-If true, also listen to window popstate and rehydrate the state from the URL.
+If true, also listen to browser/router navigations and rehydrate the state from the URL.
 Defaults to false

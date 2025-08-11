@@ -14,6 +14,10 @@ import { useQueryAdapter } from '@/adapterContext';
 const defaultSerialize = stringCodec.serialize as Serializer<any>;
 const defaultParse = stringCodec.parse as Parser<any>;
 
+/**
+ * Manage multiple query parameters as a single reactive object.
+ * Keeps the URL in sync as any field changes; optionally syncs URL -> state.
+ */
 export function useQueryReactive<TSchema extends ParamSchema>(
   schema: TSchema,
   options: UseQueryReactiveOptions = {}

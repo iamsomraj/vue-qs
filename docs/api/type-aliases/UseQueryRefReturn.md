@@ -8,7 +8,9 @@
 
 > **UseQueryRefReturn**\<`T`\> = `Ref`\<`T`\> & `object`
 
-Defined in: [types.ts:47](https://github.com/iamsomraj/vue-qs/blob/ab438db5bb6a3e0a51e2435f962a383278df5579/src/types.ts#L47)
+Defined in: [types.ts:53](https://github.com/iamsomraj/vue-qs/blob/8dd8b9116f5f79adc1bc1b23a2ea361a3c83a0ab/src/types.ts#L53)
+
+The return type from [useQueryRef](../functions/useQueryRef.md).
 
 ## Type declaration
 

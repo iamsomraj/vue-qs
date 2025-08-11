@@ -1,9 +1,13 @@
 import type { Ref } from 'vue';
 
+/** Parses a raw query-string value into a typed value. */
 export type Parser<T> = (value: string | null) => T;
+/** Serializes a typed value into a string for the query string. */
 export type Serializer<T> = (value: T) => string | null;
+/** A pair of parse/serialize functions for a given type. */
 export type QueryCodec<T> = { parse: Parser<T>; serialize: Serializer<T> };
 
+/** Configuration for a single query parameter. */
 export type ParamOption<T> = {
   default?: T;
   /** Pass a single codec instead of separate parse/serialize. */
@@ -28,6 +32,7 @@ export type ParamOption<T> = {
 
 export type ParamSchema = Record<string, ParamOption<any>>;
 
+/** Options for {@link useQueryRef}. */
 export type UseQueryRefOptions<T> = ParamOption<T> & {
   /**
    * History strategy when updating the URL
@@ -38,18 +43,21 @@ export type UseQueryRefOptions<T> = ParamOption<T> & {
   /** Optional adapter override (e.g., Vue Router adapter) */
   adapter?: QueryAdapter;
   /**
-   * If true, also listen to window popstate and rehydrate the ref from the URL.
+   * If true, also listen to browser/router navigations and rehydrate the ref from the URL.
    * Defaults to false
    */
   twoWay?: boolean;
 };
 
+/** The return type from {@link useQueryRef}. */
 export type UseQueryRefReturn<T> = Ref<T> & {
   /** Immediately write the current value to the URL */
   sync(): void;
 };
 
+/** The return type from {@link useQueryReactive}. */
 export type UseQueryReactiveReturn<TSchema extends ParamSchema> = {
+  /** Reactive object with typed values for each parameter in the schema. */
   state: { [K in keyof TSchema]: TSchema[K] extends ParamOption<infer T> ? T : never };
   /**
    * Batch update multiple params in a single history entry.
@@ -62,16 +70,18 @@ export type UseQueryReactiveReturn<TSchema extends ParamSchema> = {
   sync(): void;
 };
 
+/** Options for {@link useQueryReactive}. */
 export type UseQueryReactiveOptions = {
   history?: 'replace' | 'push';
   adapter?: QueryAdapter;
   /**
-   * If true, also listen to window popstate and rehydrate the state from the URL.
+   * If true, also listen to browser/router navigations and rehydrate the state from the URL.
    * Defaults to false
    */
   twoWay?: boolean;
 };
 
+/** Abstraction over how to read/write query string values. */
 export type QueryAdapter = {
   /** Read current query params as a plain object. Values are strings or undefined. */
   getQuery(): Record<string, string | undefined>;
@@ -87,6 +97,7 @@ export type QueryAdapter = {
   subscribe?(cb: () => void): () => void;
 };
 
+/** Environment flags used by the default History API adapter. */
 export type RuntimeEnv = {
   isClient: boolean;
   /** Safe access to window if on client */
