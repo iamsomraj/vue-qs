@@ -19,7 +19,16 @@ export function useQueryReactive<TSchema extends ParamSchema>(
   options: UseQueryReactiveOptions = {}
 ): UseQueryReactiveReturn<TSchema> {
   const injected = getCurrentInstance() ? useQueryAdapter() : undefined;
-  const adapter = options.adapter ?? injected ?? createQuerySync().adapter;
+  let defaultAdapter: ReturnType<typeof createQuerySync>['adapter'];
+
+  function getDefaultAdapter() {
+    if (!defaultAdapter) {
+      defaultAdapter = createQuerySync().adapter;
+    }
+    return defaultAdapter;
+  }
+
+  const adapter = options.adapter ?? injected ?? getDefaultAdapter();
   const current = adapter.getQuery();
   const twoWay = options.twoWay === true;
 

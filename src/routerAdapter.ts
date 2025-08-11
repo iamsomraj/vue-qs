@@ -45,7 +45,7 @@ export function createVueRouterQueryAdapter(router: Router): QueryAdapter {
       const unregister = router.afterEach(() => {
         cb();
       });
-      return () => unregister();
+      return unregister;
     },
   };
 }

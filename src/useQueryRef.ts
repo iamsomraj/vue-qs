@@ -7,6 +7,15 @@ import { useQueryAdapter } from '@/adapterContext';
 const defaultSerialize = stringCodec.serialize as Serializer<any>;
 const defaultParse = stringCodec.parse as Parser<any>;
 
+let cachedDefaultAdapter: ReturnType<typeof createQuerySync>['adapter'] | undefined;
+
+function getDefaultAdapter() {
+  if (!cachedDefaultAdapter) {
+    cachedDefaultAdapter = createQuerySync().adapter;
+  }
+  return cachedDefaultAdapter;
+}
+
 export function useQueryRef<T>(
   param: string,
   options: UseQueryRefOptions<T> = {}
@@ -23,7 +32,7 @@ export function useQueryRef<T>(
     twoWay = false,
   } = options as any;
   const injected = getCurrentInstance() ? useQueryAdapter() : undefined;
-  const adapter = customAdapter ?? injected ?? createQuerySync().adapter;
+  const adapter = customAdapter ?? injected ?? getDefaultAdapter();
 
   const initialRaw = adapter.getQuery()[param] ?? null;
   const parseFn: Parser<T> = parse ?? codec?.parse ?? defaultParse;
