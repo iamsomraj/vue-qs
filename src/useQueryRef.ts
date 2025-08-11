@@ -2,9 +2,19 @@ import { getCurrentInstance, onBeforeUnmount, ref, watch } from 'vue';
 import type { Parser, Serializer, UseQueryRefOptions, UseQueryRefReturn } from '@/types';
 import { string as stringCodec } from '@/serializers';
 import { createQuerySync } from '@/querySync';
+import { useQueryAdapter } from '@/adapterContext';
 
 const defaultSerialize = stringCodec.serialize as Serializer<any>;
 const defaultParse = stringCodec.parse as Parser<any>;
+
+let cachedDefaultAdapter: ReturnType<typeof createQuerySync>['adapter'] | undefined;
+
+function getDefaultAdapter() {
+  if (!cachedDefaultAdapter) {
+    cachedDefaultAdapter = createQuerySync().adapter;
+  }
+  return cachedDefaultAdapter;
+}
 
 export function useQueryRef<T>(
   param: string,
@@ -12,6 +22,7 @@ export function useQueryRef<T>(
 ): UseQueryRefReturn<T> {
   const {
     default: defVal,
+    codec,
     parse,
     serialize,
     equals,
@@ -20,66 +31,67 @@ export function useQueryRef<T>(
     adapter: customAdapter,
     twoWay = false,
   } = options as any;
-  const adapter = customAdapter ?? createQuerySync().adapter;
+  const injected = getCurrentInstance() ? useQueryAdapter() : undefined;
+  const adapter = customAdapter ?? injected ?? getDefaultAdapter();
 
   const initialRaw = adapter.getQuery()[param] ?? null;
-  const parseFn: Parser<T> = parse ?? defaultParse;
-  const serializeFn: Serializer<T> = serialize ?? defaultSerialize;
+  const parseFn: Parser<T> = parse ?? codec?.parse ?? defaultParse;
+  const serializeFn: Serializer<T> = serialize ?? codec?.serialize ?? defaultSerialize;
 
   const initial = initialRaw != null ? parseFn(initialRaw) : (defVal as T);
   const state = ref<T>(initial) as unknown as UseQueryRefReturn<T>;
 
-  // Sync initial value (only if missing and default should be present)
+  const isEqual = (a: T, b: T) => (equals ? equals(a, b) : Object.is(a, b));
+
+  const isDefault = (val: T) => defVal !== undefined && isEqual(val as T, defVal as T);
+
+  const writeToUrl = (val: T) => {
+    const s = serializeFn(val as T);
+    const shouldOmit = omitIfDefault && isDefault(val as T);
+    adapter.setQuery({ [param]: shouldOmit ? undefined : (s ?? undefined) }, { history });
+  };
+
   if (initialRaw == null && defVal !== undefined && !omitIfDefault) {
-    const s = serializeFn(defVal as T);
-    adapter.setQuery({ [param]: s ?? undefined }, { history });
+    writeToUrl(defVal as T);
   }
 
-  // Watch for changes and update URL
-  let isApplyingPopState = false;
+  let isSyncingFromAdapter = false;
   watch(
     state,
     (val: T) => {
-      if (isApplyingPopState) return; // avoid feedback loop when applying popstate
-
-      const s = serializeFn(val as T);
-      const eq = (a: T, b: T) => (equals ? equals(a, b) : Object.is(a, b));
-      const isDefault = defVal !== undefined && eq(val as T, defVal as T);
-      const shouldOmit = omitIfDefault && isDefault;
-      adapter.setQuery({ [param]: shouldOmit ? undefined : (s ?? undefined) }, { history });
+      if (isSyncingFromAdapter) return;
+      writeToUrl(val as T);
     },
     { deep: false, flush: 'sync' }
   );
 
   state.sync = () => {
-    const val = state.value as T;
-    const s = serializeFn(val);
-    const eq = (a: T, b: T) => (equals ? equals(a, b) : Object.is(a, b));
-    const isDefault = defVal !== undefined && eq(val as T, defVal as T);
-    const shouldOmit = omitIfDefault && isDefault;
-    adapter.setQuery({ [param]: shouldOmit ? undefined : (s ?? undefined) }, { history });
+    writeToUrl(state.value as T);
   };
 
-  if (typeof window !== 'undefined' && twoWay) {
-    const onPopState = () => {
+  if (twoWay) {
+    const applyFromAdapter = () => {
       const raw = adapter.getQuery()[param] ?? null;
       const next = raw != null ? parseFn(raw) : (defVal as T);
-      isApplyingPopState = true;
+      isSyncingFromAdapter = true;
       try {
         (state as any).value = next;
       } finally {
-        // next microtask to ignore our own watch tick
         queueMicrotask(() => {
-          isApplyingPopState = false;
+          isSyncingFromAdapter = false;
         });
       }
     };
-    window.addEventListener('popstate', onPopState);
-    if (getCurrentInstance()) {
-      onBeforeUnmount(() => {
-        window.removeEventListener('popstate', onPopState);
-      });
+
+    let unsubscribe: (() => void) | undefined;
+    if (adapter.subscribe) {
+      unsubscribe = adapter.subscribe(applyFromAdapter);
+    } else if (typeof window !== 'undefined') {
+      const handler = () => applyFromAdapter();
+      window.addEventListener('popstate', handler);
+      unsubscribe = () => window.removeEventListener('popstate', handler);
     }
+    if (unsubscribe && getCurrentInstance()) onBeforeUnmount(unsubscribe);
   }
 
   return state;

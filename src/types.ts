@@ -6,6 +6,8 @@ export type QueryCodec<T> = { parse: Parser<T>; serialize: Serializer<T> };
 
 export type ParamOption<T> = {
   default?: T;
+  /** Pass a single codec instead of separate parse/serialize. */
+  codec?: QueryCodec<T>;
   parse?: Parser<T>;
   serialize?: Serializer<T>;
   /**
@@ -78,6 +80,11 @@ export type QueryAdapter = {
     next: Record<string, string | undefined>,
     options?: { history?: 'replace' | 'push' }
   ): void;
+  /**
+   * Optional: subscribe to external query changes (e.g., router nav, popstate).
+   * Returns an unsubscribe. Not required by all adapters; if absent, callers can fallback to window popstate.
+   */
+  subscribe?(cb: () => void): () => void;
 };
 
 export type RuntimeEnv = {

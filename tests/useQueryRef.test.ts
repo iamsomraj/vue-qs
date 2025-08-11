@@ -93,6 +93,14 @@ describe('useQueryRef', () => {
     expect(new URL(window.location.href).searchParams.get('enum1')).toBe('desc');
   });
 
+  it('accepts a single codec option instead of parse/serialize', () => {
+    const codec = serializers.arrayOf(serializers.number);
+    const arr = useQueryRef<number[]>('codecArr', { default: [], codec });
+    expect(arr.value).toEqual([]);
+    arr.value = [4, 5];
+    expect(new URL(window.location.href).searchParams.get('codecArr')).toBe('4,5');
+  });
+
   it('twoWay: ref updates on popstate', () => {
     const page = useQueryRef<number>('twPage', {
       default: 1,
