@@ -37,8 +37,8 @@
   },
   "homepage": "https://github.com/iamsomraj/vue-qs#readme",
   "publishConfig": {
-  "access": "public",
-  "provenance": true
+    "access": "public",
+    "provenance": true
   },
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts --clean",
