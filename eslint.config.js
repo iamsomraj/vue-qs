@@ -4,7 +4,17 @@ import tsParser from '@typescript-eslint/parser';
 import tsPlugin from '@typescript-eslint/eslint-plugin';
 
 export default [
-  { ignores: ['dist', 'node_modules'] },
+  {
+    // Ignore build outputs and generated docs/site artifacts
+    ignores: [
+      'dist',
+      'node_modules',
+      'docs/.vitepress/dist',
+      'docs/.vitepress/cache',
+      // Typedoc outputs Markdown; safe to ignore entirely
+      'docs/api',
+    ],
+  },
   js.configs.recommended,
   {
     files: ['**/*.{ts,tsx,cts,mts}'],

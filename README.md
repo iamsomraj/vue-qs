@@ -1,6 +1,14 @@
 # vue-qs
 
+<p align="center">
+  <img src="./docs/public/banner.svg" alt="vue-qs banner" width="800" />
+</p>
+
 [![CI](https://github.com/iamsomraj/vue-qs/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/iamsomraj/vue-qs/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/vue-qs.svg)](https://www.npmjs.com/package/vue-qs)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+Docs: https://iamsomraj.github.io/vue-qs/ · 中文文档: https://iamsomraj.github.io/vue-qs/zh/
 
 Type-safe, reactive URL query params for Vue 3 — like nuqs, but for Vue.
 
@@ -8,6 +16,10 @@ Type-safe, reactive URL query params for Vue 3 — like nuqs, but for Vue.
 
 ```sh
 npm i vue-qs
+# or
+pnpm add vue-qs
+# or
+bun add vue-qs
 ```
 
 Peer deps: `vue@^3.3`. `vue-router@^4.2` is optional.
@@ -127,3 +139,11 @@ createApp(App)
 - createVueQs({ adapter }) / provideQueryAdapter(adapter)
 
 That’s it — keep your state in the URL, with types and great DX.
+
+## Contributing
+
+- Dev: bun install, then bun run dev for build watch, bun run test for tests.
+- Lint/format: bun run lint, bun run format.
+- Docs: bun run docs:dev.
+
+Issues and PRs are welcome. See CONTRIBUTING.md.
