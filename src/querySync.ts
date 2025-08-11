@@ -58,6 +58,9 @@ export function createQuerySync(): QuerySync {
         if (merged[k] == null) delete merged[k];
       }
       const search = stringifySearch(merged);
+      // Skip if no actual change
+      if (url.search === search) return;
+
       url.search = search;
       const path = `${url.pathname}${url.search}${url.hash}`;
       const history = options?.history ?? 'replace';

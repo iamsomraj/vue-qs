@@ -9,6 +9,11 @@ export type ParamOption<T> = {
   parse?: Parser<T>;
   serialize?: Serializer<T>;
   /**
+   * Custom equality to compare with `default` when deciding to omit from URL.
+   * Defaults to Object.is.
+   */
+  equals?: (a: T, b: T) => boolean;
+  /**
    * If true, will not write to URL when value equals default.
    * Defaults to true.
    */

@@ -1,4 +1,4 @@
-import { onBeforeUnmount, ref, watch } from 'vue';
+import { getCurrentInstance, onBeforeUnmount, ref, watch } from 'vue';
 import type { Parser, Serializer, UseQueryRefOptions, UseQueryRefReturn } from '@/types';
 import { string as stringCodec } from '@/serializers';
 import { createQuerySync } from '@/querySync';
@@ -14,6 +14,7 @@ export function useQueryRef<T>(
     default: defVal,
     parse,
     serialize,
+    equals,
     omitIfDefault = true,
     history = 'replace',
     adapter: customAdapter,
@@ -42,7 +43,8 @@ export function useQueryRef<T>(
       if (isApplyingPopState) return; // avoid feedback loop when applying popstate
 
       const s = serializeFn(val as T);
-      const isDefault = defVal !== undefined && val === (defVal as T);
+      const eq = (a: T, b: T) => (equals ? equals(a, b) : Object.is(a, b));
+      const isDefault = defVal !== undefined && eq(val as T, defVal as T);
       const shouldOmit = omitIfDefault && isDefault;
       adapter.setQuery({ [param]: shouldOmit ? undefined : (s ?? undefined) }, { history });
     },
@@ -52,7 +54,8 @@ export function useQueryRef<T>(
   state.sync = () => {
     const val = state.value as T;
     const s = serializeFn(val);
-    const isDefault = defVal !== undefined && val === (defVal as T);
+    const eq = (a: T, b: T) => (equals ? equals(a, b) : Object.is(a, b));
+    const isDefault = defVal !== undefined && eq(val as T, defVal as T);
     const shouldOmit = omitIfDefault && isDefault;
     adapter.setQuery({ [param]: shouldOmit ? undefined : (s ?? undefined) }, { history });
   };
@@ -72,9 +75,11 @@ export function useQueryRef<T>(
       }
     };
     window.addEventListener('popstate', onPopState);
-    onBeforeUnmount(() => {
-      window.removeEventListener('popstate', onPopState);
-    });
+    if (getCurrentInstance()) {
+      onBeforeUnmount(() => {
+        window.removeEventListener('popstate', onPopState);
+      });
+    }
   }
 
   return state;

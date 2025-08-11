@@ -20,6 +20,21 @@ export function createVueRouterQueryAdapter(router: Router): QueryAdapter {
         if (v == null) delete merged[k];
         else merged[k] = v;
       }
+      const currentNorm: Record<string, string> = {};
+      for (const [k, v] of Object.entries(route.query)) {
+        if (Array.isArray(v)) currentNorm[k] = (v[0] ?? '') as string;
+        else if (v != null) currentNorm[k] = String(v);
+      }
+      const mergedNorm: Record<string, string> = {};
+      for (const [k, v] of Object.entries(merged)) {
+        if (Array.isArray(v)) mergedNorm[k] = (v[0] ?? '') as string;
+        else if (v != null) mergedNorm[k] = String(v);
+      }
+      const sameKeys =
+        Object.keys(currentNorm).length === Object.keys(mergedNorm).length &&
+        Object.keys(currentNorm).every((k) => currentNorm[k] === mergedNorm[k]);
+      if (sameKeys) return;
+
       const method = options?.history === 'push' ? router.push : router.replace;
       method.call(router, { query: merged });
     },

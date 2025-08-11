@@ -131,4 +131,27 @@ describe('useQueryReactive', () => {
     expect(state.q).toBe('second');
     expect(state.p).toBe(2);
   });
+
+  it('equals comparator omits deep-equal defaults in schema', () => {
+    const jsonCodec = serializers.json<{ a: number }>();
+    const { state, sync } = useQueryReactive({
+      obj: {
+        default: { a: 1 },
+        parse: jsonCodec.parse,
+        serialize: jsonCodec.serialize,
+        equals: (x, y) => x?.a === y?.a,
+      },
+    });
+    // default, omitted
+    sync();
+    expect(new URL(window.location.href).searchParams.get('obj')).toBe(null);
+    // deep equal, still omitted
+    state.obj = { a: 1 } as any;
+    sync();
+    expect(new URL(window.location.href).searchParams.get('obj')).toBe(null);
+    // different -> written
+    state.obj = { a: 3 } as any;
+    sync();
+    expect(new URL(window.location.href).searchParams.get('obj')).toBe('{"a":3}');
+  });
 });

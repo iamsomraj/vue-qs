@@ -1,4 +1,4 @@
-import { onBeforeUnmount, reactive, watch } from 'vue';
+import { getCurrentInstance, onBeforeUnmount, reactive, watch } from 'vue';
 import type {
   ParamOption,
   ParamSchema,
@@ -39,7 +39,8 @@ export function useQueryReactive<TSchema extends ParamSchema>(
       const val = (src as any)[key];
       const opt = schema[key];
       const serializeFn: Serializer<any> = opt.serialize ?? defaultSerialize;
-      const isDefault = opt.default !== undefined && val === opt.default;
+      const eq = (a: any, b: any) => (opt.equals ? opt.equals(a, b) : Object.is(a, b));
+      const isDefault = opt.default !== undefined && eq(val, opt.default);
       const omit = (opt.omitIfDefault ?? true) && isDefault;
       entries[key] = omit ? undefined : (serializeFn(val) ?? undefined);
     }
@@ -93,9 +94,11 @@ export function useQueryReactive<TSchema extends ParamSchema>(
       }
     };
     window.addEventListener('popstate', onPopState);
-    onBeforeUnmount(() => {
-      window.removeEventListener('popstate', onPopState);
-    });
+    if (getCurrentInstance()) {
+      onBeforeUnmount(() => {
+        window.removeEventListener('popstate', onPopState);
+      });
+    }
   }
 
   return { state: state as Out, batch, sync: syncAll };

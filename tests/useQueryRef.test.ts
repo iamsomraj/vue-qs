@@ -114,4 +114,27 @@ describe('useQueryRef', () => {
     window.dispatchEvent(new PopStateEvent('popstate'));
     expect(page.value).toBe(5);
   });
+
+  it('supports custom equals comparator for deep values', () => {
+    const deepEq = (a: { a: number }, b: { a: number }) => a?.a === b?.a;
+    const jsonCodec = serializers.json<{ a: number }>();
+    const item = useQueryRef<{ a: number }>('deep', {
+      default: { a: 1 },
+      parse: jsonCodec.parse,
+      serialize: jsonCodec.serialize,
+      equals: deepEq,
+    });
+    // default applied, omitted from URL
+    expect(item.value).toEqual({ a: 1 });
+    item.sync();
+    expect(new URL(window.location.href).searchParams.get('deep')).toBe(null);
+
+    // set to deep-equal value -> still omitted
+    item.value = { a: 1 };
+    expect(new URL(window.location.href).searchParams.get('deep')).toBe(null);
+
+    // change to different value -> written
+    item.value = { a: 2 } as any;
+    expect(new URL(window.location.href).searchParams.get('deep')).toBe('{"a":2}');
+  });
 });
