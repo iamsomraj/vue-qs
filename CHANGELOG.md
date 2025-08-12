@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.9
+
+[compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.1.8...v0.1.9)
+
+### 🏡 Chore
+
+- Update version to 0.1.8 and add changelog entry ([c305702](https://github.com/iamsomraj/vue-qs/commit/c305702))
+
+### ❤️ Contributors
+
+- Somraj Mukherjee ([@iamsomraj](https://github.com/iamsomraj))
+
 ## v0.1.8
 
 [compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.1.8...v0.1.8)
