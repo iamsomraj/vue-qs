@@ -1,4 +1,4 @@
-[**vue-qs v0.1.9**](../README.md)
+[**vue-qs v0.1.10**](../README.md)
 
 ***
 
@@ -8,9 +8,10 @@
 
 > **createVueRouterQueryAdapter**(`router`): [`QueryAdapter`](../type-aliases/QueryAdapter.md)
 
-Defined in: [routerAdapter.ts:5](https://github.com/iamsomraj/vue-qs/blob/45dc30a366c9ea66c571cd99d51f1943495f1e56/src/routerAdapter.ts#L5)
+Defined in: [routerAdapter.ts:8](https://github.com/iamsomraj/vue-qs/blob/f0c3b00cd958e5a3adba94ae66926daf711f0fdf/src/routerAdapter.ts#L8)
 
-Create an adapter backed by a Vue Router instance.
+Wrap a Vue Router instance so the library can read / write query params
+without depending directly on router APIs inside every hook.
 
 ## Parameters
 

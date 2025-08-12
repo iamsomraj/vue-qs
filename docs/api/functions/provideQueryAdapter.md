@@ -1,4 +1,4 @@
-[**vue-qs v0.1.9**](../README.md)
+[**vue-qs v0.1.10**](../README.md)
 
 ***
 
@@ -8,9 +8,7 @@
 
 > **provideQueryAdapter**(`adapter`): `void`
 
-Defined in: [adapterContext.ts:9](https://github.com/iamsomraj/vue-qs/blob/45dc30a366c9ea66c571cd99d51f1943495f1e56/src/adapterContext.ts#L9)
-
-Provide a [QueryAdapter](../type-aliases/QueryAdapter.md) for child components.
+Defined in: [adapterContext.ts:9](https://github.com/iamsomraj/vue-qs/blob/f0c3b00cd958e5a3adba94ae66926daf711f0fdf/src/adapterContext.ts#L9)
 
 ## Parameters
 

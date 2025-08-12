@@ -1,4 +1,4 @@
-[**vue-qs v0.1.9**](../../../../README.md)
+[**vue-qs v0.1.10**](../../../../README.md)
 
 ***
 
@@ -6,9 +6,9 @@
 
 # Function: arrayOf()
 
-> **arrayOf**\<`T`\>(`elem`, `sep`): [`QueryCodec`](../../../../type-aliases/QueryCodec.md)\<`T`[]\>
+> **arrayOf**\<`T`\>(`element`, `separator`): [`QueryCodec`](../../../../type-aliases/QueryCodec.md)\<`T`[]\>
 
-Defined in: [serializers.ts:45](https://github.com/iamsomraj/vue-qs/blob/45dc30a366c9ea66c571cd99d51f1943495f1e56/src/serializers.ts#L45)
+Defined in: [serializers.ts:48](https://github.com/iamsomraj/vue-qs/blob/f0c3b00cd958e5a3adba94ae66926daf711f0fdf/src/serializers.ts#L48)
 
 ## Type Parameters
 
@@ -18,11 +18,11 @@ Defined in: [serializers.ts:45](https://github.com/iamsomraj/vue-qs/blob/45dc30a
 
 ## Parameters
 
-### elem
+### element
 
 [`QueryCodec`](../../../../type-aliases/QueryCodec.md)\<`T`\>
 
-### sep
+### separator
 
 `string` = `','`
 

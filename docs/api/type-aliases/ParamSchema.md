@@ -1,4 +1,4 @@
-[**vue-qs v0.1.9**](../README.md)
+[**vue-qs v0.1.10**](../README.md)
 
 ***
 
@@ -8,4 +8,4 @@
 
 > **ParamSchema** = `Record`\<`string`, [`ParamOption`](ParamOption.md)\<`any`\>\>
 
-Defined in: [types.ts:34](https://github.com/iamsomraj/vue-qs/blob/45dc30a366c9ea66c571cd99d51f1943495f1e56/src/types.ts#L34)
+Defined in: [types.ts:34](https://github.com/iamsomraj/vue-qs/blob/f0c3b00cd958e5a3adba94ae66926daf711f0fdf/src/types.ts#L34)

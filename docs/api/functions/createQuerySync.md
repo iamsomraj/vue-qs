@@ -1,4 +1,4 @@
-[**vue-qs v0.1.9**](../README.md)
+[**vue-qs v0.1.10**](../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **createQuerySync**(): [`QuerySync`](../type-aliases/QuerySync.md)
 
-Defined in: [querySync.ts:46](https://github.com/iamsomraj/vue-qs/blob/45dc30a366c9ea66c571cd99d51f1943495f1e56/src/querySync.ts#L46)
+Defined in: [querySync.ts:43](https://github.com/iamsomraj/vue-qs/blob/f0c3b00cd958e5a3adba94ae66926daf711f0fdf/src/querySync.ts#L43)
 
 Create a default query adapter using the History API.
 SSR-safe: returns an in-memory cache on the server.
