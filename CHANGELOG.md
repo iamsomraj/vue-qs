@@ -1,5 +1,32 @@
 # Changelog
 
+## v0.1.10
+
+[compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.1.8...v0.1.10)
+
+### 🚀 Enhancements
+
+- Add issue templates for bug reports and feature requests ([c0ab2b5](https://github.com/iamsomraj/vue-qs/commit/c0ab2b5))
+
+### 🩹 Fixes
+
+- Update README to use consistent banner image format ([1e388e2](https://github.com/iamsomraj/vue-qs/commit/1e388e2))
+
+### 💅 Refactors
+
+- Improve documentation and code structure for vue-qs ([ecf86f6](https://github.com/iamsomraj/vue-qs/commit/ecf86f6))
+- Consolidate shared history adapter logic and improve batching handling in useQueryReactive ([08ad70f](https://github.com/iamsomraj/vue-qs/commit/08ad70f))
+
+### 🏡 Chore
+
+- Update version to 0.1.8 and add changelog entry ([c305702](https://github.com/iamsomraj/vue-qs/commit/c305702))
+- Update version to 0.1.9 and add changelog entry ([45dc30a](https://github.com/iamsomraj/vue-qs/commit/45dc30a))
+- Update version to v0.1.9 in documentation and links ([6a64a7d](https://github.com/iamsomraj/vue-qs/commit/6a64a7d))
+
+### ❤️ Contributors
+
+- Somraj Mukherjee ([@iamsomraj](https://github.com/iamsomraj))
+
 ## v0.1.9
 
 [compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.1.8...v0.1.9)
