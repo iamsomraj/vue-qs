@@ -8,7 +8,7 @@
 
 > **UseQueryRefOptions**\<`T`\> = [`ParamOption`](ParamOption.md)\<`T`\> & `object`
 
-Defined in: [types.ts:37](https://github.com/iamsomraj/vue-qs/blob/3914abe3b71638946c178175ac5cb09af4684d1b/src/types.ts#L37)
+Defined in: [types.ts:37](https://github.com/iamsomraj/vue-qs/blob/db1176155e4718a70dabfdac1aacf43d04432436/src/types.ts#L37)
 
 Options for [useQueryRef](../functions/useQueryRef.md).
 

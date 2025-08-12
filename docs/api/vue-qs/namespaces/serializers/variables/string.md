@@ -8,4 +8,4 @@
 
 > `const` **string**: [`QueryCodec`](../../../../type-aliases/QueryCodec.md)\<`string`\>
 
-Defined in: [serializers.ts:4](https://github.com/iamsomraj/vue-qs/blob/3914abe3b71638946c178175ac5cb09af4684d1b/src/serializers.ts#L4)
+Defined in: [serializers.ts:4](https://github.com/iamsomraj/vue-qs/blob/db1176155e4718a70dabfdac1aacf43d04432436/src/serializers.ts#L4)

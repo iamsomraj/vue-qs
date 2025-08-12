@@ -34,7 +34,6 @@ export default defineConfig({
     },
   },
   themeConfig: {
-    logo: { src: '/logo.svg', alt: 'vue-qs' },
     nav: [
       { text: 'Guide', link: '/guide/getting-started' },
       { text: 'API', link: '/api/' },
