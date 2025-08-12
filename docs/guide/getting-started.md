@@ -1,8 +1,8 @@
 # Getting Started
 
-vue-qs keeps your Vue 3 state in the URL query string, with types and minimal ceremony.
+Keep important UI state (search text, page number, filters) in the URL, not hidden in component memory. `vue-qs` makes this easy with two composables.
 
-## Installation
+## Install
 
 ```bash
 npm i vue-qs
@@ -12,16 +12,15 @@ pnpm add vue-qs
 bun add vue-qs
 ```
 
-Peer dependencies: `vue@^3.3`. `vue-router@^4.2` is optional.
+Peer dependency: `vue@^3.3`. Optional: `vue-router@^4.2` if you want router integration.
 
-## Quick start
-
-Single param with a ref:
+## Single param (ref)
 
 ```vue
 <script setup lang="ts">
 import { useQueryRef } from 'vue-qs';
 
+// A ref bound to ?name=... (falls back to default when missing)
 const name = useQueryRef('name', { default: '' });
 </script>
 
@@ -30,7 +29,7 @@ const name = useQueryRef('name', { default: '' });
 </template>
 ```
 
-Multiple params with a reactive object:
+## Multiple params (reactive object)
 
 ```vue
 <script setup lang="ts">
@@ -38,7 +37,7 @@ import { useQueryReactive } from 'vue-qs';
 
 const { state } = useQueryReactive({
   search: { default: '' },
-  page: { default: 1, codec: { parse: Number, serialize: (n: number) => String(n) } },
+  page: { default: 1, parse: Number },
 });
 </script>
 
@@ -48,10 +47,24 @@ const { state } = useQueryReactive({
 </template>
 ```
 
-## Concepts
+## What the hooks give you
 
-- useQueryRef: manage one query param as a `Ref<T>` with a `.sync()` helper.
-- useQueryReactive: manage multiple params as a single reactive object with `batch()` and `sync()`.
-- Adapters: swap out how the URL is read/written (History API by default, Vue Router via adapter).
+- `useQueryRef(name, options)` → a normal ref with an added `.sync()` method.
+- `useQueryReactive(schema, options)` → `{ state, batch, sync }`.
+  - `state` is a reactive object.
+  - `batch()` groups multiple updates into one history entry.
+  - `sync()` forces an immediate URL write.
+- Both omit defaults from the URL unless you set `omitIfDefault: false`.
 
-Continue to Examples for more patterns.
+## Adapters
+
+You can use `vue-qs` without Vue Router (History API adapter is built‑in). When you do use Router, pass or provide the router adapter so back/forward and navigations stay in sync:
+
+```ts
+import { createVueQs, createVueRouterQueryAdapter } from 'vue-qs';
+import { router } from './router';
+
+app.use(createVueQs({ adapter: createVueRouterQueryAdapter(router) }));
+```
+
+Continue to Examples for patterns like codecs, two‑way sync, batching, and custom equality.

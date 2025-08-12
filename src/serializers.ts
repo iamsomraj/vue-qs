@@ -1,63 +1,66 @@
 import type { QueryCodec } from '@/types';
 
-// Primitive coders
+// Basic string codec: empty => ''
 export const string: QueryCodec<string> = {
-  parse: (v) => v ?? '',
-  serialize: (v) => (v == null ? null : String(v)),
+  parse: (value) => value ?? '',
+  serialize: (value) => (value == null ? null : String(value)),
 };
 
+// Number codec: missing -> NaN (caller can decide how to handle)
 export const number: QueryCodec<number> = {
-  parse: (v) => (v == null || v === '' ? NaN : Number(v)),
-  serialize: (v) => (Number.isFinite(v) ? String(v) : null),
+  parse: (value) => (value == null || value === '' ? NaN : Number(value)),
+  serialize: (value) => (Number.isFinite(value) ? String(value) : null),
 };
 
+// Boolean codec: treat 'true' or '1' as true; everything else false
 export const boolean: QueryCodec<boolean> = {
-  parse: (v) => v === 'true' || v === '1',
-  serialize: (v) => (v ? 'true' : 'false'),
+  parse: (value) => value === 'true' || value === '1',
+  serialize: (value) => (value ? 'true' : 'false'),
 };
 
+// Date codec using ISO strings (toISOString / parse using new Date())
 export const dateISO: QueryCodec<Date> = {
-  parse: (v) => (v ? new Date(v) : new Date(NaN)),
-  serialize: (v) => (v instanceof Date && !isNaN(+v) ? v.toISOString() : null),
+  parse: (value) => (value ? new Date(value) : new Date(NaN)),
+  serialize: (value) => (value instanceof Date && !isNaN(+value) ? value.toISOString() : null),
 };
 
-// JSON based for objects
+// JSON codec for objects/arrays (returns null if parse/serialize fails)
 export const json = <T>(): QueryCodec<T> => ({
-  parse: (v) => {
-    if (v == null || v === '') return null as unknown as T;
+  parse: (value) => {
+    if (value == null || value === '') return null as unknown as T;
     try {
-      return JSON.parse(v) as T;
+      return JSON.parse(value) as T;
     } catch {
       return null as unknown as T;
     }
   },
-  serialize: (v) => {
-    if (v == null) return null;
+  serialize: (value) => {
+    if (value == null) return null;
     try {
-      return JSON.stringify(v);
+      return JSON.stringify(value);
     } catch {
       return null;
     }
   },
 });
 
-// Arrays with a chosen element codec; join with comma by default
-export const arrayOf = <T>(elem: QueryCodec<T>, sep = ','): QueryCodec<T[]> => ({
-  parse: (v) => {
-    if (v == null || v === '') return [] as T[];
-    return v.split(sep).map((s) => elem.parse(s));
+// Arrays: combine elements using a separator (default: comma)
+export const arrayOf = <T>(element: QueryCodec<T>, separator = ','): QueryCodec<T[]> => ({
+  parse: (value) => {
+    if (value == null || value === '') return [] as T[];
+    return value.split(separator).map((piece) => element.parse(piece));
   },
   serialize: (arr) => {
     if (!arr || arr.length === 0) return null;
-    const parts = arr.map((x) => elem.serialize(x)).filter((s): s is string => s != null);
-    return parts.length ? parts.join(sep) : null;
+    const parts = arr.map((item) => element.serialize(item)).filter((s): s is string => s != null);
+    return parts.length ? parts.join(separator) : null;
   },
 });
 
-// Helpers for enums
+// Enums: only allow specific strings (fall back to first value)
 export const enumOf = <T extends string>(values: readonly T[]): QueryCodec<T> => ({
-  parse: (v) => (values.includes(v as T) ? (v as T) : values[0]),
-  serialize: (v) => (values.includes(v) ? v : values[0]),
+  parse: (value) => (values.includes(value as T) ? (value as T) : values[0]),
+  serialize: (value) => (values.includes(value) ? value : values[0]),
 });
 
 export type { QueryCodec };

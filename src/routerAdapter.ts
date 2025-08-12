@@ -1,51 +1,54 @@
 import type { Router } from 'vue-router';
 import type { QueryAdapter } from '@/types';
 
-/** Create an adapter backed by a Vue Router instance. */
+/**
+ * Wrap a Vue Router instance so the library can read / write query params
+ * without depending directly on router APIs inside every hook.
+ */
 export function createVueRouterQueryAdapter(router: Router): QueryAdapter {
   return {
     getQuery() {
-      // Normalize vue-router's LocationQuery to a simple { [k]: string | undefined }
-      const q = router.currentRoute.value.query;
-      const out: Record<string, string | undefined> = {};
-      for (const [k, v] of Object.entries(q)) {
-        if (Array.isArray(v)) out[k] = v[0] ?? undefined;
-        else out[k] = v as string | undefined;
+      // router.currentRoute.value.query can have arrays; take the first value to keep things simple
+      const routeQuery = router.currentRoute.value.query;
+      const flat: Record<string, string | undefined> = {};
+      for (const [key, val] of Object.entries(routeQuery)) {
+        flat[key] = Array.isArray(val)
+          ? (val[0] as string | undefined)
+          : (val as string | undefined);
       }
-      return out;
+      return flat;
     },
     setQuery(next, options) {
-      // Merge with current query and avoid redundant navigations
       const route = router.currentRoute.value;
       const merged: Record<string, any> = { ...route.query };
-      for (const [k, v] of Object.entries(next)) {
-        if (v == null) delete merged[k];
-        else merged[k] = v;
+      // Apply changes (undefined removes the key)
+      for (const [key, val] of Object.entries(next)) {
+        if (val == null) delete merged[key];
+        else merged[key] = val;
       }
-      const currentNorm: Record<string, string> = {};
-      for (const [k, v] of Object.entries(route.query)) {
-        if (Array.isArray(v)) currentNorm[k] = (v[0] ?? '') as string;
-        else if (v != null) currentNorm[k] = String(v);
-      }
-      const mergedNorm: Record<string, string> = {};
-      for (const [k, v] of Object.entries(merged)) {
-        if (Array.isArray(v)) mergedNorm[k] = (v[0] ?? '') as string;
-        else if (v != null) mergedNorm[k] = String(v);
-      }
-      const sameKeys =
-        Object.keys(currentNorm).length === Object.keys(mergedNorm).length &&
-        Object.keys(currentNorm).every((k) => currentNorm[k] === mergedNorm[k]);
-      if (sameKeys) return;
 
-      const method = options?.history === 'push' ? router.push : router.replace;
-      method.call(router, { query: merged });
+      // Normalize both current and new queries to detect if anything actually changed
+      const normalize = (obj: Record<string, any>) => {
+        const out: Record<string, string> = {};
+        for (const [k, v] of Object.entries(obj)) {
+          if (Array.isArray(v)) out[k] = (v[0] ?? '') as string;
+          else if (v != null) out[k] = String(v);
+        }
+        return out;
+      };
+      const oldNorm = normalize(route.query as any);
+      const newNorm = normalize(merged);
+      const unchanged =
+        Object.keys(oldNorm).length === Object.keys(newNorm).length &&
+        Object.keys(oldNorm).every((k) => oldNorm[k] === newNorm[k]);
+      if (unchanged) return;
+
+      const navigate = options?.history === 'push' ? router.push : router.replace;
+      navigate.call(router, { query: merged });
     },
     subscribe(cb) {
-      // Re-run callback after each successful navigation
-      const unregister = router.afterEach(() => {
-        cb();
-      });
-      return unregister;
+      // Run callback after each navigation so two-way mode can re-parse
+      return router.afterEach(() => cb());
     },
   };
 }

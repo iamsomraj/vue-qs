@@ -1,36 +1,33 @@
 import { reactive } from 'vue';
 import type { QueryAdapter, RuntimeEnv } from '@/types';
 
-// Basic environment gate to keep SSR-safe behavior
-function isClient(): boolean {
+// True only in a real browser environment (not during SSR)
+function inBrowser(): boolean {
   return typeof window !== 'undefined' && typeof document !== 'undefined';
 }
 
-function getRuntimeEnv(): RuntimeEnv {
-  return {
-    isClient: isClient(),
-    win: isClient() ? window : null,
-  };
+// Gather runtime flags so other code does not directly touch global objects
+function createRuntimeEnv(): RuntimeEnv {
+  const client = inBrowser();
+  return { isClient: client, win: client ? window : null };
 }
 
-// Convert search string -> plain object
-function parseSearch(search: string): Record<string, string> {
+// Turn a search string like "?a=1&b=2" into a plain object { a: '1', b: '2' }
+function searchToObject(search: string): Record<string, string> {
   const params = new URLSearchParams(search.startsWith('?') ? search : `?${search}`);
-  const out: Record<string, string> = {};
-  params.forEach((v, k) => {
-    out[k] = v;
+  const result: Record<string, string> = {};
+  params.forEach((value, key) => {
+    result[key] = value;
   });
-  return out;
+  return result;
 }
 
-// Convert plain object -> search string
-function stringifySearch(query: Record<string, string | undefined>): string {
+// Build a search string from { a: '1', b: '2' } -> "?a=1&b=2" (omitting undefined)
+function objectToSearch(query: Record<string, string | undefined>): string {
   const params = new URLSearchParams();
-  for (const [k, v] of Object.entries(query)) {
-    if (v != null) params.set(k, v);
-  }
-  const s = params.toString();
-  return s ? `?${s}` : '';
+  for (const [key, value] of Object.entries(query)) if (value != null) params.set(key, value);
+  const str = params.toString();
+  return str ? `?${str}` : '';
 }
 
 /** Result of {@link createQuerySync}. */
@@ -44,42 +41,43 @@ export type QuerySync = {
  * SSR-safe: returns an in-memory cache on the server.
  */
 export function createQuerySync(): QuerySync {
-  const env = getRuntimeEnv();
+  const env = createRuntimeEnv();
+  // On the server we keep an in-memory copy so reads still work during SSR
   const state = reactive<{ cache: Record<string, string | undefined> }>({ cache: {} });
 
   const adapter: QueryAdapter = {
     getQuery() {
       if (!env.isClient || !env.win) return { ...state.cache };
-      const { search } = env.win.location;
-      return parseSearch(search);
+      return searchToObject(env.win.location.search);
     },
     setQuery(next, options) {
+      // Server: patch the cache only
       if (!env.isClient || !env.win) {
         state.cache = { ...state.cache, ...next };
         return;
       }
-      const url = new URL(env.win.location.href);
-      const current = parseSearch(url.search);
-      const merged: Record<string, string | undefined> = { ...current, ...next };
-      // Remove undefined keys
-      for (const k of Object.keys(merged)) {
-        if (merged[k] == null) delete merged[k];
-      }
-      const search = stringifySearch(merged);
-      // Skip if no actual change
-      if (url.search === search) return;
 
-      url.search = search;
-      const path = `${url.pathname}${url.search}${url.hash}`;
-      const history = options?.history ?? 'replace';
-      if (history === 'push') env.win.history.pushState({}, '', path);
-      else env.win.history.replaceState({}, '', path);
-      // Fallback for environments where History API doesn't reflect on location (e.g., test DOM)
-      if (env.win.location.search !== search) {
+      const url = new URL(env.win.location.href);
+      const current = searchToObject(url.search);
+      const merged: Record<string, string | undefined> = { ...current, ...next };
+      // Drop undefined keys so they disappear from the URL
+      for (const key of Object.keys(merged)) if (merged[key] == null) delete merged[key];
+
+      const newSearch = objectToSearch(merged);
+      if (url.search === newSearch) return; // nothing changed
+
+      url.search = newSearch;
+      const fullPath = `${url.pathname}${url.search}${url.hash}`;
+      const mode = options?.history ?? 'replace';
+      if (mode === 'push') env.win.history.pushState({}, '', fullPath);
+      else env.win.history.replaceState({}, '', fullPath);
+
+      // Some test environments may not reflect history changes on location
+      if (env.win.location.search !== newSearch) {
         try {
-          env.win.location.href = path;
+          env.win.location.href = fullPath;
         } catch {
-          // ignore
+          /* ignore */
         }
       }
     },

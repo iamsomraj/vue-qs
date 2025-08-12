@@ -1,15 +1,22 @@
 # 双向同步
 
-开启 URL -> 状态 的同步，这样浏览器前进/后退或路由跳转会同步到状态。
+默认：只把本地状态写入 URL（单向）。
+
+开启 `twoWay: true` 后：浏览器前进/后退、手动修改地址栏、路由跳转都会更新你的 ref/reactive。
 
 ```ts
-const page = useQueryRef('page', { default: 1, codec: serializers.number, twoWay: true });
+const page = useQueryRef('page', { default: 1, parse: Number, twoWay: true });
 ```
 
-其原理：在 History API 适配器下监听 `popstate`，在 Vue Router 适配器下监听 `router.afterEach` 来回填状态。
-
-对于多个参数：
+多个：
 
 ```ts
-const { state } = useQueryReactive(schema, { twoWay: true });
+const { state } = useQueryReactive({ page: { default: 1 } }, { twoWay: true });
 ```
+
+内部做的事（简化描述）：
+
+1. 监听 `popstate` 或 `router.afterEach`。
+2. 解析 URL 查询并与现有值比较。
+3. 只对变化的键更新，避免循环写入。
+4. 写入时设置“正在同步”标记，防止 watcher 反向触发再次写 URL。

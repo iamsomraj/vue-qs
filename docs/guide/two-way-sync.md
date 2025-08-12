@@ -1,15 +1,20 @@
-# Two-way Sync
+# Two‑Way Sync
 
-Enable URL -> state syncing so back/forward and router navigations update your state.
+Add `twoWay: true` so state also updates when the URL changes (browser back/forward, router navigation).
 
 ```ts
 const page = useQueryRef('page', { default: 1, codec: serializers.number, twoWay: true });
 ```
 
-Under the hood, vue-qs either listens to `popstate` (History API adapter) or `router.afterEach` (Vue Router adapter) to rehydrate values.
-
-Use it with `useQueryReactive` as well:
+Reactive group:
 
 ```ts
 const { state } = useQueryReactive(schema, { twoWay: true });
 ```
+
+How it works:
+
+- History API adapter listens to `popstate`.
+- Router adapter listens to `router.afterEach`.
+
+When a navigation happens we re-parse affected params and update your ref / state object.

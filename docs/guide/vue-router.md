@@ -1,8 +1,10 @@
 # Vue Router Integration
 
-Use the router-backed adapter for first-class integration.
+When using Vue Router, an adapter keeps your query refs/reactive state in sync with navigations and browser back/forward.
 
-## Per-hook adapter
+## Per‑hook adapter
+
+Pass the adapter directly when you create refs / reactive objects.
 
 ```vue
 <script setup lang="ts">
@@ -11,16 +13,14 @@ import { useRouter } from 'vue-router';
 
 const adapter = createVueRouterQueryAdapter(useRouter());
 
-const page = useQueryRef<number>('page', {
-  default: 1,
-  codec: { parse: Number, serialize: String },
-  adapter,
-});
-const { state } = useQueryReactive({ searchQuery: { default: '' } }, { adapter });
+const page = useQueryRef('page', { default: 1, parse: Number, adapter });
+const { state } = useQueryReactive({ q: { default: '' } }, { adapter });
 </script>
 ```
 
 ## Global adapter (recommended)
+
+Provide it once so every hook can auto‑detect it.
 
 ```ts
 // main.ts
@@ -33,4 +33,12 @@ createApp(App)
   .use(createVueQs({ adapter: createVueRouterQueryAdapter(router) }))
   .use(router)
   .mount('#app');
+```
+
+## Two‑way sync tip
+
+Add `twoWay: true` if you want state to update when the user navigates (back/forward or programmatic pushes):
+
+```ts
+const page = useQueryRef('page', { default: 1, parse: Number, twoWay: true });
 ```
