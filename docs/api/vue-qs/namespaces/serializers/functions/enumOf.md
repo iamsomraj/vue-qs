@@ -1,4 +1,4 @@
-[**vue-qs v0.1.7**](../../../../README.md)
+[**vue-qs v0.1.9**](../../../../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **enumOf**\<`T`\>(`values`): [`QueryCodec`](../../../../type-aliases/QueryCodec.md)\<`T`\>
 
-Defined in: [serializers.ts:58](https://github.com/iamsomraj/vue-qs/blob/db1176155e4718a70dabfdac1aacf43d04432436/src/serializers.ts#L58)
+Defined in: [serializers.ts:58](https://github.com/iamsomraj/vue-qs/blob/45dc30a366c9ea66c571cd99d51f1943495f1e56/src/serializers.ts#L58)
 
 ## Type Parameters
 

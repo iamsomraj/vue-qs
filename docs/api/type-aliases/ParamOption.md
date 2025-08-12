@@ -1,4 +1,4 @@
-[**vue-qs v0.1.7**](../README.md)
+[**vue-qs v0.1.9**](../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **ParamOption**\<`T`\> = `object`
 
-Defined in: [types.ts:11](https://github.com/iamsomraj/vue-qs/blob/db1176155e4718a70dabfdac1aacf43d04432436/src/types.ts#L11)
+Defined in: [types.ts:11](https://github.com/iamsomraj/vue-qs/blob/45dc30a366c9ea66c571cd99d51f1943495f1e56/src/types.ts#L11)
 
 Configuration for a single query parameter.
 
@@ -24,7 +24,7 @@ Configuration for a single query parameter.
 
 > `optional` **default**: `T`
 
-Defined in: [types.ts:12](https://github.com/iamsomraj/vue-qs/blob/db1176155e4718a70dabfdac1aacf43d04432436/src/types.ts#L12)
+Defined in: [types.ts:12](https://github.com/iamsomraj/vue-qs/blob/45dc30a366c9ea66c571cd99d51f1943495f1e56/src/types.ts#L12)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [types.ts:12](https://github.com/iamsomraj/vue-qs/blob/db1176155e471
 
 > `optional` **codec**: [`QueryCodec`](QueryCodec.md)\<`T`\>
 
-Defined in: [types.ts:14](https://github.com/iamsomraj/vue-qs/blob/db1176155e4718a70dabfdac1aacf43d04432436/src/types.ts#L14)
+Defined in: [types.ts:14](https://github.com/iamsomraj/vue-qs/blob/45dc30a366c9ea66c571cd99d51f1943495f1e56/src/types.ts#L14)
 
 Pass a single codec instead of separate parse/serialize.
 
@@ -42,7 +42,7 @@ Pass a single codec instead of separate parse/serialize.
 
 > `optional` **parse**: [`Parser`](Parser.md)\<`T`\>
 
-Defined in: [types.ts:15](https://github.com/iamsomraj/vue-qs/blob/db1176155e4718a70dabfdac1aacf43d04432436/src/types.ts#L15)
+Defined in: [types.ts:15](https://github.com/iamsomraj/vue-qs/blob/45dc30a366c9ea66c571cd99d51f1943495f1e56/src/types.ts#L15)
 
 ***
 
@@ -50,7 +50,7 @@ Defined in: [types.ts:15](https://github.com/iamsomraj/vue-qs/blob/db1176155e471
 
 > `optional` **serialize**: [`Serializer`](Serializer.md)\<`T`\>
 
-Defined in: [types.ts:16](https://github.com/iamsomraj/vue-qs/blob/db1176155e4718a70dabfdac1aacf43d04432436/src/types.ts#L16)
+Defined in: [types.ts:16](https://github.com/iamsomraj/vue-qs/blob/45dc30a366c9ea66c571cd99d51f1943495f1e56/src/types.ts#L16)
 
 ***
 
@@ -58,7 +58,7 @@ Defined in: [types.ts:16](https://github.com/iamsomraj/vue-qs/blob/db1176155e471
 
 > `optional` **equals**: (`a`, `b`) => `boolean`
 
-Defined in: [types.ts:21](https://github.com/iamsomraj/vue-qs/blob/db1176155e4718a70dabfdac1aacf43d04432436/src/types.ts#L21)
+Defined in: [types.ts:21](https://github.com/iamsomraj/vue-qs/blob/45dc30a366c9ea66c571cd99d51f1943495f1e56/src/types.ts#L21)
 
 Custom equality to compare with `default` when deciding to omit from URL.
 Defaults to Object.is.
@@ -83,7 +83,7 @@ Defaults to Object.is.
 
 > `optional` **omitIfDefault**: `boolean`
 
-Defined in: [types.ts:26](https://github.com/iamsomraj/vue-qs/blob/db1176155e4718a70dabfdac1aacf43d04432436/src/types.ts#L26)
+Defined in: [types.ts:26](https://github.com/iamsomraj/vue-qs/blob/45dc30a366c9ea66c571cd99d51f1943495f1e56/src/types.ts#L26)
 
 If true, will not write to URL when value equals default.
 Defaults to true.
@@ -94,7 +94,7 @@ Defaults to true.
 
 > `optional` **batchKey**: `string`
 
-Defined in: [types.ts:31](https://github.com/iamsomraj/vue-qs/blob/db1176155e4718a70dabfdac1aacf43d04432436/src/types.ts#L31)
+Defined in: [types.ts:31](https://github.com/iamsomraj/vue-qs/blob/45dc30a366c9ea66c571cd99d51f1943495f1e56/src/types.ts#L31)
 
 Optional key to conceptually group params when batching updates. Not used internally yet,
 but reserved for future heuristics or custom adapters.

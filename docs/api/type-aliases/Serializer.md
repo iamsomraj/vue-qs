@@ -1,4 +1,4 @@
-[**vue-qs v0.1.7**](../README.md)
+[**vue-qs v0.1.9**](../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **Serializer**\<`T`\> = (`value`) => `string` \| `null`
 
-Defined in: [types.ts:6](https://github.com/iamsomraj/vue-qs/blob/db1176155e4718a70dabfdac1aacf43d04432436/src/types.ts#L6)
+Defined in: [types.ts:6](https://github.com/iamsomraj/vue-qs/blob/45dc30a366c9ea66c571cd99d51f1943495f1e56/src/types.ts#L6)
 
 Serializes a typed value into a string for the query string.
 

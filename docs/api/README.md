@@ -1,8 +1,8 @@
-**vue-qs v0.1.7**
+**vue-qs v0.1.9**
 
 ***
 
-# vue-qs v0.1.7
+# vue-qs v0.1.9
 
 ## Namespaces
 

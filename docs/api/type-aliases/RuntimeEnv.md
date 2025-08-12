@@ -1,4 +1,4 @@
-[**vue-qs v0.1.7**](../README.md)
+[**vue-qs v0.1.9**](../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **RuntimeEnv** = `object`
 
-Defined in: [types.ts:102](https://github.com/iamsomraj/vue-qs/blob/db1176155e4718a70dabfdac1aacf43d04432436/src/types.ts#L102)
+Defined in: [types.ts:102](https://github.com/iamsomraj/vue-qs/blob/45dc30a366c9ea66c571cd99d51f1943495f1e56/src/types.ts#L102)
 
 Environment flags used by the default History API adapter.
 
@@ -18,7 +18,7 @@ Environment flags used by the default History API adapter.
 
 > **isClient**: `boolean`
 
-Defined in: [types.ts:103](https://github.com/iamsomraj/vue-qs/blob/db1176155e4718a70dabfdac1aacf43d04432436/src/types.ts#L103)
+Defined in: [types.ts:103](https://github.com/iamsomraj/vue-qs/blob/45dc30a366c9ea66c571cd99d51f1943495f1e56/src/types.ts#L103)
 
 ***
 
@@ -26,6 +26,6 @@ Defined in: [types.ts:103](https://github.com/iamsomraj/vue-qs/blob/db1176155e47
 
 > **win**: `Window` \| `null`
 
-Defined in: [types.ts:105](https://github.com/iamsomraj/vue-qs/blob/db1176155e4718a70dabfdac1aacf43d04432436/src/types.ts#L105)
+Defined in: [types.ts:105](https://github.com/iamsomraj/vue-qs/blob/45dc30a366c9ea66c571cd99d51f1943495f1e56/src/types.ts#L105)
 
 Safe access to window if on client
