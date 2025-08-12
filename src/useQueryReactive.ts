@@ -14,6 +14,13 @@ import { useQueryAdapter } from '@/adapterContext';
 const defaultSerialize = stringCodec.serialize as Serializer<any>;
 const defaultParse = stringCodec.parse as Parser<any>;
 
+// Lazily-created shared history adapter (same instance reused across hook calls)
+let sharedHistoryAdapter: ReturnType<typeof createQuerySync>['adapter'] | undefined;
+function getOrCreateSharedHistoryAdapter() {
+  if (!sharedHistoryAdapter) sharedHistoryAdapter = createQuerySync().adapter;
+  return sharedHistoryAdapter;
+}
+
 /**
  * Manage multiple query parameters as a single reactive object.
  * Keeps the URL in sync as any field changes; optionally syncs URL -> state.
@@ -25,14 +32,7 @@ export function useQueryReactive<TSchema extends ParamSchema>(
   const componentInstance = getCurrentInstance();
   const injectedAdapter = componentInstance ? useQueryAdapter() : undefined;
 
-  // Share a single history adapter if no adapter was provided / injected
-  let sharedAdapter: ReturnType<typeof createQuerySync>['adapter'] | undefined;
-  function getOrCreateSharedAdapter() {
-    if (!sharedAdapter) sharedAdapter = createQuerySync().adapter;
-    return sharedAdapter;
-  }
-
-  const adapter = options.adapter ?? injectedAdapter ?? getOrCreateSharedAdapter();
+  const adapter = options.adapter ?? injectedAdapter ?? getOrCreateSharedHistoryAdapter();
   const currentQuerySnapshot = adapter.getQuery();
   const twoWay = options.twoWay === true;
 
@@ -78,6 +78,8 @@ export function useQueryReactive<TSchema extends ParamSchema>(
 
   // Watch all fields; whenever any change we diff->serialize->write (except when coming from adapter)
   let syncingFromAdapter = false;
+  // Guard to suppress watcher-triggered writes during explicit batch() updates
+  let batching = false;
   watch(
     () => {
       const snapshot: Partial<StateShape> = {};
@@ -85,7 +87,7 @@ export function useQueryReactive<TSchema extends ParamSchema>(
       return snapshot;
     },
     (changed) => {
-      if (syncingFromAdapter) return;
+      if (syncingFromAdapter || batching) return;
       adapter.setQuery(serializeSubset(changed as Partial<StateShape>), {
         history: options.history ?? 'replace',
       });
@@ -95,9 +97,16 @@ export function useQueryReactive<TSchema extends ParamSchema>(
 
   // Batch: make several state changes then write one combined query update
   function batch(update: Partial<StateShape>, batchOptions?: { history?: 'replace' | 'push' }) {
-    for (const k in update) (state as any)[k] = (update as any)[k];
-    const entries = serializeSubset(update);
-    adapter.setQuery(entries, { history: batchOptions?.history ?? options.history ?? 'replace' });
+    batching = true;
+    try {
+      for (const k in update) (state as any)[k] = (update as any)[k];
+      const entries = serializeSubset(update);
+      adapter.setQuery(entries, {
+        history: batchOptions?.history ?? options.history ?? 'replace',
+      });
+    } finally {
+      queueMicrotask(() => (batching = false));
+    }
   }
 
   // Two-way mode: reflect external navigation (router / back button) into state
