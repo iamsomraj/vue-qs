@@ -8,7 +8,7 @@
 
 > **json**\<`T`\>(): [`QueryCodec`](../../../../type-aliases/QueryCodec.md)\<`T`\>
 
-Defined in: [serializers.ts:28](https://github.com/iamsomraj/vue-qs/blob/f0c3b00cd958e5a3adba94ae66926daf711f0fdf/src/serializers.ts#L28)
+Defined in: [serializers.ts:28](https://github.com/iamsomraj/vue-qs/blob/fa7480bd601b09f7ce1b80df8786e16589ef7fc2/src/serializers.ts#L28)
 
 ## Type Parameters
 

@@ -8,7 +8,7 @@
 
 > **useQueryRef**\<`T`\>(`name`, `options`): [`UseQueryRefReturn`](../type-aliases/UseQueryRefReturn.md)\<`T`\>
 
-Defined in: [useQueryRef.ts:23](https://github.com/iamsomraj/vue-qs/blob/f0c3b00cd958e5a3adba94ae66926daf711f0fdf/src/useQueryRef.ts#L23)
+Defined in: [useQueryRef.ts:23](https://github.com/iamsomraj/vue-qs/blob/fa7480bd601b09f7ce1b80df8786e16589ef7fc2/src/useQueryRef.ts#L23)
 
 Manage a single query parameter as a Vue Ref.
 Keeps the URL in sync as the ref changes; optionally syncs URL -> state.

@@ -8,7 +8,7 @@
 
 > **QueryCodec**\<`T`\> = `object`
 
-Defined in: [types.ts:8](https://github.com/iamsomraj/vue-qs/blob/f0c3b00cd958e5a3adba94ae66926daf711f0fdf/src/types.ts#L8)
+Defined in: [types.ts:8](https://github.com/iamsomraj/vue-qs/blob/fa7480bd601b09f7ce1b80df8786e16589ef7fc2/src/types.ts#L8)
 
 A pair of parse/serialize functions for a given type.
 
@@ -24,7 +24,7 @@ A pair of parse/serialize functions for a given type.
 
 > **parse**: [`Parser`](Parser.md)\<`T`\>
 
-Defined in: [types.ts:8](https://github.com/iamsomraj/vue-qs/blob/f0c3b00cd958e5a3adba94ae66926daf711f0fdf/src/types.ts#L8)
+Defined in: [types.ts:8](https://github.com/iamsomraj/vue-qs/blob/fa7480bd601b09f7ce1b80df8786e16589ef7fc2/src/types.ts#L8)
 
 ***
 
@@ -32,4 +32,4 @@ Defined in: [types.ts:8](https://github.com/iamsomraj/vue-qs/blob/f0c3b00cd958e5
 
 > **serialize**: [`Serializer`](Serializer.md)\<`T`\>
 
-Defined in: [types.ts:8](https://github.com/iamsomraj/vue-qs/blob/f0c3b00cd958e5a3adba94ae66926daf711f0fdf/src/types.ts#L8)
+Defined in: [types.ts:8](https://github.com/iamsomraj/vue-qs/blob/fa7480bd601b09f7ce1b80df8786e16589ef7fc2/src/types.ts#L8)
