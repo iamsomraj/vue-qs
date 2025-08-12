@@ -7,13 +7,13 @@ import { useQueryAdapter } from '@/adapterContext';
 const defaultSerialize = stringCodec.serialize as Serializer<any>;
 const defaultParse = stringCodec.parse as Parser<any>;
 
-let cachedDefaultAdapter: ReturnType<typeof createQuerySync>['adapter'] | undefined;
-
-function getDefaultAdapter() {
-  if (!cachedDefaultAdapter) {
-    cachedDefaultAdapter = createQuerySync().adapter;
+// Lazily create one shared History API adapter (so multiple hooks reuse it)
+let sharedHistoryAdapter: ReturnType<typeof createQuerySync>['adapter'] | undefined;
+function getOrCreateSharedHistoryAdapter() {
+  if (!sharedHistoryAdapter) {
+    sharedHistoryAdapter = createQuerySync().adapter;
   }
-  return cachedDefaultAdapter;
+  return sharedHistoryAdapter;
 }
 
 /**
@@ -21,71 +21,82 @@ function getDefaultAdapter() {
  * Keeps the URL in sync as the ref changes; optionally syncs URL -> state.
  */
 export function useQueryRef<T>(
-  param: string,
+  name: string,
   options: UseQueryRefOptions<T> = {}
 ): UseQueryRefReturn<T> {
+  // Destructure options with clear names for readability
   const {
-    default: defVal,
+    default: defaultValue,
     codec,
     parse,
     serialize,
     equals,
     omitIfDefault = true,
     history = 'replace',
-    adapter: customAdapter,
+    adapter: passedAdapter,
     twoWay = false,
-  } = options as any;
-  const injected = getCurrentInstance() ? useQueryAdapter() : undefined;
-  const adapter = customAdapter ?? injected ?? getDefaultAdapter();
+  } = options as UseQueryRefOptions<T> & { codec?: { parse: Parser<T>; serialize: Serializer<T> } };
 
-  const initialRaw = adapter.getQuery()[param] ?? null;
-  const parseFn: Parser<T> = parse ?? codec?.parse ?? defaultParse;
-  const serializeFn: Serializer<T> = serialize ?? codec?.serialize ?? defaultSerialize;
+  // Use provided adapter -> injected adapter -> shared history adapter
+  const injectedAdapter = getCurrentInstance() ? useQueryAdapter() : undefined;
+  const adapter = passedAdapter ?? injectedAdapter ?? getOrCreateSharedHistoryAdapter();
 
-  const initial = initialRaw != null ? parseFn(initialRaw) : (defVal as T);
+  // Choose parse / serialize functions (codec wins if given)
+  const parseValue: Parser<T> = parse ?? codec?.parse ?? defaultParse;
+  const serializeValue: Serializer<T> = serialize ?? codec?.serialize ?? defaultSerialize;
+
+  // Read the current raw string from the URL and parse it or fall back to the default
+  const rawInitial = adapter.getQuery()[name] ?? null;
+  const initial: T = rawInitial != null ? parseValue(rawInitial) : (defaultValue as T);
   const state = ref<T>(initial) as unknown as UseQueryRefReturn<T>;
 
+  // Equality helper (supports custom deep compare for objects)
   const isEqual = (a: T, b: T) => (equals ? equals(a, b) : Object.is(a, b));
 
-  const isDefault = (val: T) => defVal !== undefined && isEqual(val as T, defVal as T);
+  // Decide if a value is the declared default
+  const isDefaultValue = (val: T) => defaultValue !== undefined && isEqual(val, defaultValue as T);
 
-  const writeToUrl = (val: T) => {
-    const s = serializeFn(val as T);
-    const shouldOmit = omitIfDefault && isDefault(val as T);
-    adapter.setQuery({ [param]: shouldOmit ? undefined : (s ?? undefined) }, { history });
-  };
-
-  if (initialRaw == null && defVal !== undefined && !omitIfDefault) {
-    writeToUrl(defVal as T);
+  // Push the current value to the URL (or remove it if default and omitIfDefault=true)
+  function writeUrl(val: T) {
+    const serialized = serializeValue(val);
+    const shouldOmit = omitIfDefault && isDefaultValue(val);
+    adapter.setQuery({ [name]: shouldOmit ? undefined : (serialized ?? undefined) }, { history });
   }
 
-  let isSyncingFromAdapter = false;
+  // If there is no existing param but we want defaults kept in the URL, write it now
+  if (rawInitial == null && defaultValue !== undefined && !omitIfDefault) {
+    writeUrl(defaultValue as T);
+  }
+
+  // Guard to avoid infinite loops when we update state from adapter changes
+  let syncingFromAdapter = false;
+
+  // Watch the ref and update the URL immediately (flush: 'sync')
   watch(
     state,
-    (val: T) => {
-      if (isSyncingFromAdapter) return;
-      writeToUrl(val as T);
+    (val) => {
+      if (syncingFromAdapter) return; // ignore internal updates
+      writeUrl(val as T);
     },
-    { deep: false, flush: 'sync' }
+    { flush: 'sync' }
   );
 
-  state.sync = () => {
-    writeToUrl(state.value as T);
-  };
+  // Expose manual sync() method for convenience
+  state.sync = () => writeUrl(state.value as T);
 
+  // Optional two-way mode: listen for browser/router navigations and re-parse value
   if (twoWay) {
-    const applyFromAdapter = () => {
-      const raw = adapter.getQuery()[param] ?? null;
-      const next = raw != null ? parseFn(raw) : (defVal as T);
-      isSyncingFromAdapter = true;
+    function applyFromAdapter() {
+      const raw = adapter.getQuery()[name] ?? null;
+      const next = raw != null ? parseValue(raw) : (defaultValue as T);
+      syncingFromAdapter = true;
       try {
         (state as any).value = next;
       } finally {
-        queueMicrotask(() => {
-          isSyncingFromAdapter = false;
-        });
+        // release the guard in next microtask so any watcher runs after this tick
+        queueMicrotask(() => (syncingFromAdapter = false));
       }
-    };
+    }
 
     let unsubscribe: (() => void) | undefined;
     if (adapter.subscribe) {

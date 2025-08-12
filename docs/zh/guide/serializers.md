@@ -1,8 +1,8 @@
-# Codecs (Serializers)
+# 编解码器 (Codecs)
 
-Codecs convert between your typed values and the string stored in the URL.
+编解码器负责把你的类型值 <-> URL 中的字符串 互相转换。
 
-## Built‑in codecs
+## 内置列表
 
 - `serializers.string`
 - `serializers.number`
@@ -12,15 +12,15 @@ Codecs convert between your typed values and the string stored in the URL.
 - `serializers.arrayOf(innerCodec, separator?)`
 - `serializers.enumOf(values)`
 
-You can use either:
+两种等价写法：
 
 ```ts
 useQueryRef('count', { default: 0, parse: serializers.number.parse });
-// or shorter
+// 或更简洁
 useQueryRef('count', { default: 0, codec: serializers.number });
 ```
 
-Arrays and enums:
+数组 & 枚举：
 
 ```ts
 const tags = useQueryRef<string[]>('tags', {
@@ -34,7 +34,7 @@ const sort = useQueryRef<'asc' | 'desc'>('sort', {
 });
 ```
 
-## Custom codec
+## 自定义编解码器
 
 ```ts
 import type { QueryCodec } from 'vue-qs';
@@ -47,4 +47,4 @@ const percentNumber: QueryCodec<number> = {
 const discountRate = useQueryRef('discountRate', { default: 0, codec: percentNumber });
 ```
 
-Return `null` from `serialize` to omit the param entirely.
+返回 `null` 表示在 URL 中省略该参数。

@@ -22,93 +22,100 @@ export function useQueryReactive<TSchema extends ParamSchema>(
   schema: TSchema,
   options: UseQueryReactiveOptions = {}
 ): UseQueryReactiveReturn<TSchema> {
-  const injected = getCurrentInstance() ? useQueryAdapter() : undefined;
-  let cachedDefaultAdapter: ReturnType<typeof createQuerySync>['adapter'] | undefined;
+  const componentInstance = getCurrentInstance();
+  const injectedAdapter = componentInstance ? useQueryAdapter() : undefined;
 
-  function getDefaultAdapter() {
-    if (!cachedDefaultAdapter) {
-      cachedDefaultAdapter = createQuerySync().adapter;
-    }
-    return cachedDefaultAdapter;
+  // Share a single history adapter if no adapter was provided / injected
+  let sharedAdapter: ReturnType<typeof createQuerySync>['adapter'] | undefined;
+  function getOrCreateSharedAdapter() {
+    if (!sharedAdapter) sharedAdapter = createQuerySync().adapter;
+    return sharedAdapter;
   }
 
-  const adapter = options.adapter ?? injected ?? getDefaultAdapter();
-  const current = adapter.getQuery();
+  const adapter = options.adapter ?? injectedAdapter ?? getOrCreateSharedAdapter();
+  const currentQuerySnapshot = adapter.getQuery();
   const twoWay = options.twoWay === true;
 
-  type Out = { [K in keyof TSchema]: TSchema[K] extends ParamOption<infer T> ? T : never };
+  // Build the reactive object with correctly typed values
+  type StateShape = { [K in keyof TSchema]: TSchema[K] extends ParamOption<infer T> ? T : never };
+  const state = reactive({} as StateShape);
 
-  const state = reactive({} as Out);
-
+  // Initialize each field by parsing the existing query (or using the default)
   for (const key in schema) {
-    const opt = schema[key];
-    const parseParam: Parser<any> = opt.parse ?? opt.codec?.parse ?? defaultParse;
-    const raw = current[key] ?? null;
-    (state as any)[key] = raw != null ? parseParam(raw) : opt.default;
+    const config = schema[key];
+    const parseField: Parser<any> = config.parse ?? config.codec?.parse ?? defaultParse;
+    const raw = currentQuerySnapshot[key] ?? null;
+    (state as any)[key] = raw != null ? parseField(raw) : config.default;
   }
 
-  const isEqual = (a: any, b: any, eq?: (x: any, y: any) => boolean) =>
+  // Helper: custom equality fallback to Object.is
+  const valuesEqual = (a: any, b: any, eq?: (x: any, y: any) => boolean) =>
     eq ? eq(a, b) : Object.is(a, b);
 
-  const serializeAll = (src: Partial<Out>) => {
-    const entries: Record<string, string | undefined> = {};
+  // Convert a partial of state -> serialized string entries (omitting defaults when configured)
+  function serializeSubset(src: Partial<StateShape>) {
+    const out: Record<string, string | undefined> = {};
     for (const key in schema) {
-      if (!(key in src)) continue;
+      if (!(key in src)) continue; // only serialize provided keys
       const val = (src as any)[key];
-      const opt = schema[key];
-      const toString: Serializer<any> = opt.serialize ?? opt.codec?.serialize ?? defaultSerialize;
-      const defaulted = opt.default !== undefined && isEqual(val, opt.default, opt.equals);
-      const omit = (opt.omitIfDefault ?? true) && defaulted;
-      entries[key] = omit ? undefined : (toString(val) ?? undefined);
+      const config = schema[key];
+      const toString: Serializer<any> =
+        config.serialize ?? config.codec?.serialize ?? defaultSerialize;
+      const isDefault =
+        config.default !== undefined && valuesEqual(val, config.default, config.equals);
+      const omit = (config.omitIfDefault ?? true) && isDefault;
+      out[key] = omit ? undefined : (toString(val) ?? undefined);
     }
-    return entries;
-  };
-
-  function syncAll() {
-    const obj: Partial<Out> = {};
-    for (const key in schema) (obj as any)[key] = (state as any)[key];
-    adapter.setQuery(serializeAll(obj), { history: options.history ?? 'replace' });
+    return out;
   }
 
-  let isSyncingFromAdapter = false;
+  // Write the whole current state object to the URL
+  function syncAll() {
+    const full: Partial<StateShape> = {};
+    for (const key in schema) (full as any)[key] = (state as any)[key];
+    adapter.setQuery(serializeSubset(full), { history: options.history ?? 'replace' });
+  }
+
+  // Watch all fields; whenever any change we diff->serialize->write (except when coming from adapter)
+  let syncingFromAdapter = false;
   watch(
     () => {
-      const snap: Partial<Out> = {};
-      for (const key in schema) (snap as any)[key] = (state as any)[key];
-      return snap;
+      const snapshot: Partial<StateShape> = {};
+      for (const key in schema) (snapshot as any)[key] = (state as any)[key];
+      return snapshot;
     },
-    (val) => {
-      if (isSyncingFromAdapter) return;
-      adapter.setQuery(serializeAll(val as Partial<Out>), {
+    (changed) => {
+      if (syncingFromAdapter) return;
+      adapter.setQuery(serializeSubset(changed as Partial<StateShape>), {
         history: options.history ?? 'replace',
       });
     },
     { deep: true, flush: 'sync' }
   );
 
-  function batch(update: Partial<Out>, batchOptions?: { history?: 'replace' | 'push' }) {
+  // Batch: make several state changes then write one combined query update
+  function batch(update: Partial<StateShape>, batchOptions?: { history?: 'replace' | 'push' }) {
     for (const k in update) (state as any)[k] = (update as any)[k];
-    const entries = serializeAll(update);
+    const entries = serializeSubset(update);
     adapter.setQuery(entries, { history: batchOptions?.history ?? options.history ?? 'replace' });
   }
 
+  // Two-way mode: reflect external navigation (router / back button) into state
   if (twoWay) {
-    const applyFromAdapter = () => {
-      const q = adapter.getQuery();
-      isSyncingFromAdapter = true;
+    function applyFromAdapter() {
+      const fresh = adapter.getQuery();
+      syncingFromAdapter = true;
       try {
         for (const key in schema) {
-          const opt = schema[key];
-          const parseParam: Parser<any> = opt.parse ?? opt.codec?.parse ?? defaultParse;
-          const raw = q[key] ?? null;
-          (state as any)[key] = raw != null ? parseParam(raw) : opt.default;
+          const config = schema[key];
+          const parseField: Parser<any> = config.parse ?? config.codec?.parse ?? defaultParse;
+          const raw = fresh[key] ?? null;
+          (state as any)[key] = raw != null ? parseField(raw) : config.default;
         }
       } finally {
-        queueMicrotask(() => {
-          isSyncingFromAdapter = false;
-        });
+        queueMicrotask(() => (syncingFromAdapter = false));
       }
-    };
+    }
 
     let unsubscribe: (() => void) | undefined;
     if (adapter.subscribe) {
@@ -118,8 +125,8 @@ export function useQueryReactive<TSchema extends ParamSchema>(
       window.addEventListener('popstate', handler);
       unsubscribe = () => window.removeEventListener('popstate', handler);
     }
-    if (unsubscribe && getCurrentInstance()) onBeforeUnmount(unsubscribe);
+    if (unsubscribe && componentInstance) onBeforeUnmount(unsubscribe);
   }
 
-  return { state: state as Out, batch, sync: syncAll };
+  return { state: state as StateShape, batch, sync: syncAll };
 }
