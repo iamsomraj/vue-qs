@@ -1,8 +1,6 @@
 # vue-qs
 
-<p align="center">
-  <img src="./docs/public/banner.svg" alt="vue-qs banner" width="800" />
-</p>
+![vue-qs social](https://iamsomraj.github.io/vue-qs/banner.svg)
 
 [![CI](https://github.com/iamsomraj/vue-qs/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/iamsomraj/vue-qs/actions/workflows/ci.yml)
 [![npm version](https://img.shields.io/npm/v/vue-qs.svg)](https://www.npmjs.com/package/vue-qs)
