@@ -6,29 +6,78 @@
 
 # Function: useQueryReactive()
 
-> **useQueryReactive**\<`TSchema`\>(`schema`, `options`): [`UseQueryReactiveReturn`](../type-aliases/UseQueryReactiveReturn.md)\<`TSchema`\>
+> **useQueryReactive**\<`TSchema`\>(`parameterSchema`, `options`): [`QueryReactiveReturn`](../type-aliases/QueryReactiveReturn.md)\<`TSchema`\>
 
-Defined in: [useQueryReactive.ts:28](https://github.com/iamsomraj/vue-qs/blob/fa7480bd601b09f7ce1b80df8786e16589ef7fc2/src/useQueryReactive.ts#L28)
+Defined in: [composables/use-query-reactive.ts:81](https://github.com/iamsomraj/vue-qs/blob/f1e1957b7183143713c387d3e0537e789055538e/src/composables/use-query-reactive.ts#L81)
 
-Manage multiple query parameters as a single reactive object.
-Keeps the URL in sync as any field changes; optionally syncs URL -> state.
+Manages multiple query parameters as a single reactive object with URL synchronization
 
 ## Type Parameters
 
 ### TSchema
 
-`TSchema` *extends* [`ParamSchema`](../type-aliases/ParamSchema.md)
+`TSchema` *extends* [`QueryParameterSchema`](../type-aliases/QueryParameterSchema.md)
+
+The schema type defining all parameters
 
 ## Parameters
 
-### schema
+### parameterSchema
 
 `TSchema`
+
+Schema defining configuration for each parameter
 
 ### options
 
 [`UseQueryReactiveOptions`](../type-aliases/UseQueryReactiveOptions.md) = `{}`
 
+Global options for the reactive query state
+
 ## Returns
 
-[`UseQueryReactiveReturn`](../type-aliases/UseQueryReactiveReturn.md)\<`TSchema`\>
+[`QueryReactiveReturn`](../type-aliases/QueryReactiveReturn.md)\<`TSchema`\>
+
+Reactive state object with batch update and sync capabilities
+
+## Example
+
+```typescript
+import { useQueryReactive, numberCodec, booleanCodec } from 'vue-qs';
+
+const querySchema = {
+  search: {
+    defaultValue: '',
+    shouldOmitDefault: true
+  },
+  page: {
+    defaultValue: 1,
+    codec: numberCodec
+  },
+  showDetails: {
+    defaultValue: false,
+    codec: booleanCodec
+  },
+} as const;
+
+const { queryState, updateBatch, syncAllToUrl } = useQueryReactive(querySchema, {
+  enableTwoWaySync: true,
+  historyStrategy: 'replace'
+});
+
+// Access reactive values
+console.log(queryState.search, queryState.page, queryState.showDetails);
+
+// Update single values
+queryState.search = 'hello';
+queryState.page = 2;
+
+// Batch update multiple values
+updateBatch({
+  search: 'world',
+  page: 1
+});
+
+// Manual sync
+syncAllToUrl();
+```

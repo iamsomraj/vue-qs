@@ -65,10 +65,10 @@ const { queryState } = useQueryReactive({
 You can use `vue-qs` without Vue Router (History API adapter is built‑in). When you do use Router, pass or provide the router adapter so back/forward and navigations stay in sync:
 
 ```ts
-import { createVueQueryPlugin, createVueRouterAdapter } from 'vue-qs';
+import { createVueQsPlugin, createVueRouterAdapter } from 'vue-qs';
 import { router } from './router';
 
-app.use(createVueQueryPlugin({ queryAdapter: createVueRouterAdapter(router) }));
+app.use(createVueQsPlugin({ queryAdapter: createVueRouterAdapter(router) }));
 ```
 
 Continue to Examples for patterns like codecs, two‑way sync, batching, and custom equality.

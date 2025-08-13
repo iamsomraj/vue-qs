@@ -68,16 +68,16 @@ export interface VueQueryPluginOptions {
  * @example
  * ```typescript
  * import { createApp } from 'vue';
- * import { createVueQueryPlugin, createHistoryAdapter } from 'vue-qs';
+ * import { createVueQsPlugin, createHistoryAdapter } from 'vue-qs';
  *
  * const app = createApp();
  * const historyAdapter = createHistoryAdapter();
- * const vueQueryPlugin = createVueQueryPlugin({ queryAdapter: historyAdapter });
+ * const vueQueryPlugin = createVueQsPlugin({ queryAdapter: historyAdapter });
  *
  * app.use(vueQueryPlugin);
  * ```
  */
-export function createVueQueryPlugin(options: VueQueryPluginOptions): {
+export function createVueQsPlugin(options: VueQueryPluginOptions): {
   install: (app: App) => void;
 } {
   const { queryAdapter } = options;

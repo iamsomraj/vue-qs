@@ -26,7 +26,7 @@ export interface VueRouterAdapterOptions {
  * const routerAdapter = createVueRouterAdapter(router);
  *
  * // Use with the plugin
- * app.use(createVueQueryPlugin({ queryAdapter: routerAdapter }));
+ * app.use(createVueQsPlugin({ queryAdapter: routerAdapter }));
  * ```
  */
 export function createVueRouterAdapter(

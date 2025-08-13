@@ -6,37 +6,36 @@
 
 # Type Alias: UseQueryRefOptions\<T\>
 
-> **UseQueryRefOptions**\<`T`\> = [`ParamOption`](ParamOption.md)\<`T`\> & `object`
+> **UseQueryRefOptions**\<`T`\> = [`QueryParameterOptions`](QueryParameterOptions.md)\<`T`\> & `object`
 
-Defined in: [types.ts:37](https://github.com/iamsomraj/vue-qs/blob/fa7480bd601b09f7ce1b80df8786e16589ef7fc2/src/types.ts#L37)
+Defined in: [types.ts:60](https://github.com/iamsomraj/vue-qs/blob/f1e1957b7183143713c387d3e0537e789055538e/src/types.ts#L60)
 
-Options for [useQueryRef](../functions/useQueryRef.md).
+Options for useQueryRef composable
 
 ## Type declaration
 
-### history?
+### historyStrategy?
 
-> `optional` **history**: `"replace"` \| `"push"`
+> `optional` **historyStrategy**: `"replace"` \| `"push"`
 
-History strategy when updating the URL
-- 'replace': replaceState (default)
-- 'push': pushState
+History strategy when updating the URL ('replace' | 'push')
 
-### adapter?
+### queryAdapter?
 
-> `optional` **adapter**: [`QueryAdapter`](QueryAdapter.md)
+> `optional` **queryAdapter**: [`QueryAdapter`](QueryAdapter.md)
 
-Optional adapter override (e.g., Vue Router adapter)
+Optional custom query adapter to use
 
-### twoWay?
+### enableTwoWaySync?
 
-> `optional` **twoWay**: `boolean`
+> `optional` **enableTwoWaySync**: `boolean`
 
-If true, also listen to browser/router navigations and rehydrate the ref from the URL.
-Defaults to false
+Enable two-way synchronization with URL changes
 
 ## Type Parameters
 
 ### T
 
 `T`
+
+The type of the query parameter value

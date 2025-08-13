@@ -108,7 +108,7 @@ function patchHistoryAPI(windowObject: Window): void {
  * const { queryAdapter } = createHistoryAdapter();
  *
  * // Use with the plugin
- * app.use(createVueQueryPlugin({ queryAdapter }));
+ * app.use(createVueQsPlugin({ queryAdapter }));
  * ```
  */
 export function createHistoryAdapter(options: HistoryAdapterOptions = {}): HistoryAdapterResult {

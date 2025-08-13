@@ -7,10 +7,13 @@ export { useQueryReactive } from '@/composables/use-query-reactive';
 
 // Adapters
 export { createHistoryAdapter } from '@/adapters/history-adapter';
+export type { HistoryAdapterOptions, HistoryAdapterResult } from '@/adapters/history-adapter';
 export { createVueRouterAdapter } from '@/adapters/vue-router-adapter';
+export type { VueRouterAdapterOptions } from '@/adapters/vue-router-adapter';
 
 // Context and Plugin
-export { provideQueryAdapter, useQueryAdapter, createVueQueryPlugin } from '@/adapterContext';
+export { provideQueryAdapter, useQueryAdapter, createVueQsPlugin } from '@/adapterContext';
+export type { VueQueryPluginOptions } from '@/adapterContext';
 
 // Serializers
 export {

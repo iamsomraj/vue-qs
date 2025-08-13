@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { createApp, defineComponent } from 'vue';
-import { createVueQueryPlugin, useQueryRef } from '@/index';
+import { createVueQsPlugin, useQueryRef } from '@/index';
 
 describe('adapter injection via plugin', () => {
   it('hooks use the injected adapter without passing adapter option', async () => {
@@ -33,7 +33,7 @@ describe('adapter injection via plugin', () => {
 
     const el = document.createElement('div');
     const app = createApp(Comp);
-    app.use(createVueQueryPlugin({ queryAdapter: mockAdapter as any }));
+    app.use(createVueQsPlugin({ queryAdapter: mockAdapter as any }));
     app.mount(el);
 
     // Should have at least two calls: initial sync and update to 'Jane'
