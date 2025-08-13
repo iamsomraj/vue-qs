@@ -8,7 +8,7 @@
 
 > **UseQueryReactiveOptions** = `object`
 
-Defined in: [types.ts:113](https://github.com/iamsomraj/vue-qs/blob/8aef685f1768c68644b88f5fb0fb0e9ce5177572/src/types.ts#L113)
+Defined in: [types.ts:113](https://github.com/iamsomraj/vue-qs/blob/ec4fb3c838b3c4df192df135415be97046b0cf75/src/types.ts#L113)
 
 Options for useQueryReactive composable
 
@@ -18,7 +18,7 @@ Options for useQueryReactive composable
 
 > `optional` **historyStrategy**: `"replace"` \| `"push"`
 
-Defined in: [types.ts:115](https://github.com/iamsomraj/vue-qs/blob/8aef685f1768c68644b88f5fb0fb0e9ce5177572/src/types.ts#L115)
+Defined in: [types.ts:115](https://github.com/iamsomraj/vue-qs/blob/ec4fb3c838b3c4df192df135415be97046b0cf75/src/types.ts#L115)
 
 History strategy when updating the URL
 
@@ -28,7 +28,7 @@ History strategy when updating the URL
 
 > `optional` **queryAdapter**: [`QueryAdapter`](QueryAdapter.md)
 
-Defined in: [types.ts:117](https://github.com/iamsomraj/vue-qs/blob/8aef685f1768c68644b88f5fb0fb0e9ce5177572/src/types.ts#L117)
+Defined in: [types.ts:117](https://github.com/iamsomraj/vue-qs/blob/ec4fb3c838b3c4df192df135415be97046b0cf75/src/types.ts#L117)
 
 Optional custom query adapter to use
 
@@ -38,6 +38,6 @@ Optional custom query adapter to use
 
 > `optional` **enableTwoWaySync**: `boolean`
 
-Defined in: [types.ts:119](https://github.com/iamsomraj/vue-qs/blob/8aef685f1768c68644b88f5fb0fb0e9ce5177572/src/types.ts#L119)
+Defined in: [types.ts:119](https://github.com/iamsomraj/vue-qs/blob/ec4fb3c838b3c4df192df135415be97046b0cf75/src/types.ts#L119)
 
 Enable two-way synchronization with URL changes
