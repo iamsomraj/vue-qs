@@ -12,8 +12,8 @@ export { createVueRouterAdapter } from '@/adapters/vue-router-adapter';
 export type { VueRouterAdapterOptions } from '@/adapters/vue-router-adapter';
 
 // Context and Plugin
-export { provideQueryAdapter, useQueryAdapter, createVueQsPlugin } from '@/adapterContext';
-export type { VueQueryPluginOptions } from '@/adapterContext';
+export { provideQueryAdapter, useQueryAdapter, createVueQsPlugin } from '@/adapter-context';
+export type { VueQueryPluginOptions } from '@/adapter-context';
 
 // Serializers
 export {

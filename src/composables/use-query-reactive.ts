@@ -1,5 +1,5 @@
 import { getCurrentInstance, onBeforeUnmount, reactive, watch } from 'vue';
-import { useQueryAdapter } from '@/adapterContext';
+import { useQueryAdapter } from '@/adapter-context';
 import { createHistoryAdapter } from '@/adapters/history-adapter';
 import { stringCodec } from '@/serializers';
 import type {
