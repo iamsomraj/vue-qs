@@ -1,4 +1,4 @@
-[**vue-qs v0.1.12**](../README.md)
+[**vue-qs v0.1.13**](../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **UseQueryRefOptions**\<`T`\> = [`QueryParameterOptions`](QueryParameterOptions.md)\<`T`\> & `object`
 
-Defined in: [types.ts:60](https://github.com/iamsomraj/vue-qs/blob/25821b36b15a9ec7f33138992536e546f5649808/src/types.ts#L60)
+Defined in: [types.ts:60](https://github.com/iamsomraj/vue-qs/blob/a4643e0077390aa3ef25224e2e3a0792449f830c/src/types.ts#L60)
 
 Options for useQueryRef composable
 
