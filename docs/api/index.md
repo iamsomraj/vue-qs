@@ -1,8 +1,8 @@
-**vue-qs v0.1.10**
+**vue-qs v0.1.12**
 
 ***
 
-# vue-qs v0.1.10
+# vue-qs v0.1.12
 
 ## Namespaces
 
@@ -43,7 +43,7 @@
 
 - [provideQueryAdapter](functions/provideQueryAdapter.md)
 - [useQueryAdapter](functions/useQueryAdapter.md)
-- [createVueQueryPlugin](functions/createVueQueryPlugin.md)
+- [createVueQsPlugin](functions/createVueQsPlugin.md)
 - [createHistoryAdapter](functions/createHistoryAdapter.md)
 - [createVueRouterAdapter](functions/createVueRouterAdapter.md)
 - [useQueryReactive](functions/useQueryReactive.md)
