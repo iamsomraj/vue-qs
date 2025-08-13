@@ -44,7 +44,7 @@ export function provideQueryAdapter(queryAdapter: QueryAdapter): void {
  */
 export function useQueryAdapter(): QueryAdapter | undefined {
   try {
-    return inject<QueryAdapter>(QUERY_ADAPTER_INJECTION_KEY);
+    return inject(QUERY_ADAPTER_INJECTION_KEY, undefined, false);
   } catch (error) {
     console.warn('Failed to inject query adapter:', error);
     return undefined;
