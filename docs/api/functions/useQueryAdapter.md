@@ -1,4 +1,4 @@
-[**vue-qs v0.1.13**](../README.md)
+[**vue-qs v0.1.14**](../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **useQueryAdapter**(): `undefined` \| [`QueryAdapter`](../type-aliases/QueryAdapter.md)
 
-Defined in: [adapter-context.ts:45](https://github.com/iamsomraj/vue-qs/blob/a4643e0077390aa3ef25224e2e3a0792449f830c/src/adapter-context.ts#L45)
+Defined in: [adapter-context.ts:45](https://github.com/iamsomraj/vue-qs/blob/8aef685f1768c68644b88f5fb0fb0e9ce5177572/src/adapter-context.ts#L45)
 
 Retrieves the nearest provided query adapter from the component tree
 Returns undefined if no adapter has been provided
