@@ -12,6 +12,50 @@ function createRuntimeEnv(): RuntimeEnv {
   return { isClient: client, win: client ? window : null };
 }
 
+// Ensure we patch the History API only once (in browser) to emit a custom event
+// when pushState / replaceState are invoked so two-way sync can observe manual
+// history mutations that do not trigger 'popstate'.
+let historyPatched = false;
+function patchHistoryOnce(win: Window) {
+  if (historyPatched) return;
+  historyPatched = true;
+  const { history } = win;
+  let suppressEvent = false;
+  // Expose a helper so adapter can suppress dispatch for its own writes
+  (history as any).__vueQsSuppressNext = (fn: () => void) => {
+    suppressEvent = true;
+    try {
+      fn();
+    } finally {
+      suppressEvent = false;
+    }
+  };
+  const dispatch = () => {
+    // Custom event (namespaced to avoid collisions)
+    win.dispatchEvent(new Event('vue-qs:historychange'));
+  };
+  const wrap = <T extends keyof History>(method: T) => {
+    const original = history[method] as any;
+    history[method] = function (this: History, ...args: any[]) {
+      const ret = original.apply(this, args);
+      if (!suppressEvent) {
+        try {
+          dispatch();
+        } catch {
+          /* ignore */
+        }
+      }
+      return ret;
+    } as any;
+  };
+  try {
+    wrap('pushState');
+    wrap('replaceState');
+  } catch {
+    // ignore if patching fails (e.g., read-only in some environments)
+  }
+}
+
 // Turn a search string like "?a=1&b=2" into a plain object { a: '1', b: '2' }
 function searchToObject(search: string): Record<string, string> {
   const params = new URLSearchParams(search.startsWith('?') ? search : `?${search}`);
@@ -69,8 +113,14 @@ export function createQuerySync(): QuerySync {
       url.search = newSearch;
       const fullPath = `${url.pathname}${url.search}${url.hash}`;
       const mode = options?.history ?? 'replace';
-      if (mode === 'push') env.win.history.pushState({}, '', fullPath);
-      else env.win.history.replaceState({}, '', fullPath);
+      if (mode === 'push')
+        (env.win.history as any).__vueQsSuppressNext?.(() =>
+          env.win!.history.pushState({}, '', fullPath)
+        );
+      else
+        (env.win.history as any).__vueQsSuppressNext?.(() =>
+          env.win!.history.replaceState({}, '', fullPath)
+        );
 
       // Some test environments may not reflect history changes on location
       if (env.win.location.search !== newSearch) {
@@ -83,9 +133,15 @@ export function createQuerySync(): QuerySync {
     },
     subscribe(cb) {
       if (!env.isClient || !env.win) return () => {};
+      // Patch history so manual pushState / replaceState dispatch events
+      patchHistoryOnce(env.win);
       const handler = () => cb();
       env.win.addEventListener('popstate', handler);
-      return () => env.win?.removeEventListener('popstate', handler);
+      env.win.addEventListener('vue-qs:historychange', handler);
+      return () => {
+        env.win?.removeEventListener('popstate', handler);
+        env.win?.removeEventListener('vue-qs:historychange', handler);
+      };
     },
   };
 

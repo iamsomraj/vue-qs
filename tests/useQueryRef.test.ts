@@ -123,6 +123,25 @@ describe('useQueryRef', () => {
     expect(page.value).toBe(5);
   });
 
+  it('twoWay: ref updates on manual pushState / replaceState (no popstate)', () => {
+    window.history.replaceState({}, '', '/');
+    const page = useQueryRef<string>('manual', {
+      default: 'a',
+      parse: String,
+      serialize: (v) => v,
+      twoWay: true,
+      history: 'push',
+    });
+    expect(page.value).toBe('a');
+    // Manually invoke pushState changing the param
+    window.history.pushState({}, '', '?manual=b');
+    // Should update automatically without explicit popstate
+    expect(page.value).toBe('b');
+    // Replace again
+    window.history.replaceState({}, '', '?manual=c');
+    expect(page.value).toBe('c');
+  });
+
   it('supports custom equals comparator for deep values', () => {
     const deepEq = (a: { a: number }, b: { a: number }) => a?.a === b?.a;
     const jsonCodec = serializers.json<{ a: number }>();

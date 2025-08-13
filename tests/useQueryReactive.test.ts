@@ -143,6 +143,31 @@ describe('useQueryReactive', () => {
     expect(state.p).toBe(2);
   });
 
+  it('twoWay: reactive state updates on manual pushState / replaceState (no popstate)', () => {
+    // Ensure clean URL
+    window.history.replaceState({}, '', '/');
+    const { state } = useQueryReactive(
+      {
+        search: { default: '', parse: String },
+        sort: { default: 'asc' as 'asc' | 'desc', parse: String },
+      },
+      { twoWay: true, history: 'push' }
+    );
+
+    expect(state.search).toBe('');
+    expect(state.sort).toBe('asc');
+
+    // Manual pushState
+    window.history.pushState({}, '', '?search=foo&sort=desc');
+    expect(state.search).toBe('foo');
+    expect(state.sort).toBe('desc');
+
+    // Manual replaceState with only one param changed
+    window.history.replaceState({}, '', '?search=bar&sort=desc');
+    expect(state.search).toBe('bar');
+    expect(state.sort).toBe('desc');
+  });
+
   it('equals comparator omits deep-equal defaults in schema', () => {
     const jsonCodec = serializers.json<{ a: number }>();
     const { state, sync } = useQueryReactive({
