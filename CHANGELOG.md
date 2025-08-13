@@ -1,5 +1,23 @@
 # Changelog
 
+## v0.1.13
+
+[compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.1.12...v0.1.13)
+
+### 🩹 Fixes
+
+- Ensure inject function returns undefined if no query adapter is provided ([bf3da41](https://github.com/iamsomraj/vue-qs/commit/bf3da41))
+
+### 🏡 Chore
+
+- Update version to v0.1.12 in documentation ([a939c82](https://github.com/iamsomraj/vue-qs/commit/a939c82))
+- Update links to source code in documentation ([25821b3](https://github.com/iamsomraj/vue-qs/commit/25821b3))
+- Update documentation links to reflect new commit references ([eb53bfb](https://github.com/iamsomraj/vue-qs/commit/eb53bfb))
+
+### ❤️ Contributors
+
+- Somraj Mukherjee ([@iamsomraj](https://github.com/iamsomraj))
+
 ## v0.1.12
 
 [compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.1.11...v0.1.12)
