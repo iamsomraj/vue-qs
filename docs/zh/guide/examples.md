@@ -2,6 +2,46 @@
 
 汇总一些常用片段。
 
+## 哈希适配器（类似 VueUse）
+
+对于使用哈希路由的 SPA 或希望在 URL 哈希中存储参数的场景：
+
+```ts
+import { useQueryRef, useQueryReactive, createHashAdapter } from 'vue-qs';
+
+// 哈希模式：#/route?foo=bar&baz=qux
+const hashAdapter = createHashAdapter({ mode: 'hash' });
+
+// 哈希参数模式：#foo=bar&baz=qux
+const hashParamsAdapter = createHashAdapter({ mode: 'hash-params' });
+
+const searchQuery = useQueryRef('q', {
+  defaultValue: '',
+  queryAdapter: hashAdapter,
+});
+
+const { queryState } = useQueryReactive(
+  {
+    category: { defaultValue: 'all' },
+    sort: { defaultValue: 'date' },
+  },
+  { queryAdapter: hashParamsAdapter }
+);
+```
+
+插件全局设置：
+
+```ts
+// main.ts
+import { createVueQsPlugin, createHashAdapter } from 'vue-qs';
+
+app.use(
+  createVueQsPlugin({
+    queryAdapter: createHashAdapter({ mode: 'hash' }),
+  })
+);
+```
+
 ## 基础：数字 / 布尔 / 字符串数组
 
 ```ts

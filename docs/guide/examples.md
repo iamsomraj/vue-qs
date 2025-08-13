@@ -1,5 +1,45 @@
 # Examples
 
+## Hash Adapter (like VueUse)
+
+For SPAs using hash routing or when you want parameters in the URL hash:
+
+```ts
+import { useQueryRef, useQueryReactive, createHashAdapter } from 'vue-qs';
+
+// Hash mode: #/route?foo=bar&baz=qux
+const hashAdapter = createHashAdapter({ mode: 'hash' });
+
+// Hash-params mode: #foo=bar&baz=qux
+const hashParamsAdapter = createHashAdapter({ mode: 'hash-params' });
+
+const searchQuery = useQueryRef('q', {
+  defaultValue: '',
+  queryAdapter: hashAdapter,
+});
+
+const { queryState } = useQueryReactive(
+  {
+    category: { defaultValue: 'all' },
+    sort: { defaultValue: 'date' },
+  },
+  { queryAdapter: hashParamsAdapter }
+);
+```
+
+Global setup with plugin:
+
+```ts
+// main.ts
+import { createVueQsPlugin, createHashAdapter } from 'vue-qs';
+
+app.use(
+  createVueQsPlugin({
+    queryAdapter: createHashAdapter({ mode: 'hash' }),
+  })
+);
+```
+
 ## Common codecs
 
 ```ts

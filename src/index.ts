@@ -8,6 +8,8 @@ export { useQueryReactive } from '@/composables/use-query-reactive';
 // Adapters
 export { createHistoryAdapter } from '@/adapters/history-adapter';
 export type { HistoryAdapterOptions, HistoryAdapterResult } from '@/adapters/history-adapter';
+export { createHashAdapter } from '@/adapters/hash-adapter';
+export type { HashAdapterOptions, HashAdapterResult, HashMode } from '@/adapters/hash-adapter';
 export { createVueRouterAdapter } from '@/adapters/vue-router-adapter';
 export type { VueRouterAdapterOptions } from '@/adapters/vue-router-adapter';
 

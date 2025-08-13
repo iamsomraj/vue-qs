@@ -25,6 +25,7 @@ API 文档目前仅提供英文版本。请访问主要的 API 文档以获取�
 
 - [createVueRouterAdapter](/api/functions/createVueRouterAdapter.md) - Vue Router 适配器
 - [createHistoryAdapter](/api/functions/createHistoryAdapter.md) - History API 适配器
+- [createHashAdapter](/api/functions/createHashAdapter.md) - 哈希适配器（类似 VueUse）
 
 ### 编解码器
 

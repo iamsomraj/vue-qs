@@ -15,7 +15,7 @@ features:
   - title: Type‑safe & Modern
     details: Full TypeScript support with comprehensive error handling and clean architecture using modern Vue 3 patterns.
   - title: Flexible Adapters
-    details: Works with History API, Vue Router, or custom adapters. Clean separation of concerns with dependency injection.
+    details: Works with History API, Vue Router, Hash routing (like VueUse), or custom adapters. Clean separation of concerns with dependency injection.
   - title: Rich Serializers
     details: Built-in codecs for strings, numbers, booleans, dates, JSON, arrays, and enums with custom serialization support.
 ---

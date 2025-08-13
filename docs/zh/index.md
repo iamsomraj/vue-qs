@@ -15,7 +15,7 @@ features:
   - title: 类型安全与现代化
     details: 完整的 TypeScript 支持，具备全面错误处理和清晰架构，使用现代 Vue 3 模式。
   - title: 灵活的适配器
-    details: 支持 History API、Vue Router 或自定义适配器。通过依赖注入实现关注点清晰分离。
+    details: 支持 History API、Vue Router、哈希路由（类似 VueUse）或自定义适配器。通过依赖注入实现关注点清晰分离。
   - title: 丰富的序列化器
     details: 内置字符串、数字、布尔值、日期、JSON、数组和枚举编解码器，支持自定义序列化。
 ---
