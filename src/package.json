@@ -1,0 +1,94 @@
+{
+  "name": "vue-qs",
+  "version": "0.1.11",
+  "description": "Type‑safe, reactive URL query params for Vue",
+  "license": "MIT",
+  "author": "Somraj Mukherjee",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "vue",
+    "querystring",
+    "url",
+    "router",
+    "state",
+    "nuqs"
+  ],
+  "packageManager": "bun@1.2.19",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iamsomraj/vue-qs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/iamsomraj/vue-qs/issues"
+  },
+  "homepage": "https://iamsomraj.github.io/vue-qs/",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --ext .ts,.tsx,.cts,.mts",
+    "lint:fix": "eslint . --ext .ts,.tsx,.cts,.mts --fix",
+    "format": "prettier --check \"**/*.{ts,tsx,js,json,md,yml,yaml}\"",
+    "format:fix": "prettier --write \"**/*.{ts,tsx,js,json,md,yml,yaml}\"",
+    "prepare": "echo 'no git hooks'",
+    "prepublishOnly": "bun run typecheck && bun run lint && bun run test && bun run build",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs",
+    "docs:api": "typedoc && cp docs/api/README.md docs/api/index.md",
+    "docs:all": "bun run docs:api && bun run docs:build",
+    "docs:deploy": "DOCS_BASE=/vue-qs/ bun run docs:api && DOCS_BASE=/vue-qs/ vitepress build docs && gh-pages -d docs/.vitepress/dist -b gh-pages --dotfiles"
+  },
+  "peerDependencies": {
+    "vue": "^3.3.0",
+    "vue-router": "^4.2.0"
+  },
+  "peerDependenciesMeta": {
+    "vue-router": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.33.0",
+    "@types/node": "^22.7.4",
+    "@typescript-eslint/eslint-plugin": "^8.5.0",
+    "@typescript-eslint/parser": "^8.5.0",
+    "eslint": "^9.12.0",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import": "^2.32.0",
+    "gh-pages": "^6.1.1",
+    "globals": "^16.3.0",
+    "happy-dom": "^15.11.7",
+    "prettier": "^3.3.3",
+    "tsup": "^8.2.4",
+    "typedoc": "^0.28.10",
+    "typedoc-plugin-markdown": "^4.8.0",
+    "typescript": "^5.9.2",
+    "vitepress": "^1.5.0",
+    "vitest": "^2.1.2",
+    "vue": "^3.5.10",
+    "vue-router": "^4.4.5"
+  },
+  "funding": "https://github.com/sponsors/iamsomraj"
+}
