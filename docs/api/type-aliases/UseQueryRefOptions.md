@@ -8,7 +8,7 @@
 
 > **UseQueryRefOptions**\<`T`\> = [`QueryParameterOptions`](QueryParameterOptions.md)\<`T`\> & `object`
 
-Defined in: [types.ts:60](https://github.com/iamsomraj/vue-qs/blob/a939c826c3bc2f8d12b41c9e4a6ee1db94af81b0/src/types.ts#L60)
+Defined in: [types.ts:60](https://github.com/iamsomraj/vue-qs/blob/25821b36b15a9ec7f33138992536e546f5649808/src/types.ts#L60)
 
 Options for useQueryRef composable
 
