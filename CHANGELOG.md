@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.1.12
+
+[compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.1.11...v0.1.12)
+
+### 🏡 Chore
+
+- **release:** V0.1.11 ([be6e959](https://github.com/iamsomraj/vue-qs/commit/be6e959))
+- Remove changelog and package.json files ([d8f1c6d](https://github.com/iamsomraj/vue-qs/commit/d8f1c6d))
+- **release:** V0.1.11 ([765d964](https://github.com/iamsomraj/vue-qs/commit/765d964))
+
+### ❤️ Contributors
+
+- Somraj Mukherjee ([@iamsomraj](https://github.com/iamsomraj))
+
 ## v0.1.11
 
 [compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.1.11...v0.1.11)
