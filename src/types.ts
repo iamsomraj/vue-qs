@@ -1,101 +1,147 @@
 import type { Ref } from 'vue';
 
-/** Parses a raw query-string value into a typed value. */
-export type Parser<T> = (value: string | null) => T;
-/** Serializes a typed value into a string for the query string. */
-export type Serializer<T> = (value: T) => string | null;
-/** A pair of parse/serialize functions for a given type. */
-export type QueryCodec<T> = { parse: Parser<T>; serialize: Serializer<T> };
+/**
+ * Function that parses a raw query string value into a typed value
+ * @template T The expected output type
+ * @param rawValue The raw string value from the URL query parameter
+ * @returns The parsed typed value
+ */
+export type QueryParser<T> = (rawValue: string | null) => T;
 
-/** Configuration for a single query parameter. */
-export type ParamOption<T> = {
-  default?: T;
-  /** Pass a single codec instead of separate parse/serialize. */
+/**
+ * Function that serializes a typed value into a string for the URL query
+ * @template T The input type to serialize
+ * @param typedValue The typed value to serialize
+ * @returns The serialized string value or null if the value should be omitted
+ */
+export type QuerySerializer<T> = (typedValue: T) => string | null;
+
+/**
+ * A codec that combines both parse and serialize functions for a given type
+ * @template T The type this codec handles
+ */
+export type QueryCodec<T> = {
+  /** Function to parse string values from URL into typed values */
+  parse: QueryParser<T>;
+  /** Function to serialize typed values back to URL strings */
+  serialize: QuerySerializer<T>;
+};
+
+/**
+ * Configuration options for a single query parameter
+ * @template T The type of the parameter value
+ */
+export type QueryParameterOptions<T> = {
+  /** Default value to use when parameter is missing or invalid */
+  defaultValue?: T;
+  /** Combined codec with both parse and serialize functions */
   codec?: QueryCodec<T>;
-  parse?: Parser<T>;
-  serialize?: Serializer<T>;
-  /**
-   * Custom equality to compare with `default` when deciding to omit from URL.
-   * Defaults to Object.is.
-   */
-  equals?: (a: T, b: T) => boolean;
-  /**
-   * If true, will not write to URL when value equals default.
-   * Defaults to true.
-   */
-  omitIfDefault?: boolean;
-  /**
-   * Optional key to conceptually group params when batching updates. Not used internally yet,
-   * but reserved for future heuristics or custom adapters.
-   */
+  /** Custom parser function (overrides codec.parse if provided) */
+  parseFunction?: QueryParser<T>;
+  /** Custom serializer function (overrides codec.serialize if provided) */
+  serializeFunction?: QuerySerializer<T>;
+  /** Custom equality function to compare values (defaults to Object.is) */
+  isEqual?: (valueA: T, valueB: T) => boolean;
+  /** Whether to omit the parameter from URL when value equals default (default: true) */
+  shouldOmitDefault?: boolean;
+  /** Optional batch key for grouping parameter updates */
   batchKey?: string;
 };
 
-export type ParamSchema = Record<string, ParamOption<any>>;
+/**
+ * Schema defining multiple query parameters with their configurations
+ */
+export type QueryParameterSchema = Record<string, QueryParameterOptions<any>>;
 
-/** Options for {@link useQueryRef}. */
-export type UseQueryRefOptions<T> = ParamOption<T> & {
-  /**
-   * History strategy when updating the URL
-   * - 'replace': replaceState (default)
-   * - 'push': pushState
-   */
-  history?: 'replace' | 'push';
-  /** Optional adapter override (e.g., Vue Router adapter) */
-  adapter?: QueryAdapter;
-  /**
-   * If true, also listen to browser/router navigations and rehydrate the ref from the URL.
-   * Defaults to false
-   */
-  twoWay?: boolean;
+/**
+ * Options for useQueryRef composable
+ * @template T The type of the query parameter value
+ */
+export type UseQueryRefOptions<T> = QueryParameterOptions<T> & {
+  /** History strategy when updating the URL ('replace' | 'push') */
+  historyStrategy?: 'replace' | 'push';
+  /** Optional custom query adapter to use */
+  queryAdapter?: QueryAdapter;
+  /** Enable two-way synchronization with URL changes */
+  enableTwoWaySync?: boolean;
 };
 
-/** The return type from {@link useQueryRef}. */
-export type UseQueryRefReturn<T> = Ref<T> & {
-  /** Immediately write the current value to the URL */
-  sync(): void;
+/**
+ * Return type from useQueryRef composable
+ * @template T The type of the query parameter value
+ */
+export type QueryRefReturn<T> = Ref<T> & {
+  /** Manually sync the current value to the URL */
+  syncToUrl(): void;
 };
 
-/** The return type from {@link useQueryReactive}. */
-export type UseQueryReactiveReturn<TSchema extends ParamSchema> = {
-  /** Reactive object with typed values for each parameter in the schema. */
-  state: { [K in keyof TSchema]: TSchema[K] extends ParamOption<infer T> ? T : never };
-  /**
-   * Batch update multiple params in a single history entry.
-   */
-  batch(
-    update: Partial<{ [K in keyof TSchema]: TSchema[K] extends ParamOption<infer T> ? T : never }>,
-    options?: { history?: 'replace' | 'push' }
+/**
+ * Reactive state object for useQueryReactive
+ * @template TSchema The parameter schema type
+ */
+export type ReactiveQueryState<TSchema extends QueryParameterSchema> = {
+  [K in keyof TSchema]: TSchema[K] extends QueryParameterOptions<infer T> ? T : never;
+};
+
+/**
+ * Options for batch updates in useQueryReactive
+ */
+export type QueryBatchUpdateOptions = {
+  /** History strategy for the batch update */
+  historyStrategy?: 'replace' | 'push';
+};
+
+/**
+ * Return type from useQueryReactive composable
+ * @template TSchema The parameter schema type
+ */
+export type QueryReactiveReturn<TSchema extends QueryParameterSchema> = {
+  /** Reactive state object with typed parameter values */
+  queryState: ReactiveQueryState<TSchema>;
+  /** Update multiple parameters in a single operation */
+  updateBatch(
+    updates: Partial<ReactiveQueryState<TSchema>>,
+    options?: QueryBatchUpdateOptions
   ): void;
-  /** Immediately write the current state to the URL */
-  sync(): void;
+  /** Manually sync all current values to the URL */
+  syncAllToUrl(): void;
 };
 
-/** Options for {@link useQueryReactive}. */
+/**
+ * Options for useQueryReactive composable
+ */
 export type UseQueryReactiveOptions = {
-  history?: 'replace' | 'push';
-  adapter?: QueryAdapter;
-  /**
-   * If true, also listen to browser/router navigations and rehydrate the state from the URL.
-   * Defaults to false
-   */
-  twoWay?: boolean;
+  /** History strategy when updating the URL */
+  historyStrategy?: 'replace' | 'push';
+  /** Optional custom query adapter to use */
+  queryAdapter?: QueryAdapter;
+  /** Enable two-way synchronization with URL changes */
+  enableTwoWaySync?: boolean;
 };
 
-/** Abstraction over how to read/write query string values. */
+/**
+ * Abstraction for reading and writing query parameters
+ */
 export type QueryAdapter = {
-  /** Read current query params as a plain object. Values are strings or undefined. */
-  getQuery(): Record<string, string | undefined>;
-  /** Replace the query params, merging with existing by default. */
-  setQuery(
-    next: Record<string, string | undefined>,
-    options?: { history?: 'replace' | 'push' }
+  /** Read current query parameters as a plain object */
+  getCurrentQuery(): Record<string, string | undefined>;
+  /** Update query parameters in the URL */
+  updateQuery(
+    queryUpdates: Record<string, string | undefined>,
+    options?: { historyStrategy?: 'replace' | 'push' }
   ): void;
-  /**
-   * Optional: subscribe to external query changes (e.g., router nav, popstate).
-   * Returns an unsubscribe. Not required by all adapters; if absent, callers can fallback to window popstate.
-   */
-  subscribe?(cb: () => void): () => void;
+  /** Subscribe to external query changes (returns unsubscribe function) */
+  onQueryChange?(callback: () => void): () => void;
+};
+
+/**
+ * Runtime environment information
+ */
+export type RuntimeEnvironment = {
+  /** Whether we're running in a browser environment */
+  isBrowser: boolean;
+  /** Window object if available */
+  windowObject: Window | null;
 };
 
 /** Environment flags used by the default History API adapter. */

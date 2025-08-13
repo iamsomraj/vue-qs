@@ -1,7 +1,38 @@
-export * from '@/types';
-export { useQueryRef } from '@/useQueryRef';
-export { useQueryReactive } from '@/useQueryReactive';
-export { createQuerySync, type QuerySync } from '@/querySync';
-export { createVueRouterQueryAdapter } from '@/routerAdapter';
+// Core Types
+export type * from '@/types';
+
+// Composables
+export { useQueryRef } from '@/composables/use-query-ref';
+export { useQueryReactive } from '@/composables/use-query-reactive';
+
+// Adapters
+export { createHistoryAdapter } from '@/adapters/history-adapter';
+export { createVueRouterAdapter } from '@/adapters/vue-router-adapter';
+
+// Context and Plugin
+export { provideQueryAdapter, useQueryAdapter, createVueQueryPlugin } from '@/adapterContext';
+
+// Serializers
+export {
+  stringCodec,
+  numberCodec,
+  booleanCodec,
+  dateISOCodec,
+  createJsonCodec,
+  createArrayCodec,
+  createEnumCodec,
+} from '@/serializers';
+
+// Serializers namespace for convenience
 export * as serializers from '@/serializers';
-export { createVueQs, provideQueryAdapter, useQueryAdapter, AdapterSymbol } from '@/adapterContext';
+
+// Utilities
+export {
+  isBrowserEnvironment,
+  createRuntimeEnvironment,
+  parseSearchString,
+  buildSearchString,
+  areValuesEqual,
+  mergeObjects,
+  removeUndefinedValues,
+} from '@/utils/core-helpers';

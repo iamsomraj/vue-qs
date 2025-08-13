@@ -1,7 +1,7 @@
 {
   "name": "vue-qs",
   "version": "0.1.10",
-  "description": "Type-safe URL query params state for Vue 3 (nuqs for Vue)",
+  "description": "Type‑safe, reactive URL query params for Vue",
   "license": "MIT",
   "author": "Somraj Mukherjee",
   "type": "module",
@@ -75,18 +75,20 @@
     "@typescript-eslint/eslint-plugin": "^8.5.0",
     "@typescript-eslint/parser": "^8.5.0",
     "eslint": "^9.12.0",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import": "^2.32.0",
+    "gh-pages": "^6.1.1",
     "globals": "^16.3.0",
     "happy-dom": "^15.11.7",
     "prettier": "^3.3.3",
     "tsup": "^8.2.4",
-    "typescript": "^5.9.2",
-    "vitest": "^2.1.2",
-    "vue": "^3.5.10",
-    "vue-router": "^4.4.5",
     "typedoc": "^0.28.10",
     "typedoc-plugin-markdown": "^4.8.0",
+    "typescript": "^5.9.2",
     "vitepress": "^1.5.0",
-    "gh-pages": "^6.1.1"
+    "vitest": "^2.1.2",
+    "vue": "^3.5.10",
+    "vue-router": "^4.4.5"
   },
   "funding": "https://github.com/sponsors/iamsomraj"
 }

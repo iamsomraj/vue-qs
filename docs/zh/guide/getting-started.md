@@ -1,6 +1,6 @@
 # 快速开始
 
-把常用的界面状态（搜索词、页码、筛选条件）放进 URL，这样刷新、分享、前进/后退都能保持。`vue-qs` 提供两个简单的组合式函数来做这件事。
+**Type‑safe, reactive URL query params for Vue** - 把常用的界面状态（搜索词、页码、筛选条件）放进 URL，这样刷新、分享、前进/后退都能保持。`vue-qs` 提供两个组合式函数和现代化错误处理来轻松实现这些功能。
 
 ## 安装
 
@@ -21,7 +21,7 @@ bun add vue-qs
 import { useQueryRef } from 'vue-qs';
 
 // 绑定到 ?name=... 缺失时使用默认值
-const name = useQueryRef('name', { default: '' });
+const name = useQueryRef('name', { defaultValue: '' });
 </script>
 
 <template>
@@ -35,24 +35,28 @@ const name = useQueryRef('name', { default: '' });
 <script setup lang="ts">
 import { useQueryReactive } from 'vue-qs';
 
-const { state } = useQueryReactive({
-  search: { default: '' },
-  page: { default: 1, parse: Number },
+const { queryState } = useQueryReactive({
+  search: { defaultValue: '' },
+  page: {
+    defaultValue: 1,
+    parseFunction: (value) => (value ? Number(value) : 1),
+    serializeFunction: (value) => String(value),
+  },
 });
 </script>
 
 <template>
-  <input v-model="state.search" />
-  <button @click="state.page++">下一页</button>
+  <input v-model="queryState.search" />
+  <button @click="queryState.page++">下一页</button>
 </template>
 ```
 
 ## Hook 返回什么
 
-- `useQueryRef(name, options)` → 一个普通 ref，额外提供 `.sync()`。
-- `useQueryReactive(schema, options)` → `{ state, batch, sync }`。
-  - `batch()` 把多次修改合并为一次历史记录。
-  - `sync()` 立即写入 URL。
-- 值等于默认值时默认不出现在 URL（可通过 `omitIfDefault: false` 关闭）。
+- `useQueryRef(name, options)` → 一个普通 ref，额外提供 `.syncToUrl()`。
+- `useQueryReactive(schema, options)` → `{ queryState, updateBatch, syncAllToUrl }`。
+  - `updateBatch()` 把多次修改合并为一次历史记录。
+  - `syncAllToUrl()` 立即写入 URL。
+- 值等于默认值时默认不出现在 URL（可通过 `shouldOmitDefault: false` 关闭）。
 
 继续查看 示例 / 双向同步 / 编解码器 获取更多用法。

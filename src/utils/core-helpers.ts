@@ -1,0 +1,135 @@
+import type { RuntimeEnvironment } from '@/types';
+
+/**
+ * Safely checks if we're running in a browser environment
+ * @returns true if running in a browser, false otherwise
+ */
+export function isBrowserEnvironment(): boolean {
+  try {
+    return typeof window !== 'undefined' && typeof document !== 'undefined';
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Creates a runtime environment object with safe property access
+ * @returns Runtime environment information
+ */
+export function createRuntimeEnvironment(): RuntimeEnvironment {
+  const isBrowser = isBrowserEnvironment();
+
+  return {
+    isBrowser,
+    windowObject: isBrowser ? window : null,
+  };
+}
+
+/**
+ * Safely converts a URL search string to a plain object
+ * @param searchString The URL search string (with or without leading '?')
+ * @returns Object with key-value pairs from the search string
+ */
+export function parseSearchString(searchString: string): Record<string, string> {
+  try {
+    const urlParams = new URLSearchParams(
+      searchString.startsWith('?') ? searchString : `?${searchString}`
+    );
+
+    const result: Record<string, string> = {};
+
+    urlParams.forEach((value, key) => {
+      result[key] = value;
+    });
+
+    return result;
+  } catch (error) {
+    console.warn('Failed to parse search string:', error);
+    return {};
+  }
+}
+
+/**
+ * Safely converts a query object to a URL search string
+ * @param queryObject Object with key-value pairs
+ * @returns URL search string with leading '?' or empty string
+ */
+export function buildSearchString(queryObject: Record<string, string | undefined>): string {
+  try {
+    const urlParams = new URLSearchParams();
+
+    Object.entries(queryObject).forEach(([key, value]) => {
+      if (value !== undefined) {
+        urlParams.set(key, value);
+      }
+    });
+
+    const searchString = urlParams.toString();
+    return searchString ? `?${searchString}` : '';
+  } catch (error) {
+    console.warn('Failed to build search string:', error);
+    return '';
+  }
+}
+
+/**
+ * Safely compares two values for equality
+ * @param valueA First value to compare
+ * @param valueB Second value to compare
+ * @param customEquals Optional custom equality function
+ * @returns true if values are equal
+ */
+export function areValuesEqual<T>(
+  valueA: T,
+  valueB: T,
+  customEquals?: (a: T, b: T) => boolean
+): boolean {
+  try {
+    return customEquals ? customEquals(valueA, valueB) : Object.is(valueA, valueB);
+  } catch (error) {
+    console.warn('Error comparing values:', error);
+    return false;
+  }
+}
+
+/**
+ * Safely merges two objects
+ * @param baseObject Base object to merge into
+ * @param updateObject Object with updates to apply
+ * @returns New merged object
+ */
+export function mergeObjects<T extends Record<string, unknown>>(
+  baseObject: T,
+  updateObject: Partial<T>
+): T {
+  try {
+    return { ...baseObject, ...updateObject };
+  } catch (error) {
+    console.warn('Error merging objects:', error);
+    return baseObject;
+  }
+}
+
+/**
+ * Safely removes undefined values from an object
+ * @param sourceObject Object to clean
+ * @returns New object without undefined values
+ */
+export function removeUndefinedValues<T extends Record<string, unknown>>(
+  sourceObject: T
+): Partial<T> {
+  try {
+    const cleanedObject: Partial<T> = {};
+
+    Object.entries(sourceObject).forEach(([key, value]) => {
+      if (value !== undefined) {
+        (cleanedObject as Record<string, unknown>)[key] = value;
+      }
+    });
+
+    return cleanedObject;
+  } catch (error) {
+    console.warn('Error removing undefined values:', error);
+    return sourceObject;
+  }
+}

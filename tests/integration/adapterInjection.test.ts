@@ -1,15 +1,15 @@
 import { describe, it, expect } from 'vitest';
 import { createApp, defineComponent } from 'vue';
-import { createVueQs, useQueryRef } from '@/index';
+import { createVueQueryPlugin, useQueryRef } from '@/index';
 
 describe('adapter injection via plugin', () => {
   it('hooks use the injected adapter without passing adapter option', async () => {
     const calls: Array<Record<string, string | undefined>> = [];
     const mockAdapter = {
-      getQuery() {
+      getCurrentQuery() {
         return {} as Record<string, string | undefined>;
       },
-      setQuery(next: Record<string, string | undefined>) {
+      updateQuery(next: Record<string, string | undefined>) {
         calls.push({ ...next });
       },
     };
@@ -17,8 +17,11 @@ describe('adapter injection via plugin', () => {
     const Comp = defineComponent({
       name: 'Comp',
       setup() {
-        // omitIfDefault=false forces an initial URL write which should hit our mock adapter
-        const name = useQueryRef('name', { default: 'John', omitIfDefault: false });
+        // shouldOmitDefault=false forces an initial URL write which should hit our mock adapter
+        const name = useQueryRef('name', {
+          defaultValue: 'John',
+          shouldOmitDefault: false,
+        });
         // update once to ensure reactive watch also uses the injected adapter
         name.value = 'Jane';
         return {};
@@ -30,7 +33,7 @@ describe('adapter injection via plugin', () => {
 
     const el = document.createElement('div');
     const app = createApp(Comp);
-    app.use(createVueQs({ adapter: mockAdapter as any }));
+    app.use(createVueQueryPlugin({ queryAdapter: mockAdapter as any }));
     app.mount(el);
 
     // Should have at least two calls: initial sync and update to 'Jane'

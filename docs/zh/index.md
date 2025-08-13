@@ -2,8 +2,8 @@
 layout: home
 hero:
   name: vue-qs
-  text: 类型安全、响应式的 URL 查询参数（Vue 3）
-  tagline: 用类型安全与良好体验，将状态保存在 URL 中。
+  text: Type‑safe, reactive URL query params for Vue
+  tagline: 现代化的 URL 查询参数状态管理，具备完整类型安全、错误处理和清晰架构。
   actions:
     - theme: brand
       text: 快速开始
@@ -12,10 +12,10 @@ hero:
       text: API
       link: /api/
 features:
-  - title: 体积小、类型安全
-    details: 常用类型编解码器与简洁的钩子，支持单参数或多参数。
-  - title: 适配器可插拔
-    details: 默认基于 History API，也可无缝对接 Vue Router。
-  - title: SSR 友好
-    details: 服务端不会访问 window，客户端再接管。
+  - title: 类型安全与现代化
+    details: 完整的 TypeScript 支持，具备全面错误处理和清晰架构，使用现代 Vue 3 模式。
+  - title: 灵活的适配器
+    details: 支持 History API、Vue Router 或自定义适配器。通过依赖注入实现关注点清晰分离。
+  - title: 丰富的序列化器
+    details: 内置字符串、数字、布尔值、日期、JSON、数组和枚举编解码器，支持自定义序列化。
 ---
