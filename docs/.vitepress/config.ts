@@ -26,19 +26,28 @@ export default defineConfig({
       label: 'English',
       lang: 'en-US',
       link: '/',
+      themeConfig: {
+        nav: [
+          { text: 'Guide', link: '/guide/getting-started' },
+          { text: 'API', link: '/api/' },
+          { text: 'GitHub', link: 'https://github.com/iamsomraj/vue-qs' },
+        ],
+      },
     },
     zh: {
       label: '简体中文',
       lang: 'zh-CN',
       link: '/zh/',
+      themeConfig: {
+        nav: [
+          { text: '指南', link: '/zh/guide/getting-started' },
+          { text: 'API', link: '/zh/api/' },
+          { text: 'GitHub', link: 'https://github.com/iamsomraj/vue-qs' },
+        ],
+      },
     },
   },
   themeConfig: {
-    nav: [
-      { text: 'Guide', link: '/guide/getting-started' },
-      { text: 'API', link: '/api/' },
-      { text: 'GitHub', link: 'https://github.com/iamsomraj/vue-qs' },
-    ],
     sidebar: {
       '/guide/': [
         {
@@ -67,6 +76,12 @@ export default defineConfig({
             { text: 'Vue Router', link: '/zh/guide/vue-router' },
             { text: '双向同步', link: '/zh/guide/two-way-sync' },
           ],
+        },
+      ],
+      '/zh/api/': [
+        {
+          text: 'API',
+          items: [{ text: 'API 参考', link: '/zh/api/' }],
         },
       ],
     },
