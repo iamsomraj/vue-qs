@@ -1,5 +1,22 @@
 # Changelog
 
+## v0.1.14
+
+[compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.1.13...v0.1.14)
+
+### 🚀 Enhancements
+
+- Add Chinese API documentation with navigation links ([89e6de3](https://github.com/iamsomraj/vue-qs/commit/89e6de3))
+
+### 🏡 Chore
+
+- **release:** V0.1.13 ([a4643e0](https://github.com/iamsomraj/vue-qs/commit/a4643e0))
+- Update version to v0.1.13 in documentation ([4b2f352](https://github.com/iamsomraj/vue-qs/commit/4b2f352))
+
+### ❤️ Contributors
+
+- Somraj Mukherjee ([@iamsomraj](https://github.com/iamsomraj))
+
 ## v0.1.13
 
 [compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.1.12...v0.1.13)
