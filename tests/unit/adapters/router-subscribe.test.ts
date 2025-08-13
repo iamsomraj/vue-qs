@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
+import { createVueRouterAdapter } from '@/adapters/vue-router-adapter';
 import { useQueryRef, useQueryReactive } from '@/index';
-import { createVueRouterQueryAdapter } from '@/routerAdapter';
 
 function createMockRouter() {
   let query: Record<string, any> = {};
@@ -23,7 +23,9 @@ function createMockRouter() {
       listeners.push(cb);
       return () => {
         const i = listeners.indexOf(cb);
-        if (i >= 0) listeners.splice(i, 1);
+        if (i >= 0) {
+          listeners.splice(i, 1);
+        }
       };
     },
   } as any;
@@ -32,14 +34,14 @@ function createMockRouter() {
 describe('router adapter subscribe behavior', () => {
   it('useQueryRef twoWay updates state when router query changes', async () => {
     const router = createMockRouter();
-    const adapter = createVueRouterQueryAdapter(router);
+    const adapter = createVueRouterAdapter(router);
 
     const page = useQueryRef<number>('p', {
-      default: 1,
-      parse: Number,
-      serialize: (n) => String(n),
-      twoWay: true,
-      adapter,
+      defaultValue: 1,
+      parseFunction: (value) => (value ? Number(value) : 1),
+      serializeFunction: (n: number) => String(n),
+      enableTwoWaySync: true,
+      queryAdapter: adapter,
     });
 
     expect(page.value).toBe(1);
@@ -50,21 +52,24 @@ describe('router adapter subscribe behavior', () => {
 
   it('useQueryReactive twoWay updates state when router query changes', async () => {
     const router = createMockRouter();
-    const adapter = createVueRouterQueryAdapter(router);
+    const adapter = createVueRouterAdapter(router);
 
-    const { state } = useQueryReactive(
+    const { queryState } = useQueryReactive(
       {
-        q: { default: '', parse: String },
-        n: { default: 0, parse: Number },
+        q: { defaultValue: '', parseFunction: (value: string | null) => value || '' },
+        n: {
+          defaultValue: 0,
+          parseFunction: (value: string | null) => (value ? Number(value) : 0),
+        },
       },
-      { twoWay: true, adapter }
+      { enableTwoWaySync: true, queryAdapter: adapter }
     );
 
-    expect(state.q).toBe('');
-    expect(state.n).toBe(0);
+    expect(queryState.q).toBe('');
+    expect(queryState.n).toBe(0);
 
     await router.replace({ query: { q: 'hello', n: '9' } });
-    expect(state.q).toBe('hello');
-    expect(state.n).toBe(9);
+    expect(queryState.q).toBe('hello');
+    expect(queryState.n).toBe(9);
   });
 });

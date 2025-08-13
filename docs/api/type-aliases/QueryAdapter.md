@@ -8,19 +8,19 @@
 
 > **QueryAdapter** = `object`
 
-Defined in: [types.ts:86](https://github.com/iamsomraj/vue-qs/blob/fa7480bd601b09f7ce1b80df8786e16589ef7fc2/src/types.ts#L86)
+Defined in: [types.ts:125](https://github.com/iamsomraj/vue-qs/blob/f1e1957b7183143713c387d3e0537e789055538e/src/types.ts#L125)
 
-Abstraction over how to read/write query string values.
+Abstraction for reading and writing query parameters
 
 ## Methods
 
-### getQuery()
+### getCurrentQuery()
 
-> **getQuery**(): `Record`\<`string`, `string` \| `undefined`\>
+> **getCurrentQuery**(): `Record`\<`string`, `string` \| `undefined`\>
 
-Defined in: [types.ts:88](https://github.com/iamsomraj/vue-qs/blob/fa7480bd601b09f7ce1b80df8786e16589ef7fc2/src/types.ts#L88)
+Defined in: [types.ts:127](https://github.com/iamsomraj/vue-qs/blob/f1e1957b7183143713c387d3e0537e789055538e/src/types.ts#L127)
 
-Read current query params as a plain object. Values are strings or undefined.
+Read current query parameters as a plain object
 
 #### Returns
 
@@ -28,23 +28,23 @@ Read current query params as a plain object. Values are strings or undefined.
 
 ***
 
-### setQuery()
+### updateQuery()
 
-> **setQuery**(`next`, `options?`): `void`
+> **updateQuery**(`queryUpdates`, `options?`): `void`
 
-Defined in: [types.ts:90](https://github.com/iamsomraj/vue-qs/blob/fa7480bd601b09f7ce1b80df8786e16589ef7fc2/src/types.ts#L90)
+Defined in: [types.ts:129](https://github.com/iamsomraj/vue-qs/blob/f1e1957b7183143713c387d3e0537e789055538e/src/types.ts#L129)
 
-Replace the query params, merging with existing by default.
+Update query parameters in the URL
 
 #### Parameters
 
-##### next
+##### queryUpdates
 
 `Record`\<`string`, `string` \| `undefined`\>
 
 ##### options?
 
-###### history?
+###### historyStrategy?
 
 `"replace"` \| `"push"`
 
@@ -54,18 +54,17 @@ Replace the query params, merging with existing by default.
 
 ***
 
-### subscribe()?
+### onQueryChange()?
 
-> `optional` **subscribe**(`cb`): () => `void`
+> `optional` **onQueryChange**(`callback`): () => `void`
 
-Defined in: [types.ts:98](https://github.com/iamsomraj/vue-qs/blob/fa7480bd601b09f7ce1b80df8786e16589ef7fc2/src/types.ts#L98)
+Defined in: [types.ts:134](https://github.com/iamsomraj/vue-qs/blob/f1e1957b7183143713c387d3e0537e789055538e/src/types.ts#L134)
 
-Optional: subscribe to external query changes (e.g., router nav, popstate).
-Returns an unsubscribe. Not required by all adapters; if absent, callers can fallback to window popstate.
+Subscribe to external query changes (returns unsubscribe function)
 
 #### Parameters
 
-##### cb
+##### callback
 
 () => `void`
 

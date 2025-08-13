@@ -5,47 +5,61 @@
 ```ts
 import { useQueryRef, serializers } from 'vue-qs';
 
-const itemCount = useQueryRef('itemCount', { default: 0, codec: serializers.number });
-const isPublished = useQueryRef('isPublished', { default: false, codec: serializers.boolean });
+const itemCount = useQueryRef('itemCount', { defaultValue: 0, codec: serializers.numberCodec });
+const isPublished = useQueryRef('isPublished', {
+  defaultValue: false,
+  codec: serializers.booleanCodec,
+});
 const tags = useQueryRef<string[]>('tags', {
-  default: [],
-  codec: serializers.arrayOf(serializers.string),
+  defaultValue: [],
+  codec: serializers.createArrayCodec(serializers.stringCodec),
 });
 ```
 
 ## Keep defaults in the URL
 
 ```ts
-const page = useQueryRef('page', { default: 1, codec: serializers.number, omitIfDefault: false });
+const page = useQueryRef('page', {
+  defaultValue: 1,
+  codec: serializers.numberCodec,
+  shouldOmitDefault: false,
+});
 ```
 
 ## Batch updates (one history entry)
 
 ```ts
-const { state, batch } = useQueryReactive({ search: { default: '' }, page: { default: 1 } });
-batch({ search: 'hello', page: 2 }, { history: 'push' });
+const { queryState, updateBatch } = useQueryReactive({
+  search: { defaultValue: '' },
+  page: { defaultValue: 1 },
+});
+updateBatch({ search: 'hello', page: 2 }, { historyStrategy: 'push' });
 ```
 
 ## Two‑way sync (URL -> state)
 
 ```ts
-const page = useQueryRef('page', { default: 1, codec: serializers.number, twoWay: true });
+const page = useQueryRef('page', {
+  defaultValue: 1,
+  codec: serializers.numberCodec,
+  enableTwoWaySync: true,
+});
 ```
 
 Reactive version:
 
 ```ts
-const { state } = useQueryReactive(schema, { twoWay: true });
+const { queryState } = useQueryReactive(schema, { enableTwoWaySync: true });
 ```
 
 ## Deep equality for objects
 
 ```ts
-const jsonCodec = serializers.json<{ a: number }>();
+const jsonCodec = serializers.createJsonCodec<{ a: number }>();
 const obj = useQueryRef('obj', {
-  default: { a: 1 },
+  defaultValue: { a: 1 },
   codec: jsonCodec,
-  equals: (x, y) => x?.a === y?.a,
+  isEqual: (x, y) => x?.a === y?.a,
 });
 ```
 
@@ -53,11 +67,11 @@ const obj = useQueryRef('obj', {
 
 ```ts
 const sort = useQueryRef<'asc' | 'desc'>('sort', {
-  default: 'asc',
-  codec: serializers.enumOf(['asc', 'desc'] as const),
+  defaultValue: 'asc',
+  codec: serializers.createEnumCodec(['asc', 'desc'] as const),
 });
 const selectedIds = useQueryRef<number[]>('ids', {
-  default: [],
-  codec: serializers.arrayOf(serializers.number),
+  defaultValue: [],
+  codec: serializers.createArrayCodec(serializers.numberCodec),
 });
 ```

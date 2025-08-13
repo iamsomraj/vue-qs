@@ -1,15 +1,19 @@
 # Two‑Way Sync
 
-Add `twoWay: true` so state also updates when the URL changes (browser back/forward, router navigation).
+Add `enableTwoWaySync: true` so state also updates when the URL changes (browser back/forward, router navigation).
 
 ```ts
-const page = useQueryRef('page', { default: 1, codec: serializers.number, twoWay: true });
+const page = useQueryRef('page', {
+  defaultValue: 1,
+  codec: serializers.numberCodec,
+  enableTwoWaySync: true,
+});
 ```
 
 Reactive group:
 
 ```ts
-const { state } = useQueryReactive(schema, { twoWay: true });
+const { queryState } = useQueryReactive(schema, { enableTwoWaySync: true });
 ```
 
 How it works:

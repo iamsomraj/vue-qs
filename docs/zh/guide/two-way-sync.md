@@ -2,16 +2,20 @@
 
 默认：只把本地状态写入 URL（单向）。
 
-开启 `twoWay: true` 后：浏览器前进/后退、手动修改地址栏、路由跳转都会更新你的 ref/reactive。
+开启 `enableTwoWaySync: true` 后：浏览器前进/后退、手动修改地址栏、路由跳转都会更新你的 ref/reactive。
 
 ```ts
-const page = useQueryRef('page', { default: 1, parse: Number, twoWay: true });
+const page = useQueryRef('page', {
+  defaultValue: 1,
+  parseFunction: Number,
+  enableTwoWaySync: true,
+});
 ```
 
 多个：
 
 ```ts
-const { state } = useQueryReactive({ page: { default: 1 } }, { twoWay: true });
+const { queryState } = useQueryReactive({ page: { defaultValue: 1 } }, { enableTwoWaySync: true });
 ```
 
 内部做的事（简化描述）：

@@ -6,16 +6,31 @@
 
 # Function: provideQueryAdapter()
 
-> **provideQueryAdapter**(`adapter`): `void`
+> **provideQueryAdapter**(`queryAdapter`): `void`
 
-Defined in: [adapterContext.ts:9](https://github.com/iamsomraj/vue-qs/blob/fa7480bd601b09f7ce1b80df8786e16589ef7fc2/src/adapterContext.ts#L9)
+Defined in: [adapterContext.ts:20](https://github.com/iamsomraj/vue-qs/blob/f1e1957b7183143713c387d3e0537e789055538e/src/adapterContext.ts#L20)
+
+Provides a query adapter to the component tree using dependency injection
+This makes the adapter available to all child components
 
 ## Parameters
 
-### adapter
+### queryAdapter
 
 [`QueryAdapter`](../type-aliases/QueryAdapter.md)
+
+The query adapter instance to provide
 
 ## Returns
 
 `void`
+
+## Example
+
+```typescript
+import { provideQueryAdapter, createHistoryAdapter } from 'vue-qs';
+
+// In a parent component
+const historyAdapter = createHistoryAdapter();
+provideQueryAdapter(historyAdapter);
+```

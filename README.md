@@ -38,7 +38,7 @@ import { useQueryRef } from 'vue-qs';
 
 // Create a ref bound to ?name=...
 // If the param is missing we fall back to the default ('').
-const name = useQueryRef('name', { default: '', parse: String });
+const name = useQueryRef('name', { defaultValue: '', parseFunction: String });
 </script>
 
 <template>
@@ -53,15 +53,15 @@ Multiple params in one reactive object:
 import { useQueryReactive } from 'vue-qs';
 
 // Each field config controls parsing, defaults, omission rules
-const { state } = useQueryReactive({
-  q: { default: '' },
-  page: { default: 1, parse: Number },
+const { queryState } = useQueryReactive({
+  q: { defaultValue: '' },
+  page: { defaultValue: 1, parseFunction: Number },
 });
 </script>
 
 <template>
-  <input v-model="state.q" />
-  <button @click="state.page++">Next</button>
+  <input v-model="queryState.q" />
+  <button @click="queryState.page++">Next</button>
 </template>
 ```
 
@@ -73,13 +73,17 @@ Two ways:
 
 ```vue
 <script setup lang="ts">
-import { useQueryRef, useQueryReactive, createVueRouterQueryAdapter } from 'vue-qs';
+import { useQueryRef, useQueryReactive, createVueRouterAdapter } from 'vue-qs';
 import { useRouter } from 'vue-router';
 
-const adapter = createVueRouterQueryAdapter(useRouter());
+const adapter = createVueRouterAdapter(useRouter());
 
-const page = useQueryRef<number>('page', { default: 1, parse: Number, adapter });
-const { state } = useQueryReactive({ q: { default: '' } }, { adapter });
+const page = useQueryRef<number>('page', {
+  defaultValue: 1,
+  parseFunction: Number,
+  queryAdapter: adapter,
+});
+const { queryState } = useQueryReactive({ q: { defaultValue: '' } }, { queryAdapter: adapter });
 </script>
 ```
 
@@ -88,30 +92,34 @@ const { state } = useQueryReactive({ q: { default: '' } }, { adapter });
 ```ts
 // main.ts
 import { createApp } from 'vue';
-import { createVueQs, createVueRouterQueryAdapter } from 'vue-qs';
+import { createVueQsPlugin, createVueRouterAdapter } from 'vue-qs';
 import { router } from './router';
 import App from './App.vue';
 
 createApp(App)
-  .use(createVueQs({ adapter: createVueRouterQueryAdapter(router) }))
+  .use(createVueQsPlugin({ queryAdapter: createVueRouterAdapter(router) }))
   .use(router)
   .mount('#app');
 ```
 
 ## Two‑way sync (URL -> state)
 
-Disabled by default. Turn on with `twoWay: true` to react to back/forward and router navigations.
+Disabled by default. Turn on with `enableTwoWaySync: true` to react to back/forward and router navigations.
 
 ```ts
-const page = useQueryRef('page', { default: 1, parse: Number, twoWay: true });
-const { state } = useQueryReactive({ q: { default: '' } }, { twoWay: true });
+const page = useQueryRef('page', {
+  defaultValue: 1,
+  parseFunction: Number,
+  enableTwoWaySync: true,
+});
+const { queryState } = useQueryReactive({ q: { defaultValue: '' } }, { enableTwoWaySync: true });
 ```
 
 ## Omitting defaults
 
-By default if a value equals its `default`, the param is removed from the URL for cleanliness. Want it always there? Set `omitIfDefault: false`.
+By default if a value equals its `defaultValue`, the param is removed from the URL for cleanliness. Want it always there? Set `shouldOmitDefault: false`.
 
-Call `.sync()` on a ref or the reactive group to force a write right now.
+Call `.syncToUrl()` on a ref or the reactive group to force a write right now.
 
 ## Codecs (parse + serialize)
 
@@ -120,37 +128,40 @@ Import ready‑made codecs:
 ```ts
 import { serializers } from 'vue-qs';
 
-const n = useQueryRef('n', { default: 0, parse: serializers.number.parse });
-const b = useQueryRef('b', { default: false, parse: serializers.boolean.parse });
+const n = useQueryRef('n', { defaultValue: 0, parseFunction: serializers.numberCodec.parse });
+const b = useQueryRef('b', { defaultValue: false, parseFunction: serializers.booleanCodec.parse });
 const tags = useQueryRef('tags', {
-  default: [] as string[],
-  codec: serializers.arrayOf(serializers.string),
+  defaultValue: [] as string[],
+  codec: serializers.createArrayCodec(serializers.stringCodec),
 });
 ```
 
-Use `codec` instead of separate `parse` / `serialize` for brevity.
+Use `codec` instead of separate `parseFunction` / `serializeFunction` for brevity.
 
-Available built‑ins: `string`, `number`, `boolean`, `dateISO`, `json<T>()`, `arrayOf(codec)`, `enumOf([...])`.
+Available built‑ins: `stringCodec`, `numberCodec`, `booleanCodec`, `dateISOCodec`, `createJsonCodec<T>()`, `createArrayCodec(codec)`, `createEnumCodec([...])`.
 
 ## Batch updates
 
 Update several params in one history entry:
 
 ```ts
-const { state, batch } = useQueryReactive({ q: { default: '' }, page: { default: 1 } });
-batch({ q: 'hello', page: 2 }, { history: 'push' });
+const { queryState, updateBatch } = useQueryReactive({
+  q: { defaultValue: '' },
+  page: { defaultValue: 1 },
+});
+updateBatch({ q: 'hello', page: 2 }, { historyStrategy: 'push' });
 ```
 
 ## Custom equality
 
-For objects/arrays supply `equals(a,b)` to decide if current value equals the default (so it can be omitted).
+For objects/arrays supply `isEqual(a,b)` to decide if current value equals the default (so it can be omitted).
 
 ```ts
-const jsonCodec = serializers.json<{ a: number }>();
+const jsonCodec = serializers.createJsonCodec<{ a: number }>();
 const item = useQueryRef('obj', {
-  default: { a: 1 },
+  defaultValue: { a: 1 },
   codec: jsonCodec,
-  equals: (x, y) => x?.a === y?.a,
+  isEqual: (x, y) => x?.a === y?.a,
 });
 ```
 
@@ -162,17 +173,17 @@ On the server the hooks never touch `window`. They use an internal cache until h
 
 useQueryRef(name, options)
 
-- Returns a ref with extra method `.sync()`.
+- Returns a ref with extra method `.syncToUrl()`.
 
 useQueryReactive(schema, options)
 
-- Returns `{ state, batch, sync }`.
+- Returns `{ queryState, updateBatch, syncAllToUrl }`.
 
-createVueRouterQueryAdapter(router)
+createVueRouterAdapter(router)
 
 - Adapter for Vue Router (enables reacting to navigations).
 
-createVueQs({ adapter }) / provideQueryAdapter(adapter)
+createVueQsPlugin({ queryAdapter }) / provideQueryAdapter(adapter)
 
 - Provide an adapter globally or locally.
 
@@ -180,17 +191,17 @@ createVueQs({ adapter }) / provideQueryAdapter(adapter)
 
 Shared options:
 
-- default: initial value if param is missing
-- parse / serialize OR codec: convert string <-> type
-- omitIfDefault (default true): remove from URL when equal to default
-- equals: custom compare (deep equality, etc.)
-- history: 'replace' (default) or 'push'
-- twoWay: listen to back/forward & router changes
-- adapter: override which query adapter to use
+- defaultValue: initial value if param is missing
+- parseFunction / serializeFunction OR codec: convert string <-> type
+- shouldOmitDefault (default true): remove from URL when equal to default
+- isEqual: custom compare (deep equality, etc.)
+- historyStrategy: 'replace' (default) or 'push'
+- enableTwoWaySync: listen to back/forward & router changes
+- queryAdapter: override which query adapter to use
 
 Extra on reactive version:
 
-- batch(update, { history }): multi‑field update
+- updateBatch(update, { historyStrategy }): multi‑field update
 
 ## Contributing
 

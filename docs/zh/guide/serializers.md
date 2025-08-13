@@ -4,33 +4,33 @@
 
 ## 内置列表
 
-- `serializers.string`
-- `serializers.number`
-- `serializers.boolean`
-- `serializers.dateISO`
-- `serializers.json<T>()`
-- `serializers.arrayOf(innerCodec, separator?)`
-- `serializers.enumOf(values)`
+- `serializers.stringCodec`
+- `serializers.numberCodec`
+- `serializers.booleanCodec`
+- `serializers.dateISOCodec`
+- `serializers.createJsonCodec<T>()`
+- `serializers.createArrayCodec(innerCodec, separator?)`
+- `serializers.createEnumCodec(values)`
 
 两种等价写法：
 
 ```ts
-useQueryRef('count', { default: 0, parse: serializers.number.parse });
+useQueryRef('count', { defaultValue: 0, parseFunction: serializers.numberCodec.parse });
 // 或更简洁
-useQueryRef('count', { default: 0, codec: serializers.number });
+useQueryRef('count', { defaultValue: 0, codec: serializers.numberCodec });
 ```
 
 数组 & 枚举：
 
 ```ts
 const tags = useQueryRef<string[]>('tags', {
-  default: [],
-  codec: serializers.arrayOf(serializers.string),
+  defaultValue: [],
+  codec: serializers.createArrayCodec(serializers.stringCodec),
 });
 
 const sort = useQueryRef<'asc' | 'desc'>('sort', {
-  default: 'asc',
-  codec: serializers.enumOf(['asc', 'desc'] as const),
+  defaultValue: 'asc',
+  codec: serializers.createEnumCodec(['asc', 'desc'] as const),
 });
 ```
 
@@ -44,7 +44,7 @@ const percentNumber: QueryCodec<number> = {
   serialize: (n) => `${n}%`,
 };
 
-const discountRate = useQueryRef('discountRate', { default: 0, codec: percentNumber });
+const discountRate = useQueryRef('discountRate', { defaultValue: 0, codec: percentNumber });
 ```
 
 返回 `null` 表示在 URL 中省略该参数。

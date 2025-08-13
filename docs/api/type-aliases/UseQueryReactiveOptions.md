@@ -8,33 +8,36 @@
 
 > **UseQueryReactiveOptions** = `object`
 
-Defined in: [types.ts:75](https://github.com/iamsomraj/vue-qs/blob/fa7480bd601b09f7ce1b80df8786e16589ef7fc2/src/types.ts#L75)
+Defined in: [types.ts:113](https://github.com/iamsomraj/vue-qs/blob/f1e1957b7183143713c387d3e0537e789055538e/src/types.ts#L113)
 
-Options for [useQueryReactive](../functions/useQueryReactive.md).
+Options for useQueryReactive composable
 
 ## Properties
 
-### history?
+### historyStrategy?
 
-> `optional` **history**: `"replace"` \| `"push"`
+> `optional` **historyStrategy**: `"replace"` \| `"push"`
 
-Defined in: [types.ts:76](https://github.com/iamsomraj/vue-qs/blob/fa7480bd601b09f7ce1b80df8786e16589ef7fc2/src/types.ts#L76)
+Defined in: [types.ts:115](https://github.com/iamsomraj/vue-qs/blob/f1e1957b7183143713c387d3e0537e789055538e/src/types.ts#L115)
 
-***
-
-### adapter?
-
-> `optional` **adapter**: [`QueryAdapter`](QueryAdapter.md)
-
-Defined in: [types.ts:77](https://github.com/iamsomraj/vue-qs/blob/fa7480bd601b09f7ce1b80df8786e16589ef7fc2/src/types.ts#L77)
+History strategy when updating the URL
 
 ***
 
-### twoWay?
+### queryAdapter?
 
-> `optional` **twoWay**: `boolean`
+> `optional` **queryAdapter**: [`QueryAdapter`](QueryAdapter.md)
 
-Defined in: [types.ts:82](https://github.com/iamsomraj/vue-qs/blob/fa7480bd601b09f7ce1b80df8786e16589ef7fc2/src/types.ts#L82)
+Defined in: [types.ts:117](https://github.com/iamsomraj/vue-qs/blob/f1e1957b7183143713c387d3e0537e789055538e/src/types.ts#L117)
 
-If true, also listen to browser/router navigations and rehydrate the state from the URL.
-Defaults to false
+Optional custom query adapter to use
+
+***
+
+### enableTwoWaySync?
+
+> `optional` **enableTwoWaySync**: `boolean`
+
+Defined in: [types.ts:119](https://github.com/iamsomraj/vue-qs/blob/f1e1957b7183143713c387d3e0537e789055538e/src/types.ts#L119)
+
+Enable two-way synchronization with URL changes

@@ -8,13 +8,13 @@ Pass the adapter directly when you create refs / reactive objects.
 
 ```vue
 <script setup lang="ts">
-import { useQueryRef, useQueryReactive, createVueRouterQueryAdapter } from 'vue-qs';
+import { useQueryRef, useQueryReactive, createVueRouterAdapter } from 'vue-qs';
 import { useRouter } from 'vue-router';
 
-const adapter = createVueRouterQueryAdapter(useRouter());
+const adapter = createVueRouterAdapter(useRouter());
 
-const page = useQueryRef('page', { default: 1, parse: Number, adapter });
-const { state } = useQueryReactive({ q: { default: '' } }, { adapter });
+const page = useQueryRef('page', { defaultValue: 1, parseFunction: Number, queryAdapter: adapter });
+const { queryState } = useQueryReactive({ q: { defaultValue: '' } }, { adapter });
 </script>
 ```
 
@@ -25,20 +25,24 @@ Provide it once so every hook can auto‑detect it.
 ```ts
 // main.ts
 import { createApp } from 'vue';
-import { createVueQs, createVueRouterQueryAdapter } from 'vue-qs';
+import { createVueQsPlugin, createVueRouterAdapter } from 'vue-qs';
 import { router } from './router';
 import App from './App.vue';
 
 createApp(App)
-  .use(createVueQs({ adapter: createVueRouterQueryAdapter(router) }))
+  .use(createVueQsPlugin({ queryAdapter: createVueRouterAdapter(router) }))
   .use(router)
   .mount('#app');
 ```
 
 ## Two‑way sync tip
 
-Add `twoWay: true` if you want state to update when the user navigates (back/forward or programmatic pushes):
+Add `enableTwoWaySync: true` if you want state to update when the user navigates (back/forward or programmatic pushes):
 
 ```ts
-const page = useQueryRef('page', { default: 1, parse: Number, twoWay: true });
+const page = useQueryRef('page', {
+  defaultValue: 1,
+  parseFunction: Number,
+  enableTwoWaySync: true,
+});
 ```
