@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.1.15
+
+[compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.1.15-beta.2...v0.1.15)
+
 ## v0.1.14
 
 [compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.1.13...v0.1.14)

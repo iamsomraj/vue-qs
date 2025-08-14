@@ -1,6 +1,6 @@
 {
   "name": "vue-qs",
-  "version": "0.1.15-beta.2",
+  "version": "0.1.15",
   "description": "Type‑safe, reactive URL query params for Vue",
   "license": "MIT",
   "author": "Somraj Mukherjee",
