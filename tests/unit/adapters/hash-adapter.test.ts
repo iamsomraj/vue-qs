@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { createHashAdapter } from '@/adapters/hash-adapter';
+import { createHashAdapter } from '../../../src/adapters/hash-adapter.js';
 
 // Mock window and location
 const mockLocation = {
@@ -50,9 +50,8 @@ describe('createHashAdapter', () => {
 
   describe('hash mode (default)', () => {
     it('should create adapter with default hash mode', () => {
-      const { queryAdapter, mode } = createHashAdapter();
+      const queryAdapter = createHashAdapter();
 
-      expect(mode).toBe('hash');
       expect(queryAdapter).toBeDefined();
       expect(typeof queryAdapter.getCurrentQuery).toBe('function');
       expect(typeof queryAdapter.updateQuery).toBe('function');
@@ -61,7 +60,7 @@ describe('createHashAdapter', () => {
 
     it('should parse query parameters from hash with route', () => {
       mockLocation.hash = '#/some/route?foo=bar&baz=qux';
-      const { queryAdapter } = createHashAdapter({ mode: 'hash' });
+      const queryAdapter = createHashAdapter({ mode: 'hash' });
 
       const query = queryAdapter.getCurrentQuery();
       expect(query).toEqual({ foo: 'bar', baz: 'qux' });
@@ -69,7 +68,7 @@ describe('createHashAdapter', () => {
 
     it('should parse empty query from hash without query params', () => {
       mockLocation.hash = '#/some/route';
-      const { queryAdapter } = createHashAdapter({ mode: 'hash' });
+      const queryAdapter = createHashAdapter({ mode: 'hash' });
 
       const query = queryAdapter.getCurrentQuery();
       expect(query).toEqual({});
@@ -77,7 +76,7 @@ describe('createHashAdapter', () => {
 
     it('should parse empty query from empty hash', () => {
       mockLocation.hash = '';
-      const { queryAdapter } = createHashAdapter({ mode: 'hash' });
+      const queryAdapter = createHashAdapter({ mode: 'hash' });
 
       const query = queryAdapter.getCurrentQuery();
       expect(query).toEqual({});
@@ -85,7 +84,7 @@ describe('createHashAdapter', () => {
 
     it('should update hash with query parameters while preserving route', () => {
       mockLocation.hash = '#/some/route';
-      const { queryAdapter } = createHashAdapter({ mode: 'hash' });
+      const queryAdapter = createHashAdapter({ mode: 'hash' });
 
       queryAdapter.updateQuery({ foo: 'bar', baz: 'qux' });
 
@@ -98,7 +97,7 @@ describe('createHashAdapter', () => {
 
     it('should update hash without route', () => {
       mockLocation.hash = '';
-      const { queryAdapter } = createHashAdapter({ mode: 'hash' });
+      const queryAdapter = createHashAdapter({ mode: 'hash' });
 
       queryAdapter.updateQuery({ foo: 'bar' });
 
@@ -107,7 +106,7 @@ describe('createHashAdapter', () => {
 
     it('should clear query parameters from hash', () => {
       mockLocation.hash = '#/route?foo=bar';
-      const { queryAdapter } = createHashAdapter({ mode: 'hash' });
+      const queryAdapter = createHashAdapter({ mode: 'hash' });
 
       queryAdapter.updateQuery({ foo: undefined });
 
@@ -116,7 +115,7 @@ describe('createHashAdapter', () => {
 
     it('should use pushState when historyStrategy is push', () => {
       mockLocation.hash = '#/route';
-      const { queryAdapter } = createHashAdapter({ mode: 'hash' });
+      const queryAdapter = createHashAdapter({ mode: 'hash' });
 
       queryAdapter.updateQuery({ foo: 'bar' }, { historyStrategy: 'push' });
 
@@ -127,15 +126,13 @@ describe('createHashAdapter', () => {
 
   describe('hash-params mode', () => {
     it('should create adapter with hash-params mode', () => {
-      const { queryAdapter, mode } = createHashAdapter({ mode: 'hash-params' });
-
-      expect(mode).toBe('hash-params');
+      const queryAdapter = createHashAdapter({ mode: 'hash-params' });
       expect(queryAdapter).toBeDefined();
     });
 
     it('should parse query parameters from entire hash', () => {
       mockLocation.hash = '#foo=bar&baz=qux';
-      const { queryAdapter } = createHashAdapter({ mode: 'hash-params' });
+      const queryAdapter = createHashAdapter({ mode: 'hash-params' });
 
       const query = queryAdapter.getCurrentQuery();
       expect(query).toEqual({ foo: 'bar', baz: 'qux' });
@@ -143,7 +140,7 @@ describe('createHashAdapter', () => {
 
     it('should parse empty query from empty hash', () => {
       mockLocation.hash = '';
-      const { queryAdapter } = createHashAdapter({ mode: 'hash-params' });
+      const queryAdapter = createHashAdapter({ mode: 'hash-params' });
 
       const query = queryAdapter.getCurrentQuery();
       expect(query).toEqual({});
@@ -151,7 +148,7 @@ describe('createHashAdapter', () => {
 
     it('should update entire hash with query parameters', () => {
       mockLocation.hash = '#old=value';
-      const { queryAdapter } = createHashAdapter({ mode: 'hash-params' });
+      const queryAdapter = createHashAdapter({ mode: 'hash-params' });
 
       queryAdapter.updateQuery({ foo: 'bar', baz: 'qux' });
 
@@ -164,7 +161,7 @@ describe('createHashAdapter', () => {
 
     it('should clear hash when all parameters are undefined', () => {
       mockLocation.hash = '#foo=bar';
-      const { queryAdapter } = createHashAdapter({ mode: 'hash-params' });
+      const queryAdapter = createHashAdapter({ mode: 'hash-params' });
 
       queryAdapter.updateQuery({ foo: undefined });
 
@@ -174,7 +171,7 @@ describe('createHashAdapter', () => {
 
   describe('event handling', () => {
     it('should setup event listeners for hash changes', () => {
-      const { queryAdapter } = createHashAdapter();
+      const queryAdapter = createHashAdapter();
       const callback = vi.fn();
 
       const unsubscribe = queryAdapter.onQueryChange!(callback);
@@ -190,7 +187,7 @@ describe('createHashAdapter', () => {
     });
 
     it('should cleanup event listeners on unsubscribe', () => {
-      const { queryAdapter } = createHashAdapter();
+      const queryAdapter = createHashAdapter();
       const callback = vi.fn();
 
       const unsubscribe = queryAdapter.onQueryChange!(callback);
@@ -208,7 +205,7 @@ describe('createHashAdapter', () => {
     });
 
     it('should suppress events when suppressHistoryEvents is true', () => {
-      const { queryAdapter } = createHashAdapter({ suppressHistoryEvents: true });
+      const queryAdapter = createHashAdapter({ suppressHistoryEvents: true });
       const callback = vi.fn();
 
       queryAdapter.onQueryChange!(callback);
@@ -225,7 +222,7 @@ describe('createHashAdapter', () => {
   describe('edge cases', () => {
     it('should not update when hash would not change', () => {
       mockLocation.hash = '#foo=bar';
-      const { queryAdapter } = createHashAdapter({ mode: 'hash-params' });
+      const queryAdapter = createHashAdapter({ mode: 'hash-params' });
 
       // Reset the mocks before testing
       mockHistory.replaceState = vi.fn();
@@ -239,7 +236,7 @@ describe('createHashAdapter', () => {
 
     it('should handle malformed hash gracefully', () => {
       mockLocation.hash = '#invalid%hash%content';
-      const { queryAdapter } = createHashAdapter();
+      const queryAdapter = createHashAdapter();
 
       // Should not throw
       expect(() => {
@@ -249,7 +246,7 @@ describe('createHashAdapter', () => {
     });
 
     it('should handle update errors gracefully', () => {
-      const { queryAdapter } = createHashAdapter();
+      const queryAdapter = createHashAdapter();
 
       // Mock history method to throw
       const originalReplaceState = mockHistory.replaceState;
@@ -285,7 +282,7 @@ describe('createHashAdapter', () => {
       // Re-import to get the mocked version
       const { createHashAdapter } = await import('@/adapters/hash-adapter');
 
-      const { queryAdapter } = createHashAdapter();
+      const queryAdapter = createHashAdapter();
 
       // Should not throw on server
       expect(() => {

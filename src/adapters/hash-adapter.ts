@@ -1,5 +1,5 @@
 import { reactive } from 'vue';
-import type { QueryAdapter, RuntimeEnvironment } from '@/types';
+import type { QueryAdapter } from '@/types';
 import {
   buildSearchString,
   createRuntimeEnvironment,
@@ -26,14 +26,7 @@ export interface HashAdapterOptions {
 /**
  * Result of creating a hash-based query adapter
  */
-export interface HashAdapterResult {
-  /** The query adapter instance */
-  queryAdapter: QueryAdapter;
-  /** Runtime environment information */
-  runtimeEnvironment: RuntimeEnvironment;
-  /** The hash mode being used */
-  mode: HashMode;
-}
+export type HashAdapterResult = QueryAdapter;
 
 // Global flag to track if history API has been patched
 let isHashHistoryPatched = false;
@@ -180,23 +173,23 @@ function buildHashString(
  * Supports both 'hash' and 'hash-params' modes like VueUse
  *
  * @param options Configuration options for the adapter
- * @returns Hash adapter result with the adapter and runtime info
+ * @returns Query adapter instance
  *
  * @example
  * ```typescript
  * import { createHashAdapter } from 'vue-qs';
  *
  * // Hash mode: #/route?foo=bar&baz=qux
- * const { queryAdapter } = createHashAdapter({ mode: 'hash' });
+ * const queryAdapter = createHashAdapter({ mode: 'hash' });
  *
  * // Hash-params mode: #foo=bar&baz=qux
- * const { queryAdapter: hashParamsAdapter } = createHashAdapter({ mode: 'hash-params' });
+ * const hashParamsAdapter = createHashAdapter({ mode: 'hash-params' });
  *
  * // Use with the plugin
  * app.use(createVueQsPlugin({ queryAdapter }));
  * ```
  */
-export function createHashAdapter(options: HashAdapterOptions = {}): HashAdapterResult {
+export function createHashAdapter(options: HashAdapterOptions = {}): QueryAdapter {
   const runtimeEnvironment = createRuntimeEnvironment();
   const { mode = 'hash', suppressHistoryEvents = false } = options;
 
@@ -337,9 +330,5 @@ export function createHashAdapter(options: HashAdapterOptions = {}): HashAdapter
     },
   };
 
-  return {
-    queryAdapter,
-    runtimeEnvironment,
-    mode,
-  };
+  return queryAdapter;
 }

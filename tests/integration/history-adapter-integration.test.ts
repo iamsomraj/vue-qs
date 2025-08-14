@@ -74,7 +74,7 @@ describe('History Adapter Integration', () => {
 
   describe('useQueryRef with history adapter', () => {
     it('should work with basic query parameters', async () => {
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
       mockLocation.search = '?name=john&age=25';
       mockLocation.href = 'https://example.com/?name=john&age=25';
 
@@ -94,7 +94,7 @@ describe('History Adapter Integration', () => {
     });
 
     it('should handle number codec', async () => {
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
       mockLocation.search = '?page=2';
 
       const pageRef = useQueryRef('page', {
@@ -113,7 +113,7 @@ describe('History Adapter Integration', () => {
     });
 
     it('should preserve hash and pathname', async () => {
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
       mockLocation.search = '?existing=param';
       mockLocation.pathname = '/app/route';
       mockLocation.hash = '#section';
@@ -136,7 +136,7 @@ describe('History Adapter Integration', () => {
     });
 
     it('should use push strategy when specified', async () => {
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
       mockLocation.search = '';
 
       const nameRef = useQueryRef('name', {
@@ -156,7 +156,7 @@ describe('History Adapter Integration', () => {
 
   describe('useQueryReactive with history adapter', () => {
     it('should work with multiple parameters', async () => {
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
       mockLocation.search = '?q=vue&page=1';
       mockLocation.href = 'https://example.com/?q=vue&page=1';
 
@@ -200,7 +200,7 @@ describe('History Adapter Integration', () => {
     });
 
     it('should handle batch updates', async () => {
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
       mockLocation.search = '?category=tech&sort=date';
 
       const { queryState, updateBatch } = useQueryReactive(
@@ -235,7 +235,7 @@ describe('History Adapter Integration', () => {
 
   describe('two-way synchronization with history adapter', () => {
     it('should sync external URL changes', async () => {
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
       mockLocation.search = '?name=initial';
 
       const nameRef = useQueryRef('name', {
@@ -264,7 +264,7 @@ describe('History Adapter Integration', () => {
     });
 
     it('should handle custom history events', async () => {
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
       mockLocation.search = '?name=initial';
 
       const nameRef = useQueryRef('name', {
@@ -295,7 +295,7 @@ describe('History Adapter Integration', () => {
 
   describe('history strategy with history adapter', () => {
     it('should use replace strategy by default', async () => {
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
       mockLocation.search = '';
 
       const nameRef = useQueryRef('name', {
@@ -312,7 +312,7 @@ describe('History Adapter Integration', () => {
     });
 
     it('should handle suppressHistoryEvents option', () => {
-      const { queryAdapter } = createHistoryAdapter({ suppressHistoryEvents: true });
+      const queryAdapter = createHistoryAdapter({ suppressHistoryEvents: true });
       const callback = vi.fn();
 
       queryAdapter.onQueryChange!(callback);
@@ -327,7 +327,7 @@ describe('History Adapter Integration', () => {
 
   describe('error handling with history adapter', () => {
     it('should handle malformed URL parameters gracefully', async () => {
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
       mockLocation.search = '?invalid%url%encoding%';
 
       const nameRef = useQueryRef('name', {
@@ -341,7 +341,7 @@ describe('History Adapter Integration', () => {
     });
 
     it('should handle history API errors gracefully', async () => {
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
 
       // Mock history API to throw
       const originalReplaceState = mockHistory.replaceState;
@@ -383,7 +383,7 @@ describe('History Adapter Integration', () => {
       // Re-import to get the mocked version
       const { createHistoryAdapter } = await import('@/adapters/history-adapter');
 
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
 
       const nameRef = useQueryRef('name', {
         defaultValue: 'server-default',
@@ -403,7 +403,7 @@ describe('History Adapter Integration', () => {
 
   describe('edge cases and complex scenarios', () => {
     it('should handle rapid state changes', async () => {
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
       mockLocation.search = '';
 
       const nameRef = useQueryRef('name', {
@@ -427,7 +427,7 @@ describe('History Adapter Integration', () => {
     });
 
     it('should handle URL with existing complex parameters', async () => {
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
       mockLocation.search = '?complex=value%20with%20spaces&array=1%2C2%2C3&special=%21%40%23';
       mockLocation.pathname = '/complex/path';
       mockLocation.href =
@@ -453,7 +453,7 @@ describe('History Adapter Integration', () => {
     });
 
     it('should handle clearing all parameters', async () => {
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
       mockLocation.search = '?param1=value1&param2=value2';
 
       const { queryState } = useQueryReactive(

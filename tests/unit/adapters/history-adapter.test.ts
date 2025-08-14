@@ -54,18 +54,16 @@ describe('createHistoryAdapter', () => {
 
   describe('adapter creation', () => {
     it('should create adapter with default options', () => {
-      const { queryAdapter, runtimeEnvironment } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
 
       expect(queryAdapter).toBeDefined();
       expect(typeof queryAdapter.getCurrentQuery).toBe('function');
       expect(typeof queryAdapter.updateQuery).toBe('function');
       expect(typeof queryAdapter.onQueryChange).toBe('function');
-      expect(runtimeEnvironment.isBrowser).toBe(true);
-      expect(runtimeEnvironment.windowObject).toBe(mockWindow);
     });
 
     it('should create adapter with suppressHistoryEvents option', () => {
-      const { queryAdapter } = createHistoryAdapter({ suppressHistoryEvents: true });
+      const queryAdapter = createHistoryAdapter({ suppressHistoryEvents: true });
       expect(queryAdapter).toBeDefined();
     });
   });
@@ -73,7 +71,7 @@ describe('createHistoryAdapter', () => {
   describe('getCurrentQuery', () => {
     it('should parse query parameters from URL search', () => {
       mockLocation.search = '?foo=bar&baz=qux';
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
 
       const query = queryAdapter.getCurrentQuery();
       expect(query).toEqual({ foo: 'bar', baz: 'qux' });
@@ -81,7 +79,7 @@ describe('createHistoryAdapter', () => {
 
     it('should parse empty query from empty search', () => {
       mockLocation.search = '';
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
 
       const query = queryAdapter.getCurrentQuery();
       expect(query).toEqual({});
@@ -89,7 +87,7 @@ describe('createHistoryAdapter', () => {
 
     it('should handle URL with only question mark', () => {
       mockLocation.search = '?';
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
 
       const query = queryAdapter.getCurrentQuery();
       expect(query).toEqual({});
@@ -97,7 +95,7 @@ describe('createHistoryAdapter', () => {
 
     it('should handle complex query parameters', () => {
       mockLocation.search = '?search=hello%20world&page=1&active=true';
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
 
       const query = queryAdapter.getCurrentQuery();
       expect(query).toEqual({
@@ -108,7 +106,7 @@ describe('createHistoryAdapter', () => {
     });
 
     it('should handle errors gracefully', () => {
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
 
       // Mock a parsing error
       const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {
@@ -138,7 +136,7 @@ describe('createHistoryAdapter', () => {
       mockLocation.search = '';
       mockLocation.pathname = '/';
       mockLocation.hash = '';
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
 
       queryAdapter.updateQuery({ foo: 'bar', baz: 'qux' });
 
@@ -150,7 +148,7 @@ describe('createHistoryAdapter', () => {
       mockLocation.pathname = '/';
       mockLocation.hash = '';
       mockLocation.href = 'https://example.com/?existing=param';
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
 
       queryAdapter.updateQuery({ foo: 'bar' });
 
@@ -162,7 +160,7 @@ describe('createHistoryAdapter', () => {
       mockLocation.pathname = '/';
       mockLocation.hash = '';
       mockLocation.href = 'https://example.com/?foo=bar&baz=qux';
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
 
       queryAdapter.updateQuery({ foo: undefined, baz: 'updated' });
 
@@ -174,7 +172,7 @@ describe('createHistoryAdapter', () => {
       mockLocation.pathname = '/';
       mockLocation.hash = '';
       mockLocation.href = 'https://example.com/?foo=bar&baz=qux';
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
 
       queryAdapter.updateQuery({ foo: undefined, baz: undefined });
 
@@ -186,7 +184,7 @@ describe('createHistoryAdapter', () => {
       mockLocation.pathname = '/some/path';
       mockLocation.hash = '#section';
       mockLocation.href = 'https://example.com/some/path#section';
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
 
       queryAdapter.updateQuery({ foo: 'bar' });
 
@@ -197,7 +195,7 @@ describe('createHistoryAdapter', () => {
       mockLocation.search = '';
       mockLocation.pathname = '/';
       mockLocation.hash = '';
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
 
       queryAdapter.updateQuery({ foo: 'bar' }, { historyStrategy: 'push' });
 
@@ -209,7 +207,7 @@ describe('createHistoryAdapter', () => {
       mockLocation.search = '';
       mockLocation.pathname = '/';
       mockLocation.hash = '';
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
 
       queryAdapter.updateQuery({ foo: 'bar' });
 
@@ -222,7 +220,7 @@ describe('createHistoryAdapter', () => {
       mockLocation.pathname = '/';
       mockLocation.hash = '';
       mockLocation.href = 'https://example.com/?foo=bar';
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
 
       queryAdapter.updateQuery({ foo: 'bar' });
 
@@ -231,7 +229,7 @@ describe('createHistoryAdapter', () => {
     });
 
     it('should handle update errors gracefully', () => {
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
 
       // Mock history method to throw
       const originalReplaceState = mockHistory.replaceState;
@@ -263,7 +261,7 @@ describe('createHistoryAdapter', () => {
       mockLocation.search = '';
       mockLocation.pathname = '/';
       mockLocation.hash = '';
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
 
       // Mock history to not update location
       mockHistory.replaceState = vi.fn();
@@ -276,7 +274,7 @@ describe('createHistoryAdapter', () => {
 
   describe('onQueryChange event handling', () => {
     it('should setup event listeners for history changes', () => {
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
       const callback = vi.fn();
 
       const unsubscribe = queryAdapter.onQueryChange!(callback);
@@ -290,7 +288,7 @@ describe('createHistoryAdapter', () => {
     });
 
     it('should cleanup event listeners on unsubscribe', () => {
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
       const callback = vi.fn();
 
       const unsubscribe = queryAdapter.onQueryChange!(callback);
@@ -304,7 +302,7 @@ describe('createHistoryAdapter', () => {
     });
 
     it('should suppress events when suppressHistoryEvents is true', () => {
-      const { queryAdapter } = createHistoryAdapter({ suppressHistoryEvents: true });
+      const queryAdapter = createHistoryAdapter({ suppressHistoryEvents: true });
       const callback = vi.fn();
 
       queryAdapter.onQueryChange!(callback);
@@ -317,7 +315,7 @@ describe('createHistoryAdapter', () => {
     });
 
     it('should call callback when popstate event fires', () => {
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
       const callback = vi.fn();
 
       queryAdapter.onQueryChange!(callback);
@@ -336,7 +334,7 @@ describe('createHistoryAdapter', () => {
     });
 
     it('should handle callback errors gracefully', () => {
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
       const errorCallback = vi.fn(() => {
         throw new Error('Callback error');
       });
@@ -381,7 +379,7 @@ describe('createHistoryAdapter', () => {
         };
       });
 
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
 
       // Should not throw on server
       expect(() => {
@@ -400,7 +398,7 @@ describe('createHistoryAdapter', () => {
 
   describe('patching history API', () => {
     it('should patch history API methods on first adapter creation', () => {
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
 
       // Verify that the history API has been patched (indirectly through functionality)
       expect(queryAdapter).toBeDefined();
@@ -413,7 +411,7 @@ describe('createHistoryAdapter', () => {
       });
 
       // Create adapter normally - patching errors are handled internally
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
       expect(queryAdapter).toBeDefined();
 
       consoleWarnSpy.mockRestore();
@@ -423,7 +421,7 @@ describe('createHistoryAdapter', () => {
   describe('edge cases', () => {
     it('should handle malformed search strings gracefully', () => {
       mockLocation.search = '?invalid%url%encoding%';
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
 
       const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {
         // Mock implementation to suppress console warnings in tests
@@ -437,7 +435,7 @@ describe('createHistoryAdapter', () => {
 
     it('should handle URL construction errors', () => {
       mockLocation.href = 'invalid-url';
-      const { queryAdapter } = createHistoryAdapter();
+      const queryAdapter = createHistoryAdapter();
 
       const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {
         // Mock implementation to suppress console warnings in tests

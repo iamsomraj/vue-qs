@@ -1,5 +1,5 @@
 import { reactive } from 'vue';
-import type { QueryAdapter, RuntimeEnvironment } from '@/types';
+import type { QueryAdapter } from '@/types';
 import {
   buildSearchString,
   createRuntimeEnvironment,
@@ -19,13 +19,7 @@ export interface HistoryAdapterOptions {
 /**
  * Result of creating a history-based query adapter
  */
-export interface HistoryAdapterResult {
-  /** The query adapter instance */
-  queryAdapter: QueryAdapter;
-  /** Runtime environment information */
-  runtimeEnvironment: RuntimeEnvironment;
-}
-
+export type HistoryAdapterResult = QueryAdapter;
 // Global flag to track if history API has been patched
 let isHistoryPatched = false;
 
@@ -96,23 +90,22 @@ function patchHistoryAPI(windowObject: Window): void {
 }
 
 /**
- * Creates a query adapter that uses the browser's History API
- * This adapter is SSR-safe and maintains an in-memory cache on the server
+ * Creates a query adapter that uses the browser's History API for URL parameters
  *
  * @param options Configuration options for the adapter
- * @returns History adapter result with the adapter and runtime info
+ * @returns Query adapter instance
  *
  * @example
  * ```typescript
  * import { createHistoryAdapter } from 'vue-qs';
  *
- * const { queryAdapter } = createHistoryAdapter();
+ * const queryAdapter = createHistoryAdapter();
  *
  * // Use with the plugin
  * app.use(createVueQsPlugin({ queryAdapter }));
  * ```
  */
-export function createHistoryAdapter(options: HistoryAdapterOptions = {}): HistoryAdapterResult {
+export function createHistoryAdapter(options: HistoryAdapterOptions = {}): QueryAdapter {
   const runtimeEnvironment = createRuntimeEnvironment();
   const { suppressHistoryEvents = false } = options;
 
@@ -245,8 +238,5 @@ export function createHistoryAdapter(options: HistoryAdapterOptions = {}): Histo
     },
   };
 
-  return {
-    queryAdapter,
-    runtimeEnvironment,
-  };
+  return queryAdapter;
 }

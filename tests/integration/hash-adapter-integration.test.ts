@@ -52,7 +52,7 @@ describe('Hash Adapter Integration', () => {
 
   describe('useQueryRef with hash adapter', () => {
     it('should work with hash mode', async () => {
-      const { queryAdapter } = createHashAdapter({ mode: 'hash' });
+      const queryAdapter = createHashAdapter({ mode: 'hash' });
       mockLocation.hash = '#/route?name=john';
 
       const nameRef = useQueryRef('name', {
@@ -71,7 +71,7 @@ describe('Hash Adapter Integration', () => {
     });
 
     it('should work with hash-params mode', async () => {
-      const { queryAdapter } = createHashAdapter({ mode: 'hash-params' });
+      const queryAdapter = createHashAdapter({ mode: 'hash-params' });
       mockLocation.hash = '#name=john&age=25';
 
       const nameRef = useQueryRef('name', {
@@ -94,7 +94,7 @@ describe('Hash Adapter Integration', () => {
     });
 
     it('should handle number codec with hash mode', async () => {
-      const { queryAdapter } = createHashAdapter({ mode: 'hash' });
+      const queryAdapter = createHashAdapter({ mode: 'hash' });
       mockLocation.hash = '#/app?page=2';
 
       const pageRef = useQueryRef('page', {
@@ -115,7 +115,7 @@ describe('Hash Adapter Integration', () => {
 
   describe('useQueryReactive with hash adapter', () => {
     it('should work with hash mode for multiple parameters', async () => {
-      const { queryAdapter } = createHashAdapter({ mode: 'hash' });
+      const queryAdapter = createHashAdapter({ mode: 'hash' });
       mockLocation.hash = '#/search?q=vue&page=1';
 
       const { queryState } = useQueryReactive(
@@ -142,7 +142,7 @@ describe('Hash Adapter Integration', () => {
     });
 
     it('should work with hash-params mode for multiple parameters', async () => {
-      const { queryAdapter } = createHashAdapter({ mode: 'hash-params' });
+      const queryAdapter = createHashAdapter({ mode: 'hash-params' });
       mockLocation.hash = '#q=vue&page=1';
 
       const { queryState } = useQueryReactive(
@@ -169,7 +169,7 @@ describe('Hash Adapter Integration', () => {
     });
 
     it('should handle batch updates with hash adapter', async () => {
-      const { queryAdapter } = createHashAdapter({ mode: 'hash' });
+      const queryAdapter = createHashAdapter({ mode: 'hash' });
       mockLocation.hash = '#/filters?category=tech&sort=date';
 
       const { queryState, updateBatch } = useQueryReactive(
@@ -204,7 +204,7 @@ describe('Hash Adapter Integration', () => {
 
   describe('two-way synchronization with hash adapter', () => {
     it('should sync external hash changes with hash mode', async () => {
-      const { queryAdapter } = createHashAdapter({ mode: 'hash' });
+      const queryAdapter = createHashAdapter({ mode: 'hash' });
       mockLocation.hash = '#/route?name=initial';
 
       const nameRef = useQueryRef('name', {
@@ -233,7 +233,7 @@ describe('Hash Adapter Integration', () => {
     });
 
     it('should sync external hash changes with hash-params mode', async () => {
-      const { queryAdapter } = createHashAdapter({ mode: 'hash-params' });
+      const queryAdapter = createHashAdapter({ mode: 'hash-params' });
       mockLocation.hash = '#name=initial';
 
       const nameRef = useQueryRef('name', {
@@ -264,7 +264,7 @@ describe('Hash Adapter Integration', () => {
 
   describe('history strategy with hash adapter', () => {
     it('should use push strategy when specified', async () => {
-      const { queryAdapter } = createHashAdapter({ mode: 'hash' });
+      const queryAdapter = createHashAdapter({ mode: 'hash' });
       mockLocation.hash = '#/route';
 
       // Reset mocks for this test
@@ -286,7 +286,7 @@ describe('Hash Adapter Integration', () => {
     });
 
     it('should use replace strategy by default', async () => {
-      const { queryAdapter } = createHashAdapter({ mode: 'hash' });
+      const queryAdapter = createHashAdapter({ mode: 'hash' });
       mockLocation.hash = '#/route';
 
       // Reset mocks for this test

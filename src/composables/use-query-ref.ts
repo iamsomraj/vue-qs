@@ -13,19 +13,14 @@ import type {
 import { areValuesEqual, warn } from '@/utils/core-helpers';
 
 // Shared history adapter instance for performance optimization
-let sharedHistoryAdapterInstance:
-  | ReturnType<typeof createHistoryAdapter>['queryAdapter']
-  | undefined;
+let sharedHistoryAdapterInstance: QueryAdapter | undefined;
 
 /**
  * Gets or creates the shared history adapter instance
  * This optimization ensures multiple useQueryRef calls share the same adapter
  */
-function getSharedHistoryAdapter(): ReturnType<typeof createHistoryAdapter>['queryAdapter'] {
-  if (!sharedHistoryAdapterInstance) {
-    const { queryAdapter } = createHistoryAdapter();
-    sharedHistoryAdapterInstance = queryAdapter;
-  }
+function getSharedHistoryAdapter(): QueryAdapter {
+  sharedHistoryAdapterInstance ??= createHistoryAdapter();
   return sharedHistoryAdapterInstance;
 }
 
