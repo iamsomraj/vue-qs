@@ -19,10 +19,10 @@
 import { createHashAdapter } from 'vue-qs';
 
 // 哈希模式（默认）- 保留路由：#/route?foo=bar
-const { queryAdapter } = createHashAdapter({ mode: 'hash' });
+const queryAdapter = createHashAdapter({ mode: 'hash' });
 
 // 哈希参数模式 - 整个哈希作为参数：#foo=bar
-const { queryAdapter: hashParamsAdapter } = createHashAdapter({ mode: 'hash-params' });
+const hashParamsAdapter = createHashAdapter({ mode: 'hash-params' });
 ```
 
 ### 与 Vue 插件一起使用
@@ -183,7 +183,7 @@ interface HashAdapterOptions {
 ### 包含所有选项的示例：
 
 ```typescript
-const { queryAdapter } = createHashAdapter({
+const queryAdapter = createHashAdapter({
   mode: 'hash-params',
   suppressHistoryEvents: true, // 不发出自定义事件
 });

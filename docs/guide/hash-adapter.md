@@ -19,10 +19,10 @@ The hash adapter enables vue-qs to use the browser hash for URL parameter storag
 import { createHashAdapter } from 'vue-qs';
 
 // Hash mode (default) - preserves route: #/route?foo=bar
-const { queryAdapter } = createHashAdapter({ mode: 'hash' });
+const queryAdapter = createHashAdapter({ mode: 'hash' });
 
 // Hash-params mode - entire hash as params: #foo=bar
-const { queryAdapter: hashParamsAdapter } = createHashAdapter({ mode: 'hash-params' });
+const hashParamsAdapter = createHashAdapter({ mode: 'hash-params' });
 ```
 
 ### With Vue Plugin
@@ -183,7 +183,7 @@ interface HashAdapterOptions {
 ### Example with all options:
 
 ```typescript
-const { queryAdapter } = createHashAdapter({
+const queryAdapter = createHashAdapter({
   mode: 'hash-params',
   suppressHistoryEvents: true, // Don't emit custom events
 });
