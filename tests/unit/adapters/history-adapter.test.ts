@@ -248,7 +248,11 @@ describe('createHistoryAdapter', () => {
         queryAdapter.updateQuery({ foo: 'bar' });
       }).not.toThrow();
 
-      expect(consoleWarnSpy).toHaveBeenCalledWith('[vue-qs]:', 'Error updating query:', expect.any(Error));
+      expect(consoleWarnSpy).toHaveBeenCalledWith(
+        '[vue-qs]:',
+        'Error updating query:',
+        expect.any(Error)
+      );
 
       // Restore
       mockHistory.replaceState = originalReplaceState;

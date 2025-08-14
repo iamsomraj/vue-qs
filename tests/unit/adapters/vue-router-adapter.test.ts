@@ -267,7 +267,11 @@ describe('createVueRouterAdapter', () => {
 
       await adapter.updateQuery({ foo: 'bar' });
 
-      expect(consoleWarnSpy).toHaveBeenCalledWith('[vue-qs]:', 'Vue Router navigation error:', navigationError);
+      expect(consoleWarnSpy).toHaveBeenCalledWith(
+        '[vue-qs]:',
+        'Vue Router navigation error:',
+        navigationError
+      );
       consoleWarnSpy.mockRestore();
     });
 
