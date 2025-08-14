@@ -132,6 +132,7 @@ describe('createVueRouterAdapter', () => {
 
       // Should warn about array parameters with multiple values
       expect(consoleWarnSpy).toHaveBeenCalledWith(
+        '[vue-qs]:',
         'Query parameter "array" has multiple values. Only the first value will be used.',
         { key: 'array', values: ['first', 'second'] }
       );
@@ -185,6 +186,7 @@ describe('createVueRouterAdapter', () => {
       const query = adapter.getCurrentQuery();
       expect(query).toEqual({});
       expect(consoleWarnSpy).toHaveBeenCalledWith(
+        '[vue-qs]:',
         'Error getting current query from Vue Router:',
         expect.any(Error)
       );
@@ -265,7 +267,7 @@ describe('createVueRouterAdapter', () => {
 
       await adapter.updateQuery({ foo: 'bar' });
 
-      expect(consoleWarnSpy).toHaveBeenCalledWith('Vue Router navigation error:', navigationError);
+      expect(consoleWarnSpy).toHaveBeenCalledWith('[vue-qs]:', 'Vue Router navigation error:', navigationError);
       consoleWarnSpy.mockRestore();
     });
 
@@ -300,6 +302,7 @@ describe('createVueRouterAdapter', () => {
       await adapter.updateQuery({ foo: 'bar' });
 
       expect(consoleWarnSpy).toHaveBeenCalledWith(
+        '[vue-qs]:',
         'Error updating query in Vue Router:',
         expect.any(Error)
       );
@@ -358,6 +361,7 @@ describe('createVueRouterAdapter', () => {
       await mockRouter.replace({ query: { test: 'value' } });
 
       expect(consoleWarnSpy).toHaveBeenCalledWith(
+        '[vue-qs]:',
         'Error in Vue Router query change callback:',
         expect.any(Error)
       );
@@ -381,6 +385,7 @@ describe('createVueRouterAdapter', () => {
       const unsubscribe = adapter.onQueryChange!(callback);
 
       expect(consoleWarnSpy).toHaveBeenCalledWith(
+        '[vue-qs]:',
         'Error setting up Vue Router query change listener:',
         expect.any(Error)
       );

@@ -135,9 +135,9 @@ export function removeUndefinedValues<T extends Record<string, unknown>>(
 }
 
 export function warn(...args: any[]): void {
-  console.warn(`[vue-qs]: ${args.join(' ')}`);
+  console.warn('[vue-qs]:', ...args);
 }
 
 export function error(...args: any[]): void {
-  console.error(`[vue-qs]: ${args.join(' ')}`);
+  console.error('[vue-qs]:', ...args);
 }

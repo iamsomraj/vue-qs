@@ -142,6 +142,7 @@ describe('adapter-context', () => {
       }).not.toThrow();
 
       expect(consoleErrorSpy).toHaveBeenCalledWith(
+        '[vue-qs]:',
         'Failed to install vue-qs plugin:',
         expect.any(Error)
       );

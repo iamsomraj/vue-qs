@@ -162,6 +162,7 @@ describe('core-helpers utilities', () => {
       const result = parseSearchString('?foo=bar');
       expect(result).toEqual({});
       expect(consoleWarnSpy).toHaveBeenCalledWith(
+        '[vue-qs]:',
         'Failed to parse search string:',
         expect.any(Error)
       );
@@ -219,6 +220,7 @@ describe('core-helpers utilities', () => {
       const result = buildSearchString({ foo: 'bar' });
       expect(result).toBe('');
       expect(consoleWarnSpy).toHaveBeenCalledWith(
+        '[vue-qs]:',
         'Failed to build search string:',
         expect.any(Error)
       );
