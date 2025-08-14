@@ -1,4 +1,4 @@
-[**vue-qs v0.1.14**](../README.md)
+[**vue-qs v0.1.15**](../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > `const` **stringCodec**: [`QueryCodec`](../type-aliases/QueryCodec.md)\<`string`\>
 
-Defined in: [serializers.ts:7](https://github.com/iamsomraj/vue-qs/blob/33788ce453ede405848f8283c5f38c6323ad5403/src/serializers.ts#L7)
+Defined in: [serializers.ts:8](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f5a2550faa61b4e51be4507991c23/src/serializers.ts#L8)
 
 String codec for handling string values
 Treats null/undefined as empty string

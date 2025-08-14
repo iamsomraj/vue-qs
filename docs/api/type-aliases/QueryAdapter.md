@@ -1,4 +1,4 @@
-[**vue-qs v0.1.14**](../README.md)
+[**vue-qs v0.1.15**](../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **QueryAdapter** = `object`
 
-Defined in: [types.ts:125](https://github.com/iamsomraj/vue-qs/blob/33788ce453ede405848f8283c5f38c6323ad5403/src/types.ts#L125)
+Defined in: [types.ts:125](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f5a2550faa61b4e51be4507991c23/src/types.ts#L125)
 
 Abstraction for reading and writing query parameters
 
@@ -18,7 +18,7 @@ Abstraction for reading and writing query parameters
 
 > **getCurrentQuery**(): `Record`\<`string`, `string` \| `undefined`\>
 
-Defined in: [types.ts:127](https://github.com/iamsomraj/vue-qs/blob/33788ce453ede405848f8283c5f38c6323ad5403/src/types.ts#L127)
+Defined in: [types.ts:127](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f5a2550faa61b4e51be4507991c23/src/types.ts#L127)
 
 Read current query parameters as a plain object
 
@@ -32,7 +32,7 @@ Read current query parameters as a plain object
 
 > **updateQuery**(`queryUpdates`, `options?`): `void`
 
-Defined in: [types.ts:129](https://github.com/iamsomraj/vue-qs/blob/33788ce453ede405848f8283c5f38c6323ad5403/src/types.ts#L129)
+Defined in: [types.ts:129](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f5a2550faa61b4e51be4507991c23/src/types.ts#L129)
 
 Update query parameters in the URL
 
@@ -58,7 +58,7 @@ Update query parameters in the URL
 
 > `optional` **onQueryChange**(`callback`): () => `void`
 
-Defined in: [types.ts:134](https://github.com/iamsomraj/vue-qs/blob/33788ce453ede405848f8283c5f38c6323ad5403/src/types.ts#L134)
+Defined in: [types.ts:134](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f5a2550faa61b4e51be4507991c23/src/types.ts#L134)
 
 Subscribe to external query changes (returns unsubscribe function)
 

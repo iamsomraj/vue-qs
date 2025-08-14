@@ -1,6 +1,6 @@
-[**vue-qs v0.1.14**](../README.md)
+[**vue-qs v0.1.15**](../README.md)
 
----
+***
 
 [vue-qs](../README.md) / createHistoryAdapter
 
@@ -8,10 +8,9 @@
 
 > **createHistoryAdapter**(`options`): [`QueryAdapter`](../type-aliases/QueryAdapter.md)
 
-Defined in: [adapters/history-adapter.ts:114](https://github.com/iamsomraj/vue-qs/blob/33788ce453ede405848f8283c5f38c6323ad5403/src/adapters/history-adapter.ts#L114)
+Defined in: [adapters/history-adapter.ts:108](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f5a2550faa61b4e51be4507991c23/src/adapters/history-adapter.ts#L108)
 
-Creates a query adapter that uses the browser's History API
-This adapter is SSR-safe and maintains an in-memory cache on the server
+Creates a query adapter that uses the browser's History API for URL parameters
 
 ## Parameters
 
@@ -25,7 +24,7 @@ Configuration options for the adapter
 
 [`QueryAdapter`](../type-aliases/QueryAdapter.md)
 
-Query adapter instance for browser history-based parameter management
+Query adapter instance
 
 ## Example
 

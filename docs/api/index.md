@@ -1,8 +1,8 @@
-**vue-qs v0.1.14**
+**vue-qs v0.1.15**
 
----
+***
 
-# vue-qs v0.1.14
+# vue-qs v0.1.15
 
 ## Namespaces
 
@@ -12,11 +12,11 @@
 
 - [VueQueryPluginOptions](interfaces/VueQueryPluginOptions.md)
 - [HistoryAdapterOptions](interfaces/HistoryAdapterOptions.md)
-- [HistoryAdapterResult](interfaces/HistoryAdapterResult.md)
 - [VueRouterAdapterOptions](interfaces/VueRouterAdapterOptions.md)
 
 ## Type Aliases
 
+- [HistoryAdapterResult](type-aliases/HistoryAdapterResult.md)
 - [QueryParser](type-aliases/QueryParser.md)
 - [QuerySerializer](type-aliases/QuerySerializer.md)
 - [QueryCodec](type-aliases/QueryCodec.md)

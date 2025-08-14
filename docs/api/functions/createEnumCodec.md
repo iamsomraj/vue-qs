@@ -1,4 +1,4 @@
-[**vue-qs v0.1.14**](../README.md)
+[**vue-qs v0.1.15**](../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **createEnumCodec**\<`T`\>(`allowedValues`): [`QueryCodec`](../type-aliases/QueryCodec.md)\<`T`\>
 
-Defined in: [serializers.ts:189](https://github.com/iamsomraj/vue-qs/blob/33788ce453ede405848f8283c5f38c6323ad5403/src/serializers.ts#L189)
+Defined in: [serializers.ts:190](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f5a2550faa61b4e51be4507991c23/src/serializers.ts#L190)
 
 Enum codec factory for handling string enum values
 Falls back to first enum value for invalid inputs

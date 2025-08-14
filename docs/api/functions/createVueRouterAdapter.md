@@ -1,4 +1,4 @@
-[**vue-qs v0.1.14**](../README.md)
+[**vue-qs v0.1.15**](../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **createVueRouterAdapter**(`vueRouter`, `options`): [`QueryAdapter`](../type-aliases/QueryAdapter.md)
 
-Defined in: [adapters/vue-router-adapter.ts:32](https://github.com/iamsomraj/vue-qs/blob/33788ce453ede405848f8283c5f38c6323ad5403/src/adapters/vue-router-adapter.ts#L32)
+Defined in: [adapters/vue-router-adapter.ts:33](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f5a2550faa61b4e51be4507991c23/src/adapters/vue-router-adapter.ts#L33)
 
 Creates a query adapter that integrates with Vue Router
 This adapter reads and writes query parameters through Vue Router's API

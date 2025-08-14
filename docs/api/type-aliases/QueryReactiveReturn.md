@@ -1,4 +1,4 @@
-[**vue-qs v0.1.14**](../README.md)
+[**vue-qs v0.1.15**](../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **QueryReactiveReturn**\<`TSchema`\> = `object`
 
-Defined in: [types.ts:98](https://github.com/iamsomraj/vue-qs/blob/33788ce453ede405848f8283c5f38c6323ad5403/src/types.ts#L98)
+Defined in: [types.ts:98](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f5a2550faa61b4e51be4507991c23/src/types.ts#L98)
 
 Return type from useQueryReactive composable
 
@@ -26,7 +26,7 @@ The parameter schema type
 
 > **queryState**: [`ReactiveQueryState`](ReactiveQueryState.md)\<`TSchema`\>
 
-Defined in: [types.ts:100](https://github.com/iamsomraj/vue-qs/blob/33788ce453ede405848f8283c5f38c6323ad5403/src/types.ts#L100)
+Defined in: [types.ts:100](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f5a2550faa61b4e51be4507991c23/src/types.ts#L100)
 
 Reactive state object with typed parameter values
 
@@ -36,7 +36,7 @@ Reactive state object with typed parameter values
 
 > **updateBatch**(`updates`, `options?`): `void`
 
-Defined in: [types.ts:102](https://github.com/iamsomraj/vue-qs/blob/33788ce453ede405848f8283c5f38c6323ad5403/src/types.ts#L102)
+Defined in: [types.ts:102](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f5a2550faa61b4e51be4507991c23/src/types.ts#L102)
 
 Update multiple parameters in a single operation
 
@@ -60,7 +60,7 @@ Update multiple parameters in a single operation
 
 > **syncAllToUrl**(): `void`
 
-Defined in: [types.ts:107](https://github.com/iamsomraj/vue-qs/blob/33788ce453ede405848f8283c5f38c6323ad5403/src/types.ts#L107)
+Defined in: [types.ts:107](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f5a2550faa61b4e51be4507991c23/src/types.ts#L107)
 
 Manually sync all current values to the URL
 
