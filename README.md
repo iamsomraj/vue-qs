@@ -102,40 +102,6 @@ createApp(App)
   .mount('#app');
 ```
 
-## Using Hash Mode (like VueUse)
-
-For SPAs using hash routing or when you want parameters in the hash fragment:
-
-```vue
-<script setup lang="ts">
-import { useQueryRef, createHashAdapter } from 'vue-qs';
-
-// Hash mode: #/route?foo=bar&baz=qux
-const hashAdapter = createHashAdapter({ mode: 'hash' });
-
-// Hash-params mode: #foo=bar&baz=qux
-const hashParamsAdapter = createHashAdapter({ mode: 'hash-params' });
-
-const searchQuery = useQueryRef('q', {
-  defaultValue: '',
-  queryAdapter: hashAdapter,
-});
-</script>
-```
-
-Global setup:
-
-```ts
-// main.ts - Use hash adapter globally
-createApp(App)
-  .use(
-    createVueQsPlugin({
-      queryAdapter: createHashAdapter({ mode: 'hash' }),
-    })
-  )
-  .mount('#app');
-```
-
 ## Two‑way sync (URL -> state)
 
 Disabled by default. Turn on with `enableTwoWaySync: true` to react to back/forward and router navigations.
@@ -216,10 +182,6 @@ useQueryReactive(schema, options)
 createHistoryAdapter(options)
 
 - Creates adapter for browser History API (default choice).
-
-createHashAdapter(options)
-
-- Creates adapter for hash-based parameters (SPA/VueUse mode).
 
 createVueRouterAdapter(router)
 

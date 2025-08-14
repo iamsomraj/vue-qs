@@ -65,11 +65,10 @@ const { queryState } = useQueryReactive({
 `vue-qs` uses a uniform adapter API for consistent developer experience. All adapter creation functions return a `QueryAdapter` directly:
 
 ```ts
-import { createHistoryAdapter, createHashAdapter, createVueRouterAdapter } from 'vue-qs';
+import { createHistoryAdapter, createVueRouterAdapter } from 'vue-qs';
 
 // All adapters return QueryAdapter directly - no destructuring needed
 const historyAdapter = createHistoryAdapter(); // Browser History API (default)
-const hashAdapter = createHashAdapter(); // Hash-based parameters (SPA mode)
 const routerAdapter = createVueRouterAdapter(router); // Vue Router integration
 ```
 

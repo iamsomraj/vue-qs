@@ -1,6 +1,6 @@
 **vue-qs v0.1.14**
 
-***
+---
 
 # vue-qs v0.1.14
 
@@ -11,15 +11,12 @@
 ## Interfaces
 
 - [VueQueryPluginOptions](interfaces/VueQueryPluginOptions.md)
-- [HashAdapterOptions](interfaces/HashAdapterOptions.md)
-- [HashAdapterResult](interfaces/HashAdapterResult.md)
 - [HistoryAdapterOptions](interfaces/HistoryAdapterOptions.md)
 - [HistoryAdapterResult](interfaces/HistoryAdapterResult.md)
 - [VueRouterAdapterOptions](interfaces/VueRouterAdapterOptions.md)
 
 ## Type Aliases
 
-- [HashMode](type-aliases/HashMode.md)
 - [QueryParser](type-aliases/QueryParser.md)
 - [QuerySerializer](type-aliases/QuerySerializer.md)
 - [QueryCodec](type-aliases/QueryCodec.md)
@@ -47,7 +44,6 @@
 - [provideQueryAdapter](functions/provideQueryAdapter.md)
 - [useQueryAdapter](functions/useQueryAdapter.md)
 - [createVueQsPlugin](functions/createVueQsPlugin.md)
-- [createHashAdapter](functions/createHashAdapter.md)
 - [createHistoryAdapter](functions/createHistoryAdapter.md)
 - [createVueRouterAdapter](functions/createVueRouterAdapter.md)
 - [useQueryReactive](functions/useQueryReactive.md)
