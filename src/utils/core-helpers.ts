@@ -44,7 +44,7 @@ export function parseSearchString(searchString: string): Record<string, string> 
 
     return result;
   } catch (error) {
-    console.warn('Failed to parse search string:', error);
+    warn('Failed to parse search string:', error);
     return {};
   }
 }
@@ -67,7 +67,7 @@ export function buildSearchString(queryObject: Record<string, string | undefined
     const searchString = urlParams.toString();
     return searchString ? `?${searchString}` : '';
   } catch (error) {
-    console.warn('Failed to build search string:', error);
+    warn('Failed to build search string:', error);
     return '';
   }
 }
@@ -87,7 +87,7 @@ export function areValuesEqual<T>(
   try {
     return customEquals ? customEquals(valueA, valueB) : Object.is(valueA, valueB);
   } catch (error) {
-    console.warn('Error comparing values:', error);
+    warn('Error comparing values:', error);
     return false;
   }
 }
@@ -105,7 +105,7 @@ export function mergeObjects<T extends Record<string, unknown>>(
   try {
     return { ...baseObject, ...updateObject };
   } catch (error) {
-    console.warn('Error merging objects:', error);
+    warn('Error merging objects:', error);
     return baseObject;
   }
 }
@@ -129,7 +129,15 @@ export function removeUndefinedValues<T extends Record<string, unknown>>(
 
     return cleanedObject;
   } catch (error) {
-    console.warn('Error removing undefined values:', error);
+    warn('Error removing undefined values:', error);
     return sourceObject;
   }
+}
+
+export function warn(...args: any[]): void {
+  console.warn('[vue-qs]:', ...args);
+}
+
+export function error(...args: any[]): void {
+  console.error('[vue-qs]:', ...args);
 }

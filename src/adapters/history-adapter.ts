@@ -1,10 +1,11 @@
 import { reactive } from 'vue';
-import type { QueryAdapter, RuntimeEnvironment } from '@/types';
+import type { QueryAdapter } from '@/types';
 import {
-  createRuntimeEnvironment,
-  parseSearchString,
   buildSearchString,
+  createRuntimeEnvironment,
   mergeObjects,
+  parseSearchString,
+  warn,
 } from '@/utils/core-helpers';
 
 /**
@@ -18,13 +19,7 @@ export interface HistoryAdapterOptions {
 /**
  * Result of creating a history-based query adapter
  */
-export interface HistoryAdapterResult {
-  /** The query adapter instance */
-  queryAdapter: QueryAdapter;
-  /** Runtime environment information */
-  runtimeEnvironment: RuntimeEnvironment;
-}
-
+export type HistoryAdapterResult = QueryAdapter;
 // Global flag to track if history API has been patched
 let isHistoryPatched = false;
 
@@ -62,7 +57,7 @@ function patchHistoryAPI(windowObject: Window): void {
       try {
         windowObject.dispatchEvent(new Event('vue-qs:history-change'));
       } catch (error) {
-        console.warn('Failed to dispatch history change event:', error);
+        warn('Failed to dispatch history change event:', error);
       }
     };
 
@@ -80,7 +75,7 @@ function patchHistoryAPI(windowObject: Window): void {
 
           return result;
         } catch (error) {
-          console.warn(`Error in patched ${methodName}:`, error);
+          warn(`Error in patched ${methodName}:`, error);
           return originalMethod.apply(this, args);
         }
       } as History[T];
@@ -89,29 +84,28 @@ function patchHistoryAPI(windowObject: Window): void {
     wrapHistoryMethod('pushState');
     wrapHistoryMethod('replaceState');
   } catch (error) {
-    console.warn('Failed to patch history API:', error);
+    warn('Failed to patch history API:', error);
     isHistoryPatched = false;
   }
 }
 
 /**
- * Creates a query adapter that uses the browser's History API
- * This adapter is SSR-safe and maintains an in-memory cache on the server
+ * Creates a query adapter that uses the browser's History API for URL parameters
  *
  * @param options Configuration options for the adapter
- * @returns History adapter result with the adapter and runtime info
+ * @returns Query adapter instance
  *
  * @example
  * ```typescript
  * import { createHistoryAdapter } from 'vue-qs';
  *
- * const { queryAdapter } = createHistoryAdapter();
+ * const queryAdapter = createHistoryAdapter();
  *
  * // Use with the plugin
  * app.use(createVueQsPlugin({ queryAdapter }));
  * ```
  */
-export function createHistoryAdapter(options: HistoryAdapterOptions = {}): HistoryAdapterResult {
+export function createHistoryAdapter(options: HistoryAdapterOptions = {}): QueryAdapter {
   const runtimeEnvironment = createRuntimeEnvironment();
   const { suppressHistoryEvents = false } = options;
 
@@ -130,7 +124,7 @@ export function createHistoryAdapter(options: HistoryAdapterOptions = {}): Histo
         const searchString = runtimeEnvironment.windowObject.location.search;
         return parseSearchString(searchString);
       } catch (error) {
-        console.warn('Error getting current query:', error);
+        warn('Error getting current query:', error);
         return {};
       }
     },
@@ -184,11 +178,11 @@ export function createHistoryAdapter(options: HistoryAdapterOptions = {}): Histo
           try {
             windowObject.location.href = newPath;
           } catch (error) {
-            console.warn('Failed to update location directly:', error);
+            warn('Failed to update location directly:', error);
           }
         }
       } catch (error) {
-        console.warn('Error updating query:', error);
+        warn('Error updating query:', error);
       }
     },
 
@@ -212,7 +206,7 @@ export function createHistoryAdapter(options: HistoryAdapterOptions = {}): Histo
           try {
             callback();
           } catch (error) {
-            console.warn('Error in query change callback:', error);
+            warn('Error in query change callback:', error);
           }
         };
 
@@ -232,11 +226,11 @@ export function createHistoryAdapter(options: HistoryAdapterOptions = {}): Histo
               windowObject.removeEventListener('vue-qs:history-change', handleQueryChange);
             }
           } catch (error) {
-            console.warn('Error unsubscribing from query changes:', error);
+            warn('Error unsubscribing from query changes:', error);
           }
         };
       } catch (error) {
-        console.warn('Error setting up query change listener:', error);
+        warn('Error setting up query change listener:', error);
         return (): void => {
           // No-op: Error occurred during setup, nothing to cleanup
         };
@@ -244,8 +238,5 @@ export function createHistoryAdapter(options: HistoryAdapterOptions = {}): Histo
     },
   };
 
-  return {
-    queryAdapter,
-    runtimeEnvironment,
-  };
+  return queryAdapter;
 }

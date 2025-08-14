@@ -75,6 +75,7 @@ export default defineConfig({
             { text: '示例', link: '/zh/guide/examples' },
             { text: 'Vue Router', link: '/zh/guide/vue-router' },
             { text: '双向同步', link: '/zh/guide/two-way-sync' },
+            { text: '序列化器', link: '/zh/guide/serializers' },
           ],
         },
       ],

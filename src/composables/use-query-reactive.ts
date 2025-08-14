@@ -3,29 +3,25 @@ import { useQueryAdapter } from '@/adapter-context';
 import { createHistoryAdapter } from '@/adapters/history-adapter';
 import { stringCodec } from '@/serializers';
 import type {
+  QueryAdapter,
+  QueryBatchUpdateOptions,
   QueryParameterSchema,
   QueryParser,
-  QuerySerializer,
-  UseQueryReactiveOptions,
   QueryReactiveReturn,
+  QuerySerializer,
   ReactiveQueryState,
-  QueryBatchUpdateOptions,
+  UseQueryReactiveOptions,
 } from '@/types';
-import { areValuesEqual } from '@/utils/core-helpers';
+import { areValuesEqual, warn } from '@/utils/core-helpers';
 
 // Shared history adapter instance for performance optimization
-let sharedHistoryAdapterInstance:
-  | ReturnType<typeof createHistoryAdapter>['queryAdapter']
-  | undefined;
+let sharedHistoryAdapterInstance: QueryAdapter | undefined;
 
 /**
  * Gets or creates the shared history adapter instance
  */
-function getSharedHistoryAdapter(): ReturnType<typeof createHistoryAdapter>['queryAdapter'] {
-  if (!sharedHistoryAdapterInstance) {
-    const { queryAdapter } = createHistoryAdapter();
-    sharedHistoryAdapterInstance = queryAdapter;
-  }
+function getSharedHistoryAdapter(): QueryAdapter {
+  sharedHistoryAdapterInstance ??= createHistoryAdapter();
   return sharedHistoryAdapterInstance;
 }
 
@@ -123,7 +119,7 @@ export function useQueryReactive<TSchema extends QueryParameterSchema>(
 
       (reactiveState as any)[paramKey] = initialValue;
     } catch (error) {
-      console.warn(`Error initializing parameter "${paramKey}":`, error);
+      warn(`Error initializing parameter "${paramKey}":`, error);
       (reactiveState as any)[paramKey] = paramConfig.defaultValue;
     }
   });
@@ -165,7 +161,7 @@ export function useQueryReactive<TSchema extends QueryParameterSchema>(
           serializedQuery[paramKey] = serialized ?? undefined;
         }
       } catch (error) {
-        console.warn(`Error serializing parameter "${paramKey}":`, error);
+        warn(`Error serializing parameter "${paramKey}":`, error);
         serializedQuery[paramKey] = undefined;
       }
     });
@@ -186,7 +182,7 @@ export function useQueryReactive<TSchema extends QueryParameterSchema>(
       const serializedQuery = serializeStateSubset(fullState);
       selectedAdapter.updateQuery(serializedQuery, { historyStrategy });
     } catch (error) {
-      console.warn('Error syncing all parameters to URL:', error);
+      warn('Error syncing all parameters to URL:', error);
     }
   }
 
@@ -213,7 +209,7 @@ export function useQueryReactive<TSchema extends QueryParameterSchema>(
         const serializedQuery = serializeStateSubset(changedState);
         selectedAdapter.updateQuery(serializedQuery, { historyStrategy });
       } catch (error) {
-        console.warn('Error syncing state changes to URL:', error);
+        warn('Error syncing state changes to URL:', error);
       }
     },
     {
@@ -241,7 +237,7 @@ export function useQueryReactive<TSchema extends QueryParameterSchema>(
       const finalHistoryStrategy = batchOptions?.historyStrategy ?? historyStrategy;
       selectedAdapter.updateQuery(serializedQuery, { historyStrategy: finalHistoryStrategy });
     } catch (error) {
-      console.warn('Error during batch update:', error);
+      warn('Error during batch update:', error);
     } finally {
       // Reset batch flag in next microtask
       queueMicrotask(() => {
@@ -285,7 +281,7 @@ export function useQueryReactive<TSchema extends QueryParameterSchema>(
           });
         }
       } catch (error) {
-        console.warn('Error syncing from URL:', error);
+        warn('Error syncing from URL:', error);
       }
     }
 
@@ -309,7 +305,7 @@ export function useQueryReactive<TSchema extends QueryParameterSchema>(
         stopWatcher();
         unsubscribeFromURLChanges?.();
       } catch (error) {
-        console.warn('Error during useQueryReactive cleanup:', error);
+        warn('Error during useQueryReactive cleanup:', error);
       }
     });
   }

@@ -179,9 +179,13 @@ useQueryReactive(schema, options)
 
 - Returns `{ queryState, updateBatch, syncAllToUrl }`.
 
+createHistoryAdapter(options)
+
+- Creates adapter for browser History API (default choice).
+
 createVueRouterAdapter(router)
 
-- Adapter for Vue Router (enables reacting to navigations).
+- Creates adapter for Vue Router (enables reacting to navigations).
 
 createVueQsPlugin({ queryAdapter }) / provideQueryAdapter(adapter)
 
