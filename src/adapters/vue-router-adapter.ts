@@ -1,5 +1,6 @@
-import type { Router, LocationQuery } from 'vue-router';
+import type { LocationQuery, Router } from 'vue-router';
 import type { QueryAdapter } from '@/types';
+import { warn } from '@/utils/core-helpers';
 
 /**
  * Configuration options for the Vue Router adapter
@@ -53,7 +54,7 @@ export function createVueRouterAdapter(
               : undefined;
 
           if (warnOnArrayParams && value.length > 1) {
-            console.warn(
+            warn(
               `Query parameter "${key}" has multiple values. Only the first value will be used.`,
               { key, values: value }
             );
@@ -67,7 +68,7 @@ export function createVueRouterAdapter(
 
       return normalizedQuery;
     } catch (error) {
-      console.warn('Error normalizing router query:', error);
+      warn('Error normalizing router query:', error);
       return {};
     }
   }
@@ -90,7 +91,7 @@ export function createVueRouterAdapter(
 
       return keysA.every((key) => normalizedA[key] === normalizedB[key]);
     } catch (error) {
-      console.warn('Error comparing queries:', error);
+      warn('Error comparing queries:', error);
       return false;
     }
   }
@@ -101,7 +102,7 @@ export function createVueRouterAdapter(
         const currentRoute = vueRouter.currentRoute.value;
         return normalizeRouterQuery(currentRoute.query);
       } catch (error) {
-        console.warn('Error getting current query from Vue Router:', error);
+        warn('Error getting current query from Vue Router:', error);
         return {};
       }
     },
@@ -136,11 +137,11 @@ export function createVueRouterAdapter(
           .catch((error) => {
             // Handle navigation errors (e.g., navigation cancelled)
             if (error?.name !== 'NavigationDuplicated') {
-              console.warn('Vue Router navigation error:', error);
+              warn('Vue Router navigation error:', error);
             }
           });
       } catch (error) {
-        console.warn('Error updating query in Vue Router:', error);
+        warn('Error updating query in Vue Router:', error);
       }
     },
 
@@ -151,13 +152,13 @@ export function createVueRouterAdapter(
           try {
             callback();
           } catch (error) {
-            console.warn('Error in Vue Router query change callback:', error);
+            warn('Error in Vue Router query change callback:', error);
           }
         });
 
         return unsubscribeHook;
       } catch (error) {
-        console.warn('Error setting up Vue Router query change listener:', error);
+        warn('Error setting up Vue Router query change listener:', error);
         return (): void => {
           // No-op: Error occurred during setup, nothing to cleanup
         };

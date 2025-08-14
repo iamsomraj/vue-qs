@@ -10,7 +10,7 @@ import type {
   QueryAdapter,
   QueryCodec,
 } from '@/types';
-import { areValuesEqual } from '@/utils/core-helpers';
+import { areValuesEqual, warn } from '@/utils/core-helpers';
 
 // Shared history adapter instance for performance optimization
 let sharedHistoryAdapterInstance:
@@ -124,7 +124,7 @@ export function useQueryRef<T>(
 
       return defaultValue as T;
     } catch (error) {
-      console.warn(`Error getting initial value for parameter "${parameterName}":`, error);
+      warn(`Error getting initial value for parameter "${parameterName}":`, error);
       return defaultValue as T;
     }
   }
@@ -153,7 +153,7 @@ export function useQueryRef<T>(
 
       selectedAdapter.updateQuery(queryUpdate, { historyStrategy });
     } catch (error) {
-      console.warn(`Error updating URL for parameter "${parameterName}":`, error);
+      warn(`Error updating URL for parameter "${parameterName}":`, error);
     }
   }
 
@@ -208,7 +208,7 @@ export function useQueryRef<T>(
           });
         }
       } catch (error) {
-        console.warn(`Error syncing from URL for parameter "${parameterName}":`, error);
+        warn(`Error syncing from URL for parameter "${parameterName}":`, error);
       }
     }
 
@@ -233,7 +233,7 @@ export function useQueryRef<T>(
         stopWatcher();
         unsubscribeFromURLChanges?.();
       } catch (error) {
-        console.warn('Error during useQueryRef cleanup:', error);
+        warn('Error during useQueryRef cleanup:', error);
       }
     });
   }

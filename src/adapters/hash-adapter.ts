@@ -1,10 +1,11 @@
 import { reactive } from 'vue';
 import type { QueryAdapter, RuntimeEnvironment } from '@/types';
 import {
-  createRuntimeEnvironment,
-  parseSearchString,
   buildSearchString,
+  createRuntimeEnvironment,
   mergeObjects,
+  parseSearchString,
+  warn,
 } from '@/utils/core-helpers';
 
 /**
@@ -71,7 +72,7 @@ function patchHashHistoryAPI(windowObject: Window): void {
       try {
         windowObject.dispatchEvent(new Event('vue-qs:hash-change'));
       } catch (error) {
-        console.warn('Failed to dispatch hash change event:', error);
+        warn('Failed to dispatch hash change event:', error);
       }
     };
 
@@ -89,7 +90,7 @@ function patchHashHistoryAPI(windowObject: Window): void {
 
           return result;
         } catch (error) {
-          console.warn(`Error in patched hash ${methodName}:`, error);
+          warn(`Error in patched hash ${methodName}:`, error);
           return originalMethod.apply(this, args);
         }
       } as History[T];
@@ -98,7 +99,7 @@ function patchHashHistoryAPI(windowObject: Window): void {
     wrapHistoryMethod('pushState');
     wrapHistoryMethod('replaceState');
   } catch (error) {
-    console.warn('Failed to patch hash history API:', error);
+    warn('Failed to patch hash history API:', error);
     isHashHistoryPatched = false;
   }
 }
@@ -131,7 +132,7 @@ function parseHashQuery(hash: string, mode: HashMode): Record<string, string> {
       return parseSearchString(queryPart);
     }
   } catch (error) {
-    console.warn('Error parsing hash query:', error);
+    warn('Error parsing hash query:', error);
     return {};
   }
 }
@@ -169,7 +170,7 @@ function buildHashString(
       return routePart ? `#${routePart}${queryString}` : `#${queryString}`;
     }
   } catch (error) {
-    console.warn('Error building hash string:', error);
+    warn('Error building hash string:', error);
     return currentHash;
   }
 }
@@ -214,7 +215,7 @@ export function createHashAdapter(options: HashAdapterOptions = {}): HashAdapter
         const hash = runtimeEnvironment.windowObject.location.hash;
         return parseHashQuery(hash, mode);
       } catch (error) {
-        console.warn('Error getting current hash query:', error);
+        warn('Error getting current hash query:', error);
         return {};
       }
     },
@@ -274,11 +275,11 @@ export function createHashAdapter(options: HashAdapterOptions = {}): HashAdapter
           try {
             windowObject.location.hash = newHash;
           } catch (error) {
-            console.warn('Failed to update hash directly:', error);
+            warn('Failed to update hash directly:', error);
           }
         }
       } catch (error) {
-        console.warn('Error updating hash query:', error);
+        warn('Error updating hash query:', error);
       }
     },
 
@@ -302,7 +303,7 @@ export function createHashAdapter(options: HashAdapterOptions = {}): HashAdapter
           try {
             callback();
           } catch (error) {
-            console.warn('Error in hash change callback:', error);
+            warn('Error in hash change callback:', error);
           }
         };
 
@@ -324,11 +325,11 @@ export function createHashAdapter(options: HashAdapterOptions = {}): HashAdapter
               windowObject.removeEventListener('vue-qs:hash-change', handleHashChange);
             }
           } catch (error) {
-            console.warn('Error unsubscribing from hash changes:', error);
+            warn('Error unsubscribing from hash changes:', error);
           }
         };
       } catch (error) {
-        console.warn('Error setting up hash change listener:', error);
+        warn('Error setting up hash change listener:', error);
         return (): void => {
           // No-op: Error occurred during setup, nothing to cleanup
         };

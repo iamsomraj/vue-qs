@@ -176,7 +176,7 @@ vue-qs is a Vue.js library for synchronizing URL query parameters with reactive 
 try {
   // Implementation
 } catch (error) {
-  console.warn('Descriptive error message:', error);
+  warn('Descriptive error message:', error);
   return fallback; // Always provide fallback
 }
 ```

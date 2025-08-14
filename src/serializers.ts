@@ -1,4 +1,5 @@
 import type { QueryCodec } from '@/types';
+import { warn } from '@/utils/core-helpers';
 
 /**
  * String codec for handling string values
@@ -9,7 +10,7 @@ export const stringCodec: QueryCodec<string> = {
     try {
       return rawValue ?? '';
     } catch (error) {
-      console.warn('Error parsing string value:', error);
+      warn('Error parsing string value:', error);
       return '';
     }
   },
@@ -18,7 +19,7 @@ export const stringCodec: QueryCodec<string> = {
     try {
       return String(stringValue);
     } catch (error) {
-      console.warn('Error serializing string value:', error);
+      warn('Error serializing string value:', error);
       return null;
     }
   },
@@ -37,7 +38,7 @@ export const numberCodec: QueryCodec<number> = {
       const numericValue = Number(rawValue);
       return numericValue;
     } catch (error) {
-      console.warn('Error parsing number value:', error);
+      warn('Error parsing number value:', error);
       return NaN;
     }
   },
@@ -46,7 +47,7 @@ export const numberCodec: QueryCodec<number> = {
     try {
       return Number.isFinite(numericValue) ? String(numericValue) : null;
     } catch (error) {
-      console.warn('Error serializing number value:', error);
+      warn('Error serializing number value:', error);
       return null;
     }
   },
@@ -61,7 +62,7 @@ export const booleanCodec: QueryCodec<boolean> = {
     try {
       return rawValue === 'true' || rawValue === '1';
     } catch (error) {
-      console.warn('Error parsing boolean value:', error);
+      warn('Error parsing boolean value:', error);
       return false;
     }
   },
@@ -70,7 +71,7 @@ export const booleanCodec: QueryCodec<boolean> = {
     try {
       return booleanValue ? 'true' : 'false';
     } catch (error) {
-      console.warn('Error serializing boolean value:', error);
+      warn('Error serializing boolean value:', error);
       return 'false';
     }
   },
@@ -85,7 +86,7 @@ export const dateISOCodec: QueryCodec<Date> = {
     try {
       return rawValue !== null && rawValue !== '' ? new Date(rawValue) : new Date(NaN);
     } catch (error) {
-      console.warn('Error parsing date value:', error);
+      warn('Error parsing date value:', error);
       return new Date(NaN);
     }
   },
@@ -97,7 +98,7 @@ export const dateISOCodec: QueryCodec<Date> = {
       }
       return null;
     } catch (error) {
-      console.warn('Error serializing date value:', error);
+      warn('Error serializing date value:', error);
       return null;
     }
   },
@@ -118,7 +119,7 @@ export function createJsonCodec<T>(): QueryCodec<T | null> {
         }
         return JSON.parse(rawValue) as T;
       } catch (error) {
-        console.warn('Error parsing JSON value:', error);
+        warn('Error parsing JSON value:', error);
         return null;
       }
     },
@@ -130,7 +131,7 @@ export function createJsonCodec<T>(): QueryCodec<T | null> {
         }
         return JSON.stringify(objectValue);
       } catch (error) {
-        console.warn('Error serializing JSON value:', error);
+        warn('Error serializing JSON value:', error);
         return null;
       }
     },
@@ -155,7 +156,7 @@ export function createArrayCodec<T>(elementCodec: QueryCodec<T>, delimiter = ','
         const arrayElements = rawValue.split(delimiter);
         return arrayElements.map((element) => elementCodec.parse(element));
       } catch (error) {
-        console.warn('Error parsing array value:', error);
+        warn('Error parsing array value:', error);
         return [];
       }
     },
@@ -172,7 +173,7 @@ export function createArrayCodec<T>(elementCodec: QueryCodec<T>, delimiter = ','
 
         return serializedElements.length > 0 ? serializedElements.join(delimiter) : null;
       } catch (error) {
-        console.warn('Error serializing array value:', error);
+        warn('Error serializing array value:', error);
         return null;
       }
     },
@@ -197,7 +198,7 @@ export function createEnumCodec<T extends string>(allowedValues: readonly T[]): 
         }
         return defaultValue;
       } catch (error) {
-        console.warn('Error parsing enum value:', error);
+        warn('Error parsing enum value:', error);
         return defaultValue;
       }
     },
@@ -206,7 +207,7 @@ export function createEnumCodec<T extends string>(allowedValues: readonly T[]): 
       try {
         return allowedValues.includes(enumValue) ? enumValue : defaultValue;
       } catch (error) {
-        console.warn('Error serializing enum value:', error);
+        warn('Error serializing enum value:', error);
         return defaultValue;
       }
     },

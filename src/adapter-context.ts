@@ -1,6 +1,7 @@
 import { inject, provide, type App } from 'vue';
 import { QUERY_ADAPTER_INJECTION_KEY } from '@/core/injection-keys';
 import type { QueryAdapter } from '@/types';
+import { warn, error as logError } from '@/utils/core-helpers';
 
 /**
  * Provides a query adapter to the component tree using dependency injection
@@ -21,7 +22,7 @@ export function provideQueryAdapter(queryAdapter: QueryAdapter): void {
   try {
     provide(QUERY_ADAPTER_INJECTION_KEY, queryAdapter);
   } catch (error) {
-    console.warn('Failed to provide query adapter:', error);
+    warn('Failed to provide query adapter:', error);
   }
 }
 
@@ -46,7 +47,7 @@ export function useQueryAdapter(): QueryAdapter | undefined {
   try {
     return inject(QUERY_ADAPTER_INJECTION_KEY, undefined, false);
   } catch (error) {
-    console.warn('Failed to inject query adapter:', error);
+    warn('Failed to inject query adapter:', error);
     return undefined;
   }
 }
@@ -87,7 +88,7 @@ export function createVueQsPlugin(options: VueQueryPluginOptions): {
       try {
         app.provide(QUERY_ADAPTER_INJECTION_KEY, queryAdapter);
       } catch (error) {
-        console.error('Failed to install vue-qs plugin:', error);
+        logError('Failed to install vue-qs plugin:', error);
       }
     },
   };

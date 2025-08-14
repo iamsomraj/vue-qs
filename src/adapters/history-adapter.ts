@@ -1,10 +1,11 @@
 import { reactive } from 'vue';
 import type { QueryAdapter, RuntimeEnvironment } from '@/types';
 import {
-  createRuntimeEnvironment,
-  parseSearchString,
   buildSearchString,
+  createRuntimeEnvironment,
   mergeObjects,
+  parseSearchString,
+  warn,
 } from '@/utils/core-helpers';
 
 /**
@@ -62,7 +63,7 @@ function patchHistoryAPI(windowObject: Window): void {
       try {
         windowObject.dispatchEvent(new Event('vue-qs:history-change'));
       } catch (error) {
-        console.warn('Failed to dispatch history change event:', error);
+        warn('Failed to dispatch history change event:', error);
       }
     };
 
@@ -80,7 +81,7 @@ function patchHistoryAPI(windowObject: Window): void {
 
           return result;
         } catch (error) {
-          console.warn(`Error in patched ${methodName}:`, error);
+          warn(`Error in patched ${methodName}:`, error);
           return originalMethod.apply(this, args);
         }
       } as History[T];
@@ -89,7 +90,7 @@ function patchHistoryAPI(windowObject: Window): void {
     wrapHistoryMethod('pushState');
     wrapHistoryMethod('replaceState');
   } catch (error) {
-    console.warn('Failed to patch history API:', error);
+    warn('Failed to patch history API:', error);
     isHistoryPatched = false;
   }
 }
@@ -130,7 +131,7 @@ export function createHistoryAdapter(options: HistoryAdapterOptions = {}): Histo
         const searchString = runtimeEnvironment.windowObject.location.search;
         return parseSearchString(searchString);
       } catch (error) {
-        console.warn('Error getting current query:', error);
+        warn('Error getting current query:', error);
         return {};
       }
     },
@@ -184,11 +185,11 @@ export function createHistoryAdapter(options: HistoryAdapterOptions = {}): Histo
           try {
             windowObject.location.href = newPath;
           } catch (error) {
-            console.warn('Failed to update location directly:', error);
+            warn('Failed to update location directly:', error);
           }
         }
       } catch (error) {
-        console.warn('Error updating query:', error);
+        warn('Error updating query:', error);
       }
     },
 
@@ -212,7 +213,7 @@ export function createHistoryAdapter(options: HistoryAdapterOptions = {}): Histo
           try {
             callback();
           } catch (error) {
-            console.warn('Error in query change callback:', error);
+            warn('Error in query change callback:', error);
           }
         };
 
@@ -232,11 +233,11 @@ export function createHistoryAdapter(options: HistoryAdapterOptions = {}): Histo
               windowObject.removeEventListener('vue-qs:history-change', handleQueryChange);
             }
           } catch (error) {
-            console.warn('Error unsubscribing from query changes:', error);
+            warn('Error unsubscribing from query changes:', error);
           }
         };
       } catch (error) {
-        console.warn('Error setting up query change listener:', error);
+        warn('Error setting up query change listener:', error);
         return (): void => {
           // No-op: Error occurred during setup, nothing to cleanup
         };
