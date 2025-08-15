@@ -10,7 +10,7 @@ import type {
   QueryReactiveReturn,
   QuerySerializer,
   ReactiveQueryState,
-  UseQueryReactiveOptions,
+  QueryReactiveOptions,
 } from '@/types';
 import { areValuesEqual, warn } from '@/utils/core-helpers';
 
@@ -35,7 +35,7 @@ function getSharedHistoryAdapter(): QueryAdapter {
  *
  * @example
  * ```typescript
- * import { useQueryReactive, numberCodec, booleanCodec } from 'vue-qs';
+ * import { queryReactive, numberCodec, booleanCodec } from 'vue-qs';
  *
  * const querySchema = {
  *   search: {
@@ -52,8 +52,7 @@ function getSharedHistoryAdapter(): QueryAdapter {
  *   },
  * } as const;
  *
- * const { queryState, updateBatch, syncAllToUrl } = useQueryReactive(querySchema, {
- *   enableTwoWaySync: true,
+ * const { queryState, updateBatch, syncAllToUrl } = queryReactive(querySchema, {
  *   historyStrategy: 'replace'
  * });
  *
@@ -74,16 +73,12 @@ function getSharedHistoryAdapter(): QueryAdapter {
  * syncAllToUrl();
  * ```
  */
-export function useQueryReactive<TSchema extends QueryParameterSchema>(
+export function queryReactive<TSchema extends QueryParameterSchema>(
   parameterSchema: TSchema,
-  options: UseQueryReactiveOptions = {}
+  options: QueryReactiveOptions = {}
 ): QueryReactiveReturn<TSchema> {
   // Extract options with defaults
-  const {
-    historyStrategy = 'replace',
-    queryAdapter: providedAdapter,
-    enableTwoWaySync = false,
-  } = options;
+  const { historyStrategy = 'replace', queryAdapter: providedAdapter } = options;
 
   // Determine which adapter to use
   const componentInstance = getCurrentInstance();
@@ -186,8 +181,7 @@ export function useQueryReactive<TSchema extends QueryParameterSchema>(
     }
   }
 
-  // Flags to control when watchers should trigger
-  let isSyncingFromURL = false;
+  // Flag to control when watchers should trigger during batch updates
   let isBatchUpdating = false;
 
   // Watch for state changes and sync to URL
@@ -201,8 +195,8 @@ export function useQueryReactive<TSchema extends QueryParameterSchema>(
       return stateSnapshot;
     },
     (changedState) => {
-      if (isSyncingFromURL || isBatchUpdating) {
-        return; // Skip updates during sync operations
+      if (isBatchUpdating) {
+        return; // Skip updates during batch operations
       }
 
       try {
@@ -246,66 +240,13 @@ export function useQueryReactive<TSchema extends QueryParameterSchema>(
     }
   }
 
-  // Set up two-way synchronization if enabled
-  let unsubscribeFromURLChanges: (() => void) | undefined;
-
-  if (enableTwoWaySync) {
-    function syncFromURL(): void {
-      try {
-        const currentQuery = selectedAdapter.getCurrentQuery();
-
-        isSyncingFromURL = true;
-        try {
-          Object.keys(parameterSchema).forEach((paramKey) => {
-            const paramConfig = parameterSchema[paramKey];
-
-            // Determine parser function
-            const parseValue: QueryParser<any> =
-              paramConfig.parseFunction ??
-              paramConfig.codec?.parse ??
-              (stringCodec.parse as QueryParser<any>);
-
-            // Get and parse value from URL
-            const rawValue = currentQuery[paramKey] ?? null;
-            const parsedValue =
-              typeof rawValue === 'string' && rawValue.length > 0
-                ? parseValue(rawValue)
-                : paramConfig.defaultValue;
-
-            (reactiveState as any)[paramKey] = parsedValue;
-          });
-        } finally {
-          // Reset sync flag in next microtask
-          queueMicrotask(() => {
-            isSyncingFromURL = false;
-          });
-        }
-      } catch (error) {
-        warn('Error syncing from URL:', error);
-      }
-    }
-
-    // Subscribe to URL changes
-    if (selectedAdapter.onQueryChange) {
-      unsubscribeFromURLChanges = selectedAdapter.onQueryChange(syncFromURL);
-    } else if (typeof window !== 'undefined') {
-      // Fallback to popstate for basic browser navigation
-      const handlePopState = (): void => syncFromURL();
-      window.addEventListener('popstate', handlePopState);
-      unsubscribeFromURLChanges = () => {
-        window.removeEventListener('popstate', handlePopState);
-      };
-    }
-  }
-
   // Clean up subscriptions when component unmounts
   if (componentInstance) {
     onBeforeUnmount(() => {
       try {
         stopWatcher();
-        unsubscribeFromURLChanges?.();
       } catch (error) {
-        warn('Error during useQueryReactive cleanup:', error);
+        warn('Error during queryReactive cleanup:', error);
       }
     });
   }

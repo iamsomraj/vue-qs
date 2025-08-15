@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { createApp, defineComponent } from 'vue';
-import { createVueQsPlugin, useQueryRef } from '@/index';
+import { createVueQsPlugin, queryRef } from '@/index';
 
 describe('adapter injection via plugin', () => {
   it('hooks use the injected adapter without passing adapter option', async () => {
@@ -18,7 +18,7 @@ describe('adapter injection via plugin', () => {
       name: 'Comp',
       setup() {
         // shouldOmitDefault=false forces an initial URL write which should hit our mock adapter
-        const name = useQueryRef('name', {
+        const name = queryRef('name', {
           defaultValue: 'John',
           shouldOmitDefault: false,
         });

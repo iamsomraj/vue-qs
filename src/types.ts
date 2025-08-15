@@ -54,20 +54,18 @@ export type QueryParameterOptions<T> = {
 export type QueryParameterSchema = Record<string, QueryParameterOptions<any>>;
 
 /**
- * Options for useQueryRef composable
+ * Options for queryRef composable
  * @template T The type of the query parameter value
  */
-export type UseQueryRefOptions<T> = QueryParameterOptions<T> & {
+export type QueryRefOptions<T> = QueryParameterOptions<T> & {
   /** History strategy when updating the URL ('replace' | 'push') */
   historyStrategy?: 'replace' | 'push';
   /** Optional custom query adapter to use */
   queryAdapter?: QueryAdapter;
-  /** Enable two-way synchronization with URL changes */
-  enableTwoWaySync?: boolean;
 };
 
 /**
- * Return type from useQueryRef composable
+ * Return type from queryRef composable
  * @template T The type of the query parameter value
  */
 export type QueryRefReturn<T> = Ref<T> & {
@@ -76,7 +74,7 @@ export type QueryRefReturn<T> = Ref<T> & {
 };
 
 /**
- * Reactive state object for useQueryReactive
+ * Reactive state object for queryReactive
  * @template TSchema The parameter schema type
  */
 export type ReactiveQueryState<TSchema extends QueryParameterSchema> = {
@@ -84,7 +82,7 @@ export type ReactiveQueryState<TSchema extends QueryParameterSchema> = {
 };
 
 /**
- * Options for batch updates in useQueryReactive
+ * Options for batch updates in queryReactive
  */
 export type QueryBatchUpdateOptions = {
   /** History strategy for the batch update */
@@ -92,7 +90,7 @@ export type QueryBatchUpdateOptions = {
 };
 
 /**
- * Return type from useQueryReactive composable
+ * Return type from queryReactive composable
  * @template TSchema The parameter schema type
  */
 export type QueryReactiveReturn<TSchema extends QueryParameterSchema> = {
@@ -108,15 +106,13 @@ export type QueryReactiveReturn<TSchema extends QueryParameterSchema> = {
 };
 
 /**
- * Options for useQueryReactive composable
+ * Options for queryReactive composable
  */
-export type UseQueryReactiveOptions = {
+export type QueryReactiveOptions = {
   /** History strategy when updating the URL */
   historyStrategy?: 'replace' | 'push';
   /** Optional custom query adapter to use */
   queryAdapter?: QueryAdapter;
-  /** Enable two-way synchronization with URL changes */
-  enableTwoWaySync?: boolean;
 };
 
 /**
@@ -130,8 +126,6 @@ export type QueryAdapter = {
     queryUpdates: Record<string, string | undefined>,
     options?: { historyStrategy?: 'replace' | 'push' }
   ): void;
-  /** Subscribe to external query changes (returns unsubscribe function) */
-  onQueryChange?(callback: () => void): () => void;
 };
 
 /**

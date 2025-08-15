@@ -34,11 +34,11 @@ Peer dependency: vue ^3.3. Vue Router ^4.2 is optional (only if you want to inte
 
 ```vue
 <script setup lang="ts">
-import { useQueryRef } from 'vue-qs';
+import { queryRef } from 'vue-qs';
 
 // Create a ref bound to ?name=...
 // If the param is missing we fall back to the default ('').
-const name = useQueryRef('name', { defaultValue: '', parseFunction: String });
+const name = queryRef('name', { defaultValue: '', parseFunction: String });
 </script>
 
 <template>
@@ -50,10 +50,10 @@ Multiple params in one reactive object:
 
 ```vue
 <script setup lang="ts">
-import { useQueryReactive } from 'vue-qs';
+import { queryReactive } from 'vue-qs';
 
 // Each field config controls parsing, defaults, omission rules
-const { queryState } = useQueryReactive({
+const { queryState } = queryReactive({
   q: { defaultValue: '' },
   page: { defaultValue: 1, parseFunction: Number },
 });
@@ -73,17 +73,17 @@ Two ways:
 
 ```vue
 <script setup lang="ts">
-import { useQueryRef, useQueryReactive, createVueRouterAdapter } from 'vue-qs';
+import { queryRef, queryReactive, createVueRouterAdapter } from 'vue-qs';
 import { useRouter } from 'vue-router';
 
 const adapter = createVueRouterAdapter(useRouter());
 
-const page = useQueryRef<number>('page', {
+const page = queryRef<number>('page', {
   defaultValue: 1,
   parseFunction: Number,
   queryAdapter: adapter,
 });
-const { queryState } = useQueryReactive({ q: { defaultValue: '' } }, { queryAdapter: adapter });
+const { queryState } = queryReactive({ q: { defaultValue: '' } }, { queryAdapter: adapter });
 </script>
 ```
 
@@ -102,19 +102,6 @@ createApp(App)
   .mount('#app');
 ```
 
-## Two‑way sync (URL -> state)
-
-Disabled by default. Turn on with `enableTwoWaySync: true` to react to back/forward and router navigations.
-
-```ts
-const page = useQueryRef('page', {
-  defaultValue: 1,
-  parseFunction: Number,
-  enableTwoWaySync: true,
-});
-const { queryState } = useQueryReactive({ q: { defaultValue: '' } }, { enableTwoWaySync: true });
-```
-
 ## Omitting defaults
 
 By default if a value equals its `defaultValue`, the param is removed from the URL for cleanliness. Want it always there? Set `shouldOmitDefault: false`.
@@ -128,9 +115,9 @@ Import ready‑made codecs:
 ```ts
 import { serializers } from 'vue-qs';
 
-const n = useQueryRef('n', { defaultValue: 0, parseFunction: serializers.numberCodec.parse });
-const b = useQueryRef('b', { defaultValue: false, parseFunction: serializers.booleanCodec.parse });
-const tags = useQueryRef('tags', {
+const n = queryRef('n', { defaultValue: 0, parseFunction: serializers.numberCodec.parse });
+const b = queryRef('b', { defaultValue: false, parseFunction: serializers.booleanCodec.parse });
+const tags = queryRef('tags', {
   defaultValue: [] as string[],
   codec: serializers.createArrayCodec(serializers.stringCodec),
 });
@@ -145,7 +132,7 @@ Available built‑ins: `stringCodec`, `numberCodec`, `booleanCodec`, `dateISOCod
 Update several params in one history entry:
 
 ```ts
-const { queryState, updateBatch } = useQueryReactive({
+const { queryState, updateBatch } = queryReactive({
   q: { defaultValue: '' },
   page: { defaultValue: 1 },
 });
@@ -158,7 +145,7 @@ For objects/arrays supply `isEqual(a,b)` to decide if current value equals the d
 
 ```ts
 const jsonCodec = serializers.createJsonCodec<{ a: number }>();
-const item = useQueryRef('obj', {
+const item = queryRef('obj', {
   defaultValue: { a: 1 },
   codec: jsonCodec,
   isEqual: (x, y) => x?.a === y?.a,
@@ -171,11 +158,11 @@ On the server the hooks never touch `window`. They use an internal cache until h
 
 ## Mini API reference
 
-useQueryRef(name, options)
+queryRef(name, options)
 
 - Returns a ref with extra method `.syncToUrl()`.
 
-useQueryReactive(schema, options)
+queryReactive(schema, options)
 
 - Returns `{ queryState, updateBatch, syncAllToUrl }`.
 
@@ -200,7 +187,6 @@ Shared options:
 - shouldOmitDefault (default true): remove from URL when equal to default
 - isEqual: custom compare (deep equality, etc.)
 - historyStrategy: 'replace' (default) or 'push'
-- enableTwoWaySync: listen to back/forward & router changes
 - queryAdapter: override which query adapter to use
 
 Extra on reactive version:

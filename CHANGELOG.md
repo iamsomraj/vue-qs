@@ -81,7 +81,7 @@
 ### 💅 Refactors
 
 - Improve documentation and code structure for vue-qs ([ecf86f6](https://github.com/iamsomraj/vue-qs/commit/ecf86f6))
-- Consolidate shared history adapter logic and improve batching handling in useQueryReactive ([08ad70f](https://github.com/iamsomraj/vue-qs/commit/08ad70f))
+- Consolidate shared history adapter logic and improve batching handling in queryReactive ([08ad70f](https://github.com/iamsomraj/vue-qs/commit/08ad70f))
 
 ### 🏡 Chore
 
@@ -115,16 +115,16 @@
 
 ### 🚀 Enhancements
 
-- Add two-way binding support for useQueryRef and useQueryReactive with popstate handling ([39c0fa1](https://github.com/iamsomraj/vue-qs/commit/39c0fa1))
-- Add custom equals comparator for deep value handling in useQueryRef and useQueryReactive ([b1ac89a](https://github.com/iamsomraj/vue-qs/commit/b1ac89a))
+- Add two-way binding support for queryRef and queryReactive with popstate handling ([39c0fa1](https://github.com/iamsomraj/vue-qs/commit/39c0fa1))
+- Add custom equals comparator for deep value handling in queryRef and queryReactive ([b1ac89a](https://github.com/iamsomraj/vue-qs/commit/b1ac89a))
 - Add global adapter support and enhance query synchronization in Vue 3 ([f04b727](https://github.com/iamsomraj/vue-qs/commit/f04b727))
 - Add unit tests for adapter injection and router subscription behavior ([533fb02](https://github.com/iamsomraj/vue-qs/commit/533fb02))
-- Enhance query handling by adding codec support for simpler usage in useQueryRef and useQueryReactive ([d3e4ee6](https://github.com/iamsomraj/vue-qs/commit/d3e4ee6))
-- Optimize adapter retrieval by implementing caching for default adapters in useQueryRef and useQueryReactive ([8c26481](https://github.com/iamsomraj/vue-qs/commit/8c26481))
+- Enhance query handling by adding codec support for simpler usage in queryRef and queryReactive ([d3e4ee6](https://github.com/iamsomraj/vue-qs/commit/d3e4ee6))
+- Optimize adapter retrieval by implementing caching for default adapters in queryRef and queryReactive ([8c26481](https://github.com/iamsomraj/vue-qs/commit/8c26481))
 
 ### 🩹 Fixes
 
-- Cache default adapter in useQueryReactive to prevent unnecessary re-creation ([873d4ee](https://github.com/iamsomraj/vue-qs/commit/873d4ee))
+- Cache default adapter in queryReactive to prevent unnecessary re-creation ([873d4ee](https://github.com/iamsomraj/vue-qs/commit/873d4ee))
 
 ### 💅 Refactors
 
@@ -147,7 +147,7 @@
 
 ### ✅ Tests
 
-- Enhance useQueryReactive and useQueryRef tests with additional codec support ([1806d07](https://github.com/iamsomraj/vue-qs/commit/1806d07))
+- Enhance queryReactive and queryRef tests with additional codec support ([1806d07](https://github.com/iamsomraj/vue-qs/commit/1806d07))
 
 ### ❤️ Contributors
 
@@ -159,8 +159,8 @@
 
 ### 🚀 Enhancements
 
-- Add two-way binding support for useQueryRef and useQueryReactive with popstate handling ([39c0fa1](https://github.com/iamsomraj/vue-qs/commit/39c0fa1))
-- Add custom equals comparator for deep value handling in useQueryRef and useQueryReactive ([b1ac89a](https://github.com/iamsomraj/vue-qs/commit/b1ac89a))
+- Add two-way binding support for queryRef and queryReactive with popstate handling ([39c0fa1](https://github.com/iamsomraj/vue-qs/commit/39c0fa1))
+- Add custom equals comparator for deep value handling in queryRef and queryReactive ([b1ac89a](https://github.com/iamsomraj/vue-qs/commit/b1ac89a))
 
 ### 💅 Refactors
 
@@ -177,7 +177,7 @@
 
 ### ✅ Tests
 
-- Enhance useQueryReactive and useQueryRef tests with additional codec support ([1806d07](https://github.com/iamsomraj/vue-qs/commit/1806d07))
+- Enhance queryReactive and queryRef tests with additional codec support ([1806d07](https://github.com/iamsomraj/vue-qs/commit/1806d07))
 
 ### ❤️ Contributors
 
@@ -185,4 +185,4 @@
 
 ## 0.1.0
 
-- Initial release with `useQueryRef`, `useQueryReactive`, and Vue Router adapter.
+- Initial release with `queryRef`, `queryReactive`, and Vue Router adapter.

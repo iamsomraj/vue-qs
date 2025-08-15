@@ -5,7 +5,7 @@ import { stringCodec } from '@/serializers';
 import type {
   QueryParser,
   QuerySerializer,
-  UseQueryRefOptions,
+  QueryRefOptions,
   QueryRefReturn,
   QueryAdapter,
   QueryCodec,
@@ -17,7 +17,7 @@ let sharedHistoryAdapterInstance: QueryAdapter | undefined;
 
 /**
  * Gets or creates the shared history adapter instance
- * This optimization ensures multiple useQueryRef calls share the same adapter
+ * This optimization ensures multiple queryRef calls share the same adapter
  */
 function getSharedHistoryAdapter(): QueryAdapter {
   sharedHistoryAdapterInstance ??= createHistoryAdapter();
@@ -63,16 +63,15 @@ function getCodecFunctions<T>(
  *
  * @example
  * ```typescript
- * import { useQueryRef, numberCodec } from 'vue-qs';
+ * import { queryRef, numberCodec } from 'vue-qs';
  *
  * // Simple string parameter with default
- * const searchQuery = useQueryRef('q', {
- *   defaultValue: '',
- *   enableTwoWaySync: true
+ * const searchQuery = queryRef('q', {
+ *   defaultValue: ''
  * });
  *
  * // Number parameter with custom codec
- * const currentPage = useQueryRef('page', {
+ * const currentPage = queryRef('page', {
  *   defaultValue: 1,
  *   codec: numberCodec,
  *   shouldOmitDefault: true
@@ -86,9 +85,9 @@ function getCodecFunctions<T>(
  * searchQuery.syncToUrl();
  * ```
  */
-export function useQueryRef<T>(
+export function queryRef<T>(
   parameterName: string,
-  options: UseQueryRefOptions<T> = {}
+  options: QueryRefOptions<T> = {}
 ): QueryRefReturn<T> {
   // Extract and provide defaults for options
   const {
@@ -100,7 +99,6 @@ export function useQueryRef<T>(
     shouldOmitDefault = true,
     historyStrategy = 'replace',
     queryAdapter: providedAdapter,
-    enableTwoWaySync = false,
   } = options;
 
   // Determine which adapter to use and get codec functions
@@ -160,16 +158,10 @@ export function useQueryRef<T>(
     }
   }
 
-  // Flag to prevent infinite loops during two-way sync
-  let isSyncingFromURL = false;
-
   // Watch for ref changes and sync to URL
   const stopWatcher = watch(
     queryRef,
     (newValue) => {
-      if (isSyncingFromURL) {
-        return; // Skip URL updates during two-way sync
-      }
       updateURL(newValue);
     },
     { flush: 'sync' } // Sync immediately to avoid batching delays
@@ -180,55 +172,14 @@ export function useQueryRef<T>(
     updateURL(queryRef.value);
   };
 
-  // Set up two-way synchronization if enabled
-  let unsubscribeFromURLChanges: (() => void) | undefined;
-
-  if (enableTwoWaySync) {
-    function syncFromURL(): void {
-      try {
-        const currentQuery = selectedAdapter.getCurrentQuery();
-        const rawValue = currentQuery[parameterName] ?? null;
-        const parsedValue =
-          typeof rawValue === 'string' && rawValue.length > 0
-            ? parseValue(rawValue)
-            : (defaultValue as T);
-
-        isSyncingFromURL = true;
-        try {
-          internalRef.value = parsedValue;
-        } finally {
-          // Reset sync flag in next microtask to ensure watchers run after this update
-          queueMicrotask(() => {
-            isSyncingFromURL = false;
-          });
-        }
-      } catch (error) {
-        warn(`Error syncing from URL for parameter "${parameterName}":`, error);
-      }
-    }
-
-    // Subscribe to URL changes if adapter supports it
-    if (selectedAdapter.onQueryChange) {
-      unsubscribeFromURLChanges = selectedAdapter.onQueryChange(syncFromURL);
-    } else if (typeof window !== 'undefined') {
-      // Fallback to popstate for basic browser navigation
-      const handlePopState = (): void => syncFromURL();
-      window.addEventListener('popstate', handlePopState);
-      unsubscribeFromURLChanges = () => {
-        window.removeEventListener('popstate', handlePopState);
-      };
-    }
-  }
-
   // Clean up subscriptions when component unmounts
   const componentInstance = getCurrentInstance();
   if (componentInstance !== null) {
     onBeforeUnmount(() => {
       try {
         stopWatcher();
-        unsubscribeFromURLChanges?.();
       } catch (error) {
-        warn('Error during useQueryRef cleanup:', error);
+        warn('Error during queryRef cleanup:', error);
       }
     });
   }

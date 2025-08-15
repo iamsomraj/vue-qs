@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { useQueryRef, serializers } from '@/index';
+import { queryRef, serializers } from '@/index';
 
-describe('useQueryRef', () => {
+describe('queryRef', () => {
   it('reads default when missing and writes when sync called', () => {
-    const page = useQueryRef<number>('page', {
+    const page = queryRef<number>('page', {
       defaultValue: 1,
       parseFunction: (value) => (value ? Number(value) : 1),
       shouldOmitDefault: false,
@@ -14,7 +14,7 @@ describe('useQueryRef', () => {
   });
 
   it('updates URL on change', () => {
-    const page = useQueryRef<number>('page2', {
+    const page = queryRef<number>('page2', {
       defaultValue: 1,
       parseFunction: (value) => (value ? Number(value) : 1),
     });
@@ -24,7 +24,7 @@ describe('useQueryRef', () => {
 
   it('supports string, number, boolean, dateISO, json, array, enum codecs', () => {
     // string
-    const str = useQueryRef<string>('str1', {
+    const str = queryRef<string>('str1', {
       defaultValue: '',
       codec: serializers.stringCodec,
     });
@@ -33,7 +33,7 @@ describe('useQueryRef', () => {
     expect(new URL(window.location.href).searchParams.get('str1')).toBe('hello');
 
     // number
-    const num = useQueryRef<number>('num1', {
+    const num = queryRef<number>('num1', {
       defaultValue: 0,
       codec: serializers.numberCodec,
     });
@@ -42,7 +42,7 @@ describe('useQueryRef', () => {
     expect(new URL(window.location.href).searchParams.get('num1')).toBe('42');
 
     // boolean
-    const bool = useQueryRef<boolean>('bool1', {
+    const bool = queryRef<boolean>('bool1', {
       defaultValue: false,
       codec: serializers.booleanCodec,
     });
@@ -51,7 +51,7 @@ describe('useQueryRef', () => {
     expect(new URL(window.location.href).searchParams.get('bool1')).toBe('true');
 
     // dateISO
-    const date = useQueryRef<Date>('date1', {
+    const date = queryRef<Date>('date1', {
       defaultValue: new Date('2020-01-01T00:00:00.000Z'),
       codec: serializers.dateISOCodec,
     });
@@ -62,7 +62,7 @@ describe('useQueryRef', () => {
     );
 
     // json
-    const json = useQueryRef<{ a: number } | null>('json1', {
+    const json = queryRef<{ a: number } | null>('json1', {
       defaultValue: { a: 0 },
       codec: serializers.createJsonCodec<{ a: number }>(),
     });
@@ -71,7 +71,7 @@ describe('useQueryRef', () => {
     expect(new URL(window.location.href).searchParams.get('json1')).toBe('{"a":1}');
 
     // array
-    const arr = useQueryRef<number[]>('arr1', {
+    const arr = queryRef<number[]>('arr1', {
       defaultValue: [],
       codec: serializers.createArrayCodec(serializers.numberCodec),
     });
@@ -80,7 +80,7 @@ describe('useQueryRef', () => {
     expect(new URL(window.location.href).searchParams.get('arr1')).toBe('1,2,3');
 
     // enum
-    const enm = useQueryRef<'asc' | 'desc'>('sort1', {
+    const enm = queryRef<'asc' | 'desc'>('sort1', {
       defaultValue: 'asc',
       codec: serializers.createEnumCodec(['asc', 'desc'] as const),
     });
@@ -91,13 +91,13 @@ describe('useQueryRef', () => {
 
   it('supports codec usage', () => {
     const codec = serializers.createArrayCodec(serializers.numberCodec);
-    const arr = useQueryRef<number[]>('codecArr', { defaultValue: [], codec });
+    const arr = queryRef<number[]>('codecArr', { defaultValue: [], codec });
     arr.value = [1, 2, 3];
     expect(new URL(window.location.href).searchParams.get('codecArr')).toBe('1,2,3');
   });
 
   it('supports custom parse/serialize functions', () => {
-    const num = useQueryRef<number>('customParse', {
+    const num = queryRef<number>('customParse', {
       defaultValue: 1,
       parseFunction: (value) => (value ? parseInt(value, 10) : 0),
       serializeFunction: (n: number) => String(n),
@@ -108,7 +108,7 @@ describe('useQueryRef', () => {
   });
 
   it('respects equality function', () => {
-    const item = useQueryRef<{ a: number } | null>('equality', {
+    const item = queryRef<{ a: number } | null>('equality', {
       codec: serializers.createJsonCodec<{ a: number }>(),
       isEqual: (a, b) => a?.a === b?.a,
     });
@@ -117,7 +117,7 @@ describe('useQueryRef', () => {
   });
 
   it('omits default values from URL when shouldOmitDefault is true', () => {
-    const str = useQueryRef<string>('omitDefault', {
+    const str = queryRef<string>('omitDefault', {
       defaultValue: 'a',
       parseFunction: (value) => value || 'a',
       serializeFunction: (v: string) => v,
@@ -133,7 +133,7 @@ describe('useQueryRef', () => {
     // Clear URL first
     window.history.replaceState({}, '', window.location.pathname);
 
-    const _str = useQueryRef<string>('includeDefault', {
+    const _str = queryRef<string>('includeDefault', {
       defaultValue: 'a',
       parseFunction: (value) => value || 'a',
       serializeFunction: (v: string) => v,
@@ -143,7 +143,7 @@ describe('useQueryRef', () => {
   });
 
   it('provides manual sync functionality', () => {
-    const item = useQueryRef<{ a: number } | null>('manualSync', {
+    const item = queryRef<{ a: number } | null>('manualSync', {
       defaultValue: { a: 1 },
       codec: serializers.createJsonCodec<{ a: number }>(),
     });

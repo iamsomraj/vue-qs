@@ -1,14 +1,14 @@
-[**vue-qs v0.1.15**](../README.md)
+[**vue-qs v0.1.16-beta.0**](../README.md)
 
 ***
 
-[vue-qs](../README.md) / useQueryReactive
+[vue-qs](../README.md) / queryReactive
 
-# Function: useQueryReactive()
+# Function: queryReactive()
 
-> **useQueryReactive**\<`TSchema`\>(`parameterSchema`, `options`): [`QueryReactiveReturn`](../type-aliases/QueryReactiveReturn.md)\<`TSchema`\>
+> **queryReactive**\<`TSchema`\>(`parameterSchema`, `options`): [`QueryReactiveReturn`](../type-aliases/QueryReactiveReturn.md)\<`TSchema`\>
 
-Defined in: [composables/use-query-reactive.ts:77](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f5a2550faa61b4e51be4507991c23/src/composables/use-query-reactive.ts#L77)
+Defined in: [composables/use-query-reactive.ts:76](https://github.com/iamsomraj/vue-qs/blob/be7516ef29a864f0946d1401d2afac5cf37a73b9/src/composables/use-query-reactive.ts#L76)
 
 Manages multiple query parameters as a single reactive object with URL synchronization
 
@@ -30,7 +30,7 @@ Schema defining configuration for each parameter
 
 ### options
 
-[`UseQueryReactiveOptions`](../type-aliases/UseQueryReactiveOptions.md) = `{}`
+[`QueryReactiveOptions`](../type-aliases/QueryReactiveOptions.md) = `{}`
 
 Global options for the reactive query state
 
@@ -43,7 +43,7 @@ Reactive state object with batch update and sync capabilities
 ## Example
 
 ```typescript
-import { useQueryReactive, numberCodec, booleanCodec } from 'vue-qs';
+import { queryReactive, numberCodec, booleanCodec } from 'vue-qs';
 
 const querySchema = {
   search: {
@@ -60,8 +60,7 @@ const querySchema = {
   },
 } as const;
 
-const { queryState, updateBatch, syncAllToUrl } = useQueryReactive(querySchema, {
-  enableTwoWaySync: true,
+const { queryState, updateBatch, syncAllToUrl } = queryReactive(querySchema, {
   historyStrategy: 'replace'
 });
 

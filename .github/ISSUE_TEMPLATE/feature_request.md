@@ -19,7 +19,7 @@ Explain how you imagine this working. Feel free to include pseudo code or API ex
 
 ```ts
 // example
-const { foo } = useQueryReactive({
+const { foo } = queryReactive({
   foo: customSerializer(/* ... */),
 });
 ```

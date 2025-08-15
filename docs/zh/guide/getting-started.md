@@ -18,10 +18,10 @@ bun add vue-qs
 
 ```vue
 <script setup lang="ts">
-import { useQueryRef } from 'vue-qs';
+import { queryRef } from 'vue-qs';
 
 // 绑定到 ?name=... 缺失时使用默认值
-const name = useQueryRef('name', { defaultValue: '' });
+const name = queryRef('name', { defaultValue: '' });
 </script>
 
 <template>
@@ -33,9 +33,9 @@ const name = useQueryRef('name', { defaultValue: '' });
 
 ```vue
 <script setup lang="ts">
-import { useQueryReactive } from 'vue-qs';
+import { queryReactive } from 'vue-qs';
 
-const { queryState } = useQueryReactive({
+const { queryState } = queryReactive({
   search: { defaultValue: '' },
   page: {
     defaultValue: 1,
@@ -53,8 +53,8 @@ const { queryState } = useQueryReactive({
 
 ## Hook 返回什么
 
-- `useQueryRef(name, options)` → 一个普通 ref，额外提供 `.syncToUrl()`。
-- `useQueryReactive(schema, options)` → `{ queryState, updateBatch, syncAllToUrl }`。
+- `queryRef(name, options)` → 一个普通 ref，额外提供 `.syncToUrl()`。
+- `queryReactive(schema, options)` → `{ queryState, updateBatch, syncAllToUrl }`。
   - `updateBatch()` 把多次修改合并为一次历史记录。
   - `syncAllToUrl()` 立即写入 URL。
 - 值等于默认值时默认不出现在 URL（可通过 `shouldOmitDefault: false` 关闭）。

@@ -1,14 +1,14 @@
-[**vue-qs v0.1.15**](../README.md)
+[**vue-qs v0.1.16-beta.0**](../README.md)
 
 ***
 
-[vue-qs](../README.md) / useQueryRef
+[vue-qs](../README.md) / queryRef
 
-# Function: useQueryRef()
+# Function: queryRef()
 
-> **useQueryRef**\<`T`\>(`parameterName`, `options`): [`QueryRefReturn`](../type-aliases/QueryRefReturn.md)\<`T`\>
+> **queryRef**\<`T`\>(`parameterName`, `options`): [`QueryRefReturn`](../type-aliases/QueryRefReturn.md)\<`T`\>
 
-Defined in: [composables/use-query-ref.ts:89](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f5a2550faa61b4e51be4507991c23/src/composables/use-query-ref.ts#L89)
+Defined in: [composables/use-query-ref.ts:88](https://github.com/iamsomraj/vue-qs/blob/be7516ef29a864f0946d1401d2afac5cf37a73b9/src/composables/use-query-ref.ts#L88)
 
 Manages a single query parameter as a Vue Ref with URL synchronization
 
@@ -30,7 +30,7 @@ The name of the URL query parameter
 
 ### options
 
-[`UseQueryRefOptions`](../type-aliases/UseQueryRefOptions.md)\<`T`\> = `{}`
+[`QueryRefOptions`](../type-aliases/QueryRefOptions.md)\<`T`\> = `{}`
 
 Configuration options for the parameter
 
@@ -43,16 +43,15 @@ Reactive ref that stays in sync with the URL parameter
 ## Example
 
 ```typescript
-import { useQueryRef, numberCodec } from 'vue-qs';
+import { queryRef, numberCodec } from 'vue-qs';
 
 // Simple string parameter with default
-const searchQuery = useQueryRef('q', {
-  defaultValue: '',
-  enableTwoWaySync: true
+const searchQuery = queryRef('q', {
+  defaultValue: ''
 });
 
 // Number parameter with custom codec
-const currentPage = useQueryRef('page', {
+const currentPage = queryRef('page', {
   defaultValue: 1,
   codec: numberCodec,
   shouldOmitDefault: true

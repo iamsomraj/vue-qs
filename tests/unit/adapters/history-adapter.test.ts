@@ -59,12 +59,6 @@ describe('createHistoryAdapter', () => {
       expect(queryAdapter).toBeDefined();
       expect(typeof queryAdapter.getCurrentQuery).toBe('function');
       expect(typeof queryAdapter.updateQuery).toBe('function');
-      expect(typeof queryAdapter.onQueryChange).toBe('function');
-    });
-
-    it('should create adapter with suppressHistoryEvents option', () => {
-      const queryAdapter = createHistoryAdapter({ suppressHistoryEvents: true });
-      expect(queryAdapter).toBeDefined();
     });
   });
 
@@ -272,96 +266,6 @@ describe('createHistoryAdapter', () => {
     });
   });
 
-  describe('onQueryChange event handling', () => {
-    it('should setup event listeners for history changes', () => {
-      const queryAdapter = createHistoryAdapter();
-      const callback = vi.fn();
-
-      const unsubscribe = queryAdapter.onQueryChange!(callback);
-
-      expect(mockWindow.addEventListener).toHaveBeenCalledWith('popstate', expect.any(Function));
-      expect(mockWindow.addEventListener).toHaveBeenCalledWith(
-        'vue-qs:history-change',
-        expect.any(Function)
-      );
-      expect(typeof unsubscribe).toBe('function');
-    });
-
-    it('should cleanup event listeners on unsubscribe', () => {
-      const queryAdapter = createHistoryAdapter();
-      const callback = vi.fn();
-
-      const unsubscribe = queryAdapter.onQueryChange!(callback);
-      unsubscribe();
-
-      expect(mockWindow.removeEventListener).toHaveBeenCalledWith('popstate', expect.any(Function));
-      expect(mockWindow.removeEventListener).toHaveBeenCalledWith(
-        'vue-qs:history-change',
-        expect.any(Function)
-      );
-    });
-
-    it('should suppress events when suppressHistoryEvents is true', () => {
-      const queryAdapter = createHistoryAdapter({ suppressHistoryEvents: true });
-      const callback = vi.fn();
-
-      queryAdapter.onQueryChange!(callback);
-
-      expect(mockWindow.addEventListener).toHaveBeenCalledWith('popstate', expect.any(Function));
-      expect(mockWindow.addEventListener).not.toHaveBeenCalledWith(
-        'vue-qs:history-change',
-        expect.any(Function)
-      );
-    });
-
-    it('should call callback when popstate event fires', () => {
-      const queryAdapter = createHistoryAdapter();
-      const callback = vi.fn();
-
-      queryAdapter.onQueryChange!(callback);
-
-      // Get the registered event handler
-      const addEventListenerCalls = mockWindow.addEventListener.mock.calls;
-      const popstateHandler = addEventListenerCalls.find(
-        (call: any) => call[0] === 'popstate'
-      )?.[1];
-
-      // Simulate popstate event
-      if (popstateHandler) {
-        popstateHandler();
-        expect(callback).toHaveBeenCalled();
-      }
-    });
-
-    it('should handle callback errors gracefully', () => {
-      const queryAdapter = createHistoryAdapter();
-      const errorCallback = vi.fn(() => {
-        throw new Error('Callback error');
-      });
-
-      const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {
-        // Mock implementation to suppress console warnings in tests
-      });
-
-      queryAdapter.onQueryChange!(errorCallback);
-
-      // Get the registered event handler
-      const addEventListenerCalls = mockWindow.addEventListener.mock.calls;
-      const popstateHandler = addEventListenerCalls.find(
-        (call: any) => call[0] === 'popstate'
-      )?.[1];
-
-      // Should not throw when callback errors
-      expect(() => {
-        if (popstateHandler) {
-          popstateHandler();
-        }
-      }).not.toThrow();
-
-      consoleWarnSpy.mockRestore();
-    });
-  });
-
   describe('server-side compatibility', () => {
     it('should work in server environment', () => {
       // Create a temporary server environment mock
@@ -385,10 +289,6 @@ describe('createHistoryAdapter', () => {
       expect(() => {
         queryAdapter.getCurrentQuery();
         queryAdapter.updateQuery({ foo: 'bar' });
-        const unsubscribe = queryAdapter.onQueryChange!(() => {
-          // No-op callback for testing
-        });
-        unsubscribe();
       }).not.toThrow();
 
       // Verify server-side behavior

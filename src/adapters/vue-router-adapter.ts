@@ -144,26 +144,6 @@ export function createVueRouterAdapter(
         warn('Error updating query in Vue Router:', error);
       }
     },
-
-    onQueryChange(callback) {
-      try {
-        // Use Vue Router's afterEach hook to detect navigation changes
-        const unsubscribeHook = vueRouter.afterEach(() => {
-          try {
-            callback();
-          } catch (error) {
-            warn('Error in Vue Router query change callback:', error);
-          }
-        });
-
-        return unsubscribeHook;
-      } catch (error) {
-        warn('Error setting up Vue Router query change listener:', error);
-        return (): void => {
-          // No-op: Error occurred during setup, nothing to cleanup
-        };
-      }
-    },
   };
 
   return queryAdapter;

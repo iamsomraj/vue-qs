@@ -1,4 +1,4 @@
-[**vue-qs v0.1.15**](../README.md)
+[**vue-qs v0.1.16-beta.0**](../README.md)
 
 ***
 
@@ -8,9 +8,9 @@
 
 > **QueryBatchUpdateOptions** = `object`
 
-Defined in: [types.ts:89](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f5a2550faa61b4e51be4507991c23/src/types.ts#L89)
+Defined in: [types.ts:87](https://github.com/iamsomraj/vue-qs/blob/be7516ef29a864f0946d1401d2afac5cf37a73b9/src/types.ts#L87)
 
-Options for batch updates in useQueryReactive
+Options for batch updates in queryReactive
 
 ## Properties
 
@@ -18,6 +18,6 @@ Options for batch updates in useQueryReactive
 
 > `optional` **historyStrategy**: `"replace"` \| `"push"`
 
-Defined in: [types.ts:91](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f5a2550faa61b4e51be4507991c23/src/types.ts#L91)
+Defined in: [types.ts:89](https://github.com/iamsomraj/vue-qs/blob/be7516ef29a864f0946d1401d2afac5cf37a73b9/src/types.ts#L89)
 
 History strategy for the batch update

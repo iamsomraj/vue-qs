@@ -30,7 +30,7 @@ vue-qs is a Vue.js library for synchronizing URL query parameters with reactive 
 ### File Naming Convention
 
 - **All files must use kebab-case naming**
-- Examples: `adapter-context.ts`, `use-query-ref.ts`, `router-subscribe.test.ts`
+- Examples: `adapter-context.ts`, `use-query-ref.ts`
 - Never use camelCase for file names
 - Test files should follow the same kebab-case pattern
 
@@ -43,9 +43,8 @@ vue-qs is a Vue.js library for synchronizing URL query parameters with reactive 
 - `useQueryAdapter` - for retrieving injected adapter
 - `createHistoryAdapter` - for browser history integration
 - `createVueRouterAdapter` - for Vue Router integration
-- `useQueryRef` - for single parameter reactive refs
-- `useQueryReactive` - for reactive object state
-- `enableTwoWaySync` - for bidirectional synchronization
+- `queryRef` - for single parameter reactive refs
+- `queryReactive` - for reactive object state
 - `defaultValue` - for parameter default values
 - `historyStrategy` - for history management strategy
 - `isEqual` - for value comparison function
