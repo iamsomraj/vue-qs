@@ -1,8 +1,8 @@
-**vue-qs v0.1.15**
+**vue-qs v0.1.16-beta.0**
 
 ***
 
-# vue-qs v0.1.15
+# vue-qs v0.1.16-beta.0
 
 ## Namespaces
 
@@ -11,7 +11,6 @@
 ## Interfaces
 
 - [VueQueryPluginOptions](interfaces/VueQueryPluginOptions.md)
-- [HistoryAdapterOptions](interfaces/HistoryAdapterOptions.md)
 - [VueRouterAdapterOptions](interfaces/VueRouterAdapterOptions.md)
 
 ## Type Aliases

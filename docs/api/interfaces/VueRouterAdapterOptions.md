@@ -1,4 +1,4 @@
-[**vue-qs v0.1.15**](../README.md)
+[**vue-qs v0.1.16-beta.0**](../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Interface: VueRouterAdapterOptions
 
-Defined in: [adapters/vue-router-adapter.ts:8](https://github.com/iamsomraj/vue-qs/blob/2515abe5c25afff0f87351153aa1684c958bdf3f/src/adapters/vue-router-adapter.ts#L8)
+Defined in: [adapters/vue-router-adapter.ts:8](https://github.com/iamsomraj/vue-qs/blob/be7516ef29a864f0946d1401d2afac5cf37a73b9/src/adapters/vue-router-adapter.ts#L8)
 
 Configuration options for the Vue Router adapter
 
@@ -16,6 +16,6 @@ Configuration options for the Vue Router adapter
 
 > `optional` **warnOnArrayParams**: `boolean`
 
-Defined in: [adapters/vue-router-adapter.ts:10](https://github.com/iamsomraj/vue-qs/blob/2515abe5c25afff0f87351153aa1684c958bdf3f/src/adapters/vue-router-adapter.ts#L10)
+Defined in: [adapters/vue-router-adapter.ts:10](https://github.com/iamsomraj/vue-qs/blob/be7516ef29a864f0946d1401d2afac5cf37a73b9/src/adapters/vue-router-adapter.ts#L10)
 
 Whether to log warnings for array query parameters (default: true)

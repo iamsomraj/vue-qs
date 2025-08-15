@@ -1,4 +1,4 @@
-[**vue-qs v0.1.15**](../README.md)
+[**vue-qs v0.1.16-beta.0**](../README.md)
 
 ***
 
@@ -6,19 +6,11 @@
 
 # Function: createHistoryAdapter()
 
-> **createHistoryAdapter**(`options`): [`QueryAdapter`](../type-aliases/QueryAdapter.md)
+> **createHistoryAdapter**(): [`QueryAdapter`](../type-aliases/QueryAdapter.md)
 
-Defined in: [adapters/history-adapter.ts:39](https://github.com/iamsomraj/vue-qs/blob/2515abe5c25afff0f87351153aa1684c958bdf3f/src/adapters/history-adapter.ts#L39)
+Defined in: [adapters/history-adapter.ts:32](https://github.com/iamsomraj/vue-qs/blob/be7516ef29a864f0946d1401d2afac5cf37a73b9/src/adapters/history-adapter.ts#L32)
 
 Creates a query adapter that uses the browser's History API for URL parameters
-
-## Parameters
-
-### options
-
-[`HistoryAdapterOptions`](../interfaces/HistoryAdapterOptions.md) = `{}`
-
-Configuration options for the adapter
 
 ## Returns
 

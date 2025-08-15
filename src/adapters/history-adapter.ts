@@ -9,13 +9,6 @@ import {
 } from '@/utils/core-helpers';
 
 /**
- * Configuration options for the history adapter
- */
-export interface HistoryAdapterOptions {
-  // Currently no options needed - keeping for future extensibility
-}
-
-/**
  * Result of creating a history-based query adapter
  */
 export type HistoryAdapterResult = QueryAdapter;
@@ -36,7 +29,7 @@ export type HistoryAdapterResult = QueryAdapter;
  * app.use(createVueQsPlugin({ queryAdapter }));
  * ```
  */
-export function createHistoryAdapter(options: HistoryAdapterOptions = {}): QueryAdapter {
+export function createHistoryAdapter(): QueryAdapter {
   const runtimeEnvironment = createRuntimeEnvironment();
 
   // Server-side reactive cache for SSR compatibility

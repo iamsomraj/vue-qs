@@ -7,7 +7,7 @@ export { queryReactive } from '@/composables/use-query-reactive';
 
 // Adapters
 export { createHistoryAdapter } from '@/adapters/history-adapter';
-export type { HistoryAdapterOptions, HistoryAdapterResult } from '@/adapters/history-adapter';
+export type {  HistoryAdapterResult } from '@/adapters/history-adapter';
 export { createVueRouterAdapter } from '@/adapters/vue-router-adapter';
 export type { VueRouterAdapterOptions } from '@/adapters/vue-router-adapter';
 

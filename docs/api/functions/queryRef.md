@@ -1,4 +1,4 @@
-[**vue-qs v0.1.15**](../README.md)
+[**vue-qs v0.1.16-beta.0**](../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **queryRef**\<`T`\>(`parameterName`, `options`): [`QueryRefReturn`](../type-aliases/QueryRefReturn.md)\<`T`\>
 
-Defined in: [composables/use-query-ref.ts:88](https://github.com/iamsomraj/vue-qs/blob/2515abe5c25afff0f87351153aa1684c958bdf3f/src/composables/use-query-ref.ts#L88)
+Defined in: [composables/use-query-ref.ts:88](https://github.com/iamsomraj/vue-qs/blob/be7516ef29a864f0946d1401d2afac5cf37a73b9/src/composables/use-query-ref.ts#L88)
 
 Manages a single query parameter as a Vue Ref with URL synchronization
 
