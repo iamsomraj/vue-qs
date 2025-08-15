@@ -1,4 +1,4 @@
-[**vue-qs v0.1.16-beta.0**](../README.md)
+[**vue-qs v0.1.16**](../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **createJsonCodec**\<`T`\>(): [`QueryCodec`](../type-aliases/QueryCodec.md)\<`null` \| `T`\>
 
-Defined in: [serializers.ts:113](https://github.com/iamsomraj/vue-qs/blob/be7516ef29a864f0946d1401d2afac5cf37a73b9/src/serializers.ts#L113)
+Defined in: [serializers.ts:113](https://github.com/iamsomraj/vue-qs/blob/e1f88d67026c08e56605a693106ef6b717bd39ad/src/serializers.ts#L113)
 
 JSON codec factory for handling complex objects
 Returns null for invalid JSON

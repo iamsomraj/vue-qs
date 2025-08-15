@@ -1,8 +1,8 @@
-**vue-qs v0.1.16-beta.0**
+**vue-qs v0.1.16**
 
 ***
 
-# vue-qs v0.1.16-beta.0
+# vue-qs v0.1.16
 
 ## Namespaces
 

@@ -1,4 +1,4 @@
-[**vue-qs v0.1.16-beta.0**](../../../README.md)
+[**vue-qs v0.1.16**](../../../README.md)
 
 ***
 

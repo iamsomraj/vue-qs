@@ -1,4 +1,4 @@
-[**vue-qs v0.1.16-beta.0**](../README.md)
+[**vue-qs v0.1.16**](../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **queryReactive**\<`TSchema`\>(`parameterSchema`, `options`): [`QueryReactiveReturn`](../type-aliases/QueryReactiveReturn.md)\<`TSchema`\>
 
-Defined in: [composables/use-query-reactive.ts:76](https://github.com/iamsomraj/vue-qs/blob/be7516ef29a864f0946d1401d2afac5cf37a73b9/src/composables/use-query-reactive.ts#L76)
+Defined in: [composables/use-query-reactive.ts:76](https://github.com/iamsomraj/vue-qs/blob/e1f88d67026c08e56605a693106ef6b717bd39ad/src/composables/use-query-reactive.ts#L76)
 
 Manages multiple query parameters as a single reactive object with URL synchronization
 

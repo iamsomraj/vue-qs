@@ -1,4 +1,4 @@
-[**vue-qs v0.1.16-beta.0**](../README.md)
+[**vue-qs v0.1.16**](../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **createHistoryAdapter**(): [`QueryAdapter`](../type-aliases/QueryAdapter.md)
 
-Defined in: [adapters/history-adapter.ts:32](https://github.com/iamsomraj/vue-qs/blob/be7516ef29a864f0946d1401d2afac5cf37a73b9/src/adapters/history-adapter.ts#L32)
+Defined in: [adapters/history-adapter.ts:32](https://github.com/iamsomraj/vue-qs/blob/e1f88d67026c08e56605a693106ef6b717bd39ad/src/adapters/history-adapter.ts#L32)
 
 Creates a query adapter that uses the browser's History API for URL parameters
 

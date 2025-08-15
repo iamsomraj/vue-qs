@@ -1,4 +1,4 @@
-[**vue-qs v0.1.16-beta.0**](../README.md)
+[**vue-qs v0.1.16**](../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Interface: VueQueryPluginOptions
 
-Defined in: [adapter-context.ts:58](https://github.com/iamsomraj/vue-qs/blob/be7516ef29a864f0946d1401d2afac5cf37a73b9/src/adapter-context.ts#L58)
+Defined in: [adapter-context.ts:58](https://github.com/iamsomraj/vue-qs/blob/e1f88d67026c08e56605a693106ef6b717bd39ad/src/adapter-context.ts#L58)
 
 Configuration options for the Vue.js plugin
 
@@ -16,6 +16,6 @@ Configuration options for the Vue.js plugin
 
 > **queryAdapter**: [`QueryAdapter`](../type-aliases/QueryAdapter.md)
 
-Defined in: [adapter-context.ts:60](https://github.com/iamsomraj/vue-qs/blob/be7516ef29a864f0946d1401d2afac5cf37a73b9/src/adapter-context.ts#L60)
+Defined in: [adapter-context.ts:60](https://github.com/iamsomraj/vue-qs/blob/e1f88d67026c08e56605a693106ef6b717bd39ad/src/adapter-context.ts#L60)
 
 The query adapter to use throughout the application
