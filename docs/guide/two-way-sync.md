@@ -3,7 +3,7 @@
 Add `enableTwoWaySync: true` so state also updates when the URL changes (browser back/forward, router navigation).
 
 ```ts
-const page = useQueryRef('page', {
+const page = queryRef('page', {
   defaultValue: 1,
   codec: serializers.numberCodec,
   enableTwoWaySync: true,
@@ -13,7 +13,7 @@ const page = useQueryRef('page', {
 Reactive group:
 
 ```ts
-const { queryState } = useQueryReactive(schema, { enableTwoWaySync: true });
+const { queryState } = queryReactive(schema, { enableTwoWaySync: true });
 ```
 
 How it works:

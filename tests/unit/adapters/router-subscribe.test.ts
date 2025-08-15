@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { createVueRouterAdapter } from '@/adapters/vue-router-adapter';
-import { useQueryRef, useQueryReactive } from '@/index';
+import { queryRef, queryReactive } from '@/index';
 
 function createMockRouter() {
   let query: Record<string, any> = {};
@@ -32,11 +32,11 @@ function createMockRouter() {
 }
 
 describe('router adapter subscribe behavior', () => {
-  it('useQueryRef twoWay updates state when router query changes', async () => {
+  it('queryRef twoWay updates state when router query changes', async () => {
     const router = createMockRouter();
     const adapter = createVueRouterAdapter(router);
 
-    const page = useQueryRef<number>('p', {
+    const page = queryRef<number>('p', {
       defaultValue: 1,
       parseFunction: (value) => (value ? Number(value) : 1),
       serializeFunction: (n: number) => String(n),
@@ -50,11 +50,11 @@ describe('router adapter subscribe behavior', () => {
     expect(page.value).toBe(5);
   });
 
-  it('useQueryReactive twoWay updates state when router query changes', async () => {
+  it('queryReactive twoWay updates state when router query changes', async () => {
     const router = createMockRouter();
     const adapter = createVueRouterAdapter(router);
 
-    const { queryState } = useQueryReactive(
+    const { queryState } = queryReactive(
       {
         q: { defaultValue: '', parseFunction: (value: string | null) => value || '' },
         n: {

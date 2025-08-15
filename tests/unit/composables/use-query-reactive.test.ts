@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { useQueryReactive, serializers } from '@/index';
+import { queryReactive, serializers } from '@/index';
 
-describe('useQueryReactive', () => {
+describe('queryReactive', () => {
   it('initializes from defaults and batches updates', () => {
-    const { queryState, updateBatch } = useQueryReactive({
+    const { queryState, updateBatch } = queryReactive({
       search: { defaultValue: '', parseFunction: (value: string | null) => value || '' },
       sort: {
         defaultValue: 'asc' as 'asc' | 'desc',
@@ -26,7 +26,7 @@ describe('useQueryReactive', () => {
     const arrCodec = serializers.createArrayCodec(serializers.numberCodec);
     const enumCodec = serializers.createEnumCodec(['asc', 'desc'] as const);
 
-    const { queryState, updateBatch, syncAllToUrl } = useQueryReactive({
+    const { queryState, updateBatch, syncAllToUrl } = queryReactive({
       s: {
         defaultValue: '',
         parseFunction: (value: string | null) => value || '',
@@ -109,7 +109,7 @@ describe('useQueryReactive', () => {
 
   it('supports codec field in schema for simpler DX', () => {
     const codec = serializers.createArrayCodec(serializers.stringCodec);
-    const { queryState, syncAllToUrl } = useQueryReactive({
+    const { queryState, syncAllToUrl } = queryReactive({
       tags: { defaultValue: [], codec },
     });
     expect(queryState.tags).toEqual([]);
@@ -119,7 +119,7 @@ describe('useQueryReactive', () => {
   });
 
   it('twoWay: reactive state updates on popstate', () => {
-    const { queryState } = useQueryReactive(
+    const { queryState } = queryReactive(
       {
         q: {
           defaultValue: '',
@@ -157,7 +157,7 @@ describe('useQueryReactive', () => {
 
   it('equals comparator omits deep-equal defaults in schema', () => {
     const jsonCodec = serializers.createJsonCodec<{ a: number }>();
-    const { queryState, syncAllToUrl } = useQueryReactive({
+    const { queryState, syncAllToUrl } = queryReactive({
       obj: {
         defaultValue: { a: 1 },
         codec: jsonCodec,

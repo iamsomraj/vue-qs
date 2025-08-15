@@ -1,16 +1,16 @@
 [**vue-qs v0.1.15**](../README.md)
 
-***
+---
 
-[vue-qs](../README.md) / UseQueryReactiveOptions
+[vue-qs](../README.md) / QueryReactiveOptions
 
-# Type Alias: UseQueryReactiveOptions
+# Type Alias: QueryReactiveOptions
 
-> **UseQueryReactiveOptions** = `object`
+> **QueryReactiveOptions** = `object`
 
 Defined in: [types.ts:113](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f5a2550faa61b4e51be4507991c23/src/types.ts#L113)
 
-Options for useQueryReactive composable
+Options for queryReactive composable
 
 ## Properties
 
@@ -22,7 +22,7 @@ Defined in: [types.ts:115](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f
 
 History strategy when updating the URL
 
-***
+---
 
 ### queryAdapter?
 
@@ -32,7 +32,7 @@ Defined in: [types.ts:117](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f
 
 Optional custom query adapter to use
 
-***
+---
 
 ### enableTwoWaySync?
 

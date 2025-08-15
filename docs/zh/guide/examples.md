@@ -5,14 +5,14 @@
 ## 基础：数字 / 布尔 / 字符串数组
 
 ```ts
-import { useQueryRef, serializers } from 'vue-qs';
+import { queryRef, serializers } from 'vue-qs';
 
-const count = useQueryRef('count', { defaultValue: 0, codec: serializers.numberCodec });
-const published = useQueryRef('published', {
+const count = queryRef('count', { defaultValue: 0, codec: serializers.numberCodec });
+const published = queryRef('published', {
   defaultValue: false,
   codec: serializers.booleanCodec,
 });
-const tags = useQueryRef<string[]>('tags', {
+const tags = queryRef<string[]>('tags', {
   defaultValue: [],
   codec: serializers.createArrayCodec(serializers.stringCodec),
 });
@@ -23,7 +23,7 @@ const tags = useQueryRef<string[]>('tags', {
 默认值会被省略。强制保留：
 
 ```ts
-const page = useQueryRef('page', {
+const page = queryRef('page', {
   defaultValue: 1,
   parseFunction: Number,
   shouldOmitDefault: false,
@@ -33,7 +33,7 @@ const page = useQueryRef('page', {
 ## 批量修改 & 控制历史
 
 ```ts
-const { queryState, updateBatch } = useQueryReactive({
+const { queryState, updateBatch } = queryReactive({
   search: { defaultValue: '' },
   page: { defaultValue: 1 },
 });
@@ -50,7 +50,7 @@ updateBatch(
 ## 深比较避免多余写入
 
 ```ts
-const filter = useQueryRef('filter', {
+const filter = queryRef('filter', {
   defaultValue: { tags: [] as string[], maxPrice: 0 },
   codec: serializers.createJsonCodec<{ tags: string[]; maxPrice: number }>(),
   isEqual: (a, b) => JSON.stringify(a) === JSON.stringify(b),
@@ -60,12 +60,12 @@ const filter = useQueryRef('filter', {
 ## 枚举 + 数组
 
 ```ts
-const category = useQueryRef<'books' | 'music' | 'games'>('category', {
+const category = queryRef<'books' | 'music' | 'games'>('category', {
   defaultValue: 'books',
   codec: serializers.createEnumCodec(['books', 'music', 'games'] as const),
 });
 
-const selectedIds = useQueryRef<number[]>('ids', {
+const selectedIds = queryRef<number[]>('ids', {
   defaultValue: [],
   codec: serializers.createArrayCodec(serializers.numberCodec),
 });
@@ -74,7 +74,7 @@ const selectedIds = useQueryRef<number[]>('ids', {
 ## 双向同步（URL -> 状态）
 
 ```ts
-const page = useQueryRef('page', {
+const page = queryRef('page', {
   defaultValue: 1,
   parseFunction: Number,
   enableTwoWaySync: true,
@@ -84,5 +84,5 @@ const page = useQueryRef('page', {
 或多个：
 
 ```ts
-const { queryState } = useQueryReactive({ page: { defaultValue: 1 } }, { enableTwoWaySync: true });
+const { queryState } = queryReactive({ page: { defaultValue: 1 } }, { enableTwoWaySync: true });
 ```

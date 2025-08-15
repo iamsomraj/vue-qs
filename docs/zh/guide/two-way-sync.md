@@ -5,7 +5,7 @@
 开启 `enableTwoWaySync: true` 后：浏览器前进/后退、手动修改地址栏、路由跳转都会更新你的 ref/reactive。
 
 ```ts
-const page = useQueryRef('page', {
+const page = queryRef('page', {
   defaultValue: 1,
   parseFunction: Number,
   enableTwoWaySync: true,
@@ -15,7 +15,7 @@ const page = useQueryRef('page', {
 多个：
 
 ```ts
-const { queryState } = useQueryReactive({ page: { defaultValue: 1 } }, { enableTwoWaySync: true });
+const { queryState } = queryReactive({ page: { defaultValue: 1 } }, { enableTwoWaySync: true });
 ```
 
 内部做的事（简化描述）：

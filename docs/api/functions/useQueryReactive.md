@@ -1,12 +1,12 @@
 [**vue-qs v0.1.15**](../README.md)
 
-***
+---
 
-[vue-qs](../README.md) / useQueryReactive
+[vue-qs](../README.md) / queryReactive
 
-# Function: useQueryReactive()
+# Function: queryReactive()
 
-> **useQueryReactive**\<`TSchema`\>(`parameterSchema`, `options`): [`QueryReactiveReturn`](../type-aliases/QueryReactiveReturn.md)\<`TSchema`\>
+> **queryReactive**\<`TSchema`\>(`parameterSchema`, `options`): [`QueryReactiveReturn`](../type-aliases/QueryReactiveReturn.md)\<`TSchema`\>
 
 Defined in: [composables/use-query-reactive.ts:77](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f5a2550faa61b4e51be4507991c23/src/composables/use-query-reactive.ts#L77)
 
@@ -16,7 +16,7 @@ Manages multiple query parameters as a single reactive object with URL synchroni
 
 ### TSchema
 
-`TSchema` *extends* [`QueryParameterSchema`](../type-aliases/QueryParameterSchema.md)
+`TSchema` _extends_ [`QueryParameterSchema`](../type-aliases/QueryParameterSchema.md)
 
 The schema type defining all parameters
 
@@ -30,7 +30,7 @@ Schema defining configuration for each parameter
 
 ### options
 
-[`UseQueryReactiveOptions`](../type-aliases/UseQueryReactiveOptions.md) = `{}`
+[`QueryReactiveOptions`](../type-aliases/QueryReactiveOptions.md) = `{}`
 
 Global options for the reactive query state
 
@@ -43,26 +43,26 @@ Reactive state object with batch update and sync capabilities
 ## Example
 
 ```typescript
-import { useQueryReactive, numberCodec, booleanCodec } from 'vue-qs';
+import { queryReactive, numberCodec, booleanCodec } from 'vue-qs';
 
 const querySchema = {
   search: {
     defaultValue: '',
-    shouldOmitDefault: true
+    shouldOmitDefault: true,
   },
   page: {
     defaultValue: 1,
-    codec: numberCodec
+    codec: numberCodec,
   },
   showDetails: {
     defaultValue: false,
-    codec: booleanCodec
+    codec: booleanCodec,
   },
 } as const;
 
-const { queryState, updateBatch, syncAllToUrl } = useQueryReactive(querySchema, {
+const { queryState, updateBatch, syncAllToUrl } = queryReactive(querySchema, {
   enableTwoWaySync: true,
-  historyStrategy: 'replace'
+  historyStrategy: 'replace',
 });
 
 // Access reactive values
@@ -75,7 +75,7 @@ queryState.page = 2;
 // Batch update multiple values
 updateBatch({
   search: 'world',
-  page: 1
+  page: 1,
 });
 
 // Manual sync

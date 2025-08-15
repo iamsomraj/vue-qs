@@ -18,8 +18,8 @@ API 文档目前仅提供英文版本。请访问主要的 API 文档以获取�
 
 ### 核心函数
 
-- [useQueryRef](/api/functions/useQueryRef.md) - 创建响应式查询参数引用
-- [useQueryReactive](/api/functions/useQueryReactive.md) - 创建响应式查询参数对象
+- [queryRef](/api/functions/queryRef.md) - 创建响应式查询参数引用
+- [queryReactive](/api/functions/queryReactive.md) - 创建响应式查询参数对象
 
 ### 适配器
 

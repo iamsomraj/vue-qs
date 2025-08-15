@@ -55,7 +55,7 @@ List the query params and (if relevant) the serializers/codecs used.
 
 ```ts
 // example
-const { foo, bar } = useQueryReactive({
+const { foo, bar } = queryReactive({
   foo: string(),
   bar: number(),
 });

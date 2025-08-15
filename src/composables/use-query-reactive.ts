@@ -10,7 +10,7 @@ import type {
   QueryReactiveReturn,
   QuerySerializer,
   ReactiveQueryState,
-  UseQueryReactiveOptions,
+  QueryReactiveOptions,
 } from '@/types';
 import { areValuesEqual, warn } from '@/utils/core-helpers';
 
@@ -35,7 +35,7 @@ function getSharedHistoryAdapter(): QueryAdapter {
  *
  * @example
  * ```typescript
- * import { useQueryReactive, numberCodec, booleanCodec } from 'vue-qs';
+ * import { queryReactive, numberCodec, booleanCodec } from 'vue-qs';
  *
  * const querySchema = {
  *   search: {
@@ -52,7 +52,7 @@ function getSharedHistoryAdapter(): QueryAdapter {
  *   },
  * } as const;
  *
- * const { queryState, updateBatch, syncAllToUrl } = useQueryReactive(querySchema, {
+ * const { queryState, updateBatch, syncAllToUrl } = queryReactive(querySchema, {
  *   enableTwoWaySync: true,
  *   historyStrategy: 'replace'
  * });
@@ -74,9 +74,9 @@ function getSharedHistoryAdapter(): QueryAdapter {
  * syncAllToUrl();
  * ```
  */
-export function useQueryReactive<TSchema extends QueryParameterSchema>(
+export function queryReactive<TSchema extends QueryParameterSchema>(
   parameterSchema: TSchema,
-  options: UseQueryReactiveOptions = {}
+  options: QueryReactiveOptions = {}
 ): QueryReactiveReturn<TSchema> {
   // Extract options with defaults
   const {
@@ -305,7 +305,7 @@ export function useQueryReactive<TSchema extends QueryParameterSchema>(
         stopWatcher();
         unsubscribeFromURLChanges?.();
       } catch (error) {
-        warn('Error during useQueryReactive cleanup:', error);
+        warn('Error during queryReactive cleanup:', error);
       }
     });
   }

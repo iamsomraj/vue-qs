@@ -18,10 +18,10 @@ Peer dependency: `vue@^3.3`. Optional: `vue-router@^4.2` if you want router inte
 
 ```vue
 <script setup lang="ts">
-import { useQueryRef } from 'vue-qs';
+import { queryRef } from 'vue-qs';
 
 // A ref bound to ?name=... (falls back to default when missing)
-const name = useQueryRef('name', { defaultValue: '' });
+const name = queryRef('name', { defaultValue: '' });
 </script>
 
 <template>
@@ -33,9 +33,9 @@ const name = useQueryRef('name', { defaultValue: '' });
 
 ```vue
 <script setup lang="ts">
-import { useQueryReactive } from 'vue-qs';
+import { queryReactive } from 'vue-qs';
 
-const { queryState } = useQueryReactive({
+const { queryState } = queryReactive({
   search: { defaultValue: '' },
   page: {
     defaultValue: 1,
@@ -53,8 +53,8 @@ const { queryState } = useQueryReactive({
 
 ## What the hooks give you
 
-- `useQueryRef(name, options)` → a normal ref with an added `.syncToUrl()` method.
-- `useQueryReactive(schema, options)` → `{ queryState, updateBatch, syncAllToUrl }`.
+- `queryRef(name, options)` → a normal ref with an added `.syncToUrl()` method.
+- `queryReactive(schema, options)` → `{ queryState, updateBatch, syncAllToUrl }`.
   - `queryState` is a reactive object.
   - `updateBatch()` groups multiple updates into one history entry.
   - `syncAllToUrl()` forces an immediate URL write.

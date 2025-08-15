@@ -1,6 +1,6 @@
 [**vue-qs v0.1.15**](../README.md)
 
-***
+---
 
 [vue-qs](../README.md) / QueryRefReturn
 
@@ -10,7 +10,7 @@
 
 Defined in: [types.ts:73](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f5a2550faa61b4e51be4507991c23/src/types.ts#L73)
 
-Return type from useQueryRef composable
+Return type from queryRef composable
 
 ## Type declaration
 

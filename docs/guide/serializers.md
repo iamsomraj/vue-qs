@@ -15,20 +15,20 @@ Codecs convert between your typed values and the string stored in the URL.
 You can use either:
 
 ```ts
-useQueryRef('count', { defaultValue: 0, parseFunction: serializers.numberCodec.parse });
+queryRef('count', { defaultValue: 0, parseFunction: serializers.numberCodec.parse });
 // or shorter
-useQueryRef('count', { defaultValue: 0, codec: serializers.numberCodec });
+queryRef('count', { defaultValue: 0, codec: serializers.numberCodec });
 ```
 
 Arrays and enums:
 
 ```ts
-const tags = useQueryRef<string[]>('tags', {
+const tags = queryRef<string[]>('tags', {
   defaultValue: [],
   codec: serializers.createArrayCodec(serializers.stringCodec),
 });
 
-const sort = useQueryRef<'asc' | 'desc'>('sort', {
+const sort = queryRef<'asc' | 'desc'>('sort', {
   defaultValue: 'asc',
   codec: serializers.createEnumCodec(['asc', 'desc'] as const),
 });
@@ -44,7 +44,7 @@ const percentNumber: QueryCodec<number> = {
   serialize: (n) => `${n}%`,
 };
 
-const discountRate = useQueryRef('discountRate', { defaultValue: 0, codec: percentNumber });
+const discountRate = queryRef('discountRate', { defaultValue: 0, codec: percentNumber });
 ```
 
 Return `null` from `serialize` to omit the param entirely.

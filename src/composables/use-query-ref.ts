@@ -5,7 +5,7 @@ import { stringCodec } from '@/serializers';
 import type {
   QueryParser,
   QuerySerializer,
-  UseQueryRefOptions,
+  QueryRefOptions,
   QueryRefReturn,
   QueryAdapter,
   QueryCodec,
@@ -17,7 +17,7 @@ let sharedHistoryAdapterInstance: QueryAdapter | undefined;
 
 /**
  * Gets or creates the shared history adapter instance
- * This optimization ensures multiple useQueryRef calls share the same adapter
+ * This optimization ensures multiple queryRef calls share the same adapter
  */
 function getSharedHistoryAdapter(): QueryAdapter {
   sharedHistoryAdapterInstance ??= createHistoryAdapter();
@@ -63,16 +63,16 @@ function getCodecFunctions<T>(
  *
  * @example
  * ```typescript
- * import { useQueryRef, numberCodec } from 'vue-qs';
+ * import { queryRef, numberCodec } from 'vue-qs';
  *
  * // Simple string parameter with default
- * const searchQuery = useQueryRef('q', {
+ * const searchQuery = queryRef('q', {
  *   defaultValue: '',
  *   enableTwoWaySync: true
  * });
  *
  * // Number parameter with custom codec
- * const currentPage = useQueryRef('page', {
+ * const currentPage = queryRef('page', {
  *   defaultValue: 1,
  *   codec: numberCodec,
  *   shouldOmitDefault: true
@@ -86,9 +86,9 @@ function getCodecFunctions<T>(
  * searchQuery.syncToUrl();
  * ```
  */
-export function useQueryRef<T>(
+export function queryRef<T>(
   parameterName: string,
-  options: UseQueryRefOptions<T> = {}
+  options: QueryRefOptions<T> = {}
 ): QueryRefReturn<T> {
   // Extract and provide defaults for options
   const {
@@ -228,7 +228,7 @@ export function useQueryRef<T>(
         stopWatcher();
         unsubscribeFromURLChanges?.();
       } catch (error) {
-        warn('Error during useQueryRef cleanup:', error);
+        warn('Error during queryRef cleanup:', error);
       }
     });
   }

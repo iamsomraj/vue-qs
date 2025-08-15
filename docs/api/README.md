@@ -1,6 +1,6 @@
 **vue-qs v0.1.15**
 
-***
+---
 
 # vue-qs v0.1.15
 
@@ -22,12 +22,12 @@
 - [QueryCodec](type-aliases/QueryCodec.md)
 - [QueryParameterOptions](type-aliases/QueryParameterOptions.md)
 - [QueryParameterSchema](type-aliases/QueryParameterSchema.md)
-- [UseQueryRefOptions](type-aliases/UseQueryRefOptions.md)
+- [QueryRefOptions](type-aliases/QueryRefOptions.md)
 - [QueryRefReturn](type-aliases/QueryRefReturn.md)
 - [ReactiveQueryState](type-aliases/ReactiveQueryState.md)
 - [QueryBatchUpdateOptions](type-aliases/QueryBatchUpdateOptions.md)
 - [QueryReactiveReturn](type-aliases/QueryReactiveReturn.md)
-- [UseQueryReactiveOptions](type-aliases/UseQueryReactiveOptions.md)
+- [QueryReactiveOptions](type-aliases/QueryReactiveOptions.md)
 - [QueryAdapter](type-aliases/QueryAdapter.md)
 - [RuntimeEnvironment](type-aliases/RuntimeEnvironment.md)
 - [RuntimeEnv](type-aliases/RuntimeEnv.md)
@@ -46,8 +46,8 @@
 - [createVueQsPlugin](functions/createVueQsPlugin.md)
 - [createHistoryAdapter](functions/createHistoryAdapter.md)
 - [createVueRouterAdapter](functions/createVueRouterAdapter.md)
-- [useQueryReactive](functions/useQueryReactive.md)
-- [useQueryRef](functions/useQueryRef.md)
+- [queryReactive](functions/queryReactive.md)
+- [queryRef](functions/queryRef.md)
 - [createJsonCodec](functions/createJsonCodec.md)
 - [createArrayCodec](functions/createArrayCodec.md)
 - [createEnumCodec](functions/createEnumCodec.md)

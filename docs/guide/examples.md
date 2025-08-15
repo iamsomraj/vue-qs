@@ -3,14 +3,14 @@
 ## Common codecs
 
 ```ts
-import { useQueryRef, serializers } from 'vue-qs';
+import { queryRef, serializers } from 'vue-qs';
 
-const itemCount = useQueryRef('itemCount', { defaultValue: 0, codec: serializers.numberCodec });
-const isPublished = useQueryRef('isPublished', {
+const itemCount = queryRef('itemCount', { defaultValue: 0, codec: serializers.numberCodec });
+const isPublished = queryRef('isPublished', {
   defaultValue: false,
   codec: serializers.booleanCodec,
 });
-const tags = useQueryRef<string[]>('tags', {
+const tags = queryRef<string[]>('tags', {
   defaultValue: [],
   codec: serializers.createArrayCodec(serializers.stringCodec),
 });
@@ -19,7 +19,7 @@ const tags = useQueryRef<string[]>('tags', {
 ## Keep defaults in the URL
 
 ```ts
-const page = useQueryRef('page', {
+const page = queryRef('page', {
   defaultValue: 1,
   codec: serializers.numberCodec,
   shouldOmitDefault: false,
@@ -29,7 +29,7 @@ const page = useQueryRef('page', {
 ## Batch updates (one history entry)
 
 ```ts
-const { queryState, updateBatch } = useQueryReactive({
+const { queryState, updateBatch } = queryReactive({
   search: { defaultValue: '' },
   page: { defaultValue: 1 },
 });
@@ -39,7 +39,7 @@ updateBatch({ search: 'hello', page: 2 }, { historyStrategy: 'push' });
 ## Two‑way sync (URL -> state)
 
 ```ts
-const page = useQueryRef('page', {
+const page = queryRef('page', {
   defaultValue: 1,
   codec: serializers.numberCodec,
   enableTwoWaySync: true,
@@ -49,14 +49,14 @@ const page = useQueryRef('page', {
 Reactive version:
 
 ```ts
-const { queryState } = useQueryReactive(schema, { enableTwoWaySync: true });
+const { queryState } = queryReactive(schema, { enableTwoWaySync: true });
 ```
 
 ## Deep equality for objects
 
 ```ts
 const jsonCodec = serializers.createJsonCodec<{ a: number }>();
-const obj = useQueryRef('obj', {
+const obj = queryRef('obj', {
   defaultValue: { a: 1 },
   codec: jsonCodec,
   isEqual: (x, y) => x?.a === y?.a,
@@ -66,11 +66,11 @@ const obj = useQueryRef('obj', {
 ## Enum + array combo
 
 ```ts
-const sort = useQueryRef<'asc' | 'desc'>('sort', {
+const sort = queryRef<'asc' | 'desc'>('sort', {
   defaultValue: 'asc',
   codec: serializers.createEnumCodec(['asc', 'desc'] as const),
 });
-const selectedIds = useQueryRef<number[]>('ids', {
+const selectedIds = queryRef<number[]>('ids', {
   defaultValue: [],
   codec: serializers.createArrayCodec(serializers.numberCodec),
 });

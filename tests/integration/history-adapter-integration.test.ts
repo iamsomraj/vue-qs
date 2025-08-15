@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { nextTick } from 'vue';
 import { createHistoryAdapter } from '@/adapters/history-adapter';
-import { useQueryRef, useQueryReactive } from '@/index';
+import { queryRef, queryReactive } from '@/index';
 import { stringCodec, numberCodec } from '@/serializers';
 
 // Mock window and location
@@ -72,13 +72,13 @@ describe('History Adapter Integration', () => {
     vi.restoreAllMocks();
   });
 
-  describe('useQueryRef with history adapter', () => {
+  describe('queryRef with history adapter', () => {
     it('should work with basic query parameters', async () => {
       const queryAdapter = createHistoryAdapter();
       mockLocation.search = '?name=john&age=25';
       mockLocation.href = 'https://example.com/?name=john&age=25';
 
-      const nameRef = useQueryRef('name', {
+      const nameRef = queryRef('name', {
         defaultValue: '',
         codec: stringCodec,
         queryAdapter,
@@ -97,7 +97,7 @@ describe('History Adapter Integration', () => {
       const queryAdapter = createHistoryAdapter();
       mockLocation.search = '?page=2';
 
-      const pageRef = useQueryRef('page', {
+      const pageRef = queryRef('page', {
         defaultValue: 1,
         codec: numberCodec,
         queryAdapter,
@@ -119,7 +119,7 @@ describe('History Adapter Integration', () => {
       mockLocation.hash = '#section';
       mockLocation.href = 'https://example.com/app/route?existing=param#section';
 
-      const nameRef = useQueryRef('name', {
+      const nameRef = queryRef('name', {
         defaultValue: '',
         codec: stringCodec,
         queryAdapter,
@@ -139,7 +139,7 @@ describe('History Adapter Integration', () => {
       const queryAdapter = createHistoryAdapter();
       mockLocation.search = '';
 
-      const nameRef = useQueryRef('name', {
+      const nameRef = queryRef('name', {
         defaultValue: '',
         codec: stringCodec,
         queryAdapter,
@@ -154,13 +154,13 @@ describe('History Adapter Integration', () => {
     });
   });
 
-  describe('useQueryReactive with history adapter', () => {
+  describe('queryReactive with history adapter', () => {
     it('should work with multiple parameters', async () => {
       const queryAdapter = createHistoryAdapter();
       mockLocation.search = '?q=vue&page=1';
       mockLocation.href = 'https://example.com/?q=vue&page=1';
 
-      const { queryState } = useQueryReactive(
+      const { queryState } = queryReactive(
         {
           q: { defaultValue: '', codec: stringCodec },
           page: { defaultValue: 1, codec: numberCodec },
@@ -203,7 +203,7 @@ describe('History Adapter Integration', () => {
       const queryAdapter = createHistoryAdapter();
       mockLocation.search = '?category=tech&sort=date';
 
-      const { queryState, updateBatch } = useQueryReactive(
+      const { queryState, updateBatch } = queryReactive(
         {
           category: { defaultValue: '', codec: stringCodec },
           sort: { defaultValue: '', codec: stringCodec },
@@ -238,7 +238,7 @@ describe('History Adapter Integration', () => {
       const queryAdapter = createHistoryAdapter();
       mockLocation.search = '?name=initial';
 
-      const nameRef = useQueryRef('name', {
+      const nameRef = queryRef('name', {
         defaultValue: '',
         codec: stringCodec,
         queryAdapter,
@@ -267,7 +267,7 @@ describe('History Adapter Integration', () => {
       const queryAdapter = createHistoryAdapter();
       mockLocation.search = '?name=initial';
 
-      const nameRef = useQueryRef('name', {
+      const nameRef = queryRef('name', {
         defaultValue: '',
         codec: stringCodec,
         queryAdapter,
@@ -298,7 +298,7 @@ describe('History Adapter Integration', () => {
       const queryAdapter = createHistoryAdapter();
       mockLocation.search = '';
 
-      const nameRef = useQueryRef('name', {
+      const nameRef = queryRef('name', {
         defaultValue: '',
         codec: stringCodec,
         queryAdapter,
@@ -330,7 +330,7 @@ describe('History Adapter Integration', () => {
       const queryAdapter = createHistoryAdapter();
       mockLocation.search = '?invalid%url%encoding%';
 
-      const nameRef = useQueryRef('name', {
+      const nameRef = queryRef('name', {
         defaultValue: 'fallback',
         codec: stringCodec,
         queryAdapter,
@@ -349,7 +349,7 @@ describe('History Adapter Integration', () => {
         throw new Error('History API error');
       });
 
-      const nameRef = useQueryRef('name', {
+      const nameRef = queryRef('name', {
         defaultValue: '',
         codec: stringCodec,
         queryAdapter,
@@ -385,7 +385,7 @@ describe('History Adapter Integration', () => {
 
       const queryAdapter = createHistoryAdapter();
 
-      const nameRef = useQueryRef('name', {
+      const nameRef = queryRef('name', {
         defaultValue: 'server-default',
         codec: stringCodec,
         queryAdapter,
@@ -406,7 +406,7 @@ describe('History Adapter Integration', () => {
       const queryAdapter = createHistoryAdapter();
       mockLocation.search = '';
 
-      const nameRef = useQueryRef('name', {
+      const nameRef = queryRef('name', {
         defaultValue: '',
         codec: stringCodec,
         queryAdapter,
@@ -433,7 +433,7 @@ describe('History Adapter Integration', () => {
       mockLocation.href =
         'https://example.com/complex/path?complex=value%20with%20spaces&array=1%2C2%2C3&special=%21%40%23';
 
-      const nameRef = useQueryRef('name', {
+      const nameRef = queryRef('name', {
         defaultValue: '',
         codec: stringCodec,
         queryAdapter,
@@ -456,7 +456,7 @@ describe('History Adapter Integration', () => {
       const queryAdapter = createHistoryAdapter();
       mockLocation.search = '?param1=value1&param2=value2';
 
-      const { queryState } = useQueryReactive(
+      const { queryState } = queryReactive(
         {
           param1: { defaultValue: '', codec: stringCodec },
           param2: { defaultValue: '', codec: stringCodec },

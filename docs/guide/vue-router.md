@@ -8,13 +8,13 @@ Pass the adapter directly when you create refs / reactive objects.
 
 ```vue
 <script setup lang="ts">
-import { useQueryRef, useQueryReactive, createVueRouterAdapter } from 'vue-qs';
+import { queryRef, queryReactive, createVueRouterAdapter } from 'vue-qs';
 import { useRouter } from 'vue-router';
 
 const adapter = createVueRouterAdapter(useRouter());
 
-const page = useQueryRef('page', { defaultValue: 1, parseFunction: Number, queryAdapter: adapter });
-const { queryState } = useQueryReactive({ q: { defaultValue: '' } }, { adapter });
+const page = queryRef('page', { defaultValue: 1, parseFunction: Number, queryAdapter: adapter });
+const { queryState } = queryReactive({ q: { defaultValue: '' } }, { adapter });
 </script>
 ```
 
@@ -40,7 +40,7 @@ createApp(App)
 Add `enableTwoWaySync: true` if you want state to update when the user navigates (back/forward or programmatic pushes):
 
 ```ts
-const page = useQueryRef('page', {
+const page = queryRef('page', {
   defaultValue: 1,
   parseFunction: Number,
   enableTwoWaySync: true,

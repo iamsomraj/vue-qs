@@ -27,7 +27,7 @@ createApp(App)
 之后你就可以直接：
 
 ```ts
-const page = useQueryRef('page', { defaultValue: 1, parseFunction: Number });
+const page = queryRef('page', { defaultValue: 1, parseFunction: Number });
 ```
 
 ## 局部注入
