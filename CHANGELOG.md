@@ -1,5 +1,23 @@
 # Changelog
 
+## v0.1.16
+
+[compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.1.15...v0.1.16)
+
+### 💅 Refactors
+
+- Rename useQueryRef and useQueryReactive to queryRef and queryReactive ([a3913bb](https://github.com/iamsomraj/vue-qs/commit/a3913bb))
+- Remove two-way synchronization feature from queryRef and queryReactive ([479c0d0](https://github.com/iamsomraj/vue-qs/commit/479c0d0))
+
+### 🏡 Chore
+
+- Update documentation for vue-qs v0.1.15 ([cb7da35](https://github.com/iamsomraj/vue-qs/commit/cb7da35))
+- Update version to v0.1.16-beta.0 and remove HistoryAdapterOptions interface ([824f5e1](https://github.com/iamsomraj/vue-qs/commit/824f5e1))
+
+### ❤️ Contributors
+
+- Somraj Mukherjee ([@iamsomraj](https://github.com/iamsomraj))
+
 ## v0.1.15
 
 [compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.1.15-beta.2...v0.1.15)
