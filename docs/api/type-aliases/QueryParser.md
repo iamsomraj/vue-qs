@@ -8,7 +8,7 @@
 
 > **QueryParser**\<`T`\> = (`rawValue`) => `T`
 
-Defined in: [types.ts:9](https://github.com/iamsomraj/vue-qs/blob/479c0d0dd04c282413431d3d2112e6dc9639b922/src/types.ts#L9)
+Defined in: [types.ts:9](https://github.com/iamsomraj/vue-qs/blob/2515abe5c25afff0f87351153aa1684c958bdf3f/src/types.ts#L9)
 
 Function that parses a raw query string value into a typed value
 

@@ -8,7 +8,7 @@
 
 > **QueryParameterOptions**\<`T`\> = `object`
 
-Defined in: [types.ts:34](https://github.com/iamsomraj/vue-qs/blob/479c0d0dd04c282413431d3d2112e6dc9639b922/src/types.ts#L34)
+Defined in: [types.ts:34](https://github.com/iamsomraj/vue-qs/blob/2515abe5c25afff0f87351153aa1684c958bdf3f/src/types.ts#L34)
 
 Configuration options for a single query parameter
 
@@ -26,7 +26,7 @@ The type of the parameter value
 
 > `optional` **defaultValue**: `T`
 
-Defined in: [types.ts:36](https://github.com/iamsomraj/vue-qs/blob/479c0d0dd04c282413431d3d2112e6dc9639b922/src/types.ts#L36)
+Defined in: [types.ts:36](https://github.com/iamsomraj/vue-qs/blob/2515abe5c25afff0f87351153aa1684c958bdf3f/src/types.ts#L36)
 
 Default value to use when parameter is missing or invalid
 
@@ -36,7 +36,7 @@ Default value to use when parameter is missing or invalid
 
 > `optional` **codec**: [`QueryCodec`](QueryCodec.md)\<`T`\>
 
-Defined in: [types.ts:38](https://github.com/iamsomraj/vue-qs/blob/479c0d0dd04c282413431d3d2112e6dc9639b922/src/types.ts#L38)
+Defined in: [types.ts:38](https://github.com/iamsomraj/vue-qs/blob/2515abe5c25afff0f87351153aa1684c958bdf3f/src/types.ts#L38)
 
 Combined codec with both parse and serialize functions
 
@@ -46,7 +46,7 @@ Combined codec with both parse and serialize functions
 
 > `optional` **parseFunction**: [`QueryParser`](QueryParser.md)\<`T`\>
 
-Defined in: [types.ts:40](https://github.com/iamsomraj/vue-qs/blob/479c0d0dd04c282413431d3d2112e6dc9639b922/src/types.ts#L40)
+Defined in: [types.ts:40](https://github.com/iamsomraj/vue-qs/blob/2515abe5c25afff0f87351153aa1684c958bdf3f/src/types.ts#L40)
 
 Custom parser function (overrides codec.parse if provided)
 
@@ -56,7 +56,7 @@ Custom parser function (overrides codec.parse if provided)
 
 > `optional` **serializeFunction**: [`QuerySerializer`](QuerySerializer.md)\<`T`\>
 
-Defined in: [types.ts:42](https://github.com/iamsomraj/vue-qs/blob/479c0d0dd04c282413431d3d2112e6dc9639b922/src/types.ts#L42)
+Defined in: [types.ts:42](https://github.com/iamsomraj/vue-qs/blob/2515abe5c25afff0f87351153aa1684c958bdf3f/src/types.ts#L42)
 
 Custom serializer function (overrides codec.serialize if provided)
 
@@ -66,7 +66,7 @@ Custom serializer function (overrides codec.serialize if provided)
 
 > `optional` **isEqual**: (`valueA`, `valueB`) => `boolean`
 
-Defined in: [types.ts:44](https://github.com/iamsomraj/vue-qs/blob/479c0d0dd04c282413431d3d2112e6dc9639b922/src/types.ts#L44)
+Defined in: [types.ts:44](https://github.com/iamsomraj/vue-qs/blob/2515abe5c25afff0f87351153aa1684c958bdf3f/src/types.ts#L44)
 
 Custom equality function to compare values (defaults to Object.is)
 
@@ -90,7 +90,7 @@ Custom equality function to compare values (defaults to Object.is)
 
 > `optional` **shouldOmitDefault**: `boolean`
 
-Defined in: [types.ts:46](https://github.com/iamsomraj/vue-qs/blob/479c0d0dd04c282413431d3d2112e6dc9639b922/src/types.ts#L46)
+Defined in: [types.ts:46](https://github.com/iamsomraj/vue-qs/blob/2515abe5c25afff0f87351153aa1684c958bdf3f/src/types.ts#L46)
 
 Whether to omit the parameter from URL when value equals default (default: true)
 
@@ -100,6 +100,6 @@ Whether to omit the parameter from URL when value equals default (default: true)
 
 > `optional` **batchKey**: `string`
 
-Defined in: [types.ts:48](https://github.com/iamsomraj/vue-qs/blob/479c0d0dd04c282413431d3d2112e6dc9639b922/src/types.ts#L48)
+Defined in: [types.ts:48](https://github.com/iamsomraj/vue-qs/blob/2515abe5c25afff0f87351153aa1684c958bdf3f/src/types.ts#L48)
 
 Optional batch key for grouping parameter updates

@@ -8,7 +8,7 @@
 
 > **provideQueryAdapter**(`queryAdapter`): `void`
 
-Defined in: [adapter-context.ts:21](https://github.com/iamsomraj/vue-qs/blob/479c0d0dd04c282413431d3d2112e6dc9639b922/src/adapter-context.ts#L21)
+Defined in: [adapter-context.ts:21](https://github.com/iamsomraj/vue-qs/blob/2515abe5c25afff0f87351153aa1684c958bdf3f/src/adapter-context.ts#L21)
 
 Provides a query adapter to the component tree using dependency injection
 This makes the adapter available to all child components
