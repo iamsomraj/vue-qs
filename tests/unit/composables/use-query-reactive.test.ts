@@ -118,43 +118,6 @@ describe('queryReactive', () => {
     expect(new URL(window.location.href).searchParams.get('tags')).toBe('x,y');
   });
 
-  it('twoWay: reactive state updates on popstate', () => {
-    const { queryState } = queryReactive(
-      {
-        q: {
-          defaultValue: '',
-          parseFunction: (value: string | null) => value || '',
-          serializeFunction: (value: string) => value,
-        },
-        p: {
-          defaultValue: 0,
-          parseFunction: (value: string | null) => (value ? Number(value) : 0),
-          serializeFunction: (value: number) => String(value),
-        },
-      },
-      { historyStrategy: 'push', enableTwoWaySync: true }
-    );
-
-    expect(queryState.q).toBe('');
-    expect(queryState.p).toBe(0);
-
-    // change state which updates URL (push)
-    queryState.q = 'first';
-    queryState.p = 1;
-    const u1 = new URL(window.location.href);
-    expect(u1.searchParams.get('q')).toBe('first');
-    expect(u1.searchParams.get('p')).toBe('1');
-
-    // simulate navigating to a new URL and popstate back
-    const u2 = new URL(window.location.href);
-    u2.searchParams.set('q', 'second');
-    u2.searchParams.set('p', '2');
-    window.history.pushState({}, '', u2);
-    window.dispatchEvent(new PopStateEvent('popstate'));
-    expect(queryState.q).toBe('second');
-    expect(queryState.p).toBe(2);
-  });
-
   it('equals comparator omits deep-equal defaults in schema', () => {
     const jsonCodec = serializers.createJsonCodec<{ a: number }>();
     const { queryState, syncAllToUrl } = queryReactive({

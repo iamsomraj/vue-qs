@@ -1,6 +1,6 @@
 [**vue-qs v0.1.15**](../README.md)
 
----
+***
 
 [vue-qs](../README.md) / QueryRefOptions
 
@@ -8,7 +8,7 @@
 
 > **QueryRefOptions**\<`T`\> = [`QueryParameterOptions`](QueryParameterOptions.md)\<`T`\> & `object`
 
-Defined in: [types.ts:60](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f5a2550faa61b4e51be4507991c23/src/types.ts#L60)
+Defined in: [types.ts:60](https://github.com/iamsomraj/vue-qs/blob/a3913bb25b71fcd11c340c11649682158fe4657a/src/types.ts#L60)
 
 Options for queryRef composable
 
@@ -25,12 +25,6 @@ History strategy when updating the URL ('replace' | 'push')
 > `optional` **queryAdapter**: [`QueryAdapter`](QueryAdapter.md)
 
 Optional custom query adapter to use
-
-### enableTwoWaySync?
-
-> `optional` **enableTwoWaySync**: `boolean`
-
-Enable two-way synchronization with URL changes
 
 ## Type Parameters
 

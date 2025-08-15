@@ -8,7 +8,7 @@
 
 > `const` **booleanCodec**: [`QueryCodec`](../type-aliases/QueryCodec.md)\<`boolean`\>
 
-Defined in: [serializers.ts:60](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f5a2550faa61b4e51be4507991c23/src/serializers.ts#L60)
+Defined in: [serializers.ts:60](https://github.com/iamsomraj/vue-qs/blob/a3913bb25b71fcd11c340c11649682158fe4657a/src/serializers.ts#L60)
 
 Boolean codec for handling boolean values
 Treats 'true' and '1' as true, everything else as false

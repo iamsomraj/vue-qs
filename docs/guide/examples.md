@@ -42,14 +42,13 @@ updateBatch({ search: 'hello', page: 2 }, { historyStrategy: 'push' });
 const page = queryRef('page', {
   defaultValue: 1,
   codec: serializers.numberCodec,
-  enableTwoWaySync: true,
 });
 ```
 
 Reactive version:
 
 ```ts
-const { queryState } = queryReactive(schema, { enableTwoWaySync: true });
+const { queryState } = queryReactive(schema);
 ```
 
 ## Deep equality for objects

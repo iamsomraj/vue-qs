@@ -25,7 +25,7 @@ let isHistoryPatched = false;
 
 /**
  * Patches the browser's History API to emit custom events
- * This allows two-way sync to detect manual history changes
+ * This allows listeners to detect manual history changes
  * @param windowObject The window object to patch
  */
 function patchHistoryAPI(windowObject: Window): void {

@@ -1,6 +1,6 @@
 [**vue-qs v0.1.15**](../README.md)
 
----
+***
 
 [vue-qs](../README.md) / queryRef
 
@@ -8,7 +8,7 @@
 
 > **queryRef**\<`T`\>(`parameterName`, `options`): [`QueryRefReturn`](../type-aliases/QueryRefReturn.md)\<`T`\>
 
-Defined in: [composables/use-query-ref.ts:89](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f5a2550faa61b4e51be4507991c23/src/composables/use-query-ref.ts#L89)
+Defined in: [composables/use-query-ref.ts:88](https://github.com/iamsomraj/vue-qs/blob/a3913bb25b71fcd11c340c11649682158fe4657a/src/composables/use-query-ref.ts#L88)
 
 Manages a single query parameter as a Vue Ref with URL synchronization
 
@@ -47,15 +47,14 @@ import { queryRef, numberCodec } from 'vue-qs';
 
 // Simple string parameter with default
 const searchQuery = queryRef('q', {
-  defaultValue: '',
-  enableTwoWaySync: true,
+  defaultValue: ''
 });
 
 // Number parameter with custom codec
 const currentPage = queryRef('page', {
   defaultValue: 1,
   codec: numberCodec,
-  shouldOmitDefault: true,
+  shouldOmitDefault: true
 });
 
 // Update the URL by changing the ref value

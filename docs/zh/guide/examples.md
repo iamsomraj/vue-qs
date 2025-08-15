@@ -77,12 +77,11 @@ const selectedIds = queryRef<number[]>('ids', {
 const page = queryRef('page', {
   defaultValue: 1,
   parseFunction: Number,
-  enableTwoWaySync: true,
 });
 ```
 
 或多个：
 
 ```ts
-const { queryState } = queryReactive({ page: { defaultValue: 1 } }, { enableTwoWaySync: true });
+const { queryState } = queryReactive({ page: { defaultValue: 1 } });
 ```

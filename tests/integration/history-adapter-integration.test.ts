@@ -233,66 +233,6 @@ describe('History Adapter Integration', () => {
     });
   });
 
-  describe('two-way synchronization with history adapter', () => {
-    it('should sync external URL changes', async () => {
-      const queryAdapter = createHistoryAdapter();
-      mockLocation.search = '?name=initial';
-
-      const nameRef = queryRef('name', {
-        defaultValue: '',
-        codec: stringCodec,
-        queryAdapter,
-        enableTwoWaySync: true,
-      });
-
-      expect(nameRef.value).toBe('initial');
-
-      // Simulate external URL change
-      mockLocation.search = '?name=updated';
-
-      // Get the callback that was registered
-      const addEventListenerCalls = mockWindow.addEventListener.mock.calls;
-      const popstateHandler = addEventListenerCalls.find(
-        (call: any) => call[0] === 'popstate'
-      )?.[1];
-
-      if (popstateHandler) {
-        popstateHandler();
-        await nextTick();
-        expect(nameRef.value).toBe('updated');
-      }
-    });
-
-    it('should handle custom history events', async () => {
-      const queryAdapter = createHistoryAdapter();
-      mockLocation.search = '?name=initial';
-
-      const nameRef = queryRef('name', {
-        defaultValue: '',
-        codec: stringCodec,
-        queryAdapter,
-        enableTwoWaySync: true,
-      });
-
-      expect(nameRef.value).toBe('initial');
-
-      // Simulate custom history event
-      mockLocation.search = '?name=custom';
-
-      // Get the custom event handler
-      const addEventListenerCalls = mockWindow.addEventListener.mock.calls;
-      const customHandler = addEventListenerCalls.find(
-        (call: any) => call[0] === 'vue-qs:history-change'
-      )?.[1];
-
-      if (customHandler) {
-        customHandler();
-        await nextTick();
-        expect(nameRef.value).toBe('custom');
-      }
-    });
-  });
-
   describe('history strategy with history adapter', () => {
     it('should use replace strategy by default', async () => {
       const queryAdapter = createHistoryAdapter();

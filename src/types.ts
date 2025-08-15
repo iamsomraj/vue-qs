@@ -62,8 +62,6 @@ export type QueryRefOptions<T> = QueryParameterOptions<T> & {
   historyStrategy?: 'replace' | 'push';
   /** Optional custom query adapter to use */
   queryAdapter?: QueryAdapter;
-  /** Enable two-way synchronization with URL changes */
-  enableTwoWaySync?: boolean;
 };
 
 /**
@@ -115,8 +113,6 @@ export type QueryReactiveOptions = {
   historyStrategy?: 'replace' | 'push';
   /** Optional custom query adapter to use */
   queryAdapter?: QueryAdapter;
-  /** Enable two-way synchronization with URL changes */
-  enableTwoWaySync?: boolean;
 };
 
 /**

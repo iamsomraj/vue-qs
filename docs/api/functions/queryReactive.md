@@ -1,6 +1,6 @@
 [**vue-qs v0.1.15**](../README.md)
 
----
+***
 
 [vue-qs](../README.md) / queryReactive
 
@@ -8,7 +8,7 @@
 
 > **queryReactive**\<`TSchema`\>(`parameterSchema`, `options`): [`QueryReactiveReturn`](../type-aliases/QueryReactiveReturn.md)\<`TSchema`\>
 
-Defined in: [composables/use-query-reactive.ts:77](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f5a2550faa61b4e51be4507991c23/src/composables/use-query-reactive.ts#L77)
+Defined in: [composables/use-query-reactive.ts:76](https://github.com/iamsomraj/vue-qs/blob/a3913bb25b71fcd11c340c11649682158fe4657a/src/composables/use-query-reactive.ts#L76)
 
 Manages multiple query parameters as a single reactive object with URL synchronization
 
@@ -16,7 +16,7 @@ Manages multiple query parameters as a single reactive object with URL synchroni
 
 ### TSchema
 
-`TSchema` _extends_ [`QueryParameterSchema`](../type-aliases/QueryParameterSchema.md)
+`TSchema` *extends* [`QueryParameterSchema`](../type-aliases/QueryParameterSchema.md)
 
 The schema type defining all parameters
 
@@ -48,21 +48,20 @@ import { queryReactive, numberCodec, booleanCodec } from 'vue-qs';
 const querySchema = {
   search: {
     defaultValue: '',
-    shouldOmitDefault: true,
+    shouldOmitDefault: true
   },
   page: {
     defaultValue: 1,
-    codec: numberCodec,
+    codec: numberCodec
   },
   showDetails: {
     defaultValue: false,
-    codec: booleanCodec,
+    codec: booleanCodec
   },
 } as const;
 
 const { queryState, updateBatch, syncAllToUrl } = queryReactive(querySchema, {
-  enableTwoWaySync: true,
-  historyStrategy: 'replace',
+  historyStrategy: 'replace'
 });
 
 // Access reactive values
@@ -75,7 +74,7 @@ queryState.page = 2;
 // Batch update multiple values
 updateBatch({
   search: 'world',
-  page: 1,
+  page: 1
 });
 
 // Manual sync

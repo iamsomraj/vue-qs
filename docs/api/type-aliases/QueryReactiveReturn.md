@@ -1,6 +1,6 @@
 [**vue-qs v0.1.15**](../README.md)
 
----
+***
 
 [vue-qs](../README.md) / QueryReactiveReturn
 
@@ -8,7 +8,7 @@
 
 > **QueryReactiveReturn**\<`TSchema`\> = `object`
 
-Defined in: [types.ts:98](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f5a2550faa61b4e51be4507991c23/src/types.ts#L98)
+Defined in: [types.ts:96](https://github.com/iamsomraj/vue-qs/blob/a3913bb25b71fcd11c340c11649682158fe4657a/src/types.ts#L96)
 
 Return type from queryReactive composable
 
@@ -16,7 +16,7 @@ Return type from queryReactive composable
 
 ### TSchema
 
-`TSchema` _extends_ [`QueryParameterSchema`](QueryParameterSchema.md)
+`TSchema` *extends* [`QueryParameterSchema`](QueryParameterSchema.md)
 
 The parameter schema type
 
@@ -26,7 +26,7 @@ The parameter schema type
 
 > **queryState**: [`ReactiveQueryState`](ReactiveQueryState.md)\<`TSchema`\>
 
-Defined in: [types.ts:100](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f5a2550faa61b4e51be4507991c23/src/types.ts#L100)
+Defined in: [types.ts:98](https://github.com/iamsomraj/vue-qs/blob/a3913bb25b71fcd11c340c11649682158fe4657a/src/types.ts#L98)
 
 Reactive state object with typed parameter values
 
@@ -36,7 +36,7 @@ Reactive state object with typed parameter values
 
 > **updateBatch**(`updates`, `options?`): `void`
 
-Defined in: [types.ts:102](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f5a2550faa61b4e51be4507991c23/src/types.ts#L102)
+Defined in: [types.ts:100](https://github.com/iamsomraj/vue-qs/blob/a3913bb25b71fcd11c340c11649682158fe4657a/src/types.ts#L100)
 
 Update multiple parameters in a single operation
 
@@ -54,13 +54,13 @@ Update multiple parameters in a single operation
 
 `void`
 
----
+***
 
 ### syncAllToUrl()
 
 > **syncAllToUrl**(): `void`
 
-Defined in: [types.ts:107](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f5a2550faa61b4e51be4507991c23/src/types.ts#L107)
+Defined in: [types.ts:105](https://github.com/iamsomraj/vue-qs/blob/a3913bb25b71fcd11c340c11649682158fe4657a/src/types.ts#L105)
 
 Manually sync all current values to the URL
 

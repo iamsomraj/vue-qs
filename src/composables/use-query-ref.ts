@@ -67,8 +67,7 @@ function getCodecFunctions<T>(
  *
  * // Simple string parameter with default
  * const searchQuery = queryRef('q', {
- *   defaultValue: '',
- *   enableTwoWaySync: true
+ *   defaultValue: ''
  * });
  *
  * // Number parameter with custom codec
@@ -100,7 +99,6 @@ export function queryRef<T>(
     shouldOmitDefault = true,
     historyStrategy = 'replace',
     queryAdapter: providedAdapter,
-    enableTwoWaySync = false,
   } = options;
 
   // Determine which adapter to use and get codec functions
@@ -160,16 +158,10 @@ export function queryRef<T>(
     }
   }
 
-  // Flag to prevent infinite loops during two-way sync
-  let isSyncingFromURL = false;
-
   // Watch for ref changes and sync to URL
   const stopWatcher = watch(
     queryRef,
     (newValue) => {
-      if (isSyncingFromURL) {
-        return; // Skip URL updates during two-way sync
-      }
       updateURL(newValue);
     },
     { flush: 'sync' } // Sync immediately to avoid batching delays
@@ -180,53 +172,12 @@ export function queryRef<T>(
     updateURL(queryRef.value);
   };
 
-  // Set up two-way synchronization if enabled
-  let unsubscribeFromURLChanges: (() => void) | undefined;
-
-  if (enableTwoWaySync) {
-    function syncFromURL(): void {
-      try {
-        const currentQuery = selectedAdapter.getCurrentQuery();
-        const rawValue = currentQuery[parameterName] ?? null;
-        const parsedValue =
-          typeof rawValue === 'string' && rawValue.length > 0
-            ? parseValue(rawValue)
-            : (defaultValue as T);
-
-        isSyncingFromURL = true;
-        try {
-          internalRef.value = parsedValue;
-        } finally {
-          // Reset sync flag in next microtask to ensure watchers run after this update
-          queueMicrotask(() => {
-            isSyncingFromURL = false;
-          });
-        }
-      } catch (error) {
-        warn(`Error syncing from URL for parameter "${parameterName}":`, error);
-      }
-    }
-
-    // Subscribe to URL changes if adapter supports it
-    if (selectedAdapter.onQueryChange) {
-      unsubscribeFromURLChanges = selectedAdapter.onQueryChange(syncFromURL);
-    } else if (typeof window !== 'undefined') {
-      // Fallback to popstate for basic browser navigation
-      const handlePopState = (): void => syncFromURL();
-      window.addEventListener('popstate', handlePopState);
-      unsubscribeFromURLChanges = () => {
-        window.removeEventListener('popstate', handlePopState);
-      };
-    }
-  }
-
   // Clean up subscriptions when component unmounts
   const componentInstance = getCurrentInstance();
   if (componentInstance !== null) {
     onBeforeUnmount(() => {
       try {
         stopWatcher();
-        unsubscribeFromURLChanges?.();
       } catch (error) {
         warn('Error during queryRef cleanup:', error);
       }

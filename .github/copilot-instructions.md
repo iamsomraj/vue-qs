@@ -45,7 +45,6 @@ vue-qs is a Vue.js library for synchronizing URL query parameters with reactive 
 - `createVueRouterAdapter` - for Vue Router integration
 - `queryRef` - for single parameter reactive refs
 - `queryReactive` - for reactive object state
-- `enableTwoWaySync` - for bidirectional synchronization
 - `defaultValue` - for parameter default values
 - `historyStrategy` - for history management strategy
 - `isEqual` - for value comparison function

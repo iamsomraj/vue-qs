@@ -8,7 +8,7 @@
 
 > **RuntimeEnvironment** = `object`
 
-Defined in: [types.ts:140](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f5a2550faa61b4e51be4507991c23/src/types.ts#L140)
+Defined in: [types.ts:136](https://github.com/iamsomraj/vue-qs/blob/a3913bb25b71fcd11c340c11649682158fe4657a/src/types.ts#L136)
 
 Runtime environment information
 
@@ -18,7 +18,7 @@ Runtime environment information
 
 > **isBrowser**: `boolean`
 
-Defined in: [types.ts:142](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f5a2550faa61b4e51be4507991c23/src/types.ts#L142)
+Defined in: [types.ts:138](https://github.com/iamsomraj/vue-qs/blob/a3913bb25b71fcd11c340c11649682158fe4657a/src/types.ts#L138)
 
 Whether we're running in a browser environment
 
@@ -28,6 +28,6 @@ Whether we're running in a browser environment
 
 > **windowObject**: `Window` \| `null`
 
-Defined in: [types.ts:144](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f5a2550faa61b4e51be4507991c23/src/types.ts#L144)
+Defined in: [types.ts:140](https://github.com/iamsomraj/vue-qs/blob/a3913bb25b71fcd11c340c11649682158fe4657a/src/types.ts#L140)
 
 Window object if available

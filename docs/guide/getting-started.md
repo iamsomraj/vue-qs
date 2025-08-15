@@ -81,4 +81,4 @@ import { router } from './router';
 app.use(createVueQsPlugin({ queryAdapter: createVueRouterAdapter(router) }));
 ```
 
-Continue to Examples for patterns like codecs, two‑way sync, batching, and custom equality.
+Continue to Examples for patterns like codecs, batching, and custom equality.

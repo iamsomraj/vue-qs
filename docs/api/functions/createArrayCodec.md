@@ -8,7 +8,7 @@
 
 > **createArrayCodec**\<`T`\>(`elementCodec`, `delimiter`): [`QueryCodec`](../type-aliases/QueryCodec.md)\<`T`[]\>
 
-Defined in: [serializers.ts:148](https://github.com/iamsomraj/vue-qs/blob/c6723d94881f5a2550faa61b4e51be4507991c23/src/serializers.ts#L148)
+Defined in: [serializers.ts:148](https://github.com/iamsomraj/vue-qs/blob/a3913bb25b71fcd11c340c11649682158fe4657a/src/serializers.ts#L148)
 
 Array codec factory for handling arrays with a specific element type
 

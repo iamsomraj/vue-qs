@@ -102,19 +102,6 @@ createApp(App)
   .mount('#app');
 ```
 
-## Two‑way sync (URL -> state)
-
-Disabled by default. Turn on with `enableTwoWaySync: true` to react to back/forward and router navigations.
-
-```ts
-const page = queryRef('page', {
-  defaultValue: 1,
-  parseFunction: Number,
-  enableTwoWaySync: true,
-});
-const { queryState } = queryReactive({ q: { defaultValue: '' } }, { enableTwoWaySync: true });
-```
-
 ## Omitting defaults
 
 By default if a value equals its `defaultValue`, the param is removed from the URL for cleanliness. Want it always there? Set `shouldOmitDefault: false`.
@@ -200,7 +187,6 @@ Shared options:
 - shouldOmitDefault (default true): remove from URL when equal to default
 - isEqual: custom compare (deep equality, etc.)
 - historyStrategy: 'replace' (default) or 'push'
-- enableTwoWaySync: listen to back/forward & router changes
 - queryAdapter: override which query adapter to use
 
 Extra on reactive version:

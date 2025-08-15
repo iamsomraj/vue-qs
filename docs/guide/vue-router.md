@@ -34,15 +34,3 @@ createApp(App)
   .use(router)
   .mount('#app');
 ```
-
-## Two‑way sync tip
-
-Add `enableTwoWaySync: true` if you want state to update when the user navigates (back/forward or programmatic pushes):
-
-```ts
-const page = queryRef('page', {
-  defaultValue: 1,
-  parseFunction: Number,
-  enableTwoWaySync: true,
-});
-```
