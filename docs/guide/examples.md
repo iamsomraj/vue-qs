@@ -36,21 +36,6 @@ const { queryState, updateBatch } = queryReactive({
 updateBatch({ search: 'hello', page: 2 }, { historyStrategy: 'push' });
 ```
 
-## Two‑way sync (URL -> state)
-
-```ts
-const page = queryRef('page', {
-  defaultValue: 1,
-  codec: serializers.numberCodec,
-});
-```
-
-Reactive version:
-
-```ts
-const { queryState } = queryReactive(schema);
-```
-
 ## Deep equality for objects
 
 ```ts

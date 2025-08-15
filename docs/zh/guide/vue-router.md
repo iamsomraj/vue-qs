@@ -44,6 +44,6 @@ provideQueryAdapter(adapter);
 
 ## 同步行为
 
-内部使用 `router.afterEach` 监听路由变化，自动更新已经创建的 query refs/reactive 对象；同时对本地修改进行 `router.replace`（不新增历史记录）。
+内部对本地修改进行 `router.replace`（不新增历史记录）。
 
 如果你在一次交互中希望合并多次修改到同一条历史记录，可用 `updateBatch(() => { /* 多次改 queryState */ })`。

@@ -30,7 +30,7 @@ vue-qs is a Vue.js library for synchronizing URL query parameters with reactive 
 ### File Naming Convention
 
 - **All files must use kebab-case naming**
-- Examples: `adapter-context.ts`, `use-query-ref.ts`, `router-subscribe.test.ts`
+- Examples: `adapter-context.ts`, `use-query-ref.ts`
 - Never use camelCase for file names
 - Test files should follow the same kebab-case pattern
 

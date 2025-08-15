@@ -8,7 +8,7 @@
 
 > **buildSearchString**(`queryObject`): `string`
 
-Defined in: [utils/core-helpers.ts:57](https://github.com/iamsomraj/vue-qs/blob/a3913bb25b71fcd11c340c11649682158fe4657a/src/utils/core-helpers.ts#L57)
+Defined in: [utils/core-helpers.ts:57](https://github.com/iamsomraj/vue-qs/blob/479c0d0dd04c282413431d3d2112e6dc9639b922/src/utils/core-helpers.ts#L57)
 
 Safely converts a query object to a URL search string
 

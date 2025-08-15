@@ -82,7 +82,6 @@ describe('createVueRouterAdapter', () => {
       expect(adapter).toBeDefined();
       expect(typeof adapter.getCurrentQuery).toBe('function');
       expect(typeof adapter.updateQuery).toBe('function');
-      expect(typeof adapter.onQueryChange).toBe('function');
     });
 
     it('should create adapter with custom options', () => {
@@ -310,93 +309,6 @@ describe('createVueRouterAdapter', () => {
         'Error updating query in Vue Router:',
         expect.any(Error)
       );
-
-      consoleWarnSpy.mockRestore();
-    });
-  });
-
-  describe('onQueryChange', () => {
-    it('should setup query change listener using afterEach hook', () => {
-      const adapter = createVueRouterAdapter(mockRouter);
-      const callback = vi.fn();
-
-      const unsubscribe = adapter.onQueryChange!(callback);
-
-      expect(mockRouter.afterEach).toHaveBeenCalledWith(expect.any(Function));
-      expect(typeof unsubscribe).toBe('function');
-    });
-
-    it('should call callback when route changes', async () => {
-      const adapter = createVueRouterAdapter(mockRouter);
-      const callback = vi.fn();
-
-      adapter.onQueryChange!(callback);
-
-      // Trigger a route change
-      await mockRouter.replace({ query: { test: 'value' } });
-
-      expect(callback).toHaveBeenCalled();
-    });
-
-    it('should cleanup listener when unsubscribed', () => {
-      const adapter = createVueRouterAdapter(mockRouter);
-      const callback = vi.fn();
-
-      const unsubscribe = adapter.onQueryChange!(callback);
-      unsubscribe();
-
-      // The mock afterEach returns a cleanup function, so we can verify it was called
-      expect(mockRouter.afterEach).toHaveBeenCalled();
-    });
-
-    it('should handle callback errors gracefully', async () => {
-      const adapter = createVueRouterAdapter(mockRouter);
-      const errorCallback = vi.fn(() => {
-        throw new Error('Callback error');
-      });
-
-      const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {
-        // Mock implementation to suppress console warnings in tests
-      });
-
-      adapter.onQueryChange!(errorCallback);
-
-      // Trigger a route change - should not throw
-      await mockRouter.replace({ query: { test: 'value' } });
-
-      expect(consoleWarnSpy).toHaveBeenCalledWith(
-        '[vue-qs]:',
-        'Error in Vue Router query change callback:',
-        expect.any(Error)
-      );
-
-      consoleWarnSpy.mockRestore();
-    });
-
-    it('should handle setup errors gracefully', () => {
-      const adapter = createVueRouterAdapter(mockRouter);
-
-      const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {
-        // Mock implementation to suppress console warnings in tests
-      });
-
-      // Mock afterEach to throw
-      mockRouter.afterEach = vi.fn(() => {
-        throw new Error('Setup error');
-      });
-
-      const callback = vi.fn();
-      const unsubscribe = adapter.onQueryChange!(callback);
-
-      expect(consoleWarnSpy).toHaveBeenCalledWith(
-        '[vue-qs]:',
-        'Error setting up Vue Router query change listener:',
-        expect.any(Error)
-      );
-
-      // Should return no-op function
-      expect(typeof unsubscribe).toBe('function');
-      expect(() => unsubscribe()).not.toThrow();
 
       consoleWarnSpy.mockRestore();
     });

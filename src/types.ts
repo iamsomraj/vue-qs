@@ -126,8 +126,6 @@ export type QueryAdapter = {
     queryUpdates: Record<string, string | undefined>,
     options?: { historyStrategy?: 'replace' | 'push' }
   ): void;
-  /** Subscribe to external query changes (returns unsubscribe function) */
-  onQueryChange?(callback: () => void): () => void;
 };
 
 /**

@@ -250,19 +250,6 @@ describe('History Adapter Integration', () => {
       expect(mockHistory.replaceState).toHaveBeenCalled();
       expect(mockHistory.pushState).not.toHaveBeenCalled();
     });
-
-    it('should handle suppressHistoryEvents option', () => {
-      const queryAdapter = createHistoryAdapter({ suppressHistoryEvents: true });
-      const callback = vi.fn();
-
-      queryAdapter.onQueryChange!(callback);
-
-      expect(mockWindow.addEventListener).toHaveBeenCalledWith('popstate', expect.any(Function));
-      expect(mockWindow.addEventListener).not.toHaveBeenCalledWith(
-        'vue-qs:history-change',
-        expect.any(Function)
-      );
-    });
   });
 
   describe('error handling with history adapter', () => {

@@ -8,9 +8,6 @@ function createMockQueryAdapter(): QueryAdapter {
   return {
     getCurrentQuery: vi.fn().mockReturnValue({}),
     updateQuery: vi.fn(),
-    onQueryChange: vi.fn().mockReturnValue(() => {
-      // Mock cleanup function
-    }),
   };
 }
 
@@ -286,10 +283,6 @@ describe('adapter-context', () => {
           if (capturedAdapter) {
             capturedAdapter.getCurrentQuery();
             capturedAdapter.updateQuery({ test: 'value' });
-            const unsubscribe = capturedAdapter.onQueryChange?.(() => {
-              // Mock callback
-            });
-            unsubscribe?.();
           }
 
           return () => null;
@@ -309,7 +302,6 @@ describe('adapter-context', () => {
 
       expect(mockAdapter.getCurrentQuery).toHaveBeenCalled();
       expect(mockAdapter.updateQuery).toHaveBeenCalledWith({ test: 'value' });
-      expect(mockAdapter.onQueryChange).toHaveBeenCalled();
     });
   });
 });
