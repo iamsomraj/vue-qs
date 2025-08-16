@@ -8,7 +8,7 @@ import {
   createVueRouterAdapter,
   serializers,
   type QueryAdapter,
-} from '../../src/index';
+} from '@/index';
 
 // Test components
 export const BasicQueryRefComponent = defineComponent({
