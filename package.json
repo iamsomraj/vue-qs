@@ -25,7 +25,11 @@
     "url",
     "router",
     "state",
-    "nuqs"
+    "nuqs",
+    "url-params",
+    "url state",
+    "queryRef",
+    "queryReactive"
   ],
   "packageManager": "bun@1.2.19",
   "repository": {
