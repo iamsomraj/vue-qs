@@ -1,5 +1,31 @@
 # Changelog
 
+## v0.1.17
+
+[compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.1.16...v0.1.17)
+
+### 💅 Refactors
+
+- Rename useQueryRef and useQueryReactive to queryRef and queryReactive ([a3913bb](https://github.com/iamsomraj/vue-qs/commit/a3913bb))
+- Remove two-way synchronization feature from queryRef and queryReactive ([479c0d0](https://github.com/iamsomraj/vue-qs/commit/479c0d0))
+- Update query parameter parsing method from parseFunction to parse ([d77e2e1](https://github.com/iamsomraj/vue-qs/commit/d77e2e1))
+
+### 📖 Documentation
+
+- Remove redundant note about back/forward button usage ([a7f03fa](https://github.com/iamsomraj/vue-qs/commit/a7f03fa))
+- Add active development notice to documentation and update package description ([c2299b6](https://github.com/iamsomraj/vue-qs/commit/c2299b6))
+
+### 🏡 Chore
+
+- Update version to v0.1.16-beta.0 and remove HistoryAdapterOptions interface ([824f5e1](https://github.com/iamsomraj/vue-qs/commit/824f5e1))
+- **release:** V0.1.16 ([e1f88d6](https://github.com/iamsomraj/vue-qs/commit/e1f88d6))
+- Update documentation for vue-qs v0.1.16 ([29c354e](https://github.com/iamsomraj/vue-qs/commit/29c354e))
+- Add additional keywords to package.json for better discoverability ([f8ec7fd](https://github.com/iamsomraj/vue-qs/commit/f8ec7fd))
+
+### ❤️ Contributors
+
+- Somraj Mukherjee ([@iamsomraj](https://github.com/iamsomraj))
+
 ## v0.1.16
 
 [compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.1.15...v0.1.16)
