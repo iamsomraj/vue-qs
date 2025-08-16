@@ -55,7 +55,7 @@ Multiple params in one reactive object:
 import { queryReactive } from 'vue-qs';
 
 // Each field config controls parsing, defaults, omission rules
-const { queryState } = queryReactive({
+const queryState = queryReactive({
   q: { defaultValue: '' },
   page: { defaultValue: 1, parse: Number },
 });
@@ -85,7 +85,7 @@ const page = queryRef<number>('page', {
   parse: Number,
   queryAdapter: adapter,
 });
-const { queryState } = queryReactive({ q: { defaultValue: '' } }, { queryAdapter: adapter });
+const queryState = queryReactive({ q: { defaultValue: '' } }, { queryAdapter: adapter });
 </script>
 ```
 
@@ -108,8 +108,6 @@ createApp(App)
 
 By default if a value equals its `defaultValue`, the param is removed from the URL for cleanliness. Want it always there? Set `shouldOmitDefault: false`.
 
-Call `.syncToUrl()` on a ref or the reactive group to force a write right now.
-
 ## Codecs (parse + serialize)
 
 Import ready‑made codecs:
@@ -128,18 +126,6 @@ const tags = queryRef('tags', {
 Use `codec` instead of separate `parse` / `serializeFunction` for brevity.
 
 Available built‑ins: `stringCodec`, `numberCodec`, `booleanCodec`, `dateISOCodec`, `createJsonCodec<T>()`, `createArrayCodec(codec)`, `createEnumCodec([...])`.
-
-## Batch updates
-
-Update several params in one history entry:
-
-```ts
-const { queryState, updateBatch } = queryReactive({
-  q: { defaultValue: '' },
-  page: { defaultValue: 1 },
-});
-updateBatch({ q: 'hello', page: 2 }, { historyStrategy: 'push' });
-```
 
 ## Custom equality
 
@@ -162,11 +148,11 @@ On the server the hooks never touch `window`. They use an internal cache until h
 
 queryRef(name, options)
 
-- Returns a ref with extra method `.syncToUrl()`.
+- Returns a ref.
 
 queryReactive(schema, options)
 
-- Returns `{ queryState, updateBatch, syncAllToUrl }`.
+- Returns a reactive object.
 
 createHistoryAdapter(options)
 
@@ -190,10 +176,6 @@ Shared options:
 - isEqual: custom compare (deep equality, etc.)
 - historyStrategy: 'replace' (default) or 'push'
 - queryAdapter: override which query adapter to use
-
-Extra on reactive version:
-
-- updateBatch(update, { historyStrategy }): multi‑field update
 
 ## Contributing
 

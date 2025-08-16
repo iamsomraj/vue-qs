@@ -9,7 +9,6 @@ describe('queryRef', () => {
       shouldOmitDefault: false,
     });
     expect(page.value).toBe(1);
-    page.syncToUrl();
     expect(new URL(window.location.href).searchParams.get('page')).toBe('1');
   });
 
@@ -140,17 +139,5 @@ describe('queryRef', () => {
       shouldOmitDefault: false,
     });
     expect(new URL(window.location.href).searchParams.get('includeDefault')).toBe('a');
-  });
-
-  it('provides manual sync functionality', () => {
-    const item = queryRef<{ a: number } | null>('manualSync', {
-      defaultValue: { a: 1 },
-      codec: serializers.createJsonCodec<{ a: number }>(),
-    });
-    // Set value without automatic sync
-    item.value = { a: 2 };
-    expect(new URL(window.location.href).searchParams.get('manualSync')).toBe('{"a":2}');
-    item.syncToUrl();
-    expect(new URL(window.location.href).searchParams.get('manualSync')).toBe('{"a":2}');
   });
 });

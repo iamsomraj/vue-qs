@@ -160,7 +160,7 @@ describe('History Adapter Integration', () => {
       mockLocation.search = '?q=vue&page=1';
       mockLocation.href = 'https://example.com/?q=vue&page=1';
 
-      const { queryState } = queryReactive(
+      const queryState = queryReactive(
         {
           q: { defaultValue: '', codec: stringCodec },
           page: { defaultValue: 1, codec: numberCodec },
@@ -199,11 +199,11 @@ describe('History Adapter Integration', () => {
       }
     });
 
-    it('should handle batch updates', async () => {
+    it('should handle reactive updates', async () => {
       const queryAdapter = createHistoryAdapter();
       mockLocation.search = '?category=tech&sort=date';
 
-      const { queryState, updateBatch } = queryReactive(
+      const queryState = queryReactive(
         {
           category: { defaultValue: '', codec: stringCodec },
           sort: { defaultValue: '', codec: stringCodec },
@@ -216,192 +216,187 @@ describe('History Adapter Integration', () => {
       expect(queryState.sort).toBe('date');
       expect(queryState.page).toBe(1);
 
-      // Batch update
-      updateBatch({
-        category: 'science',
-        sort: 'popularity',
-        page: 3,
-      });
+      // Update multiple values
+      queryState.category = 'science';
+      queryState.sort = 'popularity';
+      queryState.page = 3;
 
       await nextTick();
 
-      expect(mockHistory.replaceState).toHaveBeenCalledWith(
-        {},
-        '',
-        '/?category=science&sort=popularity&page=3'
-      );
+      // Each update triggers separately due to reactive nature
+      expect(mockHistory.replaceState).toHaveBeenCalledTimes(3);
     });
   });
+});
 
-  describe('history strategy with history adapter', () => {
-    it('should use replace strategy by default', async () => {
-      const queryAdapter = createHistoryAdapter();
-      mockLocation.search = '';
+describe('history strategy with history adapter', () => {
+  it('should use replace strategy by default', async () => {
+    const queryAdapter = createHistoryAdapter();
+    mockLocation.search = '';
 
-      const nameRef = queryRef('name', {
-        defaultValue: '',
-        codec: stringCodec,
-        queryAdapter,
-      });
+    const nameRef = queryRef('name', {
+      defaultValue: '',
+      codec: stringCodec,
+      queryAdapter,
+    });
 
+    nameRef.value = 'test';
+    await nextTick();
+
+    expect(mockHistory.replaceState).toHaveBeenCalled();
+    expect(mockHistory.pushState).not.toHaveBeenCalled();
+  });
+});
+
+describe('error handling with history adapter', () => {
+  it('should handle malformed URL parameters gracefully', async () => {
+    const queryAdapter = createHistoryAdapter();
+    mockLocation.search = '?invalid%url%encoding%';
+
+    const nameRef = queryRef('name', {
+      defaultValue: 'fallback',
+      codec: stringCodec,
+      queryAdapter,
+    });
+
+    // Should not throw and should use default value
+    expect(nameRef.value).toBe('fallback');
+  });
+
+  it('should handle history API errors gracefully', async () => {
+    const queryAdapter = createHistoryAdapter();
+
+    // Mock history API to throw
+    const originalReplaceState = mockHistory.replaceState;
+    mockHistory.replaceState = vi.fn(() => {
+      throw new Error('History API error');
+    });
+
+    const nameRef = queryRef('name', {
+      defaultValue: '',
+      codec: stringCodec,
+      queryAdapter,
+    });
+
+    // Should not throw
+    expect(() => {
       nameRef.value = 'test';
-      await nextTick();
+    }).not.toThrow();
 
-      expect(mockHistory.replaceState).toHaveBeenCalled();
-      expect(mockHistory.pushState).not.toHaveBeenCalled();
-    });
+    // Restore
+    mockHistory.replaceState = originalReplaceState;
+  });
+});
+
+describe('server-side compatibility', () => {
+  beforeEach(() => {
+    // Mock server environment
+    vi.doMock('@/utils/core-helpers', () => ({
+      createRuntimeEnvironment: () => ({
+        isBrowser: false,
+        windowObject: null,
+      }),
+      parseSearchString: vi.fn().mockReturnValue({}),
+      buildSearchString: vi.fn().mockReturnValue(''),
+      mergeObjects: vi.fn((a, b) => ({ ...a, ...b })),
+    }));
   });
 
-  describe('error handling with history adapter', () => {
-    it('should handle malformed URL parameters gracefully', async () => {
-      const queryAdapter = createHistoryAdapter();
-      mockLocation.search = '?invalid%url%encoding%';
+  it('should work in server environment', async () => {
+    // Re-import to get the mocked version
+    const { createHistoryAdapter } = await import('@/adapters/history-adapter');
 
-      const nameRef = queryRef('name', {
-        defaultValue: 'fallback',
-        codec: stringCodec,
-        queryAdapter,
-      });
+    const queryAdapter = createHistoryAdapter();
 
-      // Should not throw and should use default value
-      expect(nameRef.value).toBe('fallback');
+    const nameRef = queryRef('name', {
+      defaultValue: 'server-default',
+      codec: stringCodec,
+      queryAdapter,
     });
 
-    it('should handle history API errors gracefully', async () => {
-      const queryAdapter = createHistoryAdapter();
+    // Should work without throwing
+    expect(nameRef.value).toBe('server-default');
 
-      // Mock history API to throw
-      const originalReplaceState = mockHistory.replaceState;
-      mockHistory.replaceState = vi.fn(() => {
-        throw new Error('History API error');
-      });
+    // Should not throw when updating
+    expect(() => {
+      nameRef.value = 'server-updated';
+    }).not.toThrow();
+  });
+});
 
-      const nameRef = queryRef('name', {
-        defaultValue: '',
-        codec: stringCodec,
-        queryAdapter,
-      });
+describe('edge cases and complex scenarios', () => {
+  it('should handle rapid state changes', async () => {
+    const queryAdapter = createHistoryAdapter();
+    mockLocation.search = '';
 
-      // Should not throw
-      expect(() => {
-        nameRef.value = 'test';
-      }).not.toThrow();
-
-      // Restore
-      mockHistory.replaceState = originalReplaceState;
+    const nameRef = queryRef('name', {
+      defaultValue: '',
+      codec: stringCodec,
+      queryAdapter,
     });
+
+    // Rapid updates
+    nameRef.value = 'first';
+    nameRef.value = 'second';
+    nameRef.value = 'third';
+
+    await nextTick();
+
+    // Should have been called with the last value
+    expect(mockHistory.replaceState).toHaveBeenCalled();
+    const calls = (mockHistory.replaceState as any).mock.calls;
+    const lastCall = calls[calls.length - 1];
+    expect(lastCall[2]).toContain('name=');
   });
 
-  describe('server-side compatibility', () => {
-    beforeEach(() => {
-      // Mock server environment
-      vi.doMock('@/utils/core-helpers', () => ({
-        createRuntimeEnvironment: () => ({
-          isBrowser: false,
-          windowObject: null,
-        }),
-        parseSearchString: vi.fn().mockReturnValue({}),
-        buildSearchString: vi.fn().mockReturnValue(''),
-        mergeObjects: vi.fn((a, b) => ({ ...a, ...b })),
-      }));
+  it('should handle URL with existing complex parameters', async () => {
+    const queryAdapter = createHistoryAdapter();
+    mockLocation.search = '?complex=value%20with%20spaces&array=1%2C2%2C3&special=%21%40%23';
+    mockLocation.pathname = '/complex/path';
+    mockLocation.href =
+      'https://example.com/complex/path?complex=value%20with%20spaces&array=1%2C2%2C3&special=%21%40%23';
+
+    const nameRef = queryRef('name', {
+      defaultValue: '',
+      codec: stringCodec,
+      queryAdapter,
     });
 
-    it('should work in server environment', async () => {
-      // Re-import to get the mocked version
-      const { createHistoryAdapter } = await import('@/adapters/history-adapter');
+    nameRef.value = 'added';
+    await nextTick();
 
-      const queryAdapter = createHistoryAdapter();
-
-      const nameRef = queryRef('name', {
-        defaultValue: 'server-default',
-        codec: stringCodec,
-        queryAdapter,
-      });
-
-      // Should work without throwing
-      expect(nameRef.value).toBe('server-default');
-
-      // Should not throw when updating
-      expect(() => {
-        nameRef.value = 'server-updated';
-      }).not.toThrow();
-    });
+    // Check that replaceState was called with a URL containing our additions
+    expect(mockHistory.replaceState).toHaveBeenCalled();
+    const callArgs = (mockHistory.replaceState as any).mock.calls[0];
+    expect(callArgs[2]).toContain('/complex/path');
+    expect(callArgs[2]).toContain('name=added');
+    expect(callArgs[2]).toContain('complex=');
+    expect(callArgs[2]).toContain('array=');
+    expect(callArgs[2]).toContain('special=');
   });
 
-  describe('edge cases and complex scenarios', () => {
-    it('should handle rapid state changes', async () => {
-      const queryAdapter = createHistoryAdapter();
-      mockLocation.search = '';
+  it('should handle clearing all parameters', async () => {
+    const queryAdapter = createHistoryAdapter();
+    mockLocation.search = '?param1=value1&param2=value2';
 
-      const nameRef = queryRef('name', {
-        defaultValue: '',
-        codec: stringCodec,
-        queryAdapter,
-      });
+    const queryState = queryReactive(
+      {
+        param1: { defaultValue: '', codec: stringCodec },
+        param2: { defaultValue: '', codec: stringCodec },
+      },
+      { queryAdapter }
+    );
 
-      // Rapid updates
-      nameRef.value = 'first';
-      nameRef.value = 'second';
-      nameRef.value = 'third';
+    // Clear all parameters
+    queryState.param1 = '';
+    queryState.param2 = '';
 
-      await nextTick();
+    await nextTick();
 
-      // Should have been called with the last value (may be batched)
-      expect(mockHistory.replaceState).toHaveBeenCalled();
-      const calls = (mockHistory.replaceState as any).mock.calls;
-      const lastCall = calls[calls.length - 1];
-      expect(lastCall[2]).toContain('name=');
-    });
-
-    it('should handle URL with existing complex parameters', async () => {
-      const queryAdapter = createHistoryAdapter();
-      mockLocation.search = '?complex=value%20with%20spaces&array=1%2C2%2C3&special=%21%40%23';
-      mockLocation.pathname = '/complex/path';
-      mockLocation.href =
-        'https://example.com/complex/path?complex=value%20with%20spaces&array=1%2C2%2C3&special=%21%40%23';
-
-      const nameRef = queryRef('name', {
-        defaultValue: '',
-        codec: stringCodec,
-        queryAdapter,
-      });
-
-      nameRef.value = 'added';
-      await nextTick();
-
-      // Check that replaceState was called with a URL containing our additions
-      expect(mockHistory.replaceState).toHaveBeenCalled();
-      const callArgs = (mockHistory.replaceState as any).mock.calls[0];
-      expect(callArgs[2]).toContain('/complex/path');
-      expect(callArgs[2]).toContain('name=added');
-      expect(callArgs[2]).toContain('complex=');
-      expect(callArgs[2]).toContain('array=');
-      expect(callArgs[2]).toContain('special=');
-    });
-
-    it('should handle clearing all parameters', async () => {
-      const queryAdapter = createHistoryAdapter();
-      mockLocation.search = '?param1=value1&param2=value2';
-
-      const { queryState } = queryReactive(
-        {
-          param1: { defaultValue: '', codec: stringCodec },
-          param2: { defaultValue: '', codec: stringCodec },
-        },
-        { queryAdapter }
-      );
-
-      // Clear all parameters
-      queryState.param1 = '';
-      queryState.param2 = '';
-
-      await nextTick();
-
-      // Should result in clean URL (depending on shouldOmitDefault behavior)
-      expect(mockHistory.replaceState).toHaveBeenCalled();
-      const calls = (mockHistory.replaceState as any).mock.calls;
-      const finalUrl = calls[calls.length - 1]?.[2];
-      expect(typeof finalUrl).toBe('string');
-    });
+    // Should result in clean URL (depending on shouldOmitDefault behavior)
+    expect(mockHistory.replaceState).toHaveBeenCalled();
+    const calls = (mockHistory.replaceState as any).mock.calls;
+    const finalUrl = calls[calls.length - 1]?.[2];
+    expect(typeof finalUrl).toBe('string');
   });
 });

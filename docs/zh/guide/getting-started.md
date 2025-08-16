@@ -39,7 +39,7 @@ const name = queryRef('name', { defaultValue: '' });
 <script setup lang="ts">
 import { queryReactive } from 'vue-qs';
 
-const { queryState } = queryReactive({
+const queryState = queryReactive({
   search: { defaultValue: '' },
   page: {
     defaultValue: 1,
@@ -57,10 +57,8 @@ const { queryState } = queryReactive({
 
 ## Hook 返回什么
 
-- `queryRef(name, options)` → 一个普通 ref，额外提供 `.syncToUrl()`。
-- `queryReactive(schema, options)` → `{ queryState, updateBatch, syncAllToUrl }`。
-  - `updateBatch()` 把多次修改合并为一次历史记录。
-  - `syncAllToUrl()` 立即写入 URL。
+- `queryRef(name, options)` → 一个普通 ref。
+- `queryReactive(schema, options)` → 一个响应式对象。
 - 值等于默认值时默认不出现在 URL（可通过 `shouldOmitDefault: false` 关闭）。
 
 继续查看 示例 / 双向同步 / 编解码器 获取更多用法。

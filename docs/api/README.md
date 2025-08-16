@@ -1,6 +1,6 @@
 **vue-qs v0.1.17**
 
-***
+---
 
 # vue-qs v0.1.17
 
@@ -24,7 +24,6 @@
 - [QueryRefOptions](type-aliases/QueryRefOptions.md)
 - [QueryRefReturn](type-aliases/QueryRefReturn.md)
 - [ReactiveQueryState](type-aliases/ReactiveQueryState.md)
-- [QueryBatchUpdateOptions](type-aliases/QueryBatchUpdateOptions.md)
 - [QueryReactiveReturn](type-aliases/QueryReactiveReturn.md)
 - [QueryReactiveOptions](type-aliases/QueryReactiveOptions.md)
 - [QueryAdapter](type-aliases/QueryAdapter.md)

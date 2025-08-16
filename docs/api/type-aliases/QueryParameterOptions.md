@@ -1,6 +1,6 @@
 [**vue-qs v0.1.17**](../README.md)
 
-***
+---
 
 [vue-qs](../README.md) / QueryParameterOptions
 
@@ -30,7 +30,7 @@ Defined in: [types.ts:36](https://github.com/iamsomraj/vue-qs/blob/b89690c4cfcb7
 
 Default value to use when parameter is missing or invalid
 
-***
+---
 
 ### codec?
 
@@ -40,7 +40,7 @@ Defined in: [types.ts:38](https://github.com/iamsomraj/vue-qs/blob/b89690c4cfcb7
 
 Combined codec with both parse and serialize functions
 
-***
+---
 
 ### parse?
 
@@ -50,7 +50,7 @@ Defined in: [types.ts:40](https://github.com/iamsomraj/vue-qs/blob/b89690c4cfcb7
 
 Custom parser function (overrides codec.parse if provided)
 
-***
+---
 
 ### serializeFunction?
 
@@ -60,7 +60,7 @@ Defined in: [types.ts:42](https://github.com/iamsomraj/vue-qs/blob/b89690c4cfcb7
 
 Custom serializer function (overrides codec.serialize if provided)
 
-***
+---
 
 ### isEqual()?
 
@@ -84,7 +84,7 @@ Custom equality function to compare values (defaults to Object.is)
 
 `boolean`
 
-***
+---
 
 ### shouldOmitDefault?
 
@@ -93,13 +93,3 @@ Custom equality function to compare values (defaults to Object.is)
 Defined in: [types.ts:46](https://github.com/iamsomraj/vue-qs/blob/b89690c4cfcb78328e659968e3c7235730988be4/src/types.ts#L46)
 
 Whether to omit the parameter from URL when value equals default (default: true)
-
-***
-
-### batchKey?
-
-> `optional` **batchKey**: `string`
-
-Defined in: [types.ts:48](https://github.com/iamsomraj/vue-qs/blob/b89690c4cfcb78328e659968e3c7235730988be4/src/types.ts#L48)
-
-Optional batch key for grouping parameter updates

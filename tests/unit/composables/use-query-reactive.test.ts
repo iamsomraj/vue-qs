@@ -2,8 +2,8 @@ import { describe, it, expect } from 'vitest';
 import { queryReactive, serializers } from '@/index';
 
 describe('queryReactive', () => {
-  it('initializes from defaults and batches updates', () => {
-    const { queryState, updateBatch } = queryReactive({
+  it('initializes from defaults and updates URL automatically', () => {
+    const queryState = queryReactive({
       search: { defaultValue: '', parse: (value: string | null) => value || '' },
       sort: {
         defaultValue: 'asc' as 'asc' | 'desc',
@@ -14,7 +14,8 @@ describe('queryReactive', () => {
     expect(queryState.search).toBe('');
     expect(queryState.sort).toBe('asc');
 
-    updateBatch({ search: 'abc', sort: 'desc' }, { historyStrategy: 'replace' });
+    queryState.search = 'abc';
+    queryState.sort = 'desc';
 
     const url = new URL(window.location.href);
     expect(url.searchParams.get('search')).toBe('abc');
@@ -26,7 +27,7 @@ describe('queryReactive', () => {
     const arrCodec = serializers.createArrayCodec(serializers.numberCodec);
     const enumCodec = serializers.createEnumCodec(['asc', 'desc'] as const);
 
-    const { queryState, updateBatch, syncAllToUrl } = queryReactive({
+    const queryState = queryReactive({
       s: {
         defaultValue: '',
         parse: (value: string | null) => value || '',
@@ -63,19 +64,14 @@ describe('queryReactive', () => {
     expect(queryState.a).toEqual([]);
     expect(queryState.e).toBe('asc');
 
-    // batch update and check URL
-    updateBatch(
-      {
-        s: 'hi',
-        n: 7,
-        b: true,
-        d: new Date('2020-01-02T00:00:00.000Z'),
-        j: { a: 2 },
-        a: [3, 4],
-        e: 'desc',
-      },
-      { historyStrategy: 'replace' }
-    );
+    // update values and check URL
+    queryState.s = 'hi';
+    queryState.n = 7;
+    queryState.b = true;
+    queryState.d = new Date('2020-01-02T00:00:00.000Z');
+    queryState.j = { a: 2 };
+    queryState.a = [3, 4];
+    queryState.e = 'desc';
 
     const url = new URL(window.location.href);
     expect(url.searchParams.get('s')).toBe('hi');
@@ -86,15 +82,14 @@ describe('queryReactive', () => {
     expect(url.searchParams.get('a')).toBe('3,4');
     expect(url.searchParams.get('e')).toBe('desc');
 
-    // mutate and sync all
+    // mutate to test default omission
     queryState.s = 'bye';
     queryState.n = 10;
-    queryState.b = false;
+    queryState.b = false; // default, should be omitted
     queryState.d = new Date('2020-01-03T00:00:00.000Z');
-    queryState.j = { a: 5 } as any;
+    queryState.j = { a: 5 };
     queryState.a = [9];
-    queryState.e = 'asc';
-    syncAllToUrl();
+    queryState.e = 'asc'; // default, should be omitted
 
     const url2 = new URL(window.location.href);
     expect(url2.searchParams.get('s')).toBe('bye');
@@ -109,18 +104,17 @@ describe('queryReactive', () => {
 
   it('supports codec field in schema for simpler DX', () => {
     const codec = serializers.createArrayCodec(serializers.stringCodec);
-    const { queryState, syncAllToUrl } = queryReactive({
+    const queryState = queryReactive({
       tags: { defaultValue: [], codec },
     });
     expect(queryState.tags).toEqual([]);
     queryState.tags = ['x', 'y'];
-    syncAllToUrl();
     expect(new URL(window.location.href).searchParams.get('tags')).toBe('x,y');
   });
 
   it('equals comparator omits deep-equal defaults in schema', () => {
     const jsonCodec = serializers.createJsonCodec<{ a: number }>();
-    const { queryState, syncAllToUrl } = queryReactive({
+    const queryState = queryReactive({
       obj: {
         defaultValue: { a: 1 },
         codec: jsonCodec,
@@ -128,15 +122,12 @@ describe('queryReactive', () => {
       },
     });
     // default, omitted
-    syncAllToUrl();
     expect(new URL(window.location.href).searchParams.get('obj')).toBe(null);
     // deep equal, still omitted
-    queryState.obj = { a: 1 } as any;
-    syncAllToUrl();
+    queryState.obj = { a: 1 };
     expect(new URL(window.location.href).searchParams.get('obj')).toBe(null);
     // different -> written
-    queryState.obj = { a: 3 } as any;
-    syncAllToUrl();
+    queryState.obj = { a: 3 };
     expect(new URL(window.location.href).searchParams.get('obj')).toBe('{"a":3}');
   });
 });

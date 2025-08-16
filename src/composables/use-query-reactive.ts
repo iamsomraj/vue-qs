@@ -4,7 +4,6 @@ import { createHistoryAdapter } from '@/adapters/history-adapter';
 import { stringCodec } from '@/serializers';
 import type {
   QueryAdapter,
-  QueryBatchUpdateOptions,
   QueryParameterSchema,
   QueryParser,
   QueryReactiveReturn,
@@ -31,7 +30,7 @@ function getSharedHistoryAdapter(): QueryAdapter {
  * @template TSchema The schema type defining all parameters
  * @param parameterSchema Schema defining configuration for each parameter
  * @param options Global options for the reactive query state
- * @returns Reactive state object with batch update and sync capabilities
+ * @returns Reactive state object that stays in sync with the URL
  *
  * @example
  * ```typescript
@@ -52,25 +51,16 @@ function getSharedHistoryAdapter(): QueryAdapter {
  *   },
  * } as const;
  *
- * const { queryState, updateBatch, syncAllToUrl } = queryReactive(querySchema, {
+ * const queryState = queryReactive(querySchema, {
  *   historyStrategy: 'replace'
  * });
  *
  * // Access reactive values
  * console.log(queryState.search, queryState.page, queryState.showDetails);
  *
- * // Update single values
+ * // Update values
  * queryState.search = 'hello';
  * queryState.page = 2;
- *
- * // Batch update multiple values
- * updateBatch({
- *   search: 'world',
- *   page: 1
- * });
- *
- * // Manual sync
- * syncAllToUrl();
  * ```
  */
 export function queryReactive<TSchema extends QueryParameterSchema>(
@@ -162,26 +152,6 @@ export function queryReactive<TSchema extends QueryParameterSchema>(
     return serializedQuery;
   }
 
-  /**
-   * Syncs all current state values to the URL
-   */
-  function syncAllToURL(): void {
-    try {
-      const fullState: Partial<StateType> = {};
-      Object.keys(parameterSchema).forEach((key) => {
-        (fullState as any)[key] = (reactiveState as any)[key];
-      });
-
-      const serializedQuery = serializeStateSubset(fullState);
-      selectedAdapter.updateQuery(serializedQuery, { historyStrategy });
-    } catch (error) {
-      warn('Error syncing all parameters to URL:', error);
-    }
-  }
-
-  // Flag to control when watchers should trigger during batch updates
-  let isBatchUpdating = false;
-
   // Watch for state changes and sync to URL
   const stopWatcher = watch(
     () => {
@@ -193,10 +163,6 @@ export function queryReactive<TSchema extends QueryParameterSchema>(
       return stateSnapshot;
     },
     (changedState) => {
-      if (isBatchUpdating) {
-        return; // Skip updates during batch operations
-      }
-
       try {
         const serializedQuery = serializeStateSubset(changedState);
         selectedAdapter.updateQuery(serializedQuery, { historyStrategy });
@@ -206,37 +172,9 @@ export function queryReactive<TSchema extends QueryParameterSchema>(
     },
     {
       deep: true,
-      flush: 'sync', // Immediate updates to avoid batching delays
+      flush: 'sync', // Immediate updates
     }
   );
-
-  /**
-   * Updates multiple parameters in a single batch operation
-   */
-  function updateBatch(updates: Partial<StateType>, batchOptions?: QueryBatchUpdateOptions): void {
-    try {
-      isBatchUpdating = true;
-
-      // Apply all updates to the reactive state
-      Object.keys(updates).forEach((key) => {
-        if (key in parameterSchema) {
-          (reactiveState as any)[key] = (updates as any)[key];
-        }
-      });
-
-      // Serialize and update URL in single operation
-      const serializedQuery = serializeStateSubset(updates);
-      const finalHistoryStrategy = batchOptions?.historyStrategy ?? historyStrategy;
-      selectedAdapter.updateQuery(serializedQuery, { historyStrategy: finalHistoryStrategy });
-    } catch (error) {
-      warn('Error during batch update:', error);
-    } finally {
-      // Reset batch flag in next microtask
-      queueMicrotask(() => {
-        isBatchUpdating = false;
-      });
-    }
-  }
 
   // Clean up subscriptions when component unmounts
   if (componentInstance) {
@@ -249,9 +187,5 @@ export function queryReactive<TSchema extends QueryParameterSchema>(
     });
   }
 
-  return {
-    queryState: reactiveState as StateType,
-    updateBatch,
-    syncAllToUrl: syncAllToURL,
-  };
+  return reactiveState as StateType;
 }

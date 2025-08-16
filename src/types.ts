@@ -44,8 +44,6 @@ export type QueryParameterOptions<T> = {
   isEqual?: (valueA: T, valueB: T) => boolean;
   /** Whether to omit the parameter from URL when value equals default (default: true) */
   shouldOmitDefault?: boolean;
-  /** Optional batch key for grouping parameter updates */
-  batchKey?: string;
 };
 
 /**
@@ -68,10 +66,7 @@ export type QueryRefOptions<T> = QueryParameterOptions<T> & {
  * Return type from queryRef composable
  * @template T The type of the query parameter value
  */
-export type QueryRefReturn<T> = Ref<T> & {
-  /** Manually sync the current value to the URL */
-  syncToUrl(): void;
-};
+export type QueryRefReturn<T> = Ref<T>;
 
 /**
  * Reactive state object for queryReactive
@@ -82,28 +77,10 @@ export type ReactiveQueryState<TSchema extends QueryParameterSchema> = {
 };
 
 /**
- * Options for batch updates in queryReactive
- */
-export type QueryBatchUpdateOptions = {
-  /** History strategy for the batch update */
-  historyStrategy?: 'replace' | 'push';
-};
-
-/**
  * Return type from queryReactive composable
  * @template TSchema The parameter schema type
  */
-export type QueryReactiveReturn<TSchema extends QueryParameterSchema> = {
-  /** Reactive state object with typed parameter values */
-  queryState: ReactiveQueryState<TSchema>;
-  /** Update multiple parameters in a single operation */
-  updateBatch(
-    updates: Partial<ReactiveQueryState<TSchema>>,
-    options?: QueryBatchUpdateOptions
-  ): void;
-  /** Manually sync all current values to the URL */
-  syncAllToUrl(): void;
-};
+export type QueryReactiveReturn<TSchema extends QueryParameterSchema> = ReactiveQueryState<TSchema>;
 
 /**
  * Options for queryReactive composable

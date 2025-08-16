@@ -80,9 +80,6 @@ function getCodecFunctions<T>(
  * // Update the URL by changing the ref value
  * searchQuery.value = 'hello world';
  * currentPage.value = 2;
- *
- * // Manually sync to URL
- * searchQuery.syncToUrl();
  * ```
  */
 export function queryRef<T>(
@@ -124,7 +121,6 @@ export function queryRef<T>(
 
   const initialValue = getInitialValue();
   const internalRef = ref<T>(initialValue);
-  const queryRef = internalRef as unknown as QueryRefReturn<T>;
 
   // Helper function to check if a value equals the default
   function isDefaultValue(value: T): boolean {
@@ -160,17 +156,12 @@ export function queryRef<T>(
 
   // Watch for ref changes and sync to URL
   const stopWatcher = watch(
-    queryRef,
+    internalRef,
     (newValue) => {
       updateURL(newValue);
     },
-    { flush: 'sync' } // Sync immediately to avoid batching delays
+    { flush: 'sync' } // Sync immediately
   );
-
-  // Add manual sync method to the ref
-  queryRef.syncToUrl = () => {
-    updateURL(queryRef.value);
-  };
 
   // Clean up subscriptions when component unmounts
   const componentInstance = getCurrentInstance();
@@ -184,5 +175,5 @@ export function queryRef<T>(
     });
   }
 
-  return queryRef;
+  return internalRef as QueryRefReturn<T>;
 }
