@@ -1,6 +1,6 @@
 [**vue-qs v0.1.16**](../README.md)
 
-***
+---
 
 [vue-qs](../README.md) / QueryReactiveReturn
 
@@ -16,7 +16,7 @@ Return type from queryReactive composable
 
 ### TSchema
 
-`TSchema` *extends* [`QueryParameterSchema`](QueryParameterSchema.md)
+`TSchema` _extends_ [`QueryParameterSchema`](QueryParameterSchema.md)
 
 The parameter schema type
 
@@ -54,7 +54,7 @@ Update multiple parameters in a single operation
 
 `void`
 
-***
+---
 
 ### syncAllToUrl()
 

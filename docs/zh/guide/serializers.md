@@ -15,7 +15,7 @@
 两种等价写法：
 
 ```ts
-queryRef('count', { defaultValue: 0, parseFunction: serializers.numberCodec.parse });
+queryRef('count', { defaultValue: 0, parse: serializers.numberCodec.parse });
 // 或更简洁
 queryRef('count', { defaultValue: 0, codec: serializers.numberCodec });
 ```

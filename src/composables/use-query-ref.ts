@@ -42,12 +42,12 @@ function selectQueryAdapter(providedAdapter?: QueryAdapter): QueryAdapter {
  * Helper function to get parser and serializer functions
  */
 function getCodecFunctions<T>(
-  parseFunction?: QueryParser<T>,
+  parse?: QueryParser<T>,
   serializeFunction?: QuerySerializer<T>,
   codec?: QueryCodec<T>
 ): { parseValue: QueryParser<T>; serializeValue: QuerySerializer<T> } {
   return {
-    parseValue: parseFunction ?? codec?.parse ?? (stringCodec.parse as QueryParser<T>),
+    parseValue: parse ?? codec?.parse ?? (stringCodec.parse as QueryParser<T>),
     serializeValue:
       serializeFunction ?? codec?.serialize ?? (stringCodec.serialize as QuerySerializer<T>),
   };
@@ -93,7 +93,7 @@ export function queryRef<T>(
   const {
     defaultValue,
     codec,
-    parseFunction,
+    parse,
     serializeFunction,
     isEqual: customEquals,
     shouldOmitDefault = true,
@@ -103,7 +103,7 @@ export function queryRef<T>(
 
   // Determine which adapter to use and get codec functions
   const selectedAdapter = selectQueryAdapter(providedAdapter);
-  const { parseValue, serializeValue } = getCodecFunctions(parseFunction, serializeFunction, codec);
+  const { parseValue, serializeValue } = getCodecFunctions(parse, serializeFunction, codec);
 
   // Read initial value from URL and parse it
   function getInitialValue(): T {

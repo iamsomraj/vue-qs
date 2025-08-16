@@ -39,7 +39,7 @@ const { queryState } = queryReactive({
   search: { defaultValue: '' },
   page: {
     defaultValue: 1,
-    parseFunction: (value) => (value ? Number(value) : 1),
+    parse: (value) => (value ? Number(value) : 1),
     serializeFunction: (value) => String(value),
   },
 });

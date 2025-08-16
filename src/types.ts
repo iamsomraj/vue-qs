@@ -37,7 +37,7 @@ export type QueryParameterOptions<T> = {
   /** Combined codec with both parse and serialize functions */
   codec?: QueryCodec<T>;
   /** Custom parser function (overrides codec.parse if provided) */
-  parseFunction?: QueryParser<T>;
+  parse?: QueryParser<T>;
   /** Custom serializer function (overrides codec.serialize if provided) */
   serializeFunction?: QuerySerializer<T>;
   /** Custom equality function to compare values (defaults to Object.is) */

@@ -25,7 +25,7 @@ const tags = queryRef<string[]>('tags', {
 ```ts
 const page = queryRef('page', {
   defaultValue: 1,
-  parseFunction: Number,
+  parse: Number,
   shouldOmitDefault: false,
 });
 ```
@@ -76,7 +76,7 @@ const selectedIds = queryRef<number[]>('ids', {
 ```ts
 const page = queryRef('page', {
   defaultValue: 1,
-  parseFunction: Number,
+  parse: Number,
 });
 ```
 

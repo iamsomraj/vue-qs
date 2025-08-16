@@ -1,6 +1,6 @@
 [**vue-qs v0.1.16**](../README.md)
 
-***
+---
 
 [vue-qs](../README.md) / QueryCodec
 
@@ -30,7 +30,7 @@ Defined in: [types.ts:25](https://github.com/iamsomraj/vue-qs/blob/e1f88d67026c0
 
 Function to parse string values from URL into typed values
 
-***
+---
 
 ### serialize
 

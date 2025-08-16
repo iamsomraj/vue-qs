@@ -1,6 +1,6 @@
 [**vue-qs v0.1.16**](../README.md)
 
-***
+---
 
 [vue-qs](../README.md) / queryRef
 
@@ -47,14 +47,14 @@ import { queryRef, numberCodec } from 'vue-qs';
 
 // Simple string parameter with default
 const searchQuery = queryRef('q', {
-  defaultValue: ''
+  defaultValue: '',
 });
 
 // Number parameter with custom codec
 const currentPage = queryRef('page', {
   defaultValue: 1,
   codec: numberCodec,
-  shouldOmitDefault: true
+  shouldOmitDefault: true,
 });
 
 // Update the URL by changing the ref value

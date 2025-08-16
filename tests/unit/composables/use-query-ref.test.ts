@@ -5,7 +5,7 @@ describe('queryRef', () => {
   it('reads default when missing and writes when sync called', () => {
     const page = queryRef<number>('page', {
       defaultValue: 1,
-      parseFunction: (value) => (value ? Number(value) : 1),
+      parse: (value) => (value ? Number(value) : 1),
       shouldOmitDefault: false,
     });
     expect(page.value).toBe(1);
@@ -16,7 +16,7 @@ describe('queryRef', () => {
   it('updates URL on change', () => {
     const page = queryRef<number>('page2', {
       defaultValue: 1,
-      parseFunction: (value) => (value ? Number(value) : 1),
+      parse: (value) => (value ? Number(value) : 1),
     });
     page.value = 5;
     expect(new URL(window.location.href).searchParams.get('page2')).toBe('5');
@@ -99,7 +99,7 @@ describe('queryRef', () => {
   it('supports custom parse/serialize functions', () => {
     const num = queryRef<number>('customParse', {
       defaultValue: 1,
-      parseFunction: (value) => (value ? parseInt(value, 10) : 0),
+      parse: (value) => (value ? parseInt(value, 10) : 0),
       serializeFunction: (n: number) => String(n),
     });
     expect(num.value).toBe(1);
@@ -119,7 +119,7 @@ describe('queryRef', () => {
   it('omits default values from URL when shouldOmitDefault is true', () => {
     const str = queryRef<string>('omitDefault', {
       defaultValue: 'a',
-      parseFunction: (value) => value || 'a',
+      parse: (value) => value || 'a',
       serializeFunction: (v: string) => v,
       shouldOmitDefault: true,
     });
@@ -135,7 +135,7 @@ describe('queryRef', () => {
 
     const _str = queryRef<string>('includeDefault', {
       defaultValue: 'a',
-      parseFunction: (value) => value || 'a',
+      parse: (value) => value || 'a',
       serializeFunction: (v: string) => v,
       shouldOmitDefault: false,
     });

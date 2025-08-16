@@ -99,9 +99,7 @@ export function queryReactive<TSchema extends QueryParameterSchema>(
     try {
       // Determine parser function
       const parseValue: QueryParser<any> =
-        paramConfig.parseFunction ??
-        paramConfig.codec?.parse ??
-        (stringCodec.parse as QueryParser<any>);
+        paramConfig.parse ?? paramConfig.codec?.parse ?? (stringCodec.parse as QueryParser<any>);
 
       // Get raw value from URL
       const rawValue = currentURLQuery[paramKey] ?? null;

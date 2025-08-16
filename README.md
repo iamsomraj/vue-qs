@@ -38,7 +38,7 @@ import { queryRef } from 'vue-qs';
 
 // Create a ref bound to ?name=...
 // If the param is missing we fall back to the default ('').
-const name = queryRef('name', { defaultValue: '', parseFunction: String });
+const name = queryRef('name', { defaultValue: '', parse: String });
 </script>
 
 <template>
@@ -55,7 +55,7 @@ import { queryReactive } from 'vue-qs';
 // Each field config controls parsing, defaults, omission rules
 const { queryState } = queryReactive({
   q: { defaultValue: '' },
-  page: { defaultValue: 1, parseFunction: Number },
+  page: { defaultValue: 1, parse: Number },
 });
 </script>
 
@@ -80,7 +80,7 @@ const adapter = createVueRouterAdapter(useRouter());
 
 const page = queryRef<number>('page', {
   defaultValue: 1,
-  parseFunction: Number,
+  parse: Number,
   queryAdapter: adapter,
 });
 const { queryState } = queryReactive({ q: { defaultValue: '' } }, { queryAdapter: adapter });
@@ -115,15 +115,15 @@ Import ready‑made codecs:
 ```ts
 import { serializers } from 'vue-qs';
 
-const n = queryRef('n', { defaultValue: 0, parseFunction: serializers.numberCodec.parse });
-const b = queryRef('b', { defaultValue: false, parseFunction: serializers.booleanCodec.parse });
+const n = queryRef('n', { defaultValue: 0, parse: serializers.numberCodec.parse });
+const b = queryRef('b', { defaultValue: false, parse: serializers.booleanCodec.parse });
 const tags = queryRef('tags', {
   defaultValue: [] as string[],
   codec: serializers.createArrayCodec(serializers.stringCodec),
 });
 ```
 
-Use `codec` instead of separate `parseFunction` / `serializeFunction` for brevity.
+Use `codec` instead of separate `parse` / `serializeFunction` for brevity.
 
 Available built‑ins: `stringCodec`, `numberCodec`, `booleanCodec`, `dateISOCodec`, `createJsonCodec<T>()`, `createArrayCodec(codec)`, `createEnumCodec([...])`.
 
@@ -183,7 +183,7 @@ createVueQsPlugin({ queryAdapter }) / provideQueryAdapter(adapter)
 Shared options:
 
 - defaultValue: initial value if param is missing
-- parseFunction / serializeFunction OR codec: convert string <-> type
+- parse / serializeFunction OR codec: convert string <-> type
 - shouldOmitDefault (default true): remove from URL when equal to default
 - isEqual: custom compare (deep equality, etc.)
 - historyStrategy: 'replace' (default) or 'push'

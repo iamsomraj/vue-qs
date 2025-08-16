@@ -1,6 +1,6 @@
 [**vue-qs v0.1.16**](../README.md)
 
-***
+---
 
 [vue-qs](../README.md) / ReactiveQueryState
 
@@ -16,6 +16,6 @@ Reactive state object for queryReactive
 
 ### TSchema
 
-`TSchema` *extends* [`QueryParameterSchema`](QueryParameterSchema.md)
+`TSchema` _extends_ [`QueryParameterSchema`](QueryParameterSchema.md)
 
 The parameter schema type

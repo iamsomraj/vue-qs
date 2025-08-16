@@ -4,10 +4,10 @@ import { queryReactive, serializers } from '@/index';
 describe('queryReactive', () => {
   it('initializes from defaults and batches updates', () => {
     const { queryState, updateBatch } = queryReactive({
-      search: { defaultValue: '', parseFunction: (value: string | null) => value || '' },
+      search: { defaultValue: '', parse: (value: string | null) => value || '' },
       sort: {
         defaultValue: 'asc' as 'asc' | 'desc',
-        parseFunction: (value: string | null) => (value === 'desc' ? 'desc' : 'asc'),
+        parse: (value: string | null) => (value === 'desc' ? 'desc' : 'asc'),
       },
     });
 
@@ -29,17 +29,17 @@ describe('queryReactive', () => {
     const { queryState, updateBatch, syncAllToUrl } = queryReactive({
       s: {
         defaultValue: '',
-        parseFunction: (value: string | null) => value || '',
+        parse: (value: string | null) => value || '',
         serializeFunction: (value: string) => value,
       },
       n: {
         defaultValue: 0,
-        parseFunction: (value: string | null) => (value ? Number(value) : 0),
+        parse: (value: string | null) => (value ? Number(value) : 0),
         serializeFunction: (value: number) => String(value),
       },
       b: {
         defaultValue: false,
-        parseFunction: (value: string | null) => value === 'true' || value === '1',
+        parse: (value: string | null) => value === 'true' || value === '1',
         serializeFunction: (value: boolean) => String(value),
       },
       d: {

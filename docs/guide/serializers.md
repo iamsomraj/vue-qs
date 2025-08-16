@@ -15,7 +15,7 @@ Codecs convert between your typed values and the string stored in the URL.
 You can use either:
 
 ```ts
-queryRef('count', { defaultValue: 0, parseFunction: serializers.numberCodec.parse });
+queryRef('count', { defaultValue: 0, parse: serializers.numberCodec.parse });
 // or shorter
 queryRef('count', { defaultValue: 0, codec: serializers.numberCodec });
 ```

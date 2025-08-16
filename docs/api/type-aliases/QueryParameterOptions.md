@@ -1,6 +1,6 @@
 [**vue-qs v0.1.16**](../README.md)
 
-***
+---
 
 [vue-qs](../README.md) / QueryParameterOptions
 
@@ -30,7 +30,7 @@ Defined in: [types.ts:36](https://github.com/iamsomraj/vue-qs/blob/e1f88d67026c0
 
 Default value to use when parameter is missing or invalid
 
-***
+---
 
 ### codec?
 
@@ -40,17 +40,17 @@ Defined in: [types.ts:38](https://github.com/iamsomraj/vue-qs/blob/e1f88d67026c0
 
 Combined codec with both parse and serialize functions
 
-***
+---
 
-### parseFunction?
+### parse?
 
-> `optional` **parseFunction**: [`QueryParser`](QueryParser.md)\<`T`\>
+> `optional` **parse**: [`QueryParser`](QueryParser.md)\<`T`\>
 
 Defined in: [types.ts:40](https://github.com/iamsomraj/vue-qs/blob/e1f88d67026c08e56605a693106ef6b717bd39ad/src/types.ts#L40)
 
 Custom parser function (overrides codec.parse if provided)
 
-***
+---
 
 ### serializeFunction?
 
@@ -60,7 +60,7 @@ Defined in: [types.ts:42](https://github.com/iamsomraj/vue-qs/blob/e1f88d67026c0
 
 Custom serializer function (overrides codec.serialize if provided)
 
-***
+---
 
 ### isEqual()?
 
@@ -84,7 +84,7 @@ Custom equality function to compare values (defaults to Object.is)
 
 `boolean`
 
-***
+---
 
 ### shouldOmitDefault?
 
@@ -94,7 +94,7 @@ Defined in: [types.ts:46](https://github.com/iamsomraj/vue-qs/blob/e1f88d67026c0
 
 Whether to omit the parameter from URL when value equals default (default: true)
 
-***
+---
 
 ### batchKey?
 
