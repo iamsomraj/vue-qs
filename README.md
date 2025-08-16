@@ -4,7 +4,6 @@
 
 [![CI](https://github.com/iamsomraj/vue-qs/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/iamsomraj/vue-qs/actions/workflows/ci.yml) [![npm version](https://img.shields.io/npm/v/vue-qs.svg)](https://www.npmjs.com/package/vue-qs) [![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-> Active Development Notice
 > This library is currently in active development. APIs may change significantly between versions. Please use with caution and expect breaking changes.
 
 Docs: https://iamsomraj.github.io/vue-qs/ · 中文文档: https://iamsomraj.github.io/vue-qs/zh/
