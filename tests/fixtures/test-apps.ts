@@ -69,7 +69,7 @@ export const BasicQueryRefComponent = defineComponent({
         <label>Tags:</label>
         <input 
           :value="tags.join(',')" 
-          @input="tags = ($event.target as HTMLInputElement).value.split(',').filter(Boolean)"
+          @input="tags = $event.target.value.split(',').filter(Boolean)"
           type="text" 
           data-testid="tags-input" 
           placeholder="Comma separated"
@@ -145,7 +145,7 @@ export const QueryReactiveComponent = defineComponent({
         <label>Category:</label>
         <select 
           :value="queryState.filters.category" 
-          @change="updateFilters({ category: ($event.target as HTMLSelectElement).value })"
+          @change="updateFilters({ category: $event.target.value })"
           data-testid="reactive-category-select"
         >
           <option value="all">All</option>
@@ -158,7 +158,7 @@ export const QueryReactiveComponent = defineComponent({
         <label>Status:</label>
         <select 
           :value="queryState.filters.status" 
-          @change="updateFilters({ status: ($event.target as HTMLSelectElement).value })"
+          @change="updateFilters({ status: $event.target.value })"
           data-testid="reactive-status-select"
         >
           <option value="active">Active</option>
