@@ -1,6 +1,6 @@
 [**vue-qs v0.1.17**](../README.md)
 
-***
+---
 
 [vue-qs](../README.md) / removeUndefinedValues
 
@@ -16,7 +16,7 @@ Safely removes undefined values from an object
 
 ### T
 
-`T` *extends* `Record`\<`string`, `unknown`\>
+`T` _extends_ `Record`\<`string`, `unknown`\>
 
 ## Parameters
 

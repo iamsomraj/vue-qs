@@ -1,12 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { createApp, defineComponent, nextTick } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
-import {
-  queryRef,
-  queryReactive,
-  createVueRouterAdapter,
-  createVueQsPlugin,
-} from '../../src/index';
+import { queryRef, queryReactive, createVueRouterAdapter, createVueQsPlugin } from '@/index';
 
 describe('Vue Router Integration Tests', () => {
   let container: HTMLDivElement;

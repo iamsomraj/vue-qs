@@ -1,6 +1,6 @@
 [**vue-qs v0.1.17**](../README.md)
 
-***
+---
 
 [vue-qs](../README.md) / createEnumCodec
 
@@ -17,7 +17,7 @@ Falls back to first enum value for invalid inputs
 
 ### T
 
-`T` *extends* `string`
+`T` _extends_ `string`
 
 String literal union type
 

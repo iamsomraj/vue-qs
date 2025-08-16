@@ -1,6 +1,6 @@
 [**vue-qs v0.1.17**](../README.md)
 
-***
+---
 
 [vue-qs](../README.md) / QueryAdapter
 
@@ -26,7 +26,7 @@ Read current query parameters as a plain object
 
 `Record`\<`string`, `string` \| `undefined`\>
 
-***
+---
 
 ### updateQuery()
 

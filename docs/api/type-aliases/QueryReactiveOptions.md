@@ -1,6 +1,6 @@
 [**vue-qs v0.1.17**](../README.md)
 
-***
+---
 
 [vue-qs](../README.md) / QueryReactiveOptions
 
@@ -22,7 +22,7 @@ Defined in: [types.ts:113](https://github.com/iamsomraj/vue-qs/blob/b89690c4cfcb
 
 History strategy when updating the URL
 
-***
+---
 
 ### queryAdapter?
 

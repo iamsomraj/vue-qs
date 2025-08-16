@@ -1,6 +1,6 @@
 [**vue-qs v0.1.17**](../README.md)
 
-***
+---
 
 [vue-qs](../README.md) / mergeObjects
 
@@ -16,7 +16,7 @@ Safely merges two objects
 
 ### T
 
-`T` *extends* `Record`\<`string`, `unknown`\>
+`T` _extends_ `Record`\<`string`, `unknown`\>
 
 ## Parameters
 

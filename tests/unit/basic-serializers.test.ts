@@ -6,7 +6,7 @@ import {
   createArrayCodec,
   createEnumCodec,
   createJsonCodec,
-} from '../../src/serializers';
+} from '@/serializers';
 
 describe('Basic Serializers Tests', () => {
   describe('stringCodec', () => {

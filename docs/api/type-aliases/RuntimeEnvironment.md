@@ -1,6 +1,6 @@
 [**vue-qs v0.1.17**](../README.md)
 
-***
+---
 
 [vue-qs](../README.md) / RuntimeEnvironment
 
@@ -22,7 +22,7 @@ Defined in: [types.ts:136](https://github.com/iamsomraj/vue-qs/blob/b89690c4cfcb
 
 Whether we're running in a browser environment
 
-***
+---
 
 ### windowObject
 

@@ -1,6 +1,6 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createApp, defineComponent, nextTick } from 'vue';
-import { queryRef, createHistoryAdapter } from '../../src/index';
+import { createHistoryAdapter, queryRef } from '@/index'; // Adjust the import path as necessary
 
 describe('Simple Vue App Tests', () => {
   let container: HTMLDivElement;
