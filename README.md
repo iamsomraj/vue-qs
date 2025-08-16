@@ -14,7 +14,6 @@ Keep UI state (page, filters, search text, sort, tabs) in the URL so users can:
 
 - Refresh and keep state
 - Share links
-- Use back / forward buttons
 
 vue-qs gives you small composables that feel like normal refs / reactive objects, but they stay in sync with the query string. You pick the type (string, number, boolean, Date, enum, arrays, custom) through codecs.
 
