@@ -1,6 +1,6 @@
-[**vue-qs v0.1.16**](../README.md)
+[**vue-qs v0.1.17**](../README.md)
 
----
+***
 
 [vue-qs](../README.md) / QueryReactiveReturn
 
@@ -8,7 +8,7 @@
 
 > **QueryReactiveReturn**\<`TSchema`\> = `object`
 
-Defined in: [types.ts:96](https://github.com/iamsomraj/vue-qs/blob/e1f88d67026c08e56605a693106ef6b717bd39ad/src/types.ts#L96)
+Defined in: [types.ts:96](https://github.com/iamsomraj/vue-qs/blob/b89690c4cfcb78328e659968e3c7235730988be4/src/types.ts#L96)
 
 Return type from queryReactive composable
 
@@ -16,7 +16,7 @@ Return type from queryReactive composable
 
 ### TSchema
 
-`TSchema` _extends_ [`QueryParameterSchema`](QueryParameterSchema.md)
+`TSchema` *extends* [`QueryParameterSchema`](QueryParameterSchema.md)
 
 The parameter schema type
 
@@ -26,7 +26,7 @@ The parameter schema type
 
 > **queryState**: [`ReactiveQueryState`](ReactiveQueryState.md)\<`TSchema`\>
 
-Defined in: [types.ts:98](https://github.com/iamsomraj/vue-qs/blob/e1f88d67026c08e56605a693106ef6b717bd39ad/src/types.ts#L98)
+Defined in: [types.ts:98](https://github.com/iamsomraj/vue-qs/blob/b89690c4cfcb78328e659968e3c7235730988be4/src/types.ts#L98)
 
 Reactive state object with typed parameter values
 
@@ -36,7 +36,7 @@ Reactive state object with typed parameter values
 
 > **updateBatch**(`updates`, `options?`): `void`
 
-Defined in: [types.ts:100](https://github.com/iamsomraj/vue-qs/blob/e1f88d67026c08e56605a693106ef6b717bd39ad/src/types.ts#L100)
+Defined in: [types.ts:100](https://github.com/iamsomraj/vue-qs/blob/b89690c4cfcb78328e659968e3c7235730988be4/src/types.ts#L100)
 
 Update multiple parameters in a single operation
 
@@ -54,13 +54,13 @@ Update multiple parameters in a single operation
 
 `void`
 
----
+***
 
 ### syncAllToUrl()
 
 > **syncAllToUrl**(): `void`
 
-Defined in: [types.ts:105](https://github.com/iamsomraj/vue-qs/blob/e1f88d67026c08e56605a693106ef6b717bd39ad/src/types.ts#L105)
+Defined in: [types.ts:105](https://github.com/iamsomraj/vue-qs/blob/b89690c4cfcb78328e659968e3c7235730988be4/src/types.ts#L105)
 
 Manually sync all current values to the URL
 

@@ -1,6 +1,6 @@
-[**vue-qs v0.1.16**](../README.md)
+[**vue-qs v0.1.17**](../README.md)
 
----
+***
 
 [vue-qs](../README.md) / ReactiveQueryState
 
@@ -8,7 +8,7 @@
 
 > **ReactiveQueryState**\<`TSchema`\> = `{ [K in keyof TSchema]: TSchema[K] extends QueryParameterOptions<infer T> ? T : never }`
 
-Defined in: [types.ts:80](https://github.com/iamsomraj/vue-qs/blob/e1f88d67026c08e56605a693106ef6b717bd39ad/src/types.ts#L80)
+Defined in: [types.ts:80](https://github.com/iamsomraj/vue-qs/blob/b89690c4cfcb78328e659968e3c7235730988be4/src/types.ts#L80)
 
 Reactive state object for queryReactive
 
@@ -16,6 +16,6 @@ Reactive state object for queryReactive
 
 ### TSchema
 
-`TSchema` _extends_ [`QueryParameterSchema`](QueryParameterSchema.md)
+`TSchema` *extends* [`QueryParameterSchema`](QueryParameterSchema.md)
 
 The parameter schema type

@@ -1,6 +1,6 @@
-[**vue-qs v0.1.16**](../README.md)
+[**vue-qs v0.1.17**](../README.md)
 
----
+***
 
 [vue-qs](../README.md) / parseSearchString
 
@@ -8,7 +8,7 @@
 
 > **parseSearchString**(`searchString`): `Record`\<`string`, `string`\>
 
-Defined in: [utils/core-helpers.ts:33](https://github.com/iamsomraj/vue-qs/blob/e1f88d67026c08e56605a693106ef6b717bd39ad/src/utils/core-helpers.ts#L33)
+Defined in: [utils/core-helpers.ts:33](https://github.com/iamsomraj/vue-qs/blob/b89690c4cfcb78328e659968e3c7235730988be4/src/utils/core-helpers.ts#L33)
 
 Safely converts a URL search string to a plain object
 
