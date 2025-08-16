@@ -4,6 +4,10 @@
 
 # vue-qs v0.1.16
 
+::: warning Active Development Notice
+This library is currently in active development. APIs may change significantly between versions. Please use with caution and expect breaking changes.
+:::
+
 ## Namespaces
 
 - [serializers](vue-qs/namespaces/serializers/README.md)

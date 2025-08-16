@@ -1,5 +1,9 @@
 # Getting Started
 
+::: warning Active Development Notice
+This library is currently in active development. APIs may change significantly between versions. Please use with caution and expect breaking changes.
+:::
+
 **Type‑safe, reactive URL query params for Vue** - Keep important UI state (search text, page number, filters) in the URL, not hidden in component memory. `vue-qs` makes this easy with two composables and modern error handling.
 
 ## Install

@@ -19,3 +19,7 @@ features:
   - title: Rich Serializers
     details: Built-in codecs for strings, numbers, booleans, dates, JSON, arrays, and enums with custom serialization support.
 ---
+
+::: warning Active Development Notice
+This library is currently in active development. APIs may change significantly between versions. Please use with caution and expect breaking changes.
+:::
