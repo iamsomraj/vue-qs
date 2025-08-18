@@ -259,11 +259,13 @@ export function createArrayCodec<T>(elementCodec: QueryCodec<T>, delimiter = ','
  * // Invalid values fall back to 'asc'
  * ```
  */
-export function createEnumCodec<T extends string>(allowedValues: readonly T[]): QueryCodec<T> {
+export function createEnumCodec<T extends string>(
+  allowedValues: readonly T[]
+): QueryCodec<T | undefined> {
   if (!Array.isArray(allowedValues) || allowedValues.length === 0) {
     warn('createEnumCodec: allowedValues must be a non-empty array');
     return {
-      parse: () => '' as T,
+      parse: () => undefined,
       serialize: () => null,
     };
   }

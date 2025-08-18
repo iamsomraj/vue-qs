@@ -34,7 +34,7 @@ export const BasicQueryRefComponent = defineComponent({
       codec: serializers.createArrayCodec(serializers.stringCodec),
     });
 
-    const sort = queryRef<'asc' | 'desc'>('sort', {
+    const sort = queryRef<'asc' | 'desc' | undefined>('sort', {
       defaultValue: 'asc',
       codec: serializers.createEnumCodec(['asc', 'desc'] as const),
     });
@@ -67,11 +67,11 @@ export const BasicQueryRefComponent = defineComponent({
       </div>
       <div class="form-group">
         <label>Tags:</label>
-        <input 
-          :value="tags.join(',')" 
+        <input
+          :value="tags.join(',')"
           @input="tags = $event.target.value.split(',').filter(Boolean)"
-          type="text" 
-          data-testid="tags-input" 
+          type="text"
+          data-testid="tags-input"
           placeholder="Comma separated"
         />
         <span data-testid="tags-value">{{ tags.join(',') }}</span>
@@ -143,8 +143,8 @@ export const QueryReactiveComponent = defineComponent({
       </div>
       <div class="form-group">
         <label>Category:</label>
-        <select 
-          :value="queryState.filters.category" 
+        <select
+          :value="queryState.filters.category"
           @change="updateFilters({ category: $event.target.value })"
           data-testid="reactive-category-select"
         >
@@ -156,8 +156,8 @@ export const QueryReactiveComponent = defineComponent({
       </div>
       <div class="form-group">
         <label>Status:</label>
-        <select 
-          :value="queryState.filters.status" 
+        <select
+          :value="queryState.filters.status"
           @change="updateFilters({ status: $event.target.value })"
           data-testid="reactive-status-select"
         >
