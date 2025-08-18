@@ -1,6 +1,6 @@
-[**vue-qs v0.1.17**](../README.md)
+[**vue-qs v0.1.18-beta.7**](../README.md)
 
----
+***
 
 [vue-qs](../README.md) / buildSearchString
 
@@ -8,7 +8,7 @@
 
 > **buildSearchString**(`queryObject`): `string`
 
-Defined in: [utils/core-helpers.ts:57](https://github.com/iamsomraj/vue-qs/blob/b89690c4cfcb78328e659968e3c7235730988be4/src/utils/core-helpers.ts#L57)
+Defined in: [utils/core-helpers.ts:92](https://github.com/iamsomraj/vue-qs/blob/ff60e1586d4655408e5c5a224bc4b63d54bf2fc1/src/utils/core-helpers.ts#L92)
 
 Safely converts a query object to a URL search string
 
@@ -25,3 +25,13 @@ Object with key-value pairs
 `string`
 
 URL search string with leading '?' or empty string
+
+## Example
+
+```ts
+buildSearchString({ page: '1', search: 'test' })
+// Returns: '?page=1&search=test'
+
+buildSearchString({ page: undefined, search: 'test' })
+// Returns: '?search=test'
+```

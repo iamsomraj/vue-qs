@@ -1,6 +1,6 @@
-[**vue-qs v0.1.17**](../README.md)
+[**vue-qs v0.1.18-beta.7**](../README.md)
 
----
+***
 
 [vue-qs](../README.md) / QueryReactiveReturn
 
@@ -8,7 +8,7 @@
 
 > **QueryReactiveReturn**\<`TSchema`\> = [`ReactiveQueryState`](ReactiveQueryState.md)\<`TSchema`\>
 
-Defined in: [types.ts:96](https://github.com/iamsomraj/vue-qs/blob/b89690c4cfcb78328e659968e3c7235730988be4/src/types.ts#L96)
+Defined in: [types.ts:140](https://github.com/iamsomraj/vue-qs/blob/ff60e1586d4655408e5c5a224bc4b63d54bf2fc1/src/types.ts#L140)
 
 Return type from queryReactive composable
 
@@ -16,6 +16,6 @@ Return type from queryReactive composable
 
 ### TSchema
 
-`TSchema` _extends_ [`QueryParameterSchema`](QueryParameterSchema.md)
+`TSchema` *extends* [`QueryParameterSchema`](QueryParameterSchema.md)
 
 The parameter schema type

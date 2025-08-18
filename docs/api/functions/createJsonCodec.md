@@ -1,6 +1,6 @@
-[**vue-qs v0.1.17**](../README.md)
+[**vue-qs v0.1.18-beta.7**](../README.md)
 
----
+***
 
 [vue-qs](../README.md) / createJsonCodec
 
@@ -8,7 +8,7 @@
 
 > **createJsonCodec**\<`T`\>(): [`QueryCodec`](../type-aliases/QueryCodec.md)\<`null` \| `T`\>
 
-Defined in: [serializers.ts:113](https://github.com/iamsomraj/vue-qs/blob/b89690c4cfcb78328e659968e3c7235730988be4/src/serializers.ts#L113)
+Defined in: [serializers.ts:153](https://github.com/iamsomraj/vue-qs/blob/ff60e1586d4655408e5c5a224bc4b63d54bf2fc1/src/serializers.ts#L153)
 
 JSON codec factory for handling complex objects
 Returns null for invalid JSON
@@ -26,3 +26,17 @@ The type of object to handle
 [`QueryCodec`](../type-aliases/QueryCodec.md)\<`null` \| `T`\>
 
 QueryCodec for the specified type
+
+## Example
+
+```ts
+interface UserFilters {
+  category: string;
+  sort: 'name' | 'date';
+}
+
+const filters = queryRef('filters', {
+  defaultValue: { category: 'all', sort: 'name' },
+  codec: createJsonCodec<UserFilters>()
+});
+```
