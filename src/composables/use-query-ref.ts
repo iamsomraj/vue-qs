@@ -10,7 +10,12 @@ import type {
   QueryAdapter,
   QueryCodec,
 } from '@/types';
-import { areValuesEqual, warn } from '@/utils/core-helpers';
+import {
+  areValuesEqual,
+  warn,
+  useEventListener,
+  createRuntimeEnvironment,
+} from '@/utils/core-helpers';
 
 // Shared history adapter instance for performance optimization
 let sharedHistoryAdapterInstance: QueryAdapter | undefined;
@@ -133,6 +138,12 @@ export function queryRef<T>(
   // Function to update the URL with the current value
   function updateURL(value: T): void {
     try {
+      // Skip if adapter is currently updating to prevent infinite loops
+      const isUpdating = selectedAdapter.isUpdating?.();
+      if (isUpdating === true) {
+        return;
+      }
+
       const serializedValue = serializeValue(value);
       const shouldOmit = shouldOmitDefault && isDefaultValue(value);
 
@@ -143,6 +154,28 @@ export function queryRef<T>(
       selectedAdapter.updateQuery(queryUpdate, { historyStrategy });
     } catch (error) {
       warn(`Error updating URL for parameter "${parameterName}":`, error);
+    }
+  }
+
+  // Function to read from URL and update ref
+  function readFromURL(): void {
+    try {
+      const currentQuery = selectedAdapter.getCurrentQuery();
+      const rawValue = currentQuery[parameterName] ?? null;
+
+      let newValue: T;
+      if (typeof rawValue === 'string' && rawValue.length > 0) {
+        newValue = parseValue(rawValue);
+      } else {
+        newValue = defaultValue as T;
+      }
+
+      // Only update if value actually changed
+      if (!areValuesEqual(internalRef.value, newValue, customEquals)) {
+        internalRef.value = newValue;
+      }
+    } catch (error) {
+      warn(`Error reading from URL for parameter "${parameterName}":`, error);
     }
   }
 
@@ -160,8 +193,35 @@ export function queryRef<T>(
     (newValue) => {
       updateURL(newValue);
     },
-    { flush: 'sync' } // Sync immediately
+    { flush: 'sync' }
   );
+
+  const runtimeEnvironment = createRuntimeEnvironment();
+  let removePopstateListener: (() => void) | undefined;
+  let removeHashchangeListener: (() => void) | undefined;
+
+  if (runtimeEnvironment.isBrowser && runtimeEnvironment.windowObject) {
+    const windowObject = runtimeEnvironment.windowObject;
+
+    removePopstateListener = useEventListener(
+      windowObject,
+      'popstate',
+      () => {
+        readFromURL();
+      },
+      { passive: true }
+    );
+
+    // Listen for hashchange (hash-based routing)
+    removeHashchangeListener = useEventListener(
+      windowObject,
+      'hashchange',
+      () => {
+        readFromURL();
+      },
+      { passive: true }
+    );
+  }
 
   // Clean up subscriptions when component unmounts
   const componentInstance = getCurrentInstance();
@@ -169,6 +229,8 @@ export function queryRef<T>(
     onBeforeUnmount(() => {
       try {
         stopWatcher();
+        removePopstateListener?.();
+        removeHashchangeListener?.();
       } catch (error) {
         warn('Error during queryRef cleanup:', error);
       }

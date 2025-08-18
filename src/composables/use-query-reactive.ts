@@ -11,7 +11,12 @@ import type {
   ReactiveQueryState,
   QueryReactiveOptions,
 } from '@/types';
-import { areValuesEqual, warn } from '@/utils/core-helpers';
+import {
+  areValuesEqual,
+  warn,
+  useEventListener,
+  createRuntimeEnvironment,
+} from '@/utils/core-helpers';
 
 // Shared history adapter instance for performance optimization
 let sharedHistoryAdapterInstance: QueryAdapter | undefined;
@@ -152,6 +157,56 @@ export function queryReactive<TSchema extends QueryParameterSchema>(
     return serializedQuery;
   }
 
+  /**
+   * Updates the URL with current state values
+   */
+  function updateURL(): void {
+    try {
+      // Skip if adapter is currently updating to prevent infinite loops
+      const isUpdating = selectedAdapter.isUpdating?.();
+      if (isUpdating === true) {
+        return;
+      }
+
+      const serializedQuery = serializeStateSubset(reactiveState as any);
+      selectedAdapter.updateQuery(serializedQuery, { historyStrategy });
+    } catch (error) {
+      warn('Error syncing state changes to URL:', error);
+    }
+  }
+
+  /**
+   * Reads from URL and updates reactive state
+   */
+  function readFromURL(): void {
+    try {
+      const currentURLQuery = selectedAdapter.getCurrentQuery();
+
+      Object.keys(parameterSchema).forEach((paramKey) => {
+        const paramConfig = parameterSchema[paramKey];
+        const parseValue: QueryParser<any> =
+          paramConfig.parse ?? paramConfig.codec?.parse ?? (stringCodec.parse as QueryParser<any>);
+
+        const rawValue = currentURLQuery[paramKey] ?? null;
+        let newValue: any;
+
+        if (typeof rawValue === 'string' && rawValue.length > 0) {
+          newValue = parseValue(rawValue);
+        } else {
+          newValue = paramConfig.defaultValue;
+        }
+
+        // Only update if value actually changed
+        const currentValue = (reactiveState as any)[paramKey];
+        if (!areValuesEqual(currentValue, newValue, paramConfig.isEqual)) {
+          (reactiveState as any)[paramKey] = newValue;
+        }
+      });
+    } catch (error) {
+      warn('Error reading from URL:', error);
+    }
+  }
+
   // Watch for state changes and sync to URL
   const stopWatcher = watch(
     () => {
@@ -162,13 +217,8 @@ export function queryReactive<TSchema extends QueryParameterSchema>(
       });
       return stateSnapshot;
     },
-    (changedState) => {
-      try {
-        const serializedQuery = serializeStateSubset(changedState);
-        selectedAdapter.updateQuery(serializedQuery, { historyStrategy });
-      } catch (error) {
-        warn('Error syncing state changes to URL:', error);
-      }
+    () => {
+      updateURL();
     },
     {
       deep: true,
@@ -176,11 +226,41 @@ export function queryReactive<TSchema extends QueryParameterSchema>(
     }
   );
 
-  // Clean up subscriptions when component unmounts
+  // Listen for browser navigation events
+  const runtimeEnvironment = createRuntimeEnvironment();
+  let removePopstateListener: (() => void) | undefined;
+  let removeHashchangeListener: (() => void) | undefined;
+
+  if (runtimeEnvironment.isBrowser && runtimeEnvironment.windowObject) {
+    const windowObject = runtimeEnvironment.windowObject;
+
+    // Listen for popstate (browser back/forward)
+    removePopstateListener = useEventListener(
+      windowObject,
+      'popstate',
+      () => {
+        readFromURL();
+      },
+      { passive: true }
+    );
+
+    // Listen for hashchange (hash-based routing)
+    removeHashchangeListener = useEventListener(
+      windowObject,
+      'hashchange',
+      () => {
+        readFromURL();
+      },
+      { passive: true }
+    );
+  }
+
   if (componentInstance) {
     onBeforeUnmount(() => {
       try {
         stopWatcher();
+        removePopstateListener?.();
+        removeHashchangeListener?.();
       } catch (error) {
         warn('Error during queryReactive cleanup:', error);
       }

@@ -37,6 +37,8 @@ export function createHistoryAdapter(): QueryAdapter {
     queryParams: {},
   });
 
+  let isUpdating = false;
+
   const queryAdapter: QueryAdapter = {
     getCurrentQuery() {
       try {
@@ -54,11 +56,17 @@ export function createHistoryAdapter(): QueryAdapter {
 
     updateQuery(queryUpdates, updateOptions) {
       try {
+        if (isUpdating) {
+          return;
+        }
+
         // Server-side: update cache only
         if (!runtimeEnvironment.isBrowser || !runtimeEnvironment.windowObject) {
           serverCache.queryParams = mergeObjects(serverCache.queryParams, queryUpdates);
           return;
         }
+
+        isUpdating = true;
 
         const windowObject = runtimeEnvironment.windowObject;
         let currentUrl: URL;
@@ -78,8 +86,8 @@ export function createHistoryAdapter(): QueryAdapter {
 
         const newSearchString = buildSearchString(mergedQuery);
 
-        // Don't update if nothing changed
         if (currentUrl.search === newSearchString) {
+          isUpdating = false;
           return;
         }
 
@@ -101,7 +109,13 @@ export function createHistoryAdapter(): QueryAdapter {
         }
       } catch (error) {
         warn('Error updating query:', error);
+      } finally {
+        isUpdating = false;
       }
+    },
+
+    isUpdating() {
+      return isUpdating;
     },
   };
 

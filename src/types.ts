@@ -103,6 +103,8 @@ export type QueryAdapter = {
     queryUpdates: Record<string, string | undefined>,
     options?: { historyStrategy?: 'replace' | 'push' }
   ): void;
+  /** Check if currently updating to prevent infinite loops */
+  isUpdating?(): boolean;
 };
 
 /**

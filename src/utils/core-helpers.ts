@@ -134,6 +134,33 @@ export function removeUndefinedValues<T extends Record<string, unknown>>(
   }
 }
 
+/**
+ * Safely adds an event listener to a target
+ * @param target The target to add the listener to
+ * @param event The event name
+ * @param handler The event handler
+ * @param options Event listener options
+ * @returns Function to remove the listener
+ */
+export function useEventListener(
+  target: EventTarget | null | undefined,
+  event: string,
+  handler: EventListener,
+  options?: boolean | AddEventListenerOptions
+): () => void {
+  if (!target) {
+    return () => {
+      // No-op function when target is not available
+    };
+  }
+
+  target.addEventListener(event, handler, options);
+
+  return () => {
+    target.removeEventListener(event, handler, options);
+  };
+}
+
 export function warn(...args: any[]): void {
   console.warn('[vue-qs]:', ...args);
 }
