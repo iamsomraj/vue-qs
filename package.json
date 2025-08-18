@@ -1,9 +1,13 @@
 {
   "name": "vue-qs",
   "version": "0.1.18-beta.5",
-  "description": "Type‑safe, reactive URL query params for Vue (in development)",
+  "description": "Type‑safe, reactive URL query parameters for Vue 3 with full TypeScript support",
   "license": "MIT",
-  "author": "Somraj Mukherjee",
+  "author": {
+    "name": "Somraj Mukherjee",
+    "email": "iamsomraj@gmail.com",
+    "url": "https://github.com/iamsomraj"
+  },
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -21,20 +25,26 @@
   ],
   "keywords": [
     "vue",
+    "vue3",
+    "composition-api",
     "querystring",
     "url",
     "router",
     "state",
     "nuqs",
     "url-params",
-    "url state",
+    "url-state",
     "queryRef",
-    "queryReactive"
+    "queryReactive",
+    "typescript",
+    "ssr",
+    "reactive"
   ],
   "packageManager": "bun@1.2.19",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/iamsomraj/vue-qs.git"
+    "url": "git+https://github.com/iamsomraj/vue-qs.git",
+    "directory": "."
   },
   "bugs": {
     "url": "https://github.com/iamsomraj/vue-qs/issues"
@@ -44,9 +54,11 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
     "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
     "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --ext .ts,.tsx,.cts,.mts",
     "lint:fix": "eslint . --ext .ts,.tsx,.cts,.mts --fix",
@@ -94,5 +106,8 @@
     "vue": "^3.5.10",
     "vue-router": "^4.4.5"
   },
-  "funding": "https://github.com/sponsors/iamsomraj"
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/iamsomraj"
+  }
 }
