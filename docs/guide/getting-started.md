@@ -39,7 +39,7 @@ const name = queryRef('name', { defaultValue: '' });
 <script setup lang="ts">
 import { queryReactive } from 'vue-qs';
 
-const { queryState } = queryReactive({
+const queryState = queryReactive({
   search: { defaultValue: '' },
   page: {
     defaultValue: 1,
@@ -57,11 +57,8 @@ const { queryState } = queryReactive({
 
 ## What the hooks give you
 
-- `queryRef(name, options)` → a normal ref with an added `.syncToUrl()` method.
-- `queryReactive(schema, options)` → `{ queryState, updateBatch, syncAllToUrl }`.
-  - `queryState` is a reactive object.
-  - `updateBatch()` groups multiple updates into one history entry.
-  - `syncAllToUrl()` forces an immediate URL write.
+- `queryRef(name, options)` → a normal ref.
+- `queryReactive(schema, options)` → a reactive object.
 - Both omit defaults from the URL unless you set `shouldOmitDefault: false`.
 
 ## Adapters
@@ -85,4 +82,4 @@ import { router } from './router';
 app.use(createVueQsPlugin({ queryAdapter: createVueRouterAdapter(router) }));
 ```
 
-Continue to Examples for patterns like codecs, batching, and custom equality.
+Continue to Examples for patterns like codecs and custom equality.

@@ -46,4 +46,4 @@ provideQueryAdapter(adapter);
 
 内部对本地修改进行 `router.replace`（不新增历史记录）。
 
-如果你在一次交互中希望合并多次修改到同一条历史记录，可用 `updateBatch(() => { /* 多次改 queryState */ })`。
+使用 Vue Router 能让你的路由导航时页面状态自动同步。

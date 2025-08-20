@@ -1,4 +1,4 @@
-[**vue-qs v0.1.17**](../README.md)
+[**vue-qs v0.1.18-beta.7**](../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **queryReactive**\<`TSchema`\>(`parameterSchema`, `options`): [`QueryReactiveReturn`](../type-aliases/QueryReactiveReturn.md)\<`TSchema`\>
 
-Defined in: [composables/use-query-reactive.ts:76](https://github.com/iamsomraj/vue-qs/blob/b89690c4cfcb78328e659968e3c7235730988be4/src/composables/use-query-reactive.ts#L76)
+Defined in: [composables/use-query-reactive.ts:71](https://github.com/iamsomraj/vue-qs/blob/ff60e1586d4655408e5c5a224bc4b63d54bf2fc1/src/composables/use-query-reactive.ts#L71)
 
 Manages multiple query parameters as a single reactive object with URL synchronization
 
@@ -38,7 +38,7 @@ Global options for the reactive query state
 
 [`QueryReactiveReturn`](../type-aliases/QueryReactiveReturn.md)\<`TSchema`\>
 
-Reactive state object with batch update and sync capabilities
+Reactive state object that stays in sync with the URL
 
 ## Example
 
@@ -60,23 +60,14 @@ const querySchema = {
   },
 } as const;
 
-const { queryState, updateBatch, syncAllToUrl } = queryReactive(querySchema, {
+const queryState = queryReactive(querySchema, {
   historyStrategy: 'replace'
 });
 
 // Access reactive values
 console.log(queryState.search, queryState.page, queryState.showDetails);
 
-// Update single values
+// Update values
 queryState.search = 'hello';
 queryState.page = 2;
-
-// Batch update multiple values
-updateBatch({
-  search: 'world',
-  page: 1
-});
-
-// Manual sync
-syncAllToUrl();
 ```

@@ -1,4 +1,4 @@
-[**vue-qs v0.1.17**](../README.md)
+[**vue-qs v0.1.18-beta.7**](../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **createVueQsPlugin**(`options`): `object`
 
-Defined in: [adapter-context.ts:81](https://github.com/iamsomraj/vue-qs/blob/b89690c4cfcb78328e659968e3c7235730988be4/src/adapter-context.ts#L81)
+Defined in: [adapter-context.ts:81](https://github.com/iamsomraj/vue-qs/blob/ff60e1586d4655408e5c5a224bc4b63d54bf2fc1/src/adapter-context.ts#L81)
 
 Creates a Vue.js plugin for vue-qs that automatically provides the query adapter
 

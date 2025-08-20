@@ -1,4 +1,4 @@
-[**vue-qs v0.1.17**](../README.md)
+[**vue-qs v0.1.18-beta.7**](../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **removeUndefinedValues**\<`T`\>(`sourceObject`): `Partial`\<`T`\>
 
-Defined in: [utils/core-helpers.ts:118](https://github.com/iamsomraj/vue-qs/blob/b89690c4cfcb78328e659968e3c7235730988be4/src/utils/core-helpers.ts#L118)
+Defined in: [utils/core-helpers.ts:177](https://github.com/iamsomraj/vue-qs/blob/ff60e1586d4655408e5c5a224bc4b63d54bf2fc1/src/utils/core-helpers.ts#L177)
 
 Safely removes undefined values from an object
 
@@ -31,3 +31,10 @@ Object to clean
 `Partial`\<`T`\>
 
 New object without undefined values
+
+## Example
+
+```ts
+removeUndefinedValues({ a: 1, b: undefined, c: 'test' })
+// Returns: { a: 1, c: 'test' }
+```

@@ -14,7 +14,7 @@ import { useRouter } from 'vue-router';
 const adapter = createVueRouterAdapter(useRouter());
 
 const page = queryRef('page', { defaultValue: 1, parse: Number, queryAdapter: adapter });
-const { queryState } = queryReactive({ q: { defaultValue: '' } }, { adapter });
+const queryState = queryReactive({ q: { defaultValue: '' } }, { adapter });
 </script>
 ```
 

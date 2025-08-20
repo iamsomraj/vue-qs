@@ -1,4 +1,4 @@
-[**vue-qs v0.1.17**](../README.md)
+[**vue-qs v0.1.18-beta.7**](../README.md)
 
 ***
 
@@ -8,9 +8,19 @@
 
 > **RuntimeEnvironment** = `object`
 
-Defined in: [types.ts:134](https://github.com/iamsomraj/vue-qs/blob/b89690c4cfcb78328e659968e3c7235730988be4/src/types.ts#L134)
+Defined in: [types.ts:196](https://github.com/iamsomraj/vue-qs/blob/ff60e1586d4655408e5c5a224bc4b63d54bf2fc1/src/types.ts#L196)
 
 Runtime environment information
+Used to determine if we're running in a browser or server environment
+
+## Example
+
+```ts
+const env: RuntimeEnvironment = {
+  isBrowser: true,
+  windowObject: window
+};
+```
 
 ## Properties
 
@@ -18,7 +28,7 @@ Runtime environment information
 
 > **isBrowser**: `boolean`
 
-Defined in: [types.ts:136](https://github.com/iamsomraj/vue-qs/blob/b89690c4cfcb78328e659968e3c7235730988be4/src/types.ts#L136)
+Defined in: [types.ts:198](https://github.com/iamsomraj/vue-qs/blob/ff60e1586d4655408e5c5a224bc4b63d54bf2fc1/src/types.ts#L198)
 
 Whether we're running in a browser environment
 
@@ -28,6 +38,6 @@ Whether we're running in a browser environment
 
 > **windowObject**: `Window` \| `null`
 
-Defined in: [types.ts:138](https://github.com/iamsomraj/vue-qs/blob/b89690c4cfcb78328e659968e3c7235730988be4/src/types.ts#L138)
+Defined in: [types.ts:200](https://github.com/iamsomraj/vue-qs/blob/ff60e1586d4655408e5c5a224bc4b63d54bf2fc1/src/types.ts#L200)
 
 Window object if available

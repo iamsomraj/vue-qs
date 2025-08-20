@@ -4,6 +4,13 @@ import { warn } from '@/utils/core-helpers';
 /**
  * String codec for handling string values
  * Treats null/undefined as empty string
+ * @example
+ * ```ts
+ * const name = queryRef('name', {
+ *   defaultValue: '',
+ *   codec: stringCodec
+ * });
+ * ```
  */
 export const stringCodec: QueryCodec<string> = {
   parse: (rawValue) => {
@@ -28,6 +35,13 @@ export const stringCodec: QueryCodec<string> = {
 /**
  * Number codec for handling numeric values
  * Returns NaN for invalid numbers
+ * @example
+ * ```ts
+ * const page = queryRef('page', {
+ *   defaultValue: 1,
+ *   codec: numberCodec
+ * });
+ * ```
  */
 export const numberCodec: QueryCodec<number> = {
   parse: (rawValue) => {
@@ -56,6 +70,13 @@ export const numberCodec: QueryCodec<number> = {
 /**
  * Boolean codec for handling boolean values
  * Treats 'true' and '1' as true, everything else as false
+ * @example
+ * ```ts
+ * const isActive = queryRef('active', {
+ *   defaultValue: false,
+ *   codec: booleanCodec
+ * });
+ * ```
  */
 export const booleanCodec: QueryCodec<boolean> = {
   parse: (rawValue) => {
@@ -80,6 +101,13 @@ export const booleanCodec: QueryCodec<boolean> = {
 /**
  * Date codec using ISO string format
  * Returns invalid Date for unparseable values
+ * @example
+ * ```ts
+ * const date = queryRef('date', {
+ *   defaultValue: new Date(),
+ *   codec: dateISOCodec
+ * });
+ * ```
  */
 export const dateISOCodec: QueryCodec<Date> = {
   parse: (rawValue) => {
@@ -109,6 +137,18 @@ export const dateISOCodec: QueryCodec<Date> = {
  * Returns null for invalid JSON
  * @template T The type of object to handle
  * @returns QueryCodec for the specified type
+ * @example
+ * ```ts
+ * interface UserFilters {
+ *   category: string;
+ *   sort: 'name' | 'date';
+ * }
+ *
+ * const filters = queryRef('filters', {
+ *   defaultValue: { category: 'all', sort: 'name' },
+ *   codec: createJsonCodec<UserFilters>()
+ * });
+ * ```
  */
 export function createJsonCodec<T>(): QueryCodec<T | null> {
   return {
@@ -144,6 +184,26 @@ export function createJsonCodec<T>(): QueryCodec<T | null> {
  * @param elementCodec Codec for individual array elements
  * @param delimiter String to use for separating array elements (default: ',')
  * @returns QueryCodec for arrays of the specified type
+ * @example
+ * ```ts
+ * // String array: ?tags=vue,react,angular
+ * const tags = queryRef('tags', {
+ *   defaultValue: [],
+ *   codec: createArrayCodec(stringCodec)
+ * });
+ *
+ * // Number array: ?pages=1,2,3
+ * const pages = queryRef('pages', {
+ *   defaultValue: [],
+ *   codec: createArrayCodec(numberCodec)
+ * });
+ *
+ * // Custom delimiter: ?tags=vue|react|angular
+ * const tags = queryRef('tags', {
+ *   defaultValue: [],
+ *   codec: createArrayCodec(stringCodec, '|')
+ * });
+ * ```
  */
 export function createArrayCodec<T>(elementCodec: QueryCodec<T>, delimiter = ','): QueryCodec<T[]> {
   return {
@@ -186,8 +246,30 @@ export function createArrayCodec<T>(elementCodec: QueryCodec<T>, delimiter = ','
  * @template T String literal union type
  * @param allowedValues Array of allowed enum values
  * @returns QueryCodec for the enum type
+ * @example
+ * ```ts
+ * type SortOrder = 'asc' | 'desc';
+ *
+ * const sort = queryRef('sort', {
+ *   defaultValue: 'asc',
+ *   codec: createEnumCodec<SortOrder>(['asc', 'desc'])
+ * });
+ *
+ * // URL: ?sort=desc
+ * // Invalid values fall back to 'asc'
+ * ```
  */
-export function createEnumCodec<T extends string>(allowedValues: readonly T[]): QueryCodec<T> {
+export function createEnumCodec<T extends string>(
+  allowedValues: readonly T[]
+): QueryCodec<T | undefined> {
+  if (!Array.isArray(allowedValues) || allowedValues.length === 0) {
+    warn('createEnumCodec: allowedValues must be a non-empty array');
+    return {
+      parse: () => undefined,
+      serialize: () => null,
+    };
+  }
+
   const defaultValue = allowedValues[0];
 
   return {

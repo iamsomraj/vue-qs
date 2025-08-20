@@ -1,10 +1,22 @@
-[**vue-qs v0.1.17**](../../../README.md)
+[**vue-qs v0.1.18-beta.7**](../../../README.md)
 
 ***
 
 [vue-qs](../../../README.md) / serializers
 
 # serializers
+
+Serializers namespace for convenience
+
+## Example
+
+```ts
+import { serializers } from 'vue-qs';
+
+const page = queryRef('page', {
+  codec: serializers.numberCodec
+});
+```
 
 ## References
 

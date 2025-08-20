@@ -1,4 +1,4 @@
-[**vue-qs v0.1.17**](../README.md)
+[**vue-qs v0.1.18-beta.7**](../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **mergeObjects**\<`T`\>(`baseObject`, `updateObject`): `T`
 
-Defined in: [utils/core-helpers.ts:101](https://github.com/iamsomraj/vue-qs/blob/b89690c4cfcb78328e659968e3c7235730988be4/src/utils/core-helpers.ts#L101)
+Defined in: [utils/core-helpers.ts:155](https://github.com/iamsomraj/vue-qs/blob/ff60e1586d4655408e5c5a224bc4b63d54bf2fc1/src/utils/core-helpers.ts#L155)
 
 Safely merges two objects
 
@@ -37,3 +37,12 @@ Object with updates to apply
 `T`
 
 New merged object
+
+## Example
+
+```ts
+const base = { page: 1, search: 'old' };
+const updates = { search: 'new', filter: 'active' };
+mergeObjects(base, updates)
+// Returns: { page: 1, search: 'new', filter: 'active' }
+```

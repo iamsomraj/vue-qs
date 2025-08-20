@@ -1,4 +1,4 @@
-[**vue-qs v0.1.17**](../README.md)
+[**vue-qs v0.1.18-beta.7**](../README.md)
 
 ***
 
@@ -6,9 +6,9 @@
 
 # Function: createEnumCodec()
 
-> **createEnumCodec**\<`T`\>(`allowedValues`): [`QueryCodec`](../type-aliases/QueryCodec.md)\<`T`\>
+> **createEnumCodec**\<`T`\>(`allowedValues`): [`QueryCodec`](../type-aliases/QueryCodec.md)\<`undefined` \| `T`\>
 
-Defined in: [serializers.ts:190](https://github.com/iamsomraj/vue-qs/blob/b89690c4cfcb78328e659968e3c7235730988be4/src/serializers.ts#L190)
+Defined in: [serializers.ts:262](https://github.com/iamsomraj/vue-qs/blob/ff60e1586d4655408e5c5a224bc4b63d54bf2fc1/src/serializers.ts#L262)
 
 Enum codec factory for handling string enum values
 Falls back to first enum value for invalid inputs
@@ -31,6 +31,20 @@ Array of allowed enum values
 
 ## Returns
 
-[`QueryCodec`](../type-aliases/QueryCodec.md)\<`T`\>
+[`QueryCodec`](../type-aliases/QueryCodec.md)\<`undefined` \| `T`\>
 
 QueryCodec for the enum type
+
+## Example
+
+```ts
+type SortOrder = 'asc' | 'desc';
+
+const sort = queryRef('sort', {
+  defaultValue: 'asc',
+  codec: createEnumCodec<SortOrder>(['asc', 'desc'])
+});
+
+// URL: ?sort=desc
+// Invalid values fall back to 'asc'
+```

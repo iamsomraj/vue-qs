@@ -1,4 +1,4 @@
-[**vue-qs v0.1.17**](../README.md)
+[**vue-qs v0.1.18-beta.7**](../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **createRuntimeEnvironment**(): [`RuntimeEnvironment`](../type-aliases/RuntimeEnvironment.md)
 
-Defined in: [utils/core-helpers.ts:19](https://github.com/iamsomraj/vue-qs/blob/b89690c4cfcb78328e659968e3c7235730988be4/src/utils/core-helpers.ts#L19)
+Defined in: [utils/core-helpers.ts:34](https://github.com/iamsomraj/vue-qs/blob/ff60e1586d4655408e5c5a224bc4b63d54bf2fc1/src/utils/core-helpers.ts#L34)
 
 Creates a runtime environment object with safe property access
 
@@ -17,3 +17,13 @@ Creates a runtime environment object with safe property access
 [`RuntimeEnvironment`](../type-aliases/RuntimeEnvironment.md)
 
 Runtime environment information
+
+## Example
+
+```ts
+const env = createRuntimeEnvironment();
+if (env.isBrowser && env.windowObject) {
+  // Safe to use window
+  console.log(env.windowObject.location.href);
+}
+```

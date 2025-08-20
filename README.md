@@ -4,43 +4,61 @@
 
 [![CI](https://github.com/iamsomraj/vue-qs/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/iamsomraj/vue-qs/actions/workflows/ci.yml) [![npm version](https://img.shields.io/npm/v/vue-qs.svg)](https://www.npmjs.com/package/vue-qs) [![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-> Active Development Notice
-> This library is currently in active development. APIs may change significantly between versions. Please use with caution and expect breaking changes.
+> **Note**: This library is currently in active development. APIs may change significantly between versions. Please use with caution and expect breaking changes.
 
-Docs: https://iamsomraj.github.io/vue-qs/ · 中文文档: https://iamsomraj.github.io/vue-qs/zh/
+📖 **Documentation**: [https://iamsomraj.github.io/vue-qs/](https://iamsomraj.github.io/vue-qs/)  
+🌏 **中文文档**: [https://iamsomraj.github.io/vue-qs/zh/](https://iamsomraj.github.io/vue-qs/zh/)
 
-Type‑safe, reactive URL query params for Vue 3. Inspired by nuqs (React) but built for the Vue Composition API.
+Type‑safe, reactive URL query parameters for Vue 3. Inspired by [nuqs](https://nuqs.47ng.com/) (React) but built for the Vue Composition API.
 
-## Why
+## ✨ Features
+
+- 🔄 **Bidirectional Sync**: URL parameters stay in sync with your reactive state
+- 🎯 **Type Safety**: Full TypeScript support with type inference
+- 🚀 **Vue 3 Ready**: Built for Vue 3 Composition API
+- 🔧 **Flexible**: Works with or without Vue Router
+- 🛡️ **SSR Safe**: Server-side rendering compatible
+- 📦 **Tree Shakeable**: Only import what you need
+- 🎨 **Customizable**: Built-in codecs + custom serialization support
+
+## 🎯 Why vue-qs?
 
 Keep UI state (page, filters, search text, sort, tabs) in the URL so users can:
 
-- Refresh and keep state
-- Share links
+- 🔄 **Refresh and keep state**
+- 🔗 **Share links with specific state**
+- ⬅️➡️ **Use browser back/forward buttons**
 
-vue-qs gives you small composables that feel like normal refs / reactive objects, but they stay in sync with the query string. You pick the type (string, number, boolean, Date, enum, arrays, custom) through codecs.
+vue-qs gives you composables that feel like normal refs/reactive objects, but they automatically stay in sync with the URL query string.
 
-## Install
+## 📦 Installation
 
-```sh
-npm i vue-qs
+```bash
+npm install vue-qs
 # or
 pnpm add vue-qs
 # or
 bun add vue-qs
 ```
 
-Peer dependency: vue ^3.3. Vue Router ^4.2 is optional (only if you want to integrate with router navigation).
+**Peer Dependencies:**
 
-## Quick start (no router)
+- `vue` ^3.3.0 (required)
+- `vue-router` ^4.2.0 (optional, for router integration)
+
+## 🚀 Quick Start
+
+### Basic Usage (No Router)
 
 ```vue
 <script setup lang="ts">
 import { queryRef } from 'vue-qs';
 
 // Create a ref bound to ?name=...
-// If the param is missing we fall back to the default ('').
-const name = queryRef('name', { defaultValue: '', parse: String });
+// Falls back to default value if param is missing
+const name = queryRef('name', {
+  defaultValue: '',
+});
 </script>
 
 <template>
@@ -48,48 +66,30 @@ const name = queryRef('name', { defaultValue: '', parse: String });
 </template>
 ```
 
-Multiple params in one reactive object:
+### Multiple Parameters
 
 ```vue
 <script setup lang="ts">
 import { queryReactive } from 'vue-qs';
 
-// Each field config controls parsing, defaults, omission rules
-const { queryState } = queryReactive({
+// Each field config controls parsing, defaults, and omission rules
+const queryState = queryReactive({
   q: { defaultValue: '' },
-  page: { defaultValue: 1, parse: Number },
+  page: { defaultValue: 1, codec: numberCodec },
+  showDetails: { defaultValue: false, codec: booleanCodec },
 });
 </script>
 
 <template>
-  <input v-model="queryState.q" />
-  <button @click="queryState.page++">Next</button>
+  <input v-model="queryState.q" placeholder="Search..." />
+  <button @click="queryState.page++">Next Page</button>
+  <button @click="queryState.showDetails = !queryState.showDetails">Toggle Details</button>
 </template>
 ```
 
-## Using Vue Router
+## 🔗 Vue Router Integration
 
-Two ways:
-
-1. Pass an adapter directly
-
-```vue
-<script setup lang="ts">
-import { queryRef, queryReactive, createVueRouterAdapter } from 'vue-qs';
-import { useRouter } from 'vue-router';
-
-const adapter = createVueRouterAdapter(useRouter());
-
-const page = queryRef<number>('page', {
-  defaultValue: 1,
-  parse: Number,
-  queryAdapter: adapter,
-});
-const { queryState } = queryReactive({ q: { defaultValue: '' } }, { queryAdapter: adapter });
-</script>
-```
-
-2. Provide a global adapter once (recommended)
+### Option 1: Global Plugin (Recommended)
 
 ```ts
 // main.ts
@@ -98,133 +98,165 @@ import { createVueQsPlugin, createVueRouterAdapter } from 'vue-qs';
 import { router } from './router';
 import App from './App.vue';
 
-createApp(App)
-  .use(createVueQsPlugin({ queryAdapter: createVueRouterAdapter(router) }))
-  .use(router)
-  .mount('#app');
+const app = createApp(App);
+
+app.use(
+  createVueQsPlugin({
+    queryAdapter: createVueRouterAdapter(router),
+  })
+);
+app.use(router);
+app.mount('#app');
 ```
 
-## Omitting defaults
+### Option 2: Per-Component Adapter
 
-By default if a value equals its `defaultValue`, the param is removed from the URL for cleanliness. Want it always there? Set `shouldOmitDefault: false`.
+```vue
+<script setup lang="ts">
+import { queryRef, createVueRouterAdapter } from 'vue-qs';
+import { useRouter } from 'vue-router';
 
-Call `.syncToUrl()` on a ref or the reactive group to force a write right now.
+const router = useRouter();
+const adapter = createVueRouterAdapter(router);
 
-## Codecs (parse + serialize)
+const page = queryRef('page', {
+  defaultValue: 1,
+  codec: numberCodec,
+  queryAdapter: adapter,
+});
+</script>
+```
 
-Import ready‑made codecs:
+## 🔧 Codecs (Type Conversion)
+
+Import ready‑made codecs for common types:
 
 ```ts
-import { serializers } from 'vue-qs';
+import {
+  stringCodec,
+  numberCodec,
+  booleanCodec,
+  dateISOCodec,
+  createArrayCodec,
+  createJsonCodec,
+} from 'vue-qs';
 
-const n = queryRef('n', { defaultValue: 0, parse: serializers.numberCodec.parse });
-const b = queryRef('b', { defaultValue: false, parse: serializers.booleanCodec.parse });
+// Basic types
+const name = queryRef('name', {
+  defaultValue: '',
+  codec: stringCodec,
+});
+
+const page = queryRef('page', {
+  defaultValue: 1,
+  codec: numberCodec,
+});
+
+const isActive = queryRef('active', {
+  defaultValue: false,
+  codec: booleanCodec,
+});
+
+// Complex types
 const tags = queryRef('tags', {
   defaultValue: [] as string[],
-  codec: serializers.createArrayCodec(serializers.stringCodec),
+  codec: createArrayCodec(stringCodec),
+});
+
+const filters = queryRef('filters', {
+  defaultValue: { category: 'all', sort: 'name' },
+  codec: createJsonCodec<{ category: string; sort: string }>(),
 });
 ```
 
-Use `codec` instead of separate `parse` / `serializeFunction` for brevity.
+## ⚙️ Configuration Options
 
-Available built‑ins: `stringCodec`, `numberCodec`, `booleanCodec`, `dateISOCodec`, `createJsonCodec<T>()`, `createArrayCodec(codec)`, `createEnumCodec([...])`.
+### Shared Options
 
-## Batch updates
+| Option              | Type                      | Default       | Description                                  |
+| ------------------- | ------------------------- | ------------- | -------------------------------------------- |
+| `defaultValue`      | `T`                       | -             | Initial value if parameter is missing        |
+| `codec`             | `QueryCodec<T>`           | `stringCodec` | Parser and serializer for the type           |
+| `parse`             | `QueryParser<T>`          | -             | Custom parser function (overrides codec)     |
+| `serializeFunction` | `QuerySerializer<T>`      | -             | Custom serializer function (overrides codec) |
+| `shouldOmitDefault` | `boolean`                 | `true`        | Remove from URL when equal to default        |
+| `isEqual`           | `(a: T, b: T) => boolean` | `Object.is`   | Custom equality function                     |
+| `historyStrategy`   | `'replace' \| 'push'`     | `'replace'`   | Browser history update strategy              |
+| `queryAdapter`      | `QueryAdapter`            | -             | Override default query adapter               |
 
-Update several params in one history entry:
+### Custom Equality Example
 
 ```ts
-const { queryState, updateBatch } = queryReactive({
-  q: { defaultValue: '' },
-  page: { defaultValue: 1 },
+const filters = queryRef('filters', {
+  defaultValue: { category: 'all', sort: 'name' },
+  codec: createJsonCodec<{ category: string; sort: string }>(),
+  isEqual: (a, b) => a.category === b.category && a.sort === b.sort,
 });
-updateBatch({ q: 'hello', page: 2 }, { historyStrategy: 'push' });
 ```
 
-## Custom equality
+## 🛡️ SSR Safety
 
-For objects/arrays supply `isEqual(a,b)` to decide if current value equals the default (so it can be omitted).
+vue-qs is SSR-safe. On the server, the composables use an internal cache until hydration, so you can render initial HTML safely without touching `window`.
+
+## 📚 API Reference
+
+### `queryRef(name, options)`
+
+Creates a reactive ref that syncs with a URL query parameter.
 
 ```ts
-const jsonCodec = serializers.createJsonCodec<{ a: number }>();
-const item = queryRef('obj', {
-  defaultValue: { a: 1 },
-  codec: jsonCodec,
-  isEqual: (x, y) => x?.a === y?.a,
-});
+function queryRef<T>(parameterName: string, options?: QueryRefOptions<T>): Ref<T>;
 ```
 
-## SSR safety
+### `queryReactive(schema, options)`
 
-On the server the hooks never touch `window`. They use an internal cache until hydration, so you can render initial HTML safely.
+Creates a reactive object that syncs multiple URL query parameters.
 
-## Mini API reference
+```ts
+function queryReactive<TSchema extends QueryParameterSchema>(
+  parameterSchema: TSchema,
+  options?: QueryReactiveOptions
+): ReactiveQueryState<TSchema>;
+```
 
-queryRef(name, options)
+### `createHistoryAdapter()`
 
-- Returns a ref with extra method `.syncToUrl()`.
+Creates an adapter for browser History API (default).
 
-queryReactive(schema, options)
+```ts
+function createHistoryAdapter(): QueryAdapter;
+```
 
-- Returns `{ queryState, updateBatch, syncAllToUrl }`.
+### `createVueRouterAdapter(router)`
 
-createHistoryAdapter(options)
+Creates an adapter for Vue Router integration.
 
-- Creates adapter for browser History API (default choice).
+```ts
+function createVueRouterAdapter(router: Router): QueryAdapter;
+```
 
-createVueRouterAdapter(router)
+### Development Setup
 
-- Creates adapter for Vue Router (enables reacting to navigations).
-
-createVueQsPlugin({ queryAdapter }) / provideQueryAdapter(adapter)
-
-- Provide an adapter globally or locally.
-
-## Options snapshot
-
-Shared options:
-
-- defaultValue: initial value if param is missing
-- parse / serializeFunction OR codec: convert string <-> type
-- shouldOmitDefault (default true): remove from URL when equal to default
-- isEqual: custom compare (deep equality, etc.)
-- historyStrategy: 'replace' (default) or 'push'
-- queryAdapter: override which query adapter to use
-
-Extra on reactive version:
-
-- updateBatch(update, { historyStrategy }): multi‑field update
-
-## Contributing
-
-Clone and install:
-
-```sh
+```bash
+# Clone and install
+git clone https://github.com/iamsomraj/vue-qs.git
+cd vue-qs
 bun install
+
+# Development
+bun run dev          # Watch mode
+bun run test         # Run tests
+bun run typecheck    # Type checking
+bun run lint         # Linting
+bun run docs:dev     # Documentation dev server
 ```
 
-Dev build (watch):
+## 📄 License
 
-```sh
-bun run dev
-```
+MIT License - see [LICENSE](LICENSE) for details.
 
-Run tests / typecheck / lint:
+## 🙏 Acknowledgments
 
-```sh
-bun run test
-bun run typecheck
-bun run lint
-```
-
-Docs local dev:
-
-```sh
-bun run docs:dev
-```
-
-PRs and issues welcome (see CONTRIBUTING.md).
-
-## License
-
-MIT
+- Inspired by [nuqs](https://nuqs.47ng.com/) for React
+- Built with [Vue 3](https://vuejs.org/) Composition API
+- TypeScript support powered by [TypeScript](https://www.typescriptlang.org/)

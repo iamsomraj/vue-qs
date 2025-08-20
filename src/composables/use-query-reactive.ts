@@ -4,7 +4,6 @@ import { createHistoryAdapter } from '@/adapters/history-adapter';
 import { stringCodec } from '@/serializers';
 import type {
   QueryAdapter,
-  QueryBatchUpdateOptions,
   QueryParameterSchema,
   QueryParser,
   QueryReactiveReturn,
@@ -12,7 +11,12 @@ import type {
   ReactiveQueryState,
   QueryReactiveOptions,
 } from '@/types';
-import { areValuesEqual, warn } from '@/utils/core-helpers';
+import {
+  areValuesEqual,
+  warn,
+  useEventListener,
+  createRuntimeEnvironment,
+} from '@/utils/core-helpers';
 
 // Shared history adapter instance for performance optimization
 let sharedHistoryAdapterInstance: QueryAdapter | undefined;
@@ -31,7 +35,7 @@ function getSharedHistoryAdapter(): QueryAdapter {
  * @template TSchema The schema type defining all parameters
  * @param parameterSchema Schema defining configuration for each parameter
  * @param options Global options for the reactive query state
- * @returns Reactive state object with batch update and sync capabilities
+ * @returns Reactive state object that stays in sync with the URL
  *
  * @example
  * ```typescript
@@ -52,25 +56,16 @@ function getSharedHistoryAdapter(): QueryAdapter {
  *   },
  * } as const;
  *
- * const { queryState, updateBatch, syncAllToUrl } = queryReactive(querySchema, {
+ * const queryState = queryReactive(querySchema, {
  *   historyStrategy: 'replace'
  * });
  *
  * // Access reactive values
  * console.log(queryState.search, queryState.page, queryState.showDetails);
  *
- * // Update single values
+ * // Update values
  * queryState.search = 'hello';
  * queryState.page = 2;
- *
- * // Batch update multiple values
- * updateBatch({
- *   search: 'world',
- *   page: 1
- * });
- *
- * // Manual sync
- * syncAllToUrl();
  * ```
  */
 export function queryReactive<TSchema extends QueryParameterSchema>(
@@ -163,24 +158,54 @@ export function queryReactive<TSchema extends QueryParameterSchema>(
   }
 
   /**
-   * Syncs all current state values to the URL
+   * Updates the URL with current state values
    */
-  function syncAllToURL(): void {
+  function updateURL(): void {
     try {
-      const fullState: Partial<StateType> = {};
-      Object.keys(parameterSchema).forEach((key) => {
-        (fullState as any)[key] = (reactiveState as any)[key];
-      });
+      // Skip if adapter is currently updating to prevent infinite loops
+      const isUpdating = selectedAdapter.isUpdating?.();
+      if (isUpdating === true) {
+        return;
+      }
 
-      const serializedQuery = serializeStateSubset(fullState);
+      const serializedQuery = serializeStateSubset(reactiveState as any);
       selectedAdapter.updateQuery(serializedQuery, { historyStrategy });
     } catch (error) {
-      warn('Error syncing all parameters to URL:', error);
+      warn('Error syncing state changes to URL:', error);
     }
   }
 
-  // Flag to control when watchers should trigger during batch updates
-  let isBatchUpdating = false;
+  /**
+   * Reads from URL and updates reactive state
+   */
+  function readFromURL(): void {
+    try {
+      const currentURLQuery = selectedAdapter.getCurrentQuery();
+
+      Object.keys(parameterSchema).forEach((paramKey) => {
+        const paramConfig = parameterSchema[paramKey];
+        const parseValue: QueryParser<any> =
+          paramConfig.parse ?? paramConfig.codec?.parse ?? (stringCodec.parse as QueryParser<any>);
+
+        const rawValue = currentURLQuery[paramKey] ?? null;
+        let newValue: any;
+
+        if (typeof rawValue === 'string' && rawValue.length > 0) {
+          newValue = parseValue(rawValue);
+        } else {
+          newValue = paramConfig.defaultValue;
+        }
+
+        // Only update if value actually changed
+        const currentValue = (reactiveState as any)[paramKey];
+        if (!areValuesEqual(currentValue, newValue, paramConfig.isEqual)) {
+          (reactiveState as any)[paramKey] = newValue;
+        }
+      });
+    } catch (error) {
+      warn('Error reading from URL:', error);
+    }
+  }
 
   // Watch for state changes and sync to URL
   const stopWatcher = watch(
@@ -192,66 +217,55 @@ export function queryReactive<TSchema extends QueryParameterSchema>(
       });
       return stateSnapshot;
     },
-    (changedState) => {
-      if (isBatchUpdating) {
-        return; // Skip updates during batch operations
-      }
-
-      try {
-        const serializedQuery = serializeStateSubset(changedState);
-        selectedAdapter.updateQuery(serializedQuery, { historyStrategy });
-      } catch (error) {
-        warn('Error syncing state changes to URL:', error);
-      }
+    () => {
+      updateURL();
     },
     {
       deep: true,
-      flush: 'sync', // Immediate updates to avoid batching delays
+      flush: 'sync', // Immediate updates
     }
   );
 
-  /**
-   * Updates multiple parameters in a single batch operation
-   */
-  function updateBatch(updates: Partial<StateType>, batchOptions?: QueryBatchUpdateOptions): void {
-    try {
-      isBatchUpdating = true;
+  // Listen for browser navigation events
+  const runtimeEnvironment = createRuntimeEnvironment();
+  let removePopstateListener: (() => void) | undefined;
+  let removeHashchangeListener: (() => void) | undefined;
 
-      // Apply all updates to the reactive state
-      Object.keys(updates).forEach((key) => {
-        if (key in parameterSchema) {
-          (reactiveState as any)[key] = (updates as any)[key];
-        }
-      });
+  if (runtimeEnvironment.isBrowser && runtimeEnvironment.windowObject) {
+    const windowObject = runtimeEnvironment.windowObject;
 
-      // Serialize and update URL in single operation
-      const serializedQuery = serializeStateSubset(updates);
-      const finalHistoryStrategy = batchOptions?.historyStrategy ?? historyStrategy;
-      selectedAdapter.updateQuery(serializedQuery, { historyStrategy: finalHistoryStrategy });
-    } catch (error) {
-      warn('Error during batch update:', error);
-    } finally {
-      // Reset batch flag in next microtask
-      queueMicrotask(() => {
-        isBatchUpdating = false;
-      });
-    }
+    // Listen for popstate (browser back/forward)
+    removePopstateListener = useEventListener(
+      windowObject,
+      'popstate',
+      () => {
+        readFromURL();
+      },
+      { passive: true }
+    );
+
+    // Listen for hashchange (hash-based routing)
+    removeHashchangeListener = useEventListener(
+      windowObject,
+      'hashchange',
+      () => {
+        readFromURL();
+      },
+      { passive: true }
+    );
   }
 
-  // Clean up subscriptions when component unmounts
   if (componentInstance) {
     onBeforeUnmount(() => {
       try {
         stopWatcher();
+        removePopstateListener?.();
+        removeHashchangeListener?.();
       } catch (error) {
         warn('Error during queryReactive cleanup:', error);
       }
     });
   }
 
-  return {
-    queryState: reactiveState as StateType,
-    updateBatch,
-    syncAllToUrl: syncAllToURL,
-  };
+  return reactiveState as StateType;
 }

@@ -37,6 +37,8 @@ export function createHistoryAdapter(): QueryAdapter {
     queryParams: {},
   });
 
+  let isUpdating = false;
+
   const queryAdapter: QueryAdapter = {
     getCurrentQuery() {
       try {
@@ -54,21 +56,38 @@ export function createHistoryAdapter(): QueryAdapter {
 
     updateQuery(queryUpdates, updateOptions) {
       try {
+        if (isUpdating) {
+          return;
+        }
+
         // Server-side: update cache only
         if (!runtimeEnvironment.isBrowser || !runtimeEnvironment.windowObject) {
           serverCache.queryParams = mergeObjects(serverCache.queryParams, queryUpdates);
           return;
         }
 
+        isUpdating = true;
+
         const windowObject = runtimeEnvironment.windowObject;
-        const currentUrl = new URL(windowObject.location.href);
+        let currentUrl: URL;
+
+        try {
+          // Try to create URL from current href
+          currentUrl = new URL(windowObject.location.href);
+        } catch {
+          // Fallback: construct URL from parts
+          const href = windowObject.location.href || 'https://example.com/';
+          const baseUrl = href.startsWith('http') ? href : `https://example.com${href}`;
+          currentUrl = new URL(baseUrl);
+        }
+
         const currentQuery = parseSearchString(currentUrl.search);
         const mergedQuery = mergeObjects(currentQuery, queryUpdates);
 
         const newSearchString = buildSearchString(mergedQuery);
 
-        // Don't update if nothing changed
         if (currentUrl.search === newSearchString) {
+          isUpdating = false;
           return;
         }
 
@@ -90,7 +109,13 @@ export function createHistoryAdapter(): QueryAdapter {
         }
       } catch (error) {
         warn('Error updating query:', error);
+      } finally {
+        isUpdating = false;
       }
+    },
+
+    isUpdating() {
+      return isUpdating;
     },
   };
 
