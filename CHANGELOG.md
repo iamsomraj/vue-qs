@@ -1,5 +1,45 @@
 # Changelog
 
+## v0.1.18
+
+[compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.1.17...v0.1.18)
+
+### 🚀 Enhancements
+
+- Add isUpdating method to QueryAdapter and prevent infinite loops during URL updates ([5c47647](https://github.com/iamsomraj/vue-qs/commit/5c47647))
+- Enhance package.json and README for clarity and usability ([75960a4](https://github.com/iamsomraj/vue-qs/commit/75960a4))
+
+### 🩹 Fixes
+
+- Update createEnumCodec to allow undefined values and adjust related tests ([28d9815](https://github.com/iamsomraj/vue-qs/commit/28d9815))
+
+### 💅 Refactors
+
+- Simplify queryReactive and queryRef APIs ([d23e55e](https://github.com/iamsomraj/vue-qs/commit/d23e55e))
+- Remove unit tests for vue-router adapter, query reactive, query ref, serializers, and core helpers ([da5af50](https://github.com/iamsomraj/vue-qs/commit/da5af50))
+- Update import paths to use alias for better readability ([c46bf58](https://github.com/iamsomraj/vue-qs/commit/c46bf58))
+
+### 📖 Documentation
+
+- Remove redundant active development notice from README ([e4c5161](https://github.com/iamsomraj/vue-qs/commit/e4c5161))
+
+### 🏡 Chore
+
+- Update documentation for vue-qs v0.1.17 ([03a7742](https://github.com/iamsomraj/vue-qs/commit/03a7742))
+- Update import paths in unit tests and standardize markdown separators ([111de7c](https://github.com/iamsomraj/vue-qs/commit/111de7c))
+- Update version to 0.1.18-beta.7 and adjust documentation ([bc37e2b](https://github.com/iamsomraj/vue-qs/commit/bc37e2b))
+
+### ✅ Tests
+
+- Add comprehensive unit tests for serializers, Vue components, and Vue Router integration ([8d1dd83](https://github.com/iamsomraj/vue-qs/commit/8d1dd83))
+- Add unit tests for serializers including string, number, boolean, date, JSON, array, and enum codecs ([388f009](https://github.com/iamsomraj/vue-qs/commit/388f009))
+- Add integration tests for BasicQueryRefComponent and QueryReactiveComponent with history and Vue Router support ([560b507](https://github.com/iamsomraj/vue-qs/commit/560b507))
+
+### ❤️ Contributors
+
+- Iamsomraj ([@iamsomraj](https://github.com/iamsomraj))
+- Somraj Mukherjee ([@iamsomraj](https://github.com/iamsomraj))
+
 ## v0.1.17
 
 [compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.1.16...v0.1.17)

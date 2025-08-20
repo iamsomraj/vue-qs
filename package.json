@@ -1,6 +1,6 @@
 {
   "name": "vue-qs",
-  "version": "0.1.18-beta.8",
+  "version": "0.1.18",
   "description": "Type‑safe, reactive URL query parameters for Vue 3 with full TypeScript support",
   "license": "MIT",
   "author": {
