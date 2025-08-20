@@ -1,4 +1,4 @@
-[**vue-qs v0.1.18-beta.7**](../README.md)
+[**vue-qs v0.1.18**](../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **QueryRefReturn**\<`T`\> = `Ref`\<`T`\>
 
-Defined in: [types.ts:116](https://github.com/iamsomraj/vue-qs/blob/ff60e1586d4655408e5c5a224bc4b63d54bf2fc1/src/types.ts#L116)
+Defined in: [types.ts:116](https://github.com/iamsomraj/vue-qs/blob/bdb41c8152865a4fb600c24be642289b5d115cbf/src/types.ts#L116)
 
 Return type from queryRef composable
 

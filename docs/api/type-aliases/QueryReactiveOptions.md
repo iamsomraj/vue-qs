@@ -1,4 +1,4 @@
-[**vue-qs v0.1.18-beta.7**](../README.md)
+[**vue-qs v0.1.18**](../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **QueryReactiveOptions** = `object`
 
-Defined in: [types.ts:152](https://github.com/iamsomraj/vue-qs/blob/ff60e1586d4655408e5c5a224bc4b63d54bf2fc1/src/types.ts#L152)
+Defined in: [types.ts:152](https://github.com/iamsomraj/vue-qs/blob/bdb41c8152865a4fb600c24be642289b5d115cbf/src/types.ts#L152)
 
 Options for queryReactive composable
 
@@ -27,7 +27,7 @@ const options: QueryReactiveOptions = {
 
 > `optional` **historyStrategy**: `"replace"` \| `"push"`
 
-Defined in: [types.ts:154](https://github.com/iamsomraj/vue-qs/blob/ff60e1586d4655408e5c5a224bc4b63d54bf2fc1/src/types.ts#L154)
+Defined in: [types.ts:154](https://github.com/iamsomraj/vue-qs/blob/bdb41c8152865a4fb600c24be642289b5d115cbf/src/types.ts#L154)
 
 History strategy when updating the URL
 
@@ -37,6 +37,6 @@ History strategy when updating the URL
 
 > `optional` **queryAdapter**: [`QueryAdapter`](QueryAdapter.md)
 
-Defined in: [types.ts:156](https://github.com/iamsomraj/vue-qs/blob/ff60e1586d4655408e5c5a224bc4b63d54bf2fc1/src/types.ts#L156)
+Defined in: [types.ts:156](https://github.com/iamsomraj/vue-qs/blob/bdb41c8152865a4fb600c24be642289b5d115cbf/src/types.ts#L156)
 
 Optional custom query adapter to use

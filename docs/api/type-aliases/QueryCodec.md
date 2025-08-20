@@ -1,4 +1,4 @@
-[**vue-qs v0.1.18-beta.7**](../README.md)
+[**vue-qs v0.1.18**](../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **QueryCodec**\<`T`\> = `object`
 
-Defined in: [types.ts:44](https://github.com/iamsomraj/vue-qs/blob/ff60e1586d4655408e5c5a224bc4b63d54bf2fc1/src/types.ts#L44)
+Defined in: [types.ts:44](https://github.com/iamsomraj/vue-qs/blob/bdb41c8152865a4fb600c24be642289b5d115cbf/src/types.ts#L44)
 
 A codec that combines both parse and serialize functions for a given type
 
@@ -35,7 +35,7 @@ The type this codec handles
 
 > **parse**: [`QueryParser`](QueryParser.md)\<`T`\>
 
-Defined in: [types.ts:46](https://github.com/iamsomraj/vue-qs/blob/ff60e1586d4655408e5c5a224bc4b63d54bf2fc1/src/types.ts#L46)
+Defined in: [types.ts:46](https://github.com/iamsomraj/vue-qs/blob/bdb41c8152865a4fb600c24be642289b5d115cbf/src/types.ts#L46)
 
 Function to parse string values from URL into typed values
 
@@ -45,6 +45,6 @@ Function to parse string values from URL into typed values
 
 > **serialize**: [`QuerySerializer`](QuerySerializer.md)\<`T`\>
 
-Defined in: [types.ts:48](https://github.com/iamsomraj/vue-qs/blob/ff60e1586d4655408e5c5a224bc4b63d54bf2fc1/src/types.ts#L48)
+Defined in: [types.ts:48](https://github.com/iamsomraj/vue-qs/blob/bdb41c8152865a4fb600c24be642289b5d115cbf/src/types.ts#L48)
 
 Function to serialize typed values back to URL strings

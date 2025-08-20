@@ -1,4 +1,4 @@
-[**vue-qs v0.1.18-beta.7**](../README.md)
+[**vue-qs v0.1.18**](../README.md)
 
 ***
 
@@ -8,6 +8,6 @@
 
 > **HistoryAdapterResult** = [`QueryAdapter`](QueryAdapter.md)
 
-Defined in: [adapters/history-adapter.ts:14](https://github.com/iamsomraj/vue-qs/blob/ff60e1586d4655408e5c5a224bc4b63d54bf2fc1/src/adapters/history-adapter.ts#L14)
+Defined in: [adapters/history-adapter.ts:14](https://github.com/iamsomraj/vue-qs/blob/bdb41c8152865a4fb600c24be642289b5d115cbf/src/adapters/history-adapter.ts#L14)
 
 Result of creating a history-based query adapter

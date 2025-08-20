@@ -1,4 +1,4 @@
-[**vue-qs v0.1.18-beta.7**](../README.md)
+[**vue-qs v0.1.18**](../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **areValuesEqual**\<`T`\>(`valueA`, `valueB`, `customEquals?`): `boolean`
 
-Defined in: [utils/core-helpers.ts:126](https://github.com/iamsomraj/vue-qs/blob/ff60e1586d4655408e5c5a224bc4b63d54bf2fc1/src/utils/core-helpers.ts#L126)
+Defined in: [utils/core-helpers.ts:126](https://github.com/iamsomraj/vue-qs/blob/bdb41c8152865a4fb600c24be642289b5d115cbf/src/utils/core-helpers.ts#L126)
 
 Safely compares two values for equality
 
