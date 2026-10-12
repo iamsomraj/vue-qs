@@ -2,7 +2,8 @@ import js from '@eslint/js';
 import globals from 'globals';
 import tsParser from '@typescript-eslint/parser';
 import tsPlugin from '@typescript-eslint/eslint-plugin';
-import importPlugin from 'eslint-plugin-import';
+import { createTypeScriptImportResolver } from 'eslint-import-resolver-typescript';
+import importPlugin from 'eslint-plugin-import-x';
 
 export default [
   {
@@ -29,14 +30,10 @@ export default [
     },
     plugins: {
       '@typescript-eslint': tsPlugin,
-      import: importPlugin,
+      'import-x': importPlugin,
     },
     settings: {
-      'import/resolver': {
-        typescript: {
-          alwaysTryTypes: true,
-        },
-      },
+      'import-x/resolver-next': [createTypeScriptImportResolver({ alwaysTryTypes: true })],
     },
     rules: {
       // Core JavaScript rules
@@ -82,7 +79,7 @@ export default [
       ],
 
       // Import organization rules
-      'import/order': [
+      'import-x/order': [
         'error',
         {
           groups: [
@@ -108,8 +105,8 @@ export default [
           pathGroupsExcludedImportTypes: ['builtin'],
         },
       ],
-      'import/newline-after-import': 'error',
-      'import/no-duplicates': 'error',
+      'import-x/newline-after-import': 'error',
+      'import-x/no-duplicates': 'error',
 
       // Basic TypeScript rules (no type info required)
       '@typescript-eslint/no-non-null-assertion': 'error',

@@ -5,7 +5,7 @@ Vue: when proposing a feature or behaviour change, check how nuqs handles it fir
 
 ## Development
 
-Requires Node 18+ and [Bun](https://bun.sh) 1.2+.
+Requires Node 22.12+ and [Bun](https://bun.sh) 1.4+.
 
 ```sh
 bun install
@@ -26,8 +26,8 @@ bun run lint && bun run typecheck && bun run test && bun run build && bun run fo
 | `bun run lint`       | ESLint                                                 |
 | `bun run format:fix` | Prettier                                               |
 | `bun run build`      | Build `dist/` with tsup                                |
-| `bun run docs:api`   | Regenerate the API reference (`docs/api`) with TypeDoc |
-| `bun run docs:build` | Build the documentation site                           |
+| `bun run docs:api`   | Generate the API reference (`docs/api`, not committed) |
+| `bun run docs:build` | Generate the API reference and build the docs site     |
 
 ## Workflow
 
@@ -48,7 +48,8 @@ bun run lint && bun run typecheck && bun run test && bun run build && bun run fo
    gh release create vX.Y.Z --notes-file <notes>
    ```
 3. Publish (`prepublishOnly` runs every check): `npm publish --otp=<code>`
-4. Deploy the docs: `bun run docs:deploy`
+4. The `Docs` workflow deploys the documentation to GitHub Pages when the release is
+   published. To redeploy manually, run `bun run docs:deploy` (triggers the workflow).
 
 ## Reporting issues
 

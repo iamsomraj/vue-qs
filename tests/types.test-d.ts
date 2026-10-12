@@ -19,7 +19,7 @@ import {
 describe('types', () => {
   it('useQueryState without parser is a nullable string', () => {
     const q = useQueryState('q');
-    expectTypeOf(q).toMatchTypeOf<Ref<string | null>>();
+    expectTypeOf(q).toExtend<Ref<string | null>>();
     expectTypeOf(q.value).toEqualTypeOf<string | null>();
   });
 
@@ -76,7 +76,7 @@ describe('types', () => {
     expectTypeOf(state.on).toEqualTypeOf<boolean | null>();
     expectTypeOf(state.$set)
       .parameter(0)
-      .toMatchTypeOf<
+      .toExtend<
         { page?: number | null; q?: string | null } | null | ((current: never) => unknown)
       >();
   });

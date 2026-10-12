@@ -11,7 +11,7 @@ export type UseQueryStatesOptions<Parsers extends ParserMap> = Options & {
   urlKeys?: UrlKeys<Parsers>;
 };
 
-/** New values for {@link QueryStates.$set}: a partial object, `null` to clear all keys, or an updater. */
+/** New values for `QueryStates.$set`: a partial object, `null` to clear all keys, or an updater. */
 export type SetQueryStatesValue<Parsers extends ParserMap> =
   | Partial<Nullable<Values<Parsers>>>
   | null

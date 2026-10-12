@@ -9,7 +9,10 @@ export default defineConfig({
     'adapters/testing': 'src/adapters/testing.ts',
   },
   format: ['esm', 'cjs'],
-  dts: true,
+  dts: {
+    // tsup injects `baseUrl` into the declaration build, which TypeScript 6 deprecates
+    compilerOptions: { ignoreDeprecations: '6.0' },
+  },
   clean: true,
   external: ['vue', 'vue-router'],
 });

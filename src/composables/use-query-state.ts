@@ -96,5 +96,5 @@ export function useQueryState(
   }
 
   const state = createKeyState(adapter, getRuntime(adapter), key, parser);
-  return Object.assign(state.ref, { set: state.set }) as QueryStateRef<unknown>;
+  return Object.assign(state.ref, { set: state.set });
 }

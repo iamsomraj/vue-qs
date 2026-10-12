@@ -87,5 +87,5 @@ export function createSerializer<Parsers extends ParserMap>(
     return `${prefix}${renderQueryString(search)}${hash}`;
   }
 
-  return serialize as Serializer<Parsers>;
+  return serialize;
 }
