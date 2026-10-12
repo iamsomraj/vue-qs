@@ -31,7 +31,7 @@ page.value++; // ?page=2
 npm install vue-qs
 ```
 
-Requires Vue 3.3+. `vue-router` 4 is an optional peer dependency.
+Requires Vue 3.3+. `vue-router` (4.2+ or 5) is an optional peer dependency.
 
 ## Setup
 
