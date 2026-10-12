@@ -8,7 +8,7 @@
 
 > **parseAsJson**\<`T`\>(`validator`): [`ParserBuilder`](../type-aliases/ParserBuilder.md)\<`T`\>
 
-Defined in: src/parsers.ts:338
+Defined in: [src/parsers.ts:338](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/parsers.ts#L338)
 
 JSON-encoded object, validated at runtime.
 

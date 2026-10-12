@@ -8,7 +8,7 @@
 
 > **QueryStateRef**\<`T`\> = `Ref`\<`T`\> & `object`
 
-Defined in: src/composables/use-query-state.ts:23
+Defined in: [src/composables/use-query-state.ts:23](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/composables/use-query-state.ts#L23)
 
 A writable ref bound to a URL query key.
 

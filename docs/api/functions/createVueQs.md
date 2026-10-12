@@ -8,7 +8,7 @@
 
 > **createVueQs**(`options`): `Plugin`
 
-Defined in: src/adapters/context.ts:33
+Defined in: [src/adapters/context.ts:33](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/adapters/context.ts#L33)
 
 Creates the vue-qs plugin, providing an adapter to the whole app.
 

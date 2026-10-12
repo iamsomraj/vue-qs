@@ -8,7 +8,7 @@
 
 > **parseAsStringLiteral**\<`Literal`\>(`validValues`): [`ParserBuilder`](../type-aliases/ParserBuilder.md)\<`Literal`\>
 
-Defined in: src/parsers.ts:280
+Defined in: [src/parsers.ts:280](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/parsers.ts#L280)
 
 String literal union. Values outside the list are treated as invalid.
 

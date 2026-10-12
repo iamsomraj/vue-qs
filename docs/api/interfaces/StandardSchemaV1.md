@@ -6,7 +6,7 @@
 
 # Interface: StandardSchemaV1\<Input, Output\>
 
-Defined in: src/standard-schema.ts:9
+Defined in: [src/standard-schema.ts:9](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/standard-schema.ts#L9)
 
 The Standard Schema interface (https://standardschema.dev), implemented
 by Zod, Valibot, ArkType and others.
@@ -27,7 +27,7 @@ by Zod, Valibot, ArkType and others.
 
 > `readonly` **~standard**: `object`
 
-Defined in: src/standard-schema.ts:10
+Defined in: [src/standard-schema.ts:10](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/standard-schema.ts#L10)
 
 #### version
 

@@ -8,7 +8,7 @@
 
 > **Options** = `object`
 
-Defined in: src/options.ts:23
+Defined in: [src/options.ts:23](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/options.ts#L23)
 
 Options controlling how state updates are written to the URL.
 
@@ -21,7 +21,7 @@ or per call (`state.set(value, options)`).
 
 > `optional` **history**: [`HistoryOptions`](HistoryOptions.md)
 
-Defined in: src/options.ts:25
+Defined in: [src/options.ts:25](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/options.ts#L25)
 
 History mode for URL updates (default: `'replace'`)
 
@@ -31,7 +31,7 @@ History mode for URL updates (default: `'replace'`)
 
 > `optional` **scroll**: `boolean`
 
-Defined in: src/options.ts:27
+Defined in: [src/options.ts:27](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/options.ts#L27)
 
 Scroll to the top of the page after the URL update (default: `false`)
 
@@ -41,7 +41,7 @@ Scroll to the top of the page after the URL update (default: `false`)
 
 > `optional` **shallow**: `boolean`
 
-Defined in: src/options.ts:32
+Defined in: [src/options.ts:32](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/options.ts#L32)
 
 Update the URL without triggering a full router navigation (default: `true`).
 Adapters that cannot update the URL without navigating ignore this option.
@@ -52,7 +52,7 @@ Adapters that cannot update the URL without navigating ignore this option.
 
 > `optional` **throttleMs**: `number`
 
-Defined in: src/options.ts:37
+Defined in: [src/options.ts:37](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/options.ts#L37)
 
 Maximum rate of URL updates, in milliseconds.
 
@@ -66,7 +66,7 @@ Use `limitUrlUpdates: throttle(ms)` instead.
 
 > `optional` **limitUrlUpdates**: [`LimitUrlUpdates`](LimitUrlUpdates.md)
 
-Defined in: src/options.ts:39
+Defined in: [src/options.ts:39](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/options.ts#L39)
 
 Throttle or debounce URL updates (default: `throttle(50)`)
 
@@ -76,6 +76,6 @@ Throttle or debounce URL updates (default: `throttle(50)`)
 
 > `optional` **clearOnDefault**: `boolean`
 
-Defined in: src/options.ts:41
+Defined in: [src/options.ts:41](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/options.ts#L41)
 
 Remove the key from the URL when the value equals the default (default: `true`)

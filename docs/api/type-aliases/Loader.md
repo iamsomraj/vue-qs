@@ -8,7 +8,7 @@
 
 > **Loader**\<`Parsers`\> = \{(`input`, `options?`): [`Values`](Values.md)\<`Parsers`\>; (`input`, `options?`): `Promise`\<[`Values`](Values.md)\<`Parsers`\>\>; \}
 
-Defined in: src/loader.ts:24
+Defined in: [src/loader.ts:24](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/loader.ts#L24)
 
 Function returned by [createLoader](../functions/createLoader.md).
 

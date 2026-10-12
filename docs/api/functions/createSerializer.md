@@ -8,7 +8,7 @@
 
 > **createSerializer**\<`Parsers`\>(`parsers`, `options`): [`Serializer`](../type-aliases/Serializer.md)\<`Parsers`\>
 
-Defined in: src/serializer.ts:55
+Defined in: [src/serializer.ts:55](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/serializer.ts#L55)
 
 Creates a type-safe function that renders state into a query string,
 e.g. to build links.

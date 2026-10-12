@@ -8,7 +8,7 @@
 
 > **ParserBuilder**\<`T`, `K`\> = [`Parser`](Parser.md)\<`T`, `K`\> & [`Options`](Options.md) & `object`
 
-Defined in: src/parsers.ts:35
+Defined in: [src/parsers.ts:35](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/parsers.ts#L35)
 
 A parser with chainable builder methods.
 Created by [createParser](../functions/createParser.md) or one of the built-in `parseAs*` parsers.

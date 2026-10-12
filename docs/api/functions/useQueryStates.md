@@ -8,7 +8,7 @@
 
 > **useQueryStates**\<`Parsers`\>(`parsers`, `options`): [`QueryStates`](../type-aliases/QueryStates.md)\<`Parsers`\>
 
-Defined in: src/composables/use-query-states.ts:55
+Defined in: [src/composables/use-query-states.ts:55](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/composables/use-query-states.ts#L55)
 
 Binds several URL query keys to a reactive object. Updates made in the same
 tick are batched into one URL update.

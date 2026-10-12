@@ -8,7 +8,7 @@
 
 > **ParserBuilderWithDefault**\<`T`, `K`\> = `Omit`\<[`ParserBuilder`](ParserBuilder.md)\<`T`, `K`\>, `"parseServerSide"`\> & `object`
 
-Defined in: src/parsers.ts:49
+Defined in: [src/parsers.ts:49](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/parsers.ts#L49)
 
 A [ParserBuilder](ParserBuilder.md) with a default value.
 
