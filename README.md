@@ -2,7 +2,12 @@
 
 ![vue-qs social](https://iamsomraj.github.io/vue-qs/banner.svg)
 
-[![CI](https://github.com/iamsomraj/vue-qs/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/iamsomraj/vue-qs/actions/workflows/ci.yml) [![npm version](https://img.shields.io/npm/v/vue-qs.svg)](https://www.npmjs.com/package/vue-qs) [![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![npm version](https://img.shields.io/npm/v/vue-qs.svg)](https://www.npmjs.com/package/vue-qs)
+[![npm downloads](https://img.shields.io/npm/dm/vue-qs.svg)](https://www.npmjs.com/package/vue-qs)
+[![CI](https://github.com/iamsomraj/vue-qs/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/iamsomraj/vue-qs/actions/workflows/ci.yml)
+[![docs](https://img.shields.io/badge/docs-vue--qs-42b883.svg)](https://iamsomraj.github.io/vue-qs/)
+[![GitHub Discussions](https://img.shields.io/github/discussions/iamsomraj/vue-qs)](https://github.com/iamsomraj/vue-qs/discussions)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 Type-safe search params state manager for Vue 3. A port of [nuqs](https://nuqs.dev)
 that uses Vue idioms: writable refs, `v-model`, reactive objects and a plugin.
@@ -13,6 +18,17 @@ that uses Vue idioms: writable refs, `v-model`, reactive objects and a plugin.
 const page = useQueryState('page', parseAsInteger.withDefault(1));
 page.value++; // ?page=2
 ```
+
+## Why vue-qs?
+
+Filters, search terms, tabs, pagination and sort orders are state your users expect to
+**share, bookmark and restore with the Back button**. Storing that state in the URL makes it
+all work, but parsing and serializing query strings by hand is tedious and error-prone.
+
+vue-qs gives you URL state that feels like regular Vue state: a ref you can bind with
+`v-model`, typed by parsers, and kept in sync with the router. It follows
+[nuqs](https://nuqs.dev), the popular React library, so its docs, patterns and ideas apply
+here too.
 
 ## Features
 
@@ -148,10 +164,24 @@ mount(Component, {
 `useQueryStates` and parsers. See the
 [migration guide](https://iamsomraj.github.io/vue-qs/guide/migration).
 
+## Community
+
+vue-qs is an open-source project, and feedback shapes where it goes next.
+
+- 💬 **Questions**: ask in [Q&A](https://github.com/iamsomraj/vue-qs/discussions/categories/q-a)
+- 💡 **Ideas and API feedback**: share them in [Ideas](https://github.com/iamsomraj/vue-qs/discussions/categories/ideas)
+- 🙌 **Using vue-qs?** Show it in [Show and tell](https://github.com/iamsomraj/vue-qs/discussions/categories/show-and-tell)
+- 🐛 **Bugs**: [open an issue](https://github.com/iamsomraj/vue-qs/issues/new/choose) with a minimal reproduction
+- 🛠️ **Contributing**: start with a [good first issue](https://github.com/iamsomraj/vue-qs/labels/good%20first%20issue) and read the [contributing guide](CONTRIBUTING.md)
+
+Everyone taking part is expected to follow the [Code of Conduct](CODE_OF_CONDUCT.md).
+
+If vue-qs is useful to you, a ⭐ on GitHub helps other Vue developers find it.
+
 ## Credits
 
 vue-qs is a port of [nuqs](https://github.com/47ng/nuqs) by François Best.
 
 ## License
 
-MIT
+[MIT](LICENSE) © Somraj Mukherjee

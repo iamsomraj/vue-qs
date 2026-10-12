@@ -1,0 +1,56 @@
+name: Bug report
+description: Something does not work as documented
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! For usage questions, please use
+        [Q&A in Discussions](https://github.com/iamsomraj/vue-qs/discussions/categories/q-a) instead.
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened, and what did you expect to happen? Include the actual and expected URLs.
+    validations:
+      required: true
+  - type: input
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: A link to a minimal reproduction (StackBlitz or a GitHub repository). It is the fastest way to get a fix.
+      placeholder: https://stackblitz.com/...
+  - type: textarea
+    id: code
+    attributes:
+      label: Minimal code
+      description: The smallest snippet that shows the problem.
+      render: ts
+      placeholder: |
+        const page = useQueryState('page', parseAsInteger.withDefault(1))
+  - type: dropdown
+    id: adapter
+    attributes:
+      label: Adapter
+      options:
+        - Vue Router (createVueRouterAdapter)
+        - Nuxt (Vue Router adapter)
+        - History API (createHistoryAdapter)
+        - Testing (createTestingAdapter)
+        - Custom adapter
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: vue-qs, Vue, vue-router / Nuxt, and the browser or Node version.
+      placeholder: vue-qs 0.2.2, vue 3.5.43, vue-router 5.4.0, Chrome 140
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Debug logs
+      description: Run `localStorage.debug = 'vue-qs'`, reload, reproduce, and paste the console output.
+      render: shell

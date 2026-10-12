@@ -3,6 +3,16 @@
 Thanks for your interest in contributing! vue-qs is a port of [nuqs](https://nuqs.dev) for
 Vue: when proposing a feature or behaviour change, check how nuqs handles it first.
 
+Please read and follow the [Code of Conduct](CODE_OF_CONDUCT.md).
+
+## Where to start
+
+- Issues labelled [`good first issue`](https://github.com/iamsomraj/vue-qs/labels/good%20first%20issue)
+  are scoped for newcomers; [`help wanted`](https://github.com/iamsomraj/vue-qs/labels/help%20wanted)
+  issues are larger pieces of work where help is welcome.
+- Comment on an issue before starting, so work isn't duplicated.
+- For questions or early ideas, use [Discussions](https://github.com/iamsomraj/vue-qs/discussions).
+
 ## Development
 
 Requires Node 22.12+ and [Bun](https://bun.sh) 1.4+.

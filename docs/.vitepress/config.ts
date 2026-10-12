@@ -62,6 +62,24 @@ export default defineConfig({
           { text: 'Guide', link: '/guide/getting-started' },
           { text: 'API', link: '/api/' },
           {
+            text: 'Community',
+            items: [
+              { text: 'Discussions', link: 'https://github.com/iamsomraj/vue-qs/discussions' },
+              {
+                text: 'Ask a question',
+                link: 'https://github.com/iamsomraj/vue-qs/discussions/categories/q-a',
+              },
+              {
+                text: 'Good first issues',
+                link: 'https://github.com/iamsomraj/vue-qs/labels/good%20first%20issue',
+              },
+              {
+                text: 'Contributing',
+                link: 'https://github.com/iamsomraj/vue-qs/blob/main/CONTRIBUTING.md',
+              },
+            ],
+          },
+          {
             text: 'v0.2.x',
             items: [
               { text: 'Changelog', link: 'https://github.com/iamsomraj/vue-qs/releases' },
@@ -123,7 +141,8 @@ export default defineConfig({
       text: 'Edit this page on GitHub',
     },
     footer: {
-      message: 'Released under the MIT License.',
+      message:
+        'Released under the MIT License. Questions or ideas? Join the <a href="https://github.com/iamsomraj/vue-qs/discussions">GitHub Discussions</a>.',
       copyright: `Copyright © 2025-${new Date().getFullYear()} Somraj Mukherjee`,
     },
   },
