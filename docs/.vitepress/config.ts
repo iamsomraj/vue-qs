@@ -1,26 +1,57 @@
-import { defineConfig } from 'vitepress';
+import { defineConfig, type HeadConfig } from 'vitepress';
 
 // https://vitepress.dev/reference/site-config
 const base = process.env.DOCS_BASE ?? '/';
+const siteUrl = 'https://iamsomraj.github.io/vue-qs/';
+const siteDescription = 'Type-safe search params state manager for Vue 3 - a port of nuqs';
+const ogImage = `${siteUrl}og-image.png`;
 
 export default defineConfig({
   base,
   lang: 'en-US',
   title: 'vue-qs',
-  description: 'Type-safe search params state manager for Vue 3 - a port of nuqs',
-  titleTemplate: 'vue-qs',
+  description: siteDescription,
+  titleTemplate: ':title | vue-qs',
   lastUpdated: true,
   cleanUrls: true,
+  sitemap: {
+    hostname: siteUrl,
+    // TypeDoc emits api/README.md as a duplicate of api/index.md
+    transformItems: (items) => items.filter((item) => !item.url.endsWith('README')),
+  },
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: `${base}favicon.svg` }],
-    ['meta', { property: 'og:title', content: 'vue-qs' }],
+    ['meta', { name: 'theme-color', content: '#42b883' }],
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:site_name', content: 'vue-qs' }],
+    ['meta', { property: 'og:image', content: ogImage }],
+    ['meta', { property: 'og:image:width', content: '2240' }],
+    ['meta', { property: 'og:image:height', content: '1260' }],
     [
       'meta',
-      { property: 'og:description', content: 'Type-safe search params state manager for Vue 3' },
+      { property: 'og:image:alt', content: 'vue-qs: type-safe search params state for Vue' },
     ],
-    ['meta', { property: 'og:image', content: `${base}og-image.svg` }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:image', content: ogImage }],
   ],
+  transformHead({ pageData }) {
+    // Canonical URL and per-page social metadata
+    const path = pageData.relativePath
+      .replace(/(^|\/)(index|README)\.md$/, '$1')
+      .replace(/\.md$/, '');
+    const url = `${siteUrl}${path}`;
+    const title = pageData.frontmatter.layout === 'home' ? 'vue-qs' : `${pageData.title} | vue-qs`;
+    const description = pageData.description || siteDescription;
+    const head: HeadConfig[] = [
+      ['link', { rel: 'canonical', href: url }],
+      ['meta', { property: 'og:url', content: url }],
+      ['meta', { property: 'og:title', content: title }],
+      ['meta', { property: 'og:description', content: description }],
+      ['meta', { name: 'twitter:title', content: title }],
+      ['meta', { name: 'twitter:description', content: description }],
+    ];
+    return head;
+  },
   locales: {
     root: {
       label: 'English',
@@ -30,7 +61,14 @@ export default defineConfig({
         nav: [
           { text: 'Guide', link: '/guide/getting-started' },
           { text: 'API', link: '/api/' },
-          { text: 'GitHub', link: 'https://github.com/iamsomraj/vue-qs' },
+          {
+            text: 'v0.2.x',
+            items: [
+              { text: 'Changelog', link: 'https://github.com/iamsomraj/vue-qs/releases' },
+              { text: 'Migrating from 0.1.x', link: '/guide/migration' },
+              { text: 'npm', link: 'https://www.npmjs.com/package/vue-qs' },
+            ],
+          },
         ],
       },
     },
@@ -42,12 +80,14 @@ export default defineConfig({
         nav: [
           { text: '指南', link: '/guide/getting-started' },
           { text: 'API', link: '/zh/api/' },
-          { text: 'GitHub', link: 'https://github.com/iamsomraj/vue-qs' },
         ],
       },
     },
   },
   themeConfig: {
+    search: {
+      provider: 'local',
+    },
     sidebar: {
       '/guide/': [
         {
@@ -84,7 +124,7 @@ export default defineConfig({
     },
     footer: {
       message: 'Released under the MIT License.',
-      copyright: `Copyright © 2023-${new Date().getFullYear()} Somraj Mukherjee`,
+      copyright: `Copyright © 2025-${new Date().getFullYear()} Somraj Mukherjee`,
     },
   },
 });

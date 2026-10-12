@@ -9,34 +9,22 @@ assignees: ''
 
 Describe the feature or improvement you'd like.
 
-## Problem Statement / Motivation
+## Motivation
 
 What problem does this solve? Why is it valuable?
 
-## Proposed Solution
+## Proposed API
 
-Explain how you imagine this working. Feel free to include pseudo code or API examples.
+How would it work? Include code if possible.
 
 ```ts
-// example
-const { foo } = queryReactive({
-  foo: customSerializer(/* ... */),
-});
+const value = useQueryState('key', parseAsSomething.withDefault(/* ... */));
 ```
 
-## Alternatives Considered
+## nuqs parity
 
-List any alternative solutions or workarounds you've tried.
+vue-qs is a port of [nuqs](https://nuqs.dev). Does nuqs have this feature? Link to its docs or source if so.
 
-## API Surface (if adding/changing API)
+## Alternatives considered
 
-- New functions / params:
-- Breaking changes? (Yes/No) If yes, describe migration.
-
-## Prior Art / References
-
-Links to similar features elsewhere (libraries, specs, issues, discussions).
-
-## Additional context
-
-Add any other context, edge cases, performance considerations, or implementation notes.
+Any workarounds or alternative designs you have tried.

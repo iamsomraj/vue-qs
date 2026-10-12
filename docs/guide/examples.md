@@ -1,3 +1,7 @@
+---
+description: 'vue-qs examples: search with pagination, tabs, multi-select filters, map coordinates, shareable links and validated JSON.'
+---
+
 # Examples
 
 ## Search with pagination

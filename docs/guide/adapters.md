@@ -1,3 +1,7 @@
+---
+description: 'Connect vue-qs to Vue Router, Nuxt, the browser History API, tests or a custom source with adapters.'
+---
+
 # Adapters
 
 An adapter connects vue-qs to the URL. Install exactly one per app with the plugin:

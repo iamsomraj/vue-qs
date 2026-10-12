@@ -1,3 +1,7 @@
+---
+description: 'Control how vue-qs writes to the URL: push or replace history, scroll, clearOnDefault, batching, throttle and debounce.'
+---
+
 # Options
 
 Options control how state updates are written to the URL. They match nuqs options.

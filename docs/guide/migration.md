@@ -1,3 +1,7 @@
+---
+description: 'Upgrade from vue-qs 0.1.x (queryRef, queryReactive, codecs) to the nuqs-style API of vue-qs 0.2.'
+---
+
 # Migrating from 0.1.x
 
 vue-qs 0.2 is a rewrite that ports the [nuqs](https://nuqs.dev) API to Vue. The 0.1.x

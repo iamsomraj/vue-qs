@@ -126,7 +126,6 @@
     "lint:fix": "eslint . --ext .ts,.tsx,.cts,.mts --fix",
     "format": "prettier --check \"**/*.{ts,tsx,js,json,md,yml,yaml}\"",
     "format:fix": "prettier --write \"**/*.{ts,tsx,js,json,md,yml,yaml}\"",
-    "prepare": "echo 'no git hooks'",
     "prepublishOnly": "bun run typecheck && bun run lint && bun run test && bun run build",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",

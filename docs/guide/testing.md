@@ -1,3 +1,7 @@
+---
+description: 'Unit-test Vue components that use vue-qs with the in-memory testing adapter.'
+---
+
 # Testing
 
 `vue-qs/adapters/testing` provides an in-memory adapter for unit tests. It works with

@@ -1,3 +1,7 @@
+---
+description: 'Install vue-qs and store Vue 3 state in the URL with useQueryState and useQueryStates: writable refs, typed parsers and v-model support.'
+---
+
 # Getting Started
 
 vue-qs is a type-safe search params state manager for Vue 3. It is a port of
