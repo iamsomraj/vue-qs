@@ -2,24 +2,25 @@
 layout: home
 hero:
   name: vue-qs
-  text: Type‑safe, reactive URL query params for Vue
-  tagline: Modern URL query parameter state management with full type safety, error handling, and clean architecture.
+  text: Type-safe search params state for Vue
+  tagline: A port of nuqs for Vue 3. Store state in the URL with writable refs, parsers and batched updates.
   actions:
     - theme: brand
       text: Get Started
       link: /guide/getting-started
     - theme: alt
+      text: Migrating from 0.1.x
+      link: /guide/migration
+    - theme: alt
       text: API
       link: /api/
 features:
-  - title: Type‑safe & Modern
-    details: Full TypeScript support with comprehensive error handling and clean architecture using modern Vue 3 patterns.
-  - title: Flexible Adapters
-    details: Works with History API, Vue Router, or custom adapters. Clean separation of concerns with dependency injection.
-  - title: Rich Serializers
-    details: Built-in codecs for strings, numbers, booleans, dates, JSON, arrays, and enums with custom serialization support.
+  - title: The nuqs API, for Vue
+    details: The same parsers, options and behaviour as nuqs, exposed as writable refs and reactive objects that work with v-model.
+  - title: Type-safe parsers
+    details: Integers, floats, booleans, dates, literals, enums, arrays, repeated keys and validated JSON (Zod, Valibot, ArkType), plus your own.
+  - title: Batched and rate-limited
+    details: Updates in the same tick become one URL update. Throttle or debounce URL writes while state stays instant.
+  - title: Vue Router, Nuxt and SSR
+    details: Adapters for Vue Router (and Nuxt), the History API and tests. Server loaders and serializers share the same parsers.
 ---
-
-::: warning Active Development Notice
-This library is currently in active development. APIs may change significantly between versions. Please use with caution and expect breaking changes.
-:::

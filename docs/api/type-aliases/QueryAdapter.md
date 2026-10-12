@@ -1,4 +1,4 @@
-[**vue-qs v0.1.18**](../README.md)
+[**vue-qs v0.2.0**](../README.md)
 
 ***
 
@@ -8,73 +8,89 @@
 
 > **QueryAdapter** = `object`
 
-Defined in: [types.ts:173](https://github.com/iamsomraj/vue-qs/blob/bdb41c8152865a4fb600c24be642289b5d115cbf/src/types.ts#L173)
+Defined in: src/adapters/types.ts:23
 
-Abstraction for reading and writing query parameters
-This interface allows for different implementations (History API, Vue Router, etc.)
+Connects vue-qs to a source of truth for the URL (browser History API,
+Vue Router, an in-memory store for tests…).
 
 ## Example
 
 ```ts
-const adapter: QueryAdapter = {
-  getCurrentQuery: () => ({ page: '1', search: 'test' }),
-  updateQuery: (updates) => {
-    // Update URL with new query parameters
-  },
-  isUpdating: () => false
-};
+const adapter = createAdapter({
+  getSearchParams: () => new URLSearchParams(location.search),
+  updateUrl: (search, { history }) => { ... },
+  subscribe: (onChange) => { ...; return () => {} },
+})
 ```
+
+## Properties
+
+### rateLimitFactor?
+
+> `optional` **rateLimitFactor**: `number`
+
+Defined in: src/adapters/types.ts:31
+
+Multiplier applied to throttle delays (`0` disables throttling, e.g. in tests).
 
 ## Methods
 
-### getCurrentQuery()
+### getSearchParams()
 
-> **getCurrentQuery**(): `Record`\<`string`, `string` \| `undefined`\>
+> **getSearchParams**(): `URLSearchParams`
 
-Defined in: [types.ts:175](https://github.com/iamsomraj/vue-qs/blob/bdb41c8152865a4fb600c24be642289b5d115cbf/src/types.ts#L175)
+Defined in: src/adapters/types.ts:25
 
-Read current query parameters as a plain object
+Returns the current search params. Callers must not mutate the result.
 
 #### Returns
 
-`Record`\<`string`, `string` \| `undefined`\>
+`URLSearchParams`
 
 ***
 
-### updateQuery()
+### updateUrl()
 
-> **updateQuery**(`queryUpdates`, `options?`): `void`
+> **updateUrl**(`search`, `options`): `void` \| `Promise`\<`void`\>
 
-Defined in: [types.ts:177](https://github.com/iamsomraj/vue-qs/blob/bdb41c8152865a4fb600c24be642289b5d115cbf/src/types.ts#L177)
+Defined in: src/adapters/types.ts:27
 
-Update query parameters in the URL
+Writes new search params to the URL. May return a promise for async navigation.
 
 #### Parameters
 
-##### queryUpdates
+##### search
 
-`Record`\<`string`, `string` \| `undefined`\>
+`URLSearchParams`
 
-##### options?
+##### options
 
-###### historyStrategy?
-
-`"replace"` \| `"push"`
+[`UpdateUrlOptions`](UpdateUrlOptions.md)
 
 #### Returns
 
-`void`
+`void` \| `Promise`\<`void`\>
 
 ***
 
-### isUpdating()?
+### subscribe()
 
-> `optional` **isUpdating**(): `boolean`
+> **subscribe**(`onChange`): () => `void`
 
-Defined in: [types.ts:182](https://github.com/iamsomraj/vue-qs/blob/bdb41c8152865a4fb600c24be642289b5d115cbf/src/types.ts#L182)
+Defined in: src/adapters/types.ts:29
 
-Check if currently updating to prevent infinite loops
+Calls `onChange` when the URL changes from outside vue-qs. Returns an unsubscribe function.
+
+#### Parameters
+
+##### onChange
+
+() => `void`
 
 #### Returns
 
-`boolean`
+> (): `void`
+
+##### Returns
+
+`void`

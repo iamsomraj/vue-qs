@@ -1,85 +1,149 @@
 # Getting Started
 
-::: warning Active Development Notice
-This library is currently in active development. APIs may change significantly between versions. Please use with caution and expect breaking changes.
-:::
+vue-qs is a type-safe search params state manager for Vue 3. It is a port of
+[nuqs](https://nuqs.dev) for Vue: the same parsers, options and behaviour, exposed
+through writable refs and reactive objects.
 
-**Type‑safe, reactive URL query params for Vue** - Keep important UI state (search text, page number, filters) in the URL, not hidden in component memory. `vue-qs` makes this easy with two composables and modern error handling.
+```ts
+const page = useQueryState('page', parseAsInteger.withDefault(1));
+page.value++; // ?page=2
+```
 
-## Install
+## Installation
 
-```bash
-npm i vue-qs
-# or
+::: code-group
+
+```sh [npm]
+npm install vue-qs
+```
+
+```sh [pnpm]
 pnpm add vue-qs
-# or
+```
+
+```sh [bun]
 bun add vue-qs
 ```
 
-Peer dependency: `vue@^3.3`. Optional: `vue-router@^4.2` if you want router integration.
+:::
 
-## Single param (ref)
+Requires Vue 3.3+. `vue-router` 4 is an optional peer dependency.
+
+## Install the plugin
+
+vue-qs reads and writes the URL through an **adapter**. Install the plugin with the
+adapter that matches your app:
+
+::: code-group
+
+```ts [Vue Router]
+import { createApp } from 'vue';
+import { createVueQs } from 'vue-qs';
+import { createVueRouterAdapter } from 'vue-qs/adapters/vue-router';
+import { router } from './router';
+
+createApp(App)
+  .use(router)
+  .use(createVueQs({ adapter: createVueRouterAdapter(router) }))
+  .mount('#app');
+```
+
+```ts [No router]
+import { createApp } from 'vue';
+import { createVueQs } from 'vue-qs';
+import { createHistoryAdapter } from 'vue-qs/adapters/history';
+
+createApp(App)
+  .use(createVueQs({ adapter: createHistoryAdapter() }))
+  .mount('#app');
+```
+
+:::
+
+Using Nuxt? See [Adapters → Nuxt](./adapters#nuxt).
+
+## Your first query state
 
 ```vue
 <script setup lang="ts">
-import { queryRef } from 'vue-qs';
+import { useQueryState } from 'vue-qs';
 
-// A ref bound to ?name=... (falls back to default when missing)
-const name = queryRef('name', { defaultValue: '' });
+const name = useQueryState('name'); // Ref<string | null>
 </script>
 
 <template>
   <input v-model="name" placeholder="Your name" />
+  <p>Hello, {{ name || 'anonymous visitor' }}!</p>
+  <button @click="name = null">Clear</button>
 </template>
 ```
 
-## Multiple params (reactive object)
+Typing in the input updates `?name=…` in the URL, and navigating Back/Forward
+updates the input.
+
+## Typed state with parsers
+
+Without a parser, state is a `string | null`. Pass a [parser](./parsers) to get typed
+state, and `.withDefault()` to drop `null`:
+
+```ts
+import { parseAsBoolean, parseAsInteger, useQueryState } from 'vue-qs';
+
+const page = useQueryState('page', parseAsInteger.withDefault(1)); // Ref<number>
+const open = useQueryState('open', parseAsBoolean); // Ref<boolean | null>
+```
+
+When the key is missing or its value is invalid, the state falls back to the default
+value. Setting the state to the default (or to `null`) removes the key from the URL.
+
+## Updating state
+
+Assign `.value`, or call `.set()` to pass [options](./options) or wait for the URL update:
+
+```ts
+page.value = 2;
+
+await page.set((current) => current + 1); // updater function
+await page.set(3, { history: 'push' }); // add a history entry
+await page.set(null); // remove ?page (page.value === 1)
+
+const search = await page.set(4); // URLSearchParams after the update
+```
+
+Updates made in the same tick are [batched](./options#batching) into a single URL update.
+
+## Several keys at once
+
+`useQueryStates` binds several keys to one reactive object:
 
 ```vue
 <script setup lang="ts">
-import { queryReactive } from 'vue-qs';
+import { toRefs } from 'vue';
+import { parseAsFloat, useQueryStates } from 'vue-qs';
 
-const queryState = queryReactive({
-  search: { defaultValue: '' },
-  page: {
-    defaultValue: 1,
-    parse: (value) => (value ? Number(value) : 1),
-    serializeFunction: (value) => String(value),
-  },
+const coordinates = useQueryStates({
+  lat: parseAsFloat.withDefault(45.18),
+  lng: parseAsFloat.withDefault(5.72),
 });
+
+const { lat, lng } = toRefs(coordinates); // writable refs, for v-model
+
+function reset() {
+  coordinates.$set(null); // removes both keys in one update
+}
 </script>
 
 <template>
-  <input v-model="queryState.search" />
-  <button @click="queryState.page++">Next</button>
+  <input v-model.number="lat" type="number" />
+  <input v-model.number="lng" type="number" />
 </template>
 ```
 
-## What the hooks give you
+## Next steps
 
-- `queryRef(name, options)` → a normal ref.
-- `queryReactive(schema, options)` → a reactive object.
-- Both omit defaults from the URL unless you set `shouldOmitDefault: false`.
-
-## Adapters
-
-`vue-qs` uses a uniform adapter API for consistent developer experience. All adapter creation functions return a `QueryAdapter` directly:
-
-```ts
-import { createHistoryAdapter, createVueRouterAdapter } from 'vue-qs';
-
-// All adapters return QueryAdapter directly - no destructuring needed
-const historyAdapter = createHistoryAdapter(); // Browser History API (default)
-const routerAdapter = createVueRouterAdapter(router); // Vue Router integration
-```
-
-You can use `vue-qs` without Vue Router (History API adapter is built‑in). When you do use Router, pass or provide the router adapter so back/forward and navigations stay in sync:
-
-```ts
-import { createVueQsPlugin, createVueRouterAdapter } from 'vue-qs';
-import { router } from './router';
-
-app.use(createVueQsPlugin({ queryAdapter: createVueRouterAdapter(router) }));
-```
-
-Continue to Examples for patterns like codecs and custom equality.
+- [Parsers](./parsers): every built-in parser and how to write your own
+- [Options](./options): history, scroll, batching, throttle and debounce
+- [Adapters](./adapters): Vue Router, Nuxt, plain History API, custom adapters
+- [Server](./server): `createLoader` and `createSerializer`
+- [Testing](./testing): unit-testing components that use vue-qs
+- [Migrating from 0.1.x](./migration)

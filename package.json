@@ -1,7 +1,7 @@
 {
   "name": "vue-qs",
-  "version": "0.1.18",
-  "description": "Type‑safe, reactive URL query parameters for Vue 3 with full TypeScript support",
+  "version": "0.2.0",
+  "description": "Type-safe search params state manager for Vue 3 - a port of nuqs",
   "license": "MIT",
   "author": {
     "name": "Somraj Mukherjee",
@@ -14,9 +14,71 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./server": {
+      "import": {
+        "types": "./dist/server.d.ts",
+        "default": "./dist/server.js"
+      },
+      "require": {
+        "types": "./dist/server.d.cts",
+        "default": "./dist/server.cjs"
+      }
+    },
+    "./adapters/history": {
+      "import": {
+        "types": "./dist/adapters/history.d.ts",
+        "default": "./dist/adapters/history.js"
+      },
+      "require": {
+        "types": "./dist/adapters/history.d.cts",
+        "default": "./dist/adapters/history.cjs"
+      }
+    },
+    "./adapters/vue-router": {
+      "import": {
+        "types": "./dist/adapters/vue-router.d.ts",
+        "default": "./dist/adapters/vue-router.js"
+      },
+      "require": {
+        "types": "./dist/adapters/vue-router.d.cts",
+        "default": "./dist/adapters/vue-router.cjs"
+      }
+    },
+    "./adapters/testing": {
+      "import": {
+        "types": "./dist/adapters/testing.d.ts",
+        "default": "./dist/adapters/testing.js"
+      },
+      "require": {
+        "types": "./dist/adapters/testing.d.cts",
+        "default": "./dist/adapters/testing.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "typesVersions": {
+    "*": {
+      "server": [
+        "./dist/server.d.ts"
+      ],
+      "adapters/history": [
+        "./dist/adapters/history.d.ts"
+      ],
+      "adapters/vue-router": [
+        "./dist/adapters/vue-router.d.ts"
+      ],
+      "adapters/testing": [
+        "./dist/adapters/testing.d.ts"
+      ]
     }
   },
   "sideEffects": false,
@@ -26,19 +88,19 @@
   "keywords": [
     "vue",
     "vue3",
+    "nuxt",
+    "nuqs",
     "composition-api",
-    "querystring",
+    "composables",
+    "search-params",
+    "query-string",
+    "url-state",
     "url",
     "router",
-    "state",
-    "nuqs",
-    "url-params",
-    "url-state",
-    "queryRef",
-    "queryReactive",
+    "vue-router",
+    "state-management",
     "typescript",
-    "ssr",
-    "reactive"
+    "ssr"
   ],
   "packageManager": "bun@1.2.19",
   "repository": {
@@ -54,10 +116,10 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
-    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
-    "test": "vitest run",
-    "test:watch": "vitest",
+    "dev": "tsup --watch",
+    "build": "tsup",
+    "test": "vitest run --typecheck",
+    "test:watch": "vitest --typecheck",
     "test:coverage": "vitest run --coverage",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --ext .ts,.tsx,.cts,.mts",

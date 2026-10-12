@@ -7,7 +7,7 @@ export default defineConfig({
   base,
   lang: 'en-US',
   title: 'vue-qs',
-  description: 'Type-safe URL query params state for Vue 3',
+  description: 'Type-safe search params state manager for Vue 3 - a port of nuqs',
   titleTemplate: 'vue-qs',
   lastUpdated: true,
   cleanUrls: true,
@@ -16,7 +16,7 @@ export default defineConfig({
     ['meta', { property: 'og:title', content: 'vue-qs' }],
     [
       'meta',
-      { property: 'og:description', content: 'Type-safe, reactive URL query params for Vue 3' },
+      { property: 'og:description', content: 'Type-safe search params state manager for Vue 3' },
     ],
     ['meta', { property: 'og:image', content: `${base}og-image.svg` }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
@@ -40,7 +40,7 @@ export default defineConfig({
       link: '/zh/',
       themeConfig: {
         nav: [
-          { text: '指南', link: '/zh/guide/getting-started' },
+          { text: '指南', link: '/guide/getting-started' },
           { text: 'API', link: '/zh/api/' },
           { text: 'GitHub', link: 'https://github.com/iamsomraj/vue-qs' },
         ],
@@ -54,9 +54,13 @@ export default defineConfig({
           text: 'Guide',
           items: [
             { text: 'Getting Started', link: '/guide/getting-started' },
+            { text: 'Parsers', link: '/guide/parsers' },
+            { text: 'Options', link: '/guide/options' },
+            { text: 'Adapters', link: '/guide/adapters' },
+            { text: 'Server', link: '/guide/server' },
+            { text: 'Testing', link: '/guide/testing' },
             { text: 'Examples', link: '/guide/examples' },
-            { text: 'Vue Router', link: '/guide/vue-router' },
-            { text: 'Serializers', link: '/guide/serializers' },
+            { text: 'Migrating from 0.1.x', link: '/guide/migration' },
           ],
         },
       ],
@@ -64,17 +68,6 @@ export default defineConfig({
         {
           text: 'API',
           items: [{ text: 'Reference', link: '/api/' }],
-        },
-      ],
-      '/zh/guide/': [
-        {
-          text: '指南',
-          items: [
-            { text: '快速开始', link: '/zh/guide/getting-started' },
-            { text: '示例', link: '/zh/guide/examples' },
-            { text: 'Vue Router', link: '/zh/guide/vue-router' },
-            { text: '序列化器', link: '/zh/guide/serializers' },
-          ],
         },
       ],
       '/zh/api/': [
