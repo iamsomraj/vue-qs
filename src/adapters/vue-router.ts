@@ -1,9 +1,20 @@
-import type { LocationQueryRaw, Router } from 'vue-router';
+import {
+  isNavigationFailure,
+  NavigationFailureType,
+  type LocationQueryRaw,
+  type Router,
+} from 'vue-router';
 import type { QueryAdapter } from '@/adapters/types';
 import { debug } from '@/lib/debug';
 import { recordToSearchParams } from '@/lib/search-params';
 
 export type { QueryAdapter, UpdateUrlOptions } from '@/adapters/types';
+
+function sortedString(search: URLSearchParams): string {
+  const copy = new URLSearchParams(search);
+  copy.sort();
+  return copy.toString();
+}
 
 function toLocationQuery(search: URLSearchParams): LocationQueryRaw {
   const query: Record<string, string | string[]> = {};
@@ -45,9 +56,14 @@ export function createVueRouterAdapter(router: Router): QueryAdapter {
         query: toLocationQuery(search),
         hash: router.currentRoute.value.hash,
       });
-      if (failure) {
+      if (failure && !isNavigationFailure(failure, NavigationFailureType.duplicated)) {
         debug('Navigation failed', failure);
-        return;
+        return false;
+      }
+      const actual = recordToSearchParams(router.currentRoute.value.query);
+      if (sortedString(actual) !== sortedString(search)) {
+        debug('Navigation was redirected', router.currentRoute.value.fullPath);
+        return false;
       }
       if (scroll && typeof window !== 'undefined') {
         window.scrollTo({ top: 0 });

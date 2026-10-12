@@ -27,7 +27,8 @@ export class SyncEmitter {
     };
   }
 
-  emit(key: string, query: QueryValue, source: SyncListener): void {
+  /** Notifies every listener of `key` except `source` (pass `null` to notify all). */
+  emit(key: string, query: QueryValue, source: SyncListener | null): void {
     this.listeners.get(key)?.forEach((listener) => {
       if (listener !== source) {
         listener(query);
@@ -52,7 +53,16 @@ const runtimes = new WeakMap<QueryAdapter, Runtime>();
 export function getRuntime(adapter: QueryAdapter): Runtime {
   let runtime = runtimes.get(adapter);
   if (!runtime) {
-    runtime = { queue: new UpdateQueue(adapter), emitter: new SyncEmitter() };
+    const emitter = new SyncEmitter();
+    // When the adapter rejects an update, bring composables back to the actual URL
+    const queue = new UpdateQueue(adapter, (keys) => {
+      const search = adapter.getSearchParams();
+      keys.forEach((key) => {
+        const values = search.getAll(key);
+        emitter.emit(key, values.length > 0 ? values : null, null);
+      });
+    });
+    runtime = { queue, emitter };
     runtimes.set(adapter, runtime);
   }
   return runtime;

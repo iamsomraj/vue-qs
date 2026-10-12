@@ -39,7 +39,9 @@ createApp(App)
 
 - State follows every navigation: `router.push({ query })`, `<RouterLink>`, Back/Forward.
 - URL updates go through `router.replace` / `router.push`, keeping the current path,
-  params, hash and other query keys. A navigation guard may cancel an update.
+  params, hash and other query keys.
+- Navigation guards can cancel or redirect an update. The state then follows the
+  resulting URL.
 - Repeated keys (`?id=1&id=2`) are supported through `parseAsNativeArrayOf`.
 
 ## Nuxt
@@ -132,5 +134,9 @@ const adapter = createAdapter({
   subscribe: (onChange) => myStore.onChange(onChange),
 });
 ```
+
+If the URL does not take an update (for example, a navigation guard cancels or redirects
+it), return or resolve `false` from `updateUrl`. Composables then re-read the URL instead
+of keeping the rejected value.
 
 Set the optional `rateLimitFactor` to scale throttle delays (`0` disables throttling).
