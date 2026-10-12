@@ -1,6 +1,6 @@
 {
   "name": "vue-qs",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Type-safe search params state manager for Vue 3 - a port of nuqs",
   "license": "MIT",
   "author": {
