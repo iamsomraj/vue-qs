@@ -32,6 +32,14 @@ describe('createHistoryAdapter', () => {
     expect(window.history.length).toBe(length + 1);
   });
 
+  it('does not add a history entry when the URL does not change', async () => {
+    const { result } = mount(() => useQueryState('tab'));
+    await result.set('a', { history: 'push' });
+    const length = window.history.length;
+    await result.set('a', { history: 'push' });
+    expect(window.history.length).toBe(length);
+  });
+
   it('keeps readable separators in the URL', async () => {
     const { result } = mount(() => useQueryState('tags', parseAsArrayOf(parseAsString)));
     await result.set(['vue', 'nuxt']);

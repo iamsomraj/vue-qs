@@ -33,7 +33,14 @@ export class UpdateQueue {
   private lastFlushedAt = 0;
   private flushing: Promise<void> = Promise.resolve();
 
-  constructor(private readonly adapter: QueryAdapter) {}
+  /**
+   * @param adapter The adapter URL updates are written to
+   * @param onRejected Called with the updated keys when the adapter did not apply an update
+   */
+  constructor(
+    private readonly adapter: QueryAdapter,
+    private readonly onRejected?: (keys: string[]) => void
+  ) {}
 
   /** Returns the queued (not yet written) value of a key, or `undefined` if none. */
   getPendingQuery(key: string): QueryValue | undefined {
@@ -140,10 +147,12 @@ export class UpdateQueue {
       const search = new URLSearchParams(this.adapter.getSearchParams());
       updates.forEach((query, key) => applyQuery(search, key, query));
       debug('Flushing %s with %o', search.toString(), options);
+      let rejected = false;
       try {
-        await this.adapter.updateUrl(search, options);
+        rejected = (await this.adapter.updateUrl(search, options)) === false;
       } catch (error) {
         warn('Failed to update the URL', error);
+        rejected = true;
       } finally {
         updates.forEach((query, key) => {
           if (this.inflight.get(key) === query) {
@@ -151,8 +160,16 @@ export class UpdateQueue {
           }
         });
         this.lastFlushedAt = Date.now();
-        resolvers.forEach((resolve) => resolve(search));
       }
+      if (rejected) {
+        debug('URL update rejected, resyncing %o', [...updates.keys()]);
+        // Keys with a newer queued value keep it
+        this.onRejected?.(
+          [...updates.keys()].filter((key) => this.getPendingQuery(key) === undefined)
+        );
+      }
+      const result = rejected ? new URLSearchParams(this.adapter.getSearchParams()) : search;
+      resolvers.forEach((resolve) => resolve(result));
     });
   }
 }

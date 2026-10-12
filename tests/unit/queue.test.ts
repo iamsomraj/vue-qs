@@ -96,6 +96,40 @@ describe('UpdateQueue', () => {
     expect(adapter.getSearchParams().toString()).toBe('keep=1');
   });
 
+  it('reports rejected keys and resolves with the actual URL', async () => {
+    const adapter = createTestingAdapter({ searchParams: '?a=0' });
+    const updateUrl = vi.fn(() => false as const);
+    const onRejected = vi.fn();
+    const queue = new UpdateQueue({ ...adapter, updateUrl }, onRejected);
+    const result = queue.push('a', '1', {});
+    void queue.push('b', '2', {});
+    await expect(result).resolves.toEqual(new URLSearchParams('a=0'));
+    expect(onRejected).toHaveBeenCalledWith(['a', 'b']);
+  });
+
+  it('does not resync keys that have a newer queued value', async () => {
+    const adapter = createTestingAdapter();
+    let reject = true;
+    const onRejected = vi.fn();
+    const queue = new UpdateQueue(
+      {
+        ...adapter,
+        updateUrl: async () => {
+          if (!reject) {
+            return undefined;
+          }
+          reject = false;
+          // A newer update for the same key arrives while the first one is rejected
+          void queue.push('a', 'newer', {});
+          return false;
+        },
+      },
+      onRejected
+    );
+    await queue.push('a', '1', {});
+    expect(onRejected).toHaveBeenCalledWith([]);
+  });
+
   it('resolves even when the adapter throws', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     const adapter = createTestingAdapter({

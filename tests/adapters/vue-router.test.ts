@@ -96,11 +96,28 @@ describe('createVueRouterAdapter', () => {
     expect(router.currentRoute.value.query.id).toBe('5');
   });
 
-  it('resolves even when a guard cancels the navigation', async () => {
+  it('reverts to the URL value when a guard cancels the navigation', async () => {
     const router = await createTestRouter('/');
     router.beforeEach((to) => to.query.blocked === undefined);
     const { result } = mount(router, () => useQueryState('blocked'));
     await expect(result.set('yes')).resolves.toBeInstanceOf(URLSearchParams);
     expect(router.currentRoute.value.query.blocked).toBeUndefined();
+    expect(result.value).toBeNull();
+  });
+
+  it('follows the URL when a guard redirects the navigation', async () => {
+    const router = await createTestRouter('/');
+    router.beforeEach((to) =>
+      to.query.q === 'bad' ? { path: to.path, query: { q: 'clean' } } : true
+    );
+    const { result } = mount(router, () => ({
+      q: useQueryState('q'),
+      other: useQueryState('q', parseAsInteger),
+    }));
+    const search = await result.q.set('bad');
+    expect(router.currentRoute.value.query.q).toBe('clean');
+    expect(search.get('q')).toBe('clean');
+    expect(result.q.value).toBe('clean');
+    expect(result.other.value).toBeNull();
   });
 });

@@ -55,8 +55,13 @@ export function createHistoryAdapter(): QueryAdapter {
       if (!isBrowser()) {
         return;
       }
-      const { pathname, hash } = window.location;
-      const url = `${pathname}${renderQueryString(search)}${hash}`;
+      const { pathname, search: currentSearch, hash } = window.location;
+      const query = renderQueryString(search);
+      if (new URLSearchParams(currentSearch).toString() === search.toString()) {
+        // Nothing changed: avoid duplicate history entries
+        return;
+      }
+      const url = `${pathname}${query}${hash}`;
       const method = history === 'push' ? 'pushState' : 'replaceState';
       window.history[method](window.history.state, '', url);
       if (scroll) {

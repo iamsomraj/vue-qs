@@ -23,8 +23,15 @@ export type UpdateUrlOptions = {
 export type QueryAdapter = {
   /** Returns the current search params. Callers must not mutate the result. */
   getSearchParams(): URLSearchParams;
-  /** Writes new search params to the URL. May return a promise for async navigation. */
-  updateUrl(search: URLSearchParams, options: UpdateUrlOptions): void | Promise<void>;
+  /**
+   * Writes new search params to the URL. May return a promise for async navigation.
+   * Return (or resolve) `false` when the URL did not take the update, e.g. a cancelled
+   * or redirected navigation: composables then re-read the URL.
+   */
+  updateUrl(
+    search: URLSearchParams,
+    options: UpdateUrlOptions
+  ): void | false | Promise<void | false>;
   /** Calls `onChange` when the URL changes from outside vue-qs. Returns an unsubscribe function. */
   subscribe(onChange: () => void): () => void;
   /** Multiplier applied to throttle delays (`0` disables throttling, e.g. in tests). */
