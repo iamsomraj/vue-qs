@@ -8,7 +8,7 @@
 
 > **parseAsStringEnum**\<`Enum`\>(`validValues`): [`ParserBuilder`](../type-aliases/ParserBuilder.md)\<`Enum`\>
 
-Defined in: src/parsers.ts:263
+Defined in: [src/parsers.ts:263](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/parsers.ts#L263)
 
 String enum. Values outside the enum are treated as invalid.
 

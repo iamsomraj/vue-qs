@@ -8,7 +8,7 @@
 
 > **createStandardSchemaV1**\<`Parsers`\>(`parsers`, `options`): [`StandardSchemaV1`](../interfaces/StandardSchemaV1.md)\<`Record`\<`string`, `undefined` \| `string` \| `string`[]\>, [`inferParserType`](../type-aliases/inferParserType.md)\<`Parsers`\>\>
 
-Defined in: src/standard-schema.ts:48
+Defined in: [src/standard-schema.ts:48](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/standard-schema.ts#L48)
 
 Creates a Standard Schema validating search params with the given parsers.
 Use it with libraries that accept Standard Schemas for search params.

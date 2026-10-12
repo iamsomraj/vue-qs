@@ -8,7 +8,7 @@
 
 > **Parser**\<`T`, `K`\> = `object`
 
-Defined in: src/parsers.ts:21
+Defined in: [src/parsers.ts:21](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/parsers.ts#L21)
 
 Converts between URL query values and typed state.
 
@@ -32,7 +32,7 @@ Whether the parser reads a single value or repeated keys
 
 > `readonly` **type**: `K`
 
-Defined in: src/parsers.ts:22
+Defined in: [src/parsers.ts:22](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/parsers.ts#L22)
 
 ## Methods
 
@@ -40,7 +40,7 @@ Defined in: src/parsers.ts:22
 
 > **parse**(`value`): `null` \| `T`
 
-Defined in: src/parsers.ts:24
+Defined in: [src/parsers.ts:24](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/parsers.ts#L24)
 
 Converts a query value into state, returning `null` for invalid input
 
@@ -60,7 +60,7 @@ Converts a query value into state, returning `null` for invalid input
 
 > **serialize**(`value`): [`ParserOutput`](ParserOutput.md)\<`K`\>
 
-Defined in: src/parsers.ts:26
+Defined in: [src/parsers.ts:26](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/parsers.ts#L26)
 
 Converts state into a query value
 
@@ -80,7 +80,7 @@ Converts state into a query value
 
 > **eq**(`valueA`, `valueB`): `boolean`
 
-Defined in: src/parsers.ts:28
+Defined in: [src/parsers.ts:28](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/parsers.ts#L28)
 
 Compares two state values (used for `clearOnDefault` and change detection)
 

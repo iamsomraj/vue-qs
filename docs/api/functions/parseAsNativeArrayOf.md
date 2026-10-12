@@ -8,7 +8,7 @@
 
 > **parseAsNativeArrayOf**\<`T`\>(`itemParser`): [`ParserBuilderWithDefault`](../type-aliases/ParserBuilderWithDefault.md)\<`T`[], `"multi"`\>
 
-Defined in: src/parsers.ts:385
+Defined in: [src/parsers.ts:385](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/parsers.ts#L385)
 
 Array of items stored as repeated keys (`?tag=vue&tag=nuxt`).
 Defaults to an empty array.

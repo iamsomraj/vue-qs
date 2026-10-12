@@ -8,7 +8,7 @@
 
 > **QueryStates**\<`Parsers`\> = [`Values`](Values.md)\<`Parsers`\> & `object`
 
-Defined in: src/composables/use-query-states.ts:24
+Defined in: [src/composables/use-query-states.ts:24](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/composables/use-query-states.ts#L24)
 
 A reactive object bound to several URL query keys.
 Assign properties (or `v-model` them through `toRefs`) to update the URL.

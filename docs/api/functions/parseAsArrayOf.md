@@ -8,7 +8,7 @@
 
 > **parseAsArrayOf**\<`T`\>(`itemParser`, `separator`): [`ParserBuilder`](../type-aliases/ParserBuilder.md)\<`T`[]\>
 
-Defined in: src/parsers.ts:359
+Defined in: [src/parsers.ts:359](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/parsers.ts#L359)
 
 Array of items in a single key, joined with a separator (`?tags=vue,nuxt`).
 Separators inside items are percent-encoded.

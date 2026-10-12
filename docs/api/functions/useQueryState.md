@@ -10,7 +10,7 @@
 
 > **useQueryState**\<`T`, `K`\>(`key`, `parser`): [`QueryStateRef`](../type-aliases/QueryStateRef.md)\<`NonNullable`\<`T`\>\>
 
-Defined in: src/composables/use-query-state.ts:66
+Defined in: [src/composables/use-query-state.ts:66](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/composables/use-query-state.ts#L66)
 
 Binds a URL query key to a writable ref.
 
@@ -61,7 +61,7 @@ await page.set(null)                           // removes ?page, page.value === 
 
 > **useQueryState**\<`T`, `K`\>(`key`, `parser`): [`QueryStateRef`](../type-aliases/QueryStateRef.md)\<`null` \| `T`\>
 
-Defined in: src/composables/use-query-state.ts:70
+Defined in: [src/composables/use-query-state.ts:70](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/composables/use-query-state.ts#L70)
 
 Binds a URL query key to a writable ref.
 
@@ -112,7 +112,7 @@ await page.set(null)                           // removes ?page, page.value === 
 
 > **useQueryState**(`key`, `options`): [`QueryStateRef`](../type-aliases/QueryStateRef.md)\<`string`\>
 
-Defined in: src/composables/use-query-state.ts:74
+Defined in: [src/composables/use-query-state.ts:74](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/composables/use-query-state.ts#L74)
 
 Binds a URL query key to a writable ref.
 
@@ -151,7 +151,7 @@ await page.set(null)                           // removes ?page, page.value === 
 
 > **useQueryState**(`key`, `options?`): [`QueryStateRef`](../type-aliases/QueryStateRef.md)\<`null` \| `string`\>
 
-Defined in: src/composables/use-query-state.ts:78
+Defined in: [src/composables/use-query-state.ts:78](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/composables/use-query-state.ts#L78)
 
 Binds a URL query key to a writable ref.
 

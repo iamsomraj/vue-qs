@@ -8,7 +8,7 @@
 
 > **CreateLoaderOptions**\<`Parsers`\> = `object`
 
-Defined in: src/loader.ts:12
+Defined in: [src/loader.ts:12](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/loader.ts#L12)
 
 Options for [createLoader](../functions/createLoader.md).
 
@@ -24,6 +24,6 @@ Options for [createLoader](../functions/createLoader.md).
 
 > `optional` **urlKeys**: [`UrlKeys`](UrlKeys.md)\<`Parsers`\>
 
-Defined in: src/loader.ts:14
+Defined in: [src/loader.ts:14](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/loader.ts#L14)
 
 Map state keys to different URL keys

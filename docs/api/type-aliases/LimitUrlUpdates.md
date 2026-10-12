@@ -8,7 +8,7 @@
 
 > **LimitUrlUpdates** = `object`
 
-Defined in: src/options.ts:12
+Defined in: [src/options.ts:12](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/options.ts#L12)
 
 Rate-limiting strategy applied to URL updates.
 Create one with [throttle](../functions/throttle.md) or [debounce](../functions/debounce.md).
@@ -19,7 +19,7 @@ Create one with [throttle](../functions/throttle.md) or [debounce](../functions/
 
 > **method**: `"throttle"` \| `"debounce"`
 
-Defined in: src/options.ts:13
+Defined in: [src/options.ts:13](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/options.ts#L13)
 
 ***
 
@@ -27,4 +27,4 @@ Defined in: src/options.ts:13
 
 > **timeMs**: `number`
 
-Defined in: src/options.ts:14
+Defined in: [src/options.ts:14](https://github.com/iamsomraj/vue-qs/blob/23349c8cce02f08fa4001a6ecf89a59f59235ebe/src/options.ts#L14)
