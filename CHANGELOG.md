@@ -1,5 +1,23 @@
 # Changelog
 
+## v0.2.2
+
+[compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.2.1...v0.2.2)
+
+### 🚀 Enhancements
+
+- Support vue-router 5: the peer dependency range is now `^4.2.0 || ^5.0.0` ([47aeebd](https://github.com/iamsomraj/vue-qs/commit/47aeebd))
+
+### 🏡 Chore
+
+- Upgrade the toolchain (Vitest 5, ESLint 10, TypeScript 6, vite 8, Bun 1.4 and others) and resolve all 68 known vulnerabilities in dev dependencies ([bdbabf2](https://github.com/iamsomraj/vue-qs/commit/bdbabf2))
+- Deploy the docs with a GitHub Actions Pages workflow on release; the API reference is generated at build time ([bdbabf2](https://github.com/iamsomraj/vue-qs/commit/bdbabf2))
+- CI: Node 22/24/26 matrix and the latest GitHub Actions ([bdbabf2](https://github.com/iamsomraj/vue-qs/commit/bdbabf2))
+
+### ❤️ Contributors
+
+- Somraj Mukherjee ([@iamsomraj](https://github.com/iamsomraj))
+
 ## v0.2.1
 
 [compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.2.0...v0.2.1)
