@@ -97,7 +97,7 @@ export function resolveOptions(...sources: Array<Options | undefined>): Options 
       }
     }
   }
-  return resolved as Options;
+  return resolved;
 }
 
 /**

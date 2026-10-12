@@ -102,7 +102,7 @@
     "typescript",
     "ssr"
   ],
-  "packageManager": "bun@1.2.19",
+  "packageManager": "bun@1.4.3",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/iamsomraj/vue-qs.git",
@@ -122,17 +122,16 @@
     "test:watch": "vitest --typecheck",
     "test:coverage": "vitest run --coverage",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint . --ext .ts,.tsx,.cts,.mts",
-    "lint:fix": "eslint . --ext .ts,.tsx,.cts,.mts --fix",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "format": "prettier --check \"**/*.{ts,tsx,js,json,md,yml,yaml}\"",
     "format:fix": "prettier --write \"**/*.{ts,tsx,js,json,md,yml,yaml}\"",
     "prepublishOnly": "bun run typecheck && bun run lint && bun run test && bun run build",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
+    "docs:dev": "bun run docs:api && vitepress dev docs",
+    "docs:build": "bun run docs:api && vitepress build docs",
     "docs:preview": "vitepress preview docs",
     "docs:api": "typedoc && cp docs/api/README.md docs/api/index.md",
-    "docs:all": "bun run docs:api && bun run docs:build",
-    "docs:deploy": "DOCS_BASE=/vue-qs/ bun run docs:all && DOCS_BASE=/vue-qs/ vitepress build docs && gh-pages -d docs/.vitepress/dist -b gh-pages --dotfiles"
+    "docs:deploy": "gh workflow run docs.yml"
   },
   "peerDependencies": {
     "vue": "^3.3.0",
@@ -147,28 +146,32 @@
     "node": ">=18"
   },
   "devDependencies": {
-    "@eslint/js": "^9.33.0",
-    "@types/node": "^22.7.4",
-    "@typescript-eslint/eslint-plugin": "^8.5.0",
-    "@typescript-eslint/parser": "^8.5.0",
-    "eslint": "^9.12.0",
-    "eslint-import-resolver-typescript": "^4.4.4",
-    "eslint-plugin-import": "^2.32.0",
-    "gh-pages": "^6.1.1",
-    "globals": "^16.3.0",
-    "happy-dom": "^18.0.1",
-    "prettier": "^3.3.3",
-    "tsup": "^8.2.4",
-    "typedoc": "^0.28.10",
-    "typedoc-plugin-markdown": "^4.8.0",
-    "typescript": "^5.9.2",
-    "vitepress": "^1.5.0",
-    "vitest": "^2.1.2",
-    "vue": "^3.5.10",
-    "vue-router": "^4.4.5"
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^26.6.5",
+    "@typescript-eslint/eslint-plugin": "^8.71.1",
+    "@typescript-eslint/parser": "^8.71.1",
+    "eslint": "^10.12.0",
+    "eslint-import-resolver-typescript": "^4.4.5",
+    "eslint-plugin-import-x": "^4.17.1",
+    "globals": "^17.13.0",
+    "happy-dom": "^21.0.1",
+    "prettier": "^3.9.10",
+    "tsup": "^8.5.1",
+    "typedoc": "^0.28.20",
+    "typedoc-plugin-markdown": "^4.13.1",
+    "typescript": "~6.0.3",
+    "vite": "^8.3.4",
+    "vitepress": "^1.6.4",
+    "vitest": "^5.0.4",
+    "vue": "^3.5.43",
+    "vue-router": "^4.6.4"
   },
   "funding": {
     "type": "github",
     "url": "https://github.com/sponsors/iamsomraj"
+  },
+  "overrides": {
+    "vite": "^8.3.4",
+    "esbuild": "^0.28.2"
   }
 }

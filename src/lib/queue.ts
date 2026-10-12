@@ -147,7 +147,7 @@ export class UpdateQueue {
       const search = new URLSearchParams(this.adapter.getSearchParams());
       updates.forEach((query, key) => applyQuery(search, key, query));
       debug('Flushing %s with %o', search.toString(), options);
-      let rejected = false;
+      let rejected: boolean;
       try {
         rejected = (await this.adapter.updateUrl(search, options)) === false;
       } catch (error) {
