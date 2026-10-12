@@ -1,0 +1,40 @@
+name: Feature request
+description: Suggest an idea or enhancement for vue-qs
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Early or open-ended ideas are welcome in
+        [Ideas in Discussions](https://github.com/iamsomraj/vue-qs/discussions/categories/ideas) first.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What are you trying to do, and why is it hard today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed API
+      description: How would it work? Code is welcome.
+      render: ts
+    validations:
+      required: true
+  - type: dropdown
+    id: nuqs
+    attributes:
+      label: nuqs parity
+      description: vue-qs is a port of [nuqs](https://nuqs.dev). Does nuqs have this feature?
+      options:
+        - Yes, nuqs has it (link below)
+        - No, it is specific to Vue / Nuxt
+        - I don't know
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Alternatives and context
+      description: Workarounds you tried, links to nuqs docs, or related issues.

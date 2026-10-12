@@ -1,5 +1,14 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Questions & Usage Help
-    url: https://github.com/iamsomraj/vue-qs/discussions
-    about: Please ask and answer questions here.
+  - name: Ask a question
+    url: https://github.com/iamsomraj/vue-qs/discussions/categories/q-a
+    about: Usage questions and troubleshooting
+  - name: Share an idea
+    url: https://github.com/iamsomraj/vue-qs/discussions/categories/ideas
+    about: Early feature ideas and API feedback
+  - name: Documentation
+    url: https://iamsomraj.github.io/vue-qs/
+    about: Guides, examples and the API reference
+  - name: Report a security vulnerability
+    url: https://github.com/iamsomraj/vue-qs/security/advisories/new
+    about: Please report security issues privately
