@@ -1,58 +1,97 @@
-**vue-qs v0.1.18**
+**vue-qs v0.2.0**
 
 ***
 
-# vue-qs v0.1.18
+# vue-qs v0.2.0
 
-## Namespaces
+vue-qs - Type-safe search params state manager for Vue, a port of nuqs.
 
-- [serializers](vue-qs/namespaces/serializers/README.md)
+## Example
+
+```ts
+import { useQueryState, parseAsInteger } from 'vue-qs'
+
+const page = useQueryState('page', parseAsInteger.withDefault(1))
+page.value++ // ?page=2
+```
 
 ## Interfaces
 
-- [VueQueryPluginOptions](interfaces/VueQueryPluginOptions.md)
-- [VueRouterAdapterOptions](interfaces/VueRouterAdapterOptions.md)
+- [StandardSchemaV1](interfaces/StandardSchemaV1.md)
 
 ## Type Aliases
 
-- [HistoryAdapterResult](type-aliases/HistoryAdapterResult.md)
-- [QueryParser](type-aliases/QueryParser.md)
-- [QuerySerializer](type-aliases/QuerySerializer.md)
-- [QueryCodec](type-aliases/QueryCodec.md)
-- [QueryParameterOptions](type-aliases/QueryParameterOptions.md)
-- [QueryParameterSchema](type-aliases/QueryParameterSchema.md)
-- [QueryRefOptions](type-aliases/QueryRefOptions.md)
-- [QueryRefReturn](type-aliases/QueryRefReturn.md)
-- [ReactiveQueryState](type-aliases/ReactiveQueryState.md)
-- [QueryReactiveReturn](type-aliases/QueryReactiveReturn.md)
-- [QueryReactiveOptions](type-aliases/QueryReactiveOptions.md)
+- [VueQsPluginOptions](type-aliases/VueQsPluginOptions.md)
+- [UpdateUrlOptions](type-aliases/UpdateUrlOptions.md)
 - [QueryAdapter](type-aliases/QueryAdapter.md)
-- [RuntimeEnvironment](type-aliases/RuntimeEnvironment.md)
-- [~~RuntimeEnv~~](type-aliases/RuntimeEnv.md)
+- [SetQueryStateValue](type-aliases/SetQueryStateValue.md)
+- [QueryStateRef](type-aliases/QueryStateRef.md)
+- [UseQueryStateOptions](type-aliases/UseQueryStateOptions.md)
+- [UseQueryStatesOptions](type-aliases/UseQueryStatesOptions.md)
+- [SetQueryStatesValue](type-aliases/SetQueryStatesValue.md)
+- [QueryStates](type-aliases/QueryStates.md)
+- [QueryRecord](type-aliases/QueryRecord.md)
+- [LoaderInput](type-aliases/LoaderInput.md)
+- [CreateLoaderOptions](type-aliases/CreateLoaderOptions.md)
+- [LoaderOptions](type-aliases/LoaderOptions.md)
+- [Loader](type-aliases/Loader.md)
+- [HistoryOptions](type-aliases/HistoryOptions.md)
+- [LimitUrlUpdates](type-aliases/LimitUrlUpdates.md)
+- [Options](type-aliases/Options.md)
+- [ParserType](type-aliases/ParserType.md)
+- [ParserInput](type-aliases/ParserInput.md)
+- [ParserOutput](type-aliases/ParserOutput.md)
+- [Parser](type-aliases/Parser.md)
+- [ParserBuilder](type-aliases/ParserBuilder.md)
+- [ParserBuilderWithDefault](type-aliases/ParserBuilderWithDefault.md)
+- [AnyParserBuilder](type-aliases/AnyParserBuilder.md)
+- [inferParserType](type-aliases/inferParserType.md)
+- [ParserDefinition](type-aliases/ParserDefinition.md)
+- [JsonValidator](type-aliases/JsonValidator.md)
+- [CreateSerializerOptions](type-aliases/CreateSerializerOptions.md)
+- [SerializerBase](type-aliases/SerializerBase.md)
+- [Serializer](type-aliases/Serializer.md)
+- [StandardSchemaV1Result](type-aliases/StandardSchemaV1Result.md)
+- [CreateStandardSchemaV1Options](type-aliases/CreateStandardSchemaV1Options.md)
+- [Nullable](type-aliases/Nullable.md)
+- [UrlKeys](type-aliases/UrlKeys.md)
+- [ParserMap](type-aliases/ParserMap.md)
+- [Values](type-aliases/Values.md)
+- [QueryValue](type-aliases/QueryValue.md)
 
 ## Variables
 
-- [stringCodec](variables/stringCodec.md)
-- [numberCodec](variables/numberCodec.md)
-- [booleanCodec](variables/booleanCodec.md)
-- [dateISOCodec](variables/dateISOCodec.md)
+- [QUERY\_ADAPTER\_KEY](variables/QUERY_ADAPTER_KEY.md)
+- [VueQsAdapter](variables/VueQsAdapter.md)
+- [defaultRateLimit](variables/defaultRateLimit.md)
+- [parseAsString](variables/parseAsString.md)
+- [parseAsInteger](variables/parseAsInteger.md)
+- [parseAsIndex](variables/parseAsIndex.md)
+- [parseAsHex](variables/parseAsHex.md)
+- [parseAsFloat](variables/parseAsFloat.md)
+- [parseAsBoolean](variables/parseAsBoolean.md)
+- [parseAsTimestamp](variables/parseAsTimestamp.md)
+- [parseAsIsoDateTime](variables/parseAsIsoDateTime.md)
+- [parseAsIsoDate](variables/parseAsIsoDate.md)
 
 ## Functions
 
+- [createVueQs](functions/createVueQs.md)
 - [provideQueryAdapter](functions/provideQueryAdapter.md)
 - [useQueryAdapter](functions/useQueryAdapter.md)
-- [createVueQsPlugin](functions/createVueQsPlugin.md)
-- [createHistoryAdapter](functions/createHistoryAdapter.md)
-- [createVueRouterAdapter](functions/createVueRouterAdapter.md)
-- [queryReactive](functions/queryReactive.md)
-- [queryRef](functions/queryRef.md)
-- [createJsonCodec](functions/createJsonCodec.md)
-- [createArrayCodec](functions/createArrayCodec.md)
-- [createEnumCodec](functions/createEnumCodec.md)
-- [isBrowserEnvironment](functions/isBrowserEnvironment.md)
-- [createRuntimeEnvironment](functions/createRuntimeEnvironment.md)
-- [parseSearchString](functions/parseSearchString.md)
-- [buildSearchString](functions/buildSearchString.md)
-- [areValuesEqual](functions/areValuesEqual.md)
-- [mergeObjects](functions/mergeObjects.md)
-- [removeUndefinedValues](functions/removeUndefinedValues.md)
+- [createAdapter](functions/createAdapter.md)
+- [useQueryState](functions/useQueryState.md)
+- [useQueryStates](functions/useQueryStates.md)
+- [createLoader](functions/createLoader.md)
+- [throttle](functions/throttle.md)
+- [debounce](functions/debounce.md)
+- [createParser](functions/createParser.md)
+- [createMultiParser](functions/createMultiParser.md)
+- [parseAsStringEnum](functions/parseAsStringEnum.md)
+- [parseAsStringLiteral](functions/parseAsStringLiteral.md)
+- [parseAsNumberLiteral](functions/parseAsNumberLiteral.md)
+- [parseAsJson](functions/parseAsJson.md)
+- [parseAsArrayOf](functions/parseAsArrayOf.md)
+- [parseAsNativeArrayOf](functions/parseAsNativeArrayOf.md)
+- [createSerializer](functions/createSerializer.md)
+- [createStandardSchemaV1](functions/createStandardSchemaV1.md)

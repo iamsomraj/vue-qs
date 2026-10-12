@@ -1,5 +1,48 @@
 # Changelog
 
+## v0.2.0
+
+[compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.1.18...v0.2.0)
+
+vue-qs is now a port of [nuqs](https://nuqs.dev) for Vue. See the [migration guide](https://iamsomraj.github.io/vue-qs/guide/migration).
+
+### ⚠️ Breaking Changes
+
+- Remove `queryRef`, `queryReactive`, `createVueQsPlugin`, the `*Codec` serializers and the URL utilities, replaced by the nuqs-style API below ([#14](https://github.com/iamsomraj/vue-qs/issues/14))
+- Adapters are imported from `vue-qs/adapters/history` and `vue-qs/adapters/vue-router`, and must be installed with `createVueQs({ adapter })`; composables throw when no adapter is provided
+- Missing keys without a default are `null` instead of `undefined`; invalid values fall back to the default
+
+### 🚀 Enhancements
+
+- Add `useQueryState`, returning a writable ref (works with `v-model`) with a `.set(value | updater | null, options)` method returning a promise
+- Add `useQueryStates`, returning a reactive object with `$set` and `urlKeys` support
+- Add nuqs parsers: `parseAsString`, `parseAsInteger`, `parseAsFloat`, `parseAsHex`, `parseAsIndex`, `parseAsBoolean`, `parseAsTimestamp`, `parseAsIsoDateTime`, `parseAsIsoDate`, `parseAsStringEnum`, `parseAsStringLiteral`, `parseAsNumberLiteral`, `parseAsArrayOf`, `parseAsNativeArrayOf`, `parseAsJson` (validator or Standard Schema), `createParser`, `createMultiParser`, with `.withDefault()` and `.withOptions()`
+- Add nuqs options: `history`, `scroll`, `shallow`, `clearOnDefault` (default `true`), `limitUrlUpdates` with `throttle()` / `debounce()`
+- Batch updates made in the same tick into a single URL update
+- Keep composables bound to the same key in sync
+- Support repeated keys (`?id=1&id=2`)
+- Add `createLoader`, `createSerializer` and `createStandardSchemaV1`, also available Vue-free from `vue-qs/server`
+- Add the testing adapter (`vue-qs/adapters/testing`), `createAdapter` for custom adapters and the `VueQsAdapter` component
+- Debug logging with `localStorage.debug = 'vue-qs'`
+
+### 🩹 Fixes
+
+- Vue Router adapter now follows every navigation (`router.push`, `<RouterLink>`), not only Back/Forward
+- History adapter follows `pushState` / `replaceState` calls made by other code
+- Update queues are scoped per adapter, so state no longer leaks between apps or SSR requests
+
+### 📖 Documentation
+
+- Rewrite the README and guides: parsers, options, adapters (including Nuxt), server utilities, testing, examples and migration from 0.1.x
+
+### ✅ Tests
+
+- Rewrite the test suite: parsers, serializer, loader, update queue, composables, History and Vue Router adapters, and type-level tests
+
+### ❤️ Contributors
+
+- Somraj Mukherjee ([@iamsomraj](https://github.com/iamsomraj))
+
 ## v0.1.18
 
 [compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.1.17...v0.1.18)

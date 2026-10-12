@@ -67,6 +67,9 @@ export default [
       'max-depth': ['warn', 4],
       complexity: ['warn', 15],
 
+      // TypeScript checks redeclarations and allows function overloads
+      'no-redeclare': 'off',
+
       // Use TS-aware unused vars and disable core rule
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': [
