@@ -1,3 +1,7 @@
+---
+description: 'Built-in vue-qs parsers for integers, floats, booleans, dates, enums, literals, arrays and validated JSON, plus custom parsers with createParser.'
+---
+
 # Parsers
 
 Parsers convert between the strings stored in the URL and typed state. They are the

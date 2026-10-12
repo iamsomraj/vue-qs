@@ -1,5 +1,8 @@
 ---
 layout: home
+title: vue-qs
+titleTemplate: 'Type-safe search params state for Vue 3'
+description: 'vue-qs is a type-safe search params state manager for Vue 3 and Nuxt, a port of nuqs. Store state in the URL with writable refs, parsers and batched updates.'
 hero:
   name: vue-qs
   text: Type-safe search params state for Vue

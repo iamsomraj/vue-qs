@@ -1,66 +1,48 @@
 ---
 name: Bug report
-about: Create a report to help us improve
+about: Report something that does not work as documented
 labels: bug
 assignees: ''
 ---
 
 ## Description
 
-A clear and concise description of what the bug is.
+A clear and concise description of the bug.
 
 ## Environment
 
-- vue-qs version: (e.g. 0.x.x)
-- Vue version: (e.g. 3.4.0)
-- Router used: (vue-router version if applicable)
-- Build tool: (e.g. Vite, Nuxt, Webpack, Bun)
-- Browser / Runtime: (e.g. Chrome 126, Node 20)
+- vue-qs version: (e.g. 0.2.0)
+- Vue version: (e.g. 3.5.0)
+- Adapter: (vue-router / history / testing / custom)
+- vue-router or Nuxt version (if applicable):
+- Build tool: (e.g. Vite, Nuxt)
+- Browser / runtime: (e.g. Chrome 130, Node 22)
 
 ## Reproduction
 
-Describe the steps to reproduce the behavior. If possible, provide a **minimal reproducible example** (link to a GitHub repo / StackBlitz / CodeSandbox / reproduction gist).
+A **minimal reproduction** (StackBlitz or a GitHub repository) helps a lot.
 
 1. Go to '...'
 2. Click on '...'
-3. Scroll down to '...'
-4. See error
-
-### Minimal Code Snippet (if small enough)
+3. See error
 
 ```ts
-// Paste only the minimal code needed to reproduce
-auto; // replace with real code
+// Minimal code, e.g.
+const page = useQueryState('page', parseAsInteger.withDefault(1));
 ```
 
 ## Expected behavior
 
-A clear and concise description of what you expected to happen.
+What you expected to happen, including the expected URL.
 
 ## Actual behavior
 
-What actually happened instead.
+What happened instead, including the actual URL.
 
-## Screenshots / Logs
+## Logs
 
-If applicable, add screenshots or console logs to help explain your problem.
+Run `localStorage.debug = 'vue-qs'`, reload, reproduce, and paste the console output.
 
 ```
 (paste logs here)
 ```
-
-## Query Params Involved
-
-List the query params and (if relevant) the serializers/codecs used.
-
-```ts
-// example
-const { foo, bar } = queryReactive({
-  foo: string(),
-  bar: number(),
-});
-```
-
-## Additional context
-
-Add any other context about the problem here (edge cases, suspected root cause, related issues, etc.).

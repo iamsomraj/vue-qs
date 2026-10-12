@@ -6,40 +6,61 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
-    inputs:
-      scope:
-        description: 'What to run'
-        required: false
-        default: all
-        type: choice
-        options:
-          - all
-          - lint
-          - test
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
   build:
+    name: Build & test (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [20, 22, 24]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.2.19
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Lint
+        run: bun run lint
+      - name: Format
+        run: bun run format
+      - name: Typecheck
+        run: bun run typecheck
+      - name: Test
+        run: bun run test
+      - name: Build
+        run: bun run build
+      - name: Lint package (publint)
+        run: bunx publint@0.3.12
+
+  peer-min:
+    name: Minimum peer versions (vue 3.3, vue-router 4.2)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
-      - name: Install Bun
-        uses: oven-sh/setup-bun@v2
+          node-version: 22
+      - uses: oven-sh/setup-bun@v2
         with:
           bun-version: 1.2.19
       - name: Install dependencies
-        run: bun install
-      - name: Lint
-        if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.scope == 'all' || github.event.inputs.scope == 'lint' }}
-        run: bun run lint
+        run: bun install --frozen-lockfile
+      - name: Install minimum peer versions
+        run: bun add -d vue@3.3.0 vue-router@4.2.0
       - name: Typecheck
-        if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.scope == 'all' }}
         run: bun run typecheck
       - name: Test
-        if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.scope == 'all' || github.event.inputs.scope == 'test' }}
         run: bun run test
-      - name: Build
-        if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.scope == 'all' }}
-        run: bun run build

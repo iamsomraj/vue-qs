@@ -1,5 +1,8 @@
 ---
 layout: home
+title: vue-qs
+titleTemplate: '类型安全的 Vue URL 查询参数状态管理'
+description: 'vue-qs：类型安全的 Vue 3 URL 查询参数状态管理库，nuqs 的 Vue 移植版本。'
 hero:
   name: vue-qs
   text: 类型安全的 Vue URL 查询参数状态管理

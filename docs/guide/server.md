@@ -1,3 +1,7 @@
+---
+description: 'Parse and build search params on the server with vue-qs createLoader and createSerializer, for Nuxt server routes and SSR.'
+---
+
 # Server utilities
 
 `vue-qs/server` exports Vue-free helpers to parse and build search params outside
