@@ -1,5 +1,30 @@
 # Changelog
 
+## v0.2.1
+
+[compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.2.0...v0.2.1)
+
+### 🩹 Fixes
+
+- Resync state after a rejected router navigation and skip no-op history updates ([f6067b5](https://github.com/iamsomraj/vue-qs/commit/f6067b5))
+  - Vue Router: when a navigation guard cancels or redirects an update, state now follows the resulting URL
+  - History: `history: 'push'` no longer adds a duplicate entry when the URL does not change
+  - Custom adapters can return `false` from `updateUrl` to signal a rejected update
+
+### 📖 Documentation
+
+- Unique page titles and descriptions, canonical URLs, Open Graph / Twitter images, sitemap, robots.txt, local search and a version menu ([51e3a41](https://github.com/iamsomraj/vue-qs/commit/51e3a41))
+- Regenerate the API reference with source links ([7ae11cb](https://github.com/iamsomraj/vue-qs/commit/7ae11cb))
+
+### 🏡 Chore
+
+- CI: format and publint checks, Node 20/22/24 matrix, and tests against the minimum peer versions (vue 3.3, vue-router 4.2) ([51e3a41](https://github.com/iamsomraj/vue-qs/commit/51e3a41))
+- Add SECURITY.md, a pull request template and Dependabot; update the issue templates, CONTRIBUTING.md and LICENSE; remove legacy config files ([51e3a41](https://github.com/iamsomraj/vue-qs/commit/51e3a41))
+
+### ❤️ Contributors
+
+- Somraj Mukherjee ([@iamsomraj](https://github.com/iamsomraj))
+
 ## v0.2.0
 
 [compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.1.18...v0.2.0)
