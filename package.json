@@ -1,6 +1,6 @@
 {
   "name": "vue-qs",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Type-safe URL query/search params state for Vue 3 and Nuxt: a useQueryState composable ported from nuqs",
   "license": "MIT",
   "author": {
