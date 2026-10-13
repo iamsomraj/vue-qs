@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.2.3
+
+[compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.2.2...v0.2.3)
+
+### 🏡 Chore
+
+- Improve the npm package description and keywords so vue-qs is easier to find in npm search ([bc62fc6](https://github.com/iamsomraj/vue-qs/commit/bc62fc6))
+- Add community health files: a Code of Conduct, issue forms and a Community section in the README and docs ([c6b1d5d](https://github.com/iamsomraj/vue-qs/commit/c6b1d5d))
+
+### ❤️ Contributors
+
+- Somraj Mukherjee ([@iamsomraj](https://github.com/iamsomraj))
+
 ## v0.2.2
 
 [compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.2.1...v0.2.2)
