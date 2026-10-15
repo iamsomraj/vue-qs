@@ -14,6 +14,8 @@ that uses Vue idioms: writable refs, `v-model`, reactive objects and a plugin.
 
 📖 **Documentation**: [https://iamsomraj.github.io/vue-qs/](https://iamsomraj.github.io/vue-qs/)
 
+▶️ **Try it**: [open the playground on StackBlitz](https://stackblitz.com/github/iamsomraj/vue-qs/tree/main/examples/vite-vue-router)
+
 ```ts
 const page = useQueryState('page', parseAsInteger.withDefault(1));
 page.value++; // ?page=2
