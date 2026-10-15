@@ -1,0 +1,19 @@
+{
+  "name": "vue-qs-example-vite-vue-router",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.5.44",
+    "vue-qs": "^0.2.3",
+    "vue-router": "^5.4.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.10",
+    "vite": "^8.3.4"
+  }
+}

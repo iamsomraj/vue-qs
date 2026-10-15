@@ -4,6 +4,9 @@ description: 'vue-qs examples: search with pagination, tabs, multi-select filter
 
 # Examples
 
+To run these patterns in the browser, open the
+[playground on StackBlitz](https://stackblitz.com/github/iamsomraj/vue-qs/tree/main/examples/vite-vue-router).
+
 ## Search with pagination
 
 ```vue

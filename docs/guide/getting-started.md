@@ -13,6 +13,11 @@ const page = useQueryState('page', parseAsInteger.withDefault(1));
 page.value++; // ?page=2
 ```
 
+::: tip Try it online
+Open the [playground on StackBlitz](https://stackblitz.com/github/iamsomraj/vue-qs/tree/main/examples/vite-vue-router): a Vite + Vue Router app with
+search, sort, pagination and tabs stored in the URL.
+:::
+
 ## Installation
 
 ::: code-group
@@ -151,3 +156,4 @@ function reset() {
 - [Server](./server): `createLoader` and `createSerializer`
 - [Testing](./testing): unit-testing components that use vue-qs
 - [Migrating from 0.1.x](./migration)
+- [Playground on StackBlitz](https://stackblitz.com/github/iamsomraj/vue-qs/tree/main/examples/vite-vue-router): a runnable Vite + Vue Router example
