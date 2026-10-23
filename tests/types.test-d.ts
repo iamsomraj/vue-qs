@@ -13,7 +13,10 @@ import {
   parseAsStringLiteral,
   useQueryState,
   useQueryStates,
+  type GenericParserBuilder,
   type inferParserType,
+  type LoaderFunction,
+  type SingleParserBuilder,
 } from '@/index';
 
 describe('types', () => {
@@ -100,5 +103,12 @@ describe('types', () => {
     expectTypeOf(serialize({ page: 2 })).toEqualTypeOf<string>();
     // @ts-expect-error unknown keys are rejected
     serialize({ unknown: 1 });
+  });
+
+  it('exposes nuqs type names', () => {
+    expectTypeOf(parseAsInteger).toExtend<SingleParserBuilder<number>>();
+    expectTypeOf(parseAsNativeArrayOf(parseAsInteger)).toExtend<GenericParserBuilder<number[]>>();
+    const parsers = { page: parseAsInteger.withDefault(1) };
+    expectTypeOf(createLoader(parsers)).toEqualTypeOf<LoaderFunction<typeof parsers>>();
   });
 });

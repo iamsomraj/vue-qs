@@ -7,6 +7,7 @@ export default defineConfig({
     'adapters/history': 'src/adapters/history.ts',
     'adapters/vue-router': 'src/adapters/vue-router.ts',
     'adapters/testing': 'src/adapters/testing.ts',
+    testing: 'src/testing.ts',
   },
   format: ['esm', 'cjs'],
   dts: {

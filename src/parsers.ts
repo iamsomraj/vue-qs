@@ -58,6 +58,23 @@ export type ParserBuilderWithDefault<T, K extends ParserType = 'single'> = Omit<
 /** Any parser builder, with or without a default value. */
 export type AnyParserBuilder = ParserBuilder<any, ParserType> | ParserBuilderWithDefault<any, any>;
 
+// Type names used by nuqs, to ease porting code
+
+/** A parser reading one value per key. Same as `Parser<T>`, named as in nuqs. */
+export type SingleParser<T> = Parser<T>;
+/** A parser reading repeated keys. Same as `Parser<T, 'multi'>`, named as in nuqs. */
+export type MultiParser<T> = Parser<T, 'multi'>;
+/** A single or multi parser, named as in nuqs. */
+export type GenericParser<T> = SingleParser<T> | MultiParser<T>;
+/** Same as `ParserBuilder<T>`, named as in nuqs. */
+export type SingleParserBuilder<T> = ParserBuilder<T>;
+/** Same as `ParserBuilder<T, 'multi'>`, named as in nuqs. */
+export type MultiParserBuilder<T> = ParserBuilder<T, 'multi'>;
+/** A single or multi parser builder, named as in nuqs. */
+export type GenericParserBuilder<T> = SingleParserBuilder<T> | MultiParserBuilder<T>;
+/** A parser builder that may have a default value, named as in nuqs. */
+export type ParserWithOptionalDefault<T> = GenericParserBuilder<T> & { readonly defaultValue?: T };
+
 /**
  * Infers the state type of a parser, or of an object of parsers.
  *

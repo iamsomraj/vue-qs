@@ -162,6 +162,10 @@ mount(Component, {
 });
 ```
 
+`vue-qs/testing` provides `isParserBijective`, `testParseThenSerialize` and
+`testSerializeThenParse` to unit-test custom parsers. See the
+[testing guide](https://iamsomraj.github.io/vue-qs/guide/testing).
+
 ## Migrating from 0.1.x
 
 0.2 replaces `queryRef` / `queryReactive` and codecs with `useQueryState` /

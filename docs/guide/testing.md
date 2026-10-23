@@ -63,3 +63,29 @@ vi.useFakeTimers();
 await vi.advanceTimersByTimeAsync(500);
 expect(onUrlUpdate).toHaveBeenCalled();
 ```
+
+## Testing custom parsers
+
+`vue-qs/testing` provides the same helpers as `nuqs/testing` to check that a parser
+round-trips. Each returns `true` or throws with a description of the mismatch:
+
+```ts
+import { createParser } from 'vue-qs';
+import { isParserBijective, testParseThenSerialize, testSerializeThenParse } from 'vue-qs/testing';
+
+const parseAsStarRating = createParser({
+  parse: (value) => value.match(/★/g)?.length ?? null,
+  serialize: (value: number) => '★'.repeat(value),
+});
+
+it('round-trips', () => {
+  // '★★★' parses to 3, and 3 serializes to '★★★'
+  expect(isParserBijective(parseAsStarRating, '★★★', 3)).toBe(true);
+  expect(testSerializeThenParse(parseAsStarRating, 5)).toBe(true);
+  // Throws: '★x★' parses to 2, which serializes to '★★'
+  expect(() => testParseThenSerialize(parseAsStarRating, '★x★')).toThrow();
+});
+```
+
+For parsers reading repeated keys, pass the query as an array of strings
+(`isParserBijective(parser, ['1', '2'], [1, 2])`).
