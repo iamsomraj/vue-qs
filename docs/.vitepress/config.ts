@@ -96,7 +96,7 @@ export default defineConfig({
       link: '/zh/',
       themeConfig: {
         nav: [
-          { text: '指南', link: '/guide/getting-started' },
+          { text: '指南', link: '/zh/guide/getting-started' },
           { text: 'API', link: '/zh/api/' },
         ],
       },
@@ -120,6 +120,17 @@ export default defineConfig({
             { text: 'Examples', link: '/guide/examples' },
             { text: 'Comparison', link: '/guide/comparison' },
             { text: 'Migrating from 0.1.x', link: '/guide/migration' },
+          ],
+        },
+      ],
+      '/zh/guide/': [
+        {
+          text: '指南',
+          items: [
+            { text: '快速开始', link: '/zh/guide/getting-started' },
+            { text: '解析器', link: '/zh/guide/parsers' },
+            { text: '适配器', link: '/zh/guide/adapters' },
+            { text: '从 0.1.x 迁移', link: '/zh/guide/migration' },
           ],
         },
       ],

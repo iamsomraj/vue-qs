@@ -9,14 +9,15 @@ hero:
   tagline: nuqs 的 Vue 3 移植版本。
   actions:
     - theme: brand
-      text: 快速开始（英文）
-      link: /guide/getting-started
+      text: 快速开始
+      link: /zh/guide/getting-started
     - theme: alt
-      text: 从 0.1.x 迁移（英文）
-      link: /guide/migration
+      text: 从 0.1.x 迁移
+      link: /zh/guide/migration
 ---
 
-::: warning 中文文档正在更新
-vue-qs 0.2 是一次重写，API 已与 0.1.x 不同。中文文档正在翻译中，请暂时参阅
-[英文文档](/guide/getting-started) 和 [迁移指南](/guide/migration)。
+::: tip 中文文档正在完善
+快速开始、解析器、适配器和迁移指南已翻译为中文。
+[选项](/guide/options)、[服务端](/guide/server)、[测试](/guide/testing)和[示例](/guide/examples)
+暂时请参阅英文文档。
 :::
