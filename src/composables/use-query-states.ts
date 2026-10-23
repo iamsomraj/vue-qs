@@ -2,6 +2,7 @@ import { reactive } from 'vue';
 import { useQueryAdapter } from '@/adapters/context';
 import { createKeyState, type KeyState } from '@/lib/key-state';
 import { getRuntime } from '@/lib/runtime';
+import { getOwn, getUrlKey } from '@/lib/url-keys';
 import type { Options } from '@/options';
 import type { Nullable, ParserMap, UrlKeys, Values } from '@/types';
 
@@ -63,7 +64,7 @@ export function useQueryStates<Parsers extends ParserMap>(
   const states = new Map<string, KeyState>();
   const raw: Record<string, unknown> = {};
   Object.entries(parsers).forEach(([key, parser]) => {
-    const state = createKeyState(adapter, runtime, urlKeys?.[key] ?? key, parser, hookOptions);
+    const state = createKeyState(adapter, runtime, getUrlKey(urlKeys, key), parser, hookOptions);
     states.set(key, state);
     raw[key] = state.ref;
   });
@@ -85,8 +86,11 @@ export function useQueryStates<Parsers extends ParserMap>(
     states.forEach((state, key) => {
       if (next === null) {
         updates.push(state.set(null, callOptions));
-      } else if (key in next && (next as Record<string, unknown>)[key] !== undefined) {
-        updates.push(state.set((next as Record<string, unknown>)[key], callOptions));
+      } else {
+        const value = getOwn(next as Record<string, unknown>, key);
+        if (value !== undefined) {
+          updates.push(state.set(value, callOptions));
+        }
       }
     });
     if (updates.length === 0) {

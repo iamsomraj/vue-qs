@@ -1,5 +1,6 @@
-import { createLoader, type LoaderInput } from '@/loader';
+import { createLoader } from '@/loader';
 import type { AnyParserBuilder, inferParserType } from '@/parsers';
+import { createSerializer } from '@/serializer';
 import type { UrlKeys } from '@/types';
 
 /**
@@ -28,28 +29,41 @@ export type StandardSchemaV1Result<Output> =
     };
 
 /** Options for {@link createStandardSchemaV1}. */
-export type CreateStandardSchemaV1Options<Parsers extends Record<string, AnyParserBuilder>> = {
+export type CreateStandardSchemaV1Options<
+  Parsers extends Record<string, AnyParserBuilder>,
+  PartialOutput extends boolean = false,
+> = {
   /** Map state keys to different URL keys */
   urlKeys?: UrlKeys<Parsers>;
   /** Only include keys present in the input */
-  partialOutput?: boolean;
+  partialOutput?: PartialOutput;
 };
 
+type MaybePartial<PartialOutput extends boolean, T> = PartialOutput extends true ? Partial<T> : T;
+
 /**
- * Creates a Standard Schema validating search params with the given parsers.
+ * Creates a Standard Schema validating search params state with the given parsers.
  * Use it with libraries that accept Standard Schemas for search params.
+ *
+ * Values are serialized with the parsers, then parsed back in strict mode:
+ * a value the parsers can't represent is reported as an issue.
  *
  * @example
  * ```ts
  * const schema = createStandardSchemaV1({ page: parseAsInteger.withDefault(1) })
- * schema['~standard'].validate({ page: '2' }) // { value: { page: 2 } }
+ * schema['~standard'].validate({ page: 2 }) // { value: { page: 2 } }
+ * schema['~standard'].validate({}) // { value: { page: 1 } }
  * ```
  */
-export function createStandardSchemaV1<Parsers extends Record<string, AnyParserBuilder>>(
+export function createStandardSchemaV1<
+  Parsers extends Record<string, AnyParserBuilder>,
+  PartialOutput extends boolean = false,
+>(
   parsers: Parsers,
-  options: CreateStandardSchemaV1Options<Parsers> = {}
-): StandardSchemaV1<Record<string, string | string[] | undefined>, inferParserType<Parsers>> {
+  options: CreateStandardSchemaV1Options<Parsers, PartialOutput> = {}
+): StandardSchemaV1<MaybePartial<PartialOutput, inferParserType<Parsers>>> {
   const { urlKeys, partialOutput = false } = options;
+  const serialize = createSerializer(parsers, { urlKeys });
   const load = createLoader(parsers, { urlKeys });
 
   return {
@@ -58,15 +72,18 @@ export function createStandardSchemaV1<Parsers extends Record<string, AnyParserB
       vendor: 'vue-qs',
       validate(input) {
         try {
-          const value = load(input as LoaderInput);
+          const record = (input ?? {}) as Record<string, unknown>;
+          const value: Record<string, unknown> = load(serialize(record as never), {
+            strict: true,
+          });
           if (partialOutput) {
-            const record = (input ?? {}) as Record<string, unknown>;
-            const partial = Object.fromEntries(
-              Object.entries(value).filter(([key]) => record[urlKeys?.[key] ?? key] !== undefined)
-            );
-            return { value: partial as inferParserType<Parsers> };
+            Object.keys(value).forEach((key) => {
+              if (!Object.prototype.hasOwnProperty.call(record, key)) {
+                delete value[key];
+              }
+            });
           }
-          return { value };
+          return { value: value as MaybePartial<PartialOutput, inferParserType<Parsers>> };
         } catch (error) {
           return { issues: [{ message: error instanceof Error ? error.message : String(error) }] };
         }

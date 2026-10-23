@@ -1,4 +1,5 @@
 import { parseQuery, readQuery, recordToSearchParams, type QueryRecord } from '@/lib/search-params';
+import { getUrlKey } from '@/lib/url-keys';
 import type { ParserMap, UrlKeys, Values } from '@/types';
 
 /**
@@ -77,11 +78,13 @@ export function createLoader<Parsers extends ParserMap>(
     const result: Record<string, unknown> = {};
 
     Object.entries(parsers).forEach(([key, parser]) => {
-      const urlKey = urlKeys?.[key] ?? key;
+      const urlKey = getUrlKey(urlKeys, key);
       const query = readQuery(search, urlKey, parser.type);
       const parsed = parseQuery(parser, query);
       if (parsed === null && query !== null && loaderOptions.strict === true) {
-        throw new Error(`[vue-qs] Invalid value for key "${urlKey}": ${JSON.stringify(query)}`);
+        throw new Error(
+          `[vue-qs] Failed to parse query \`${String(query)}\` for key \`${key}\` (got null)`
+        );
       }
       const defaultValue = 'defaultValue' in parser ? parser.defaultValue : null;
       result[key] = parsed ?? defaultValue;

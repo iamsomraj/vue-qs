@@ -87,6 +87,28 @@ describe('createSerializer', () => {
     expect(native({ id: [] })).toBe('?id=');
   });
 
+  it('keeps credentials and hashes from the base', () => {
+    const base = 'https://user:password@example.com/path?bar=egg';
+    const expected = 'https://user:password@example.com/path?bar=egg&q=foo';
+    expect(serialize(base, { q: 'foo' })).toBe(expected);
+    expect(serialize(new URL(base), { q: 'foo' })).toBe(expected);
+    expect(serialize('https://example.com/path#', { q: 'foo' })).toBe(
+      'https://example.com/path?q=foo#'
+    );
+    expect(serialize(new URL('https://example.com/path?#'), { q: 'foo' })).toBe(
+      'https://example.com/path?q=foo#'
+    );
+    expect(serialize(new URL('https://example.com/a#x#y'), { q: 'foo' })).toBe(
+      'https://example.com/a?q=foo#x#y'
+    );
+  });
+
+  it.each(['constructor', 'hasOwnProperty'])('ignores an omitted parser key named %s', (key) => {
+    const withPrototypeKey = createSerializer({ a: parseAsString, [key]: parseAsString });
+    expect(withPrototypeKey({ a: 'acme' })).toBe('?a=acme');
+    expect(withPrototypeKey({ [key]: 'acme' })).toBe(`?${key}=acme`);
+  });
+
   it('encodes special characters', () => {
     expect(serialize({ q: 'a b&c#d' })).toBe('?q=a+b%26c%23d');
   });
