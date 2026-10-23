@@ -109,6 +109,20 @@ describe('createSerializer', () => {
     expect(withPrototypeKey({ [key]: 'acme' })).toBe(`?${key}=acme`);
   });
 
+  it('applies processUrlSearchParams', () => {
+    const sorted = createSerializer(
+      { z: parseAsInteger, a: parseAsInteger },
+      {
+        processUrlSearchParams: (search) => {
+          search.sort();
+          return search;
+        },
+      }
+    );
+    expect(sorted('?foo=bar', { z: 1, a: 1 })).toBe('?a=1&foo=bar&z=1');
+    expect(sorted('?a=1&foo=bar', null)).toBe('?foo=bar');
+  });
+
   it('encodes special characters', () => {
     expect(serialize({ q: 'a b&c#d' })).toBe('?q=a+b%26c%23d');
   });

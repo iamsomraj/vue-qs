@@ -69,6 +69,12 @@ const ids = useQueryState('id', parseAsNativeArrayOf(parseAsInteger));
 ids.value = [1, 2]; // ?id=1&id=2
 ```
 
+无效的元素会被跳过。当没有任何有效元素时（`?id=a&id=b`），状态会回退到默认值。
+如果默认值不是 `[]`，空数组会被写成一个空值（`?id=`），因此刷新页面后仍能保留。
+
+元素解析器只需要提供 `parse`：对两种数组解析器而言，`serialize` 默认为 `String`，
+`eq` 默认为严格相等。
+
 ::: tip 替换而不是修改
 状态值不是深层响应式的：`tags.value.push('x')` 不会更新 URL。
 请赋一个新值：`tags.value = [...tags.value, 'x']`。

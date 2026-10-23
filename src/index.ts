@@ -31,8 +31,9 @@ export {
   useQueryAdapter,
   VueQsAdapter,
   QUERY_ADAPTER_KEY,
+  QUERY_OPTIONS_KEY,
 } from '@/adapters/context';
-export type { VueQsPluginOptions } from '@/adapters/context';
+export type { DefaultOptions, VueQsOptions, VueQsPluginOptions } from '@/adapters/context';
 export { createAdapter } from '@/adapters/types';
 export type { QueryAdapter, UpdateUrlOptions } from '@/adapters/types';
 

@@ -13,6 +13,7 @@ export type { CreateLoaderOptions, Loader, LoaderInput, LoaderOptions } from '@/
 export { createStandardSchemaV1 } from '@/standard-schema';
 export type {
   CreateStandardSchemaV1Options,
+  MaybePartial,
   StandardSchemaV1,
   StandardSchemaV1Result,
 } from '@/standard-schema';

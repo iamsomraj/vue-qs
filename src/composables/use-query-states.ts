@@ -1,5 +1,5 @@
 import { reactive } from 'vue';
-import { useQueryAdapter } from '@/adapters/context';
+import { useQueryAdapter, useQueryOptions } from '@/adapters/context';
 import { createKeyState, type KeyState } from '@/lib/key-state';
 import { getRuntime } from '@/lib/runtime';
 import { getOwn, getUrlKey } from '@/lib/url-keys';
@@ -59,12 +59,20 @@ export function useQueryStates<Parsers extends ParserMap>(
 ): QueryStates<Parsers> {
   const { urlKeys, ...hookOptions } = options;
   const adapter = useQueryAdapter();
+  const settings = useQueryOptions();
   const runtime = getRuntime(adapter);
 
   const states = new Map<string, KeyState>();
   const raw: Record<string, unknown> = {};
   Object.entries(parsers).forEach(([key, parser]) => {
-    const state = createKeyState(adapter, runtime, getUrlKey(urlKeys, key), parser, hookOptions);
+    const state = createKeyState(
+      adapter,
+      runtime,
+      getUrlKey(urlKeys, key),
+      parser,
+      hookOptions,
+      settings
+    );
     states.set(key, state);
     raw[key] = state.ref;
   });
