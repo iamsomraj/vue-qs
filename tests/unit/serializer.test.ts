@@ -82,6 +82,11 @@ describe('createSerializer', () => {
     expect(native({ id: [] })).toBe('');
   });
 
+  it('writes an explicit empty native array as an empty value', () => {
+    const native = createSerializer({ id: parseAsNativeArrayOf(parseAsInteger).withDefault([42]) });
+    expect(native({ id: [] })).toBe('?id=');
+  });
+
   it('encodes special characters', () => {
     expect(serialize({ q: 'a b&c#d' })).toBe('?q=a+b%26c%23d');
   });
