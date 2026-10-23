@@ -63,6 +63,16 @@
         "default": "./dist/adapters/testing.cjs"
       }
     },
+    "./testing": {
+      "import": {
+        "types": "./dist/testing.d.ts",
+        "default": "./dist/testing.js"
+      },
+      "require": {
+        "types": "./dist/testing.d.cts",
+        "default": "./dist/testing.cjs"
+      }
+    },
     "./package.json": "./package.json"
   },
   "typesVersions": {
@@ -78,6 +88,9 @@
       ],
       "adapters/testing": [
         "./dist/adapters/testing.d.ts"
+      ],
+      "testing": [
+        "./dist/testing.d.ts"
       ]
     }
   },

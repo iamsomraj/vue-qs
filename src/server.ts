@@ -9,7 +9,14 @@ export * from '@/parsers';
 export { createSerializer } from '@/serializer';
 export type { CreateSerializerOptions, Serializer, SerializerBase } from '@/serializer';
 export { createLoader } from '@/loader';
-export type { CreateLoaderOptions, Loader, LoaderInput, LoaderOptions } from '@/loader';
+export type {
+  CreateLoaderOptions,
+  Loader,
+  LoaderFunction,
+  LoaderFunctionOptions,
+  LoaderInput,
+  LoaderOptions,
+} from '@/loader';
 export { createStandardSchemaV1 } from '@/standard-schema';
 export type {
   CreateStandardSchemaV1Options,
@@ -19,5 +26,5 @@ export type {
 } from '@/standard-schema';
 export { throttle, debounce, defaultRateLimit } from '@/options';
 export type { HistoryOptions, LimitUrlUpdates, Options } from '@/options';
-export type { Nullable, ParserMap, QueryValue, UrlKeys, Values } from '@/types';
+export type { Nullable, ParserMap, QueryValue, SearchParams, UrlKeys, Values } from '@/types';
 export type { QueryRecord } from '@/lib/search-params';

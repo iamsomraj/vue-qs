@@ -14,5 +14,8 @@ export type ParserMap = Record<string, AnyParserBuilder>;
 /** The state object described by an object of parsers. */
 export type Values<Parsers extends ParserMap> = inferParserType<Parsers>;
 
+/** Search params as a record, e.g. a framework's `searchParams` object. Named as in nuqs. */
+export type SearchParams = Record<string, string | string[] | undefined>;
+
 /** A raw query value: one string, repeated values, or `null` when the key is absent. */
 export type QueryValue = string | string[] | null;

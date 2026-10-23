@@ -21,11 +21,17 @@ export type LoaderOptions = {
   strict?: boolean;
 };
 
+/** Same as {@link LoaderOptions}, named as in nuqs. */
+export type LoaderFunctionOptions = LoaderOptions;
+
 /** Function returned by {@link createLoader}. */
 export type Loader<Parsers extends ParserMap> = {
   (input: LoaderInput, options?: LoaderOptions): Values<Parsers>;
   (input: Promise<LoaderInput>, options?: LoaderOptions): Promise<Values<Parsers>>;
 };
+
+/** Same as {@link Loader}, named as in nuqs. */
+export type LoaderFunction<Parsers extends ParserMap> = Loader<Parsers>;
 
 function toSearchParams(input: LoaderInput): URLSearchParams {
   if (input instanceof URLSearchParams) {
