@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.2.4
+
+[compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.2.3...v0.2.4)
+
+### 📖 Documentation
+
+- Add a runnable StackBlitz playground (Vite + Vue Router) linked from the README and docs ([d7fecc3](https://github.com/iamsomraj/vue-qs/commit/d7fecc3))
+- Add a comparison page (vue-qs vs VueUse `useRouteQuery` vs `route.query` watchers) and a demo GIF in the README ([a9927ee](https://github.com/iamsomraj/vue-qs/commit/a9927ee))
+- Translate the Chinese guide to the 0.2 API: Getting Started, Parsers, Adapters and Migration ([3ea6122](https://github.com/iamsomraj/vue-qs/commit/3ea6122))
+
+### ❤️ Contributors
+
+- Somraj Mukherjee ([@iamsomraj](https://github.com/iamsomraj))
+
 ## v0.2.3
 
 [compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.2.2...v0.2.3)
