@@ -103,6 +103,11 @@ import { createStandardSchemaV1 } from 'vue-qs/server';
 const schema = createStandardSchemaV1(searchParams, { partialOutput: true });
 ```
 
+The schema validates **state values**, keyed by state keys (not `urlKeys`). Each value is
+serialized with its parser, then parsed back in strict mode, so a value the parser can't
+represent becomes an issue instead of falling back to the default. With
+`partialOutput: true`, keys missing from the input are left out of the result.
+
 ## About `createSearchParamsCache`
 
 nuqs's `createSearchParamsCache` exists for React Server Components and has no

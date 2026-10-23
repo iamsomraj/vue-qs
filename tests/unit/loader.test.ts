@@ -48,7 +48,20 @@ describe('createLoader', () => {
   });
 
   it('throws on invalid values in strict mode', () => {
-    expect(() => load('?page=abc', { strict: true })).toThrow(/page/);
+    expect(() => load('?page=abc', { strict: true })).toThrow(
+      '[vue-qs] Failed to parse query `abc` for key `page` (got null)'
+    );
+    expect(() => load('?page=', { strict: true })).toThrow(/key `page`/);
+  });
+
+  it.each(['constructor', 'hasOwnProperty'])('supports the object prototype key %s', (key) => {
+    const parsers = { [key]: parseAsString };
+    expect(createLoader(parsers)(`?${key}=acme`)).toEqual({ [key]: 'acme' });
+    expect(createLoader(parsers, { urlKeys: { [key]: 'alias' } })('?alias=ajax')).toEqual({
+      [key]: 'ajax',
+    });
+    // An empty urlKeys object must not resolve `constructor` to Object.prototype.constructor
+    expect(createLoader(parsers, { urlKeys: {} })(`?${key}=acme`)).toEqual({ [key]: 'acme' });
   });
 
   it('supports urlKeys and native arrays', () => {
@@ -62,12 +75,33 @@ describe('createLoader', () => {
 });
 
 describe('createStandardSchemaV1', () => {
-  it('validates records into typed values', () => {
+  it('validates typed values and applies defaults', () => {
     const schema = createStandardSchemaV1({
       page: parseAsInteger.withDefault(1),
       q: parseAsString,
     });
+    expect(schema['~standard'].validate({ page: 2, q: 'vue' })).toEqual({
+      value: { page: 2, q: 'vue' },
+    });
+    expect(schema['~standard'].validate({})).toEqual({ value: { page: 1, q: null } });
+    // String values that serialize to a valid query are accepted too
     expect(schema['~standard'].validate({ page: '2' })).toEqual({ value: { page: 2, q: null } });
+  });
+
+  it('reports values the parsers cannot represent', () => {
+    const schema = createStandardSchemaV1({ page: parseAsInteger });
+    const result = schema['~standard'].validate({ page: 'abc' });
+    expect(result).toEqual({
+      issues: [{ message: '[vue-qs] Failed to parse query `NaN` for key `page` (got null)' }],
+    });
+  });
+
+  it('reads input keys as state keys with urlKeys', () => {
+    const schema = createStandardSchemaV1(
+      { latitude: parseAsInteger },
+      { urlKeys: { latitude: 'lat' } }
+    );
+    expect(schema['~standard'].validate({ latitude: 4 })).toEqual({ value: { latitude: 4 } });
   });
 
   it('can return partial output', () => {

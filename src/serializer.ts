@@ -1,5 +1,6 @@
 import { applyQuery, serializeQuery } from '@/lib/search-params';
 import { renderQueryString } from '@/lib/url-encoding';
+import { getOwn, getUrlKey } from '@/lib/url-keys';
 import type { Nullable, ParserMap, UrlKeys, Values } from '@/types';
 
 /** Options for {@link createSerializer}. */
@@ -24,7 +25,11 @@ function splitBase(base: SerializerBase): [prefix: string, search: URLSearchPara
     return ['', new URLSearchParams(base), ''];
   }
   if (base instanceof URL) {
-    return [`${base.origin}${base.pathname}`, new URLSearchParams(base.search), base.hash];
+    // Slice `href` to keep credentials, and an empty hash (`/path#`)
+    const prefixLength = base.href.length - base.search.length - base.hash.length;
+    const prefix = base.href.slice(0, prefixLength).replace(/[?#]+$/, '');
+    const hash = base.hash || (base.href.endsWith('#') ? '#' : '');
+    return [prefix, new URLSearchParams(base.search), hash];
   }
   const hashIndex = base.indexOf('#');
   const hash = hashIndex === -1 ? '' : base.slice(hashIndex);
@@ -72,15 +77,16 @@ export function createSerializer<Parsers extends ParserMap>(
     const values = (hasBase ? maybeValues : baseOrValues) as Record<string, unknown> | null;
 
     Object.entries(parsers).forEach(([key, parser]) => {
-      const urlKey = urlKeys?.[key] ?? key;
+      const urlKey = getUrlKey(urlKeys, key);
       if (values === null) {
         search.delete(urlKey);
         return;
       }
-      if (!(key in values) || values[key] === undefined) {
+      const value = getOwn(values, key);
+      if (value === undefined) {
         return;
       }
-      const query = serializeQuery(parser, values[key], parser.clearOnDefault ?? clearOnDefault);
+      const query = serializeQuery(parser, value, parser.clearOnDefault ?? clearOnDefault);
       applyQuery(search, urlKey, query);
     });
 

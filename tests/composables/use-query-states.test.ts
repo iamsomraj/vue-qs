@@ -80,6 +80,18 @@ describe('useQueryStates', () => {
     expect(onUrlUpdate.mock.calls[0]![0].queryString).toBe('?y=1&x=2');
   });
 
+  it('supports keys named like Object.prototype members', async () => {
+    const { plugin, onUrlUpdate } = setup('?constructor=a');
+    const { result } = withSetup(
+      () => useQueryStates({ constructor: parseAsString, other: parseAsString }, { urlKeys: {} }),
+      [plugin]
+    );
+    expect(result.constructor).toBe('a');
+    // Cast: TypeScript types the inherited `constructor` of object literals as Function
+    await result.$set({ other: 'b' } as never);
+    expect(onUrlUpdate.mock.calls[0]![0].queryString).toBe('?constructor=a&other=b');
+  });
+
   it('applies hook options, overridden by parser and call options', async () => {
     const { plugin, onUrlUpdate } = setup();
     const { result } = withSetup(
