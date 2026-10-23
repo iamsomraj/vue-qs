@@ -24,6 +24,10 @@ export function applyQuery(search: URLSearchParams, key: string, query: QueryVal
   } else if (Array.isArray(query)) {
     search.delete(key);
     query.forEach((value) => search.append(key, value));
+    // An empty array is kept as a single empty value (`?key=`)
+    if (query.length === 0) {
+      search.set(key, '');
+    }
   } else {
     // `set` keeps the key at its current position
     search.set(key, query);

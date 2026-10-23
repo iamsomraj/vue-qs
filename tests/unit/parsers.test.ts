@@ -49,6 +49,9 @@ describe('parsers', () => {
     expect(parseAsHex.serialize(15)).toBe('0f');
     expect(parseAsHex.serialize(255)).toBe('ff');
     expect(parseAsHex.serialize(256)).toBe('0100');
+    expect(parseAsHex.serialize(-10)).toBe('-a');
+    expect(parseAsHex.serialize(-255)).toBe('-ff');
+    expect(parseAsHex.parse('-a')).toBe(-10);
   });
 
   it('parseAsFloat', () => {
@@ -70,6 +73,7 @@ describe('parsers', () => {
   it('parseAsTimestamp', () => {
     expect(parseAsTimestamp.parse('0')).toEqual(new Date(0));
     expect(parseAsTimestamp.parse('nope')).toBeNull();
+    expect(parseAsTimestamp.parse('8640000000000001')).toBeNull();
     expect(parseAsTimestamp.serialize(new Date(1234))).toBe('1234');
     expect(parseAsTimestamp.eq(new Date(1), new Date(1))).toBe(true);
   });
@@ -78,6 +82,15 @@ describe('parsers', () => {
     const iso = '2025-01-02T03:04:05.000Z';
     expect(parseAsIsoDateTime.parse(iso)).toEqual(new Date(iso));
     expect(parseAsIsoDateTime.parse('nope')).toBeNull();
+    expect(parseAsIsoDateTime.parse('2021-02-29T10:00:00Z')).toBeNull();
+    expect(parseAsIsoDateTime.parse('March 1, 2021')).toBeNull();
+    expect(parseAsIsoDateTime.parse('2020-02-29T10:00:00Z')).toEqual(
+      new Date('2020-02-29T10:00:00Z')
+    );
+    // The calendar check applies to the written date, not the UTC date
+    expect(parseAsIsoDateTime.parse('2021-03-01T00:30:00+01:00')).toEqual(
+      new Date('2021-02-28T23:30:00.000Z')
+    );
     expect(parseAsIsoDateTime.serialize(new Date(iso))).toBe(iso);
   });
 
@@ -85,6 +98,9 @@ describe('parsers', () => {
     expect(parseAsIsoDate.parse('2025-01-02')).toEqual(new Date('2025-01-02'));
     expect(parseAsIsoDate.parse('2025-01-02T12:00:00Z')).toEqual(new Date('2025-01-02'));
     expect(parseAsIsoDate.parse('nope')).toBeNull();
+    expect(parseAsIsoDate.parse('2021-02-29')).toBeNull();
+    expect(parseAsIsoDate.parse('2021-13-01')).toBeNull();
+    expect(parseAsIsoDate.parse('2020-02-29')).toEqual(new Date('2020-02-29'));
     expect(parseAsIsoDate.serialize(new Date('2025-01-02T23:00:00Z'))).toBe('2025-01-02');
   });
 
@@ -146,6 +162,23 @@ describe('parsers', () => {
       expect(parser.parse('{"x":1,"y":2}')).toEqual({ x: 1, y: 2 });
       expect(parser.parse('{"x":"1","y":2}')).toBeNull();
     });
+
+    it('prefers the Standard Schema interface of callable schemas', () => {
+      // Like ArkType: the schema is a function returning an error object when invalid
+      const schema = Object.assign((value: unknown) => isPoint(value) ?? { errors: true }, {
+        '~standard': {
+          version: 1 as const,
+          vendor: 'test',
+          validate: (value: unknown) => {
+            const point = isPoint(value);
+            return point ? { value: point } : { issues: [{ message: 'not a point' }] };
+          },
+        },
+      });
+      const parser = parseAsJson<Point>(schema);
+      expect(parser.parse('{"x":1,"y":2}')).toEqual({ x: 1, y: 2 });
+      expect(parser.parse('{"x":"1","y":2}')).toBeNull();
+    });
   });
 
   describe('parseAsArrayOf', () => {
@@ -183,6 +216,21 @@ describe('parsers', () => {
     expect(parser.defaultValue).toEqual([]);
     expect(parser.parse(['1', '2', 'x'])).toEqual([1, 2]);
     expect(parser.serialize([1, 2])).toEqual(['1', '2']);
+  });
+
+  it('parseAsNativeArrayOf falls back to the default when no item is valid', () => {
+    const parser = parseAsNativeArrayOf(parseAsInteger).withDefault([42]);
+    expect(parser.parse(['x', 'y'])).toBeNull();
+    expect(parser.parse([''])).toEqual([]);
+    expect(parser.parseServerSide(['x', 'y'])).toEqual([42]);
+  });
+
+  it('array parsers accept item parsers without serialize or eq', () => {
+    const itemParser = { parse: (value: string) => Number(value) };
+    expect(parseAsArrayOf(itemParser).serialize([1, 2])).toBe('1,2');
+    expect(parseAsNativeArrayOf(itemParser).serialize([1, 2])).toEqual(['1', '2']);
+    expect(parseAsArrayOf(itemParser).eq([1, 2], [1, 2])).toBe(true);
+    expect(parseAsArrayOf(itemParser).eq([1, 2], [1, 3])).toBe(false);
   });
 
   describe('builder', () => {

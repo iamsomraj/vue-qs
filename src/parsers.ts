@@ -170,6 +170,16 @@ function isValidDate(date: Date): boolean {
   return !Number.isNaN(date.valueOf());
 }
 
+/**
+ * Checks the `YYYY-MM-DD` part of an ISO string is a real calendar date:
+ * `new Date('2021-02-29')` silently rolls over to March 1st.
+ */
+function isCalendarDate(value: string): boolean {
+  const day = value.slice(0, 10);
+  const date = new Date(day);
+  return isValidDate(date) && date.toISOString().slice(0, 10) === day;
+}
+
 /** Plain string, no transformation. */
 export const parseAsString: ParserBuilder<string> = createParser({
   parse: (value) => value,
@@ -202,7 +212,8 @@ export const parseAsHex: ParserBuilder<number> = createParser({
   },
   serialize: (value) => {
     const hex = Math.round(value).toString(16);
-    return hex.padStart(hex.length + (hex.length % 2), '0');
+    // Negative values start with `-` and are not padded
+    return hex.startsWith('-') || hex.length % 2 === 0 ? hex : `0${hex}`;
   },
 });
 
@@ -224,8 +235,9 @@ export const parseAsBoolean: ParserBuilder<boolean> = createParser({
 /** Date, serialized as a Unix timestamp in milliseconds. */
 export const parseAsTimestamp: ParserBuilder<Date> = createParser({
   parse: (value) => {
-    const ms = Number.parseInt(value, 10);
-    return Number.isNaN(ms) ? null : new Date(ms);
+    const date = new Date(Number.parseInt(value, 10));
+    // Also rejects timestamps outside the range of `Date`
+    return isValidDate(date) ? date : null;
   },
   serialize: (value) => value.valueOf().toString(),
   eq: compareDates,
@@ -235,7 +247,7 @@ export const parseAsTimestamp: ParserBuilder<Date> = createParser({
 export const parseAsIsoDateTime: ParserBuilder<Date> = createParser({
   parse: (value) => {
     const date = new Date(value);
-    return isValidDate(date) ? date : null;
+    return isValidDate(date) && isCalendarDate(value) ? date : null;
   },
   serialize: (value) => value.toISOString(),
   eq: compareDates,
@@ -244,8 +256,7 @@ export const parseAsIsoDateTime: ParserBuilder<Date> = createParser({
 /** Date (UTC midnight), serialized as `YYYY-MM-DD`. */
 export const parseAsIsoDate: ParserBuilder<Date> = createParser({
   parse: (value) => {
-    const date = new Date(value.slice(0, 10));
-    return isValidDate(date) ? date : null;
+    return isCalendarDate(value) ? new Date(value.slice(0, 10)) : null;
   },
   serialize: (value) => value.toISOString().slice(0, 10),
   eq: compareDates,
@@ -313,14 +324,15 @@ export function parseAsNumberLiteral<const Literal extends number>(
 export type JsonValidator<T> = ((value: unknown) => T | null) | StandardSchemaV1<unknown, T>;
 
 function runValidator<T>(validator: JsonValidator<T>, value: unknown): T | null {
-  if (typeof validator === 'function') {
-    return validator(value);
+  // Checked first: some schemas are also callable (ArkType types are functions)
+  if ('~standard' in validator) {
+    const result = validator['~standard'].validate(value);
+    if (result instanceof Promise) {
+      throw new TypeError('[vue-qs] parseAsJson only supports synchronous schemas');
+    }
+    return result.issues ? null : result.value;
   }
-  const result = validator['~standard'].validate(value);
-  if (result instanceof Promise) {
-    throw new TypeError('[vue-qs] parseAsJson only supports synchronous schemas');
-  }
-  return result.issues ? null : result.value;
+  return validator(value);
 }
 
 /**
@@ -343,10 +355,28 @@ export function parseAsJson<T>(validator: JsonValidator<T>): ParserBuilder<T> {
   });
 }
 
-function createArrayEq<T>(itemEq: (a: T, b: T) => boolean): (a: T[], b: T[]) => boolean {
+/**
+ * Parser for the items of an array. `serialize` defaults to `String`
+ * and `eq` to strict equality.
+ */
+export type ItemParser<T> = Pick<Parser<T>, 'parse'> & Partial<Pick<Parser<T>, 'serialize' | 'eq'>>;
+
+function createArrayEq<T>(
+  itemEq: (a: T, b: T) => boolean = Object.is
+): (a: T[], b: T[]) => boolean {
   return (valueA, valueB) =>
     valueA === valueB ||
     (valueA.length === valueB.length && valueA.every((item, index) => itemEq(item, valueB[index])));
+}
+
+function parseItems<T>(itemParser: ItemParser<T>, values: readonly string[]): T[] {
+  return values
+    .map((value) => safeParse<T, 'single'>(itemParser.parse, value))
+    .filter((item): item is T => item !== null && item !== undefined);
+}
+
+function serializeItem<T>(itemParser: ItemParser<T>, item: T): string {
+  return itemParser.serialize ? itemParser.serialize(item) : String(item);
 }
 
 /**
@@ -356,21 +386,21 @@ function createArrayEq<T>(itemEq: (a: T, b: T) => boolean): (a: T[], b: T[]) => 
  * @param itemParser Parser for each item
  * @param separator Item separator (default: `,`)
  */
-export function parseAsArrayOf<T>(itemParser: Parser<T>, separator = ','): ParserBuilder<T[]> {
+export function parseAsArrayOf<T>(itemParser: ItemParser<T>, separator = ','): ParserBuilder<T[]> {
   const encodedSeparator = encodeURIComponent(separator);
   return createParser({
     parse: (value) => {
       if (value === '') {
         return [];
       }
-      return value
-        .split(separator)
-        .map((item) => itemParser.parse(item.split(encodedSeparator).join(separator)))
-        .filter((item): item is T => item !== null);
+      return parseItems(
+        itemParser,
+        value.split(separator).map((item) => item.split(encodedSeparator).join(separator))
+      );
     },
     serialize: (values) =>
       values
-        .map((item) => itemParser.serialize(item).split(separator).join(encodedSeparator))
+        .map((item) => serializeItem(itemParser, item).split(separator).join(encodedSeparator))
         .join(separator),
     eq: createArrayEq(itemParser.eq),
   });
@@ -378,17 +408,24 @@ export function parseAsArrayOf<T>(itemParser: Parser<T>, separator = ','): Parse
 
 /**
  * Array of items stored as repeated keys (`?tag=vue&tag=nuxt`).
- * Defaults to an empty array.
+ * Defaults to an empty array. When no item is valid, the state falls back to the default.
+ * An empty array is written as a single empty value (`?tag=`).
  *
  * @param itemParser Parser for each item
  */
 export function parseAsNativeArrayOf<T>(
-  itemParser: Parser<T>
+  itemParser: ItemParser<T>
 ): ParserBuilderWithDefault<T[], 'multi'> {
   return createMultiParser<T[]>({
-    parse: (values) =>
-      values.map((value) => itemParser.parse(value)).filter((item): item is T => item !== null),
-    serialize: (values) => values.map((item) => itemParser.serialize(item)),
+    parse: (values) => {
+      const items = parseItems(itemParser, values);
+      if (items.length > 0) {
+        return items;
+      }
+      // A single empty value is an explicit empty array
+      return values.length === 1 && values[0] === '' ? [] : null;
+    },
+    serialize: (values) => values.map((item) => serializeItem(itemParser, item)),
     eq: createArrayEq(itemParser.eq),
   }).withDefault([] as NonNullable<T[]>);
 }
