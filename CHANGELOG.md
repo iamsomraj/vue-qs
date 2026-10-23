@@ -1,5 +1,39 @@
 # Changelog
 
+## v0.2.5
+
+[compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.2.4...v0.2.5)
+
+Brings vue-qs closer to nuqs: the nuqs parser, serializer, loader, Standard Schema and testing test suites now pass against vue-qs, except for vue-qs naming (`[vue-qs]` errors, the `vue-qs` Standard Schema vendor) and one deliberate difference: `parser.parse` returns `null` instead of throwing, so strict errors for throwing parsers say "got null".
+
+### 🚀 Enhancements
+
+- `defaultOptions` and `processUrlSearchParams` on `createVueQs`, `provideQueryAdapter` and `<VueQsAdapter>`, like nuqs adapters; `createSerializer` accepts `processUrlSearchParams` ([a798ea5](https://github.com/iamsomraj/vue-qs/commit/a798ea5))
+- New `vue-qs/testing` entry point with `isParserBijective`, `testParseThenSerialize` and `testSerializeThenParse` ([44ebd66](https://github.com/iamsomraj/vue-qs/commit/44ebd66))
+- Type names from nuqs: `SingleParser`, `MultiParser`, `GenericParser`, `SingleParserBuilder`, `MultiParserBuilder`, `GenericParserBuilder`, `ParserWithOptionalDefault`, `LoaderFunction`, `LoaderFunctionOptions`, `SearchParams` ([44ebd66](https://github.com/iamsomraj/vue-qs/commit/44ebd66))
+
+### 🩹 Fixes
+
+- `parseAsJson` works with ArkType schemas ([0bd9720](https://github.com/iamsomraj/vue-qs/commit/0bd9720))
+- `parseAsIsoDateTime` / `parseAsIsoDate` reject impossible calendar dates, `parseAsTimestamp` rejects out-of-range timestamps, `parseAsHex` serializes negative numbers without padding ([0bd9720](https://github.com/iamsomraj/vue-qs/commit/0bd9720))
+- `parseAsNativeArrayOf` falls back to the default when no item is valid, and writes an empty array as `?key=`; array parsers accept item parsers without `serialize` or `eq` ([0bd9720](https://github.com/iamsomraj/vue-qs/commit/0bd9720))
+- Parser keys named like `Object.prototype` members (`constructor`, `hasOwnProperty`) work in composables, `urlKeys`, `createSerializer` and `createLoader` ([0f34047](https://github.com/iamsomraj/vue-qs/commit/0f34047))
+- `createSerializer` keeps credentials and empty hashes from URL bases ([0f34047](https://github.com/iamsomraj/vue-qs/commit/0f34047))
+- `createStandardSchemaV1` validates state values like nuqs: values are serialized, then parsed back in strict mode, so invalid values are reported as issues instead of falling back to defaults ([0f34047](https://github.com/iamsomraj/vue-qs/commit/0f34047))
+
+### ⚠️ Behaviour changes
+
+- `createStandardSchemaV1` input is now state values keyed by state keys (not `urlKeys`). Strings still work for most parsers (`{ page: '2' }`), but not for parsers whose `serialize` expects a typed value, such as dates.
+- Strict loader errors now read ``[vue-qs] Failed to parse query `abc` for key `page` (got null)``.
+
+### 📖 Documentation
+
+- App-wide settings in the adapters guide, testing custom parsers in the testing guide, and the parsers and server guides updated for the changes above
+
+### ❤️ Contributors
+
+- Somraj Mukherjee ([@iamsomraj](https://github.com/iamsomraj))
+
 ## v0.2.4
 
 [compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.2.3...v0.2.4)
