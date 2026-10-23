@@ -5,6 +5,7 @@ import {
   shallowRef,
   type WritableComputedRef,
 } from 'vue';
+import type { VueQsOptions } from '@/adapters/context';
 import type { QueryAdapter } from '@/adapters/types';
 import type { Runtime } from '@/lib/runtime';
 import { parseQuery, readQuery, serializeQuery } from '@/lib/search-params';
@@ -29,7 +30,8 @@ export function createKeyState(
   runtime: Runtime,
   urlKey: string,
   parser: AnyParserBuilder,
-  hookOptions: Options = {}
+  hookOptions: Options = {},
+  settings: VueQsOptions = {}
 ): KeyState {
   const { queue, emitter } = runtime;
   const defaultValue: unknown = 'defaultValue' in parser ? parser.defaultValue : null;
@@ -74,11 +76,11 @@ export function createKeyState(
   function set(update: unknown, callOptions: Options = {}): Promise<URLSearchParams> {
     const next: unknown =
       typeof update === 'function' ? (update as (value: unknown) => unknown)(current()) : update;
-    const options = resolveOptions(callOptions, parser, hookOptions);
+    const options = resolveOptions(callOptions, parser, hookOptions, settings.defaultOptions);
     const query = serializeQuery(parser, next, options.clearOnDefault ?? true);
     internal.value = next ?? null;
     emitter.emit(urlKey, query, onSiblingUpdate);
-    return queue.push(urlKey, query, options);
+    return queue.push(urlKey, query, options, settings.processUrlSearchParams);
   }
 
   const ref = computed<unknown>({

@@ -17,11 +17,14 @@ Options control how state updates are written to the URL. They match nuqs option
 
 ## Where to set options
 
-Options can be set at three levels. The most specific wins:
+Options can be set at four levels. The most specific wins:
 
 1. **Per call**: `state.set(value, options)` or `states.$set(values, options)`
 2. **Per parser**: `parser.withOptions(options)`
 3. **Per composable**: `useQueryStates(parsers, options)`
+4. **App-wide**: `createVueQs({ adapter, defaultOptions })`, for `history`, `scroll`,
+   `shallow`, `clearOnDefault` and `limitUrlUpdates` (see
+   [Adapters → App-wide settings](./adapters#app-wide-settings))
 
 ```ts
 const page = useQueryState('page', parseAsInteger.withDefault(1).withOptions({ history: 'push' }));

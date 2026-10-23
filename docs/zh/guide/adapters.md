@@ -78,9 +78,34 @@ app.use(createVueQs({ adapter: createHistoryAdapter() }));
 - 状态会跟随后退/前进（`popstate`），以及其他代码对 `pushState` / `replaceState` 的调用。
 - 在服务端，查询参数为空。
 
+## 全局设置 {#app-wide-settings}
+
+插件还接受一些设置，它们作用于使用该适配器的所有组合式函数：
+
+```ts
+app.use(
+  createVueQs({
+    adapter: createVueRouterAdapter(router),
+    // Defaults for URL update options, overridden by parser, composable and call options
+    defaultOptions: { history: 'push', clearOnDefault: false },
+    // Runs right before each URL update
+    processUrlSearchParams: (search) => {
+      search.sort(); // canonical key order
+      return search;
+    },
+  })
+);
+```
+
+`defaultOptions` 接受 `history`、`scroll`、`shallow`、`clearOnDefault` 和
+`limitUrlUpdates`。`processUrlSearchParams` 接收即将写入的查询参数，可以修改后返回，
+也可以返回新的查询参数。如果它抛出错误，这次更新会被丢弃，状态重新跟随 URL。
+`createSerializer` 也接受同样的 `processUrlSearchParams` 选项。
+
 ## 为应用的一部分提供适配器 {#providing-an-adapter-to-part-of-the-app}
 
-在父组件的 `setup` 中使用 `provideQueryAdapter`，或使用 `VueQsAdapter` 组件：
+在父组件的 `setup` 中使用 `provideQueryAdapter(adapter, settings?)`，或使用 `VueQsAdapter`
+组件，它通过 props（`defaultOptions`、`processUrlSearchParams`）接收设置：
 
 ```vue
 <script setup lang="ts">

@@ -1,5 +1,5 @@
 import type { Ref } from 'vue';
-import { useQueryAdapter } from '@/adapters/context';
+import { useQueryAdapter, useQueryOptions } from '@/adapters/context';
 import { createKeyState } from '@/lib/key-state';
 import { getRuntime } from '@/lib/runtime';
 import type { Options } from '@/options';
@@ -84,6 +84,7 @@ export function useQueryState(
   parserOrOptions: AnyParserBuilder | UseQueryStateOptions = {}
 ): QueryStateRef<unknown> {
   const adapter = useQueryAdapter();
+  const settings = useQueryOptions();
   let parser: AnyParserBuilder;
   if (isParser(parserOrOptions)) {
     parser = parserOrOptions;
@@ -95,6 +96,6 @@ export function useQueryState(
         : parseAsString.withDefault(defaultValue).withOptions(options);
   }
 
-  const state = createKeyState(adapter, getRuntime(adapter), key, parser);
+  const state = createKeyState(adapter, getRuntime(adapter), key, parser, {}, settings);
   return Object.assign(state.ref, { set: state.set });
 }

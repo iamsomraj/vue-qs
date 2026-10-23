@@ -69,6 +69,13 @@ const ids = useQueryState('id', parseAsNativeArrayOf(parseAsInteger));
 ids.value = [1, 2]; // ?id=1&id=2
 ```
 
+Invalid items are skipped. When no item is valid (`?id=a&id=b`), the state falls back to
+the default. With a default other than `[]`, an empty array is written as an empty value
+(`?id=`), so it survives a reload.
+
+Item parsers only need `parse`: `serialize` defaults to `String` and `eq` to strict
+equality, for both array parsers.
+
 ::: tip Replace, don't mutate
 State values are not deeply reactive: `tags.value.push('x')` does not update the URL.
 Assign a new value instead: `tags.value = [...tags.value, 'x']`.

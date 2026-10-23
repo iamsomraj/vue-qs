@@ -6,9 +6,12 @@ import type { QueryValue } from '@/types';
 
 type Resolver = (search: URLSearchParams) => void;
 
+type ProcessUrlSearchParams = (search: URLSearchParams) => URLSearchParams;
+
 type DebouncedUpdate = {
   query: QueryValue;
   options: Options;
+  process: ProcessUrlSearchParams | undefined;
   timer: ReturnType<typeof setTimeout>;
   resolvers: Resolver[];
 };
@@ -27,6 +30,7 @@ export class UpdateQueue {
   private readonly debounced = new Map<string, DebouncedUpdate>();
   private inflight = new Map<string, QueryValue>();
   private options = defaultUpdateOptions();
+  private process: ProcessUrlSearchParams | undefined;
   private throttleMs = 0;
   private resolvers: Resolver[] = [];
   private scheduled = false;
@@ -54,14 +58,22 @@ export class UpdateQueue {
     return this.inflight.get(key);
   }
 
-  /** Queues an update and resolves with the search params once written to the URL. */
-  push(key: string, query: QueryValue, options: Options): Promise<URLSearchParams> {
+  /**
+   * Queues an update and resolves with the search params once written to the URL.
+   * `process` transforms the search params before the write; the latest push wins.
+   */
+  push(
+    key: string,
+    query: QueryValue,
+    options: Options,
+    process?: ProcessUrlSearchParams
+  ): Promise<URLSearchParams> {
     const rateLimit = resolveRateLimit(options);
     if (rateLimit.method === 'debounce') {
-      return this.pushDebounced(key, query, options, rateLimit.timeMs);
+      return this.pushDebounced(key, query, options, process, rateLimit.timeMs);
     }
     const cancelled = this.cancelDebounced(key);
-    const promise = this.enqueue(key, query, options, rateLimit.timeMs);
+    const promise = this.enqueue(key, query, options, process, rateLimit.timeMs);
     if (cancelled.length > 0) {
       void promise.then((search) => cancelled.forEach((resolve) => resolve(search)));
     }
@@ -72,9 +84,11 @@ export class UpdateQueue {
     key: string,
     query: QueryValue,
     options: Options,
+    process: ProcessUrlSearchParams | undefined,
     throttleMs: number
   ): Promise<URLSearchParams> {
     this.pending.set(key, query);
+    this.process = process;
     if (options.history === 'push') {
       this.options.history = 'push';
     }
@@ -94,17 +108,18 @@ export class UpdateQueue {
     key: string,
     query: QueryValue,
     options: Options,
+    process: ProcessUrlSearchParams | undefined,
     timeMs: number
   ): Promise<URLSearchParams> {
     const resolvers = this.cancelDebounced(key);
     const promise = new Promise<URLSearchParams>((resolve) => resolvers.push(resolve));
     const timer = setTimeout(() => {
       this.debounced.delete(key);
-      void this.enqueue(key, query, options, 0).then((search) =>
+      void this.enqueue(key, query, options, process, 0).then((search) =>
         resolvers.forEach((resolve) => resolve(search))
       );
     }, timeMs);
-    this.debounced.set(key, { query, options, timer, resolvers });
+    this.debounced.set(key, { query, options, process, timer, resolvers });
     return promise;
   }
 
@@ -135,20 +150,25 @@ export class UpdateQueue {
     this.scheduled = false;
     const updates = new Map(this.pending);
     const options = this.options;
+    const process = this.process;
     const resolvers = this.resolvers;
     this.pending.clear();
     this.options = defaultUpdateOptions();
+    this.process = undefined;
     this.throttleMs = 0;
     this.resolvers = [];
     // Keep queued values visible to readers until the adapter has written them
     this.inflight = new Map([...this.inflight, ...updates]);
 
     this.flushing = this.flushing.then(async () => {
-      const search = new URLSearchParams(this.adapter.getSearchParams());
+      let search = new URLSearchParams(this.adapter.getSearchParams());
       updates.forEach((query, key) => applyQuery(search, key, query));
-      debug('Flushing %s with %o', search.toString(), options);
       let rejected: boolean;
       try {
+        if (process) {
+          search = process(search);
+        }
+        debug('Flushing %s with %o', search.toString(), options);
         rejected = (await this.adapter.updateUrl(search, options)) === false;
       } catch (error) {
         warn('Failed to update the URL', error);

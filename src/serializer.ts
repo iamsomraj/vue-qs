@@ -9,6 +9,8 @@ export type CreateSerializerOptions<Parsers extends ParserMap> = {
   clearOnDefault?: boolean;
   /** Map state keys to different URL keys */
   urlKeys?: UrlKeys<Parsers>;
+  /** Transforms the search params before rendering, e.g. to sort keys */
+  processUrlSearchParams?: (search: URLSearchParams) => URLSearchParams;
 };
 
 /** Base to merge serialized values into: a URL, a path with a query string, or search params. */
@@ -61,7 +63,7 @@ export function createSerializer<Parsers extends ParserMap>(
   parsers: Parsers,
   options: CreateSerializerOptions<Parsers> = {}
 ): Serializer<Parsers> {
-  const { clearOnDefault = true, urlKeys } = options;
+  const { clearOnDefault = true, urlKeys, processUrlSearchParams } = options;
 
   function serialize(
     baseOrValues: SerializerBase | Partial<Nullable<Values<Parsers>>>,
@@ -90,7 +92,8 @@ export function createSerializer<Parsers extends ParserMap>(
       applyQuery(search, urlKey, query);
     });
 
-    return `${prefix}${renderQueryString(search)}${hash}`;
+    const output = processUrlSearchParams ? processUrlSearchParams(search) : search;
+    return `${prefix}${renderQueryString(output)}${hash}`;
   }
 
   return serialize;

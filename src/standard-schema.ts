@@ -39,7 +39,10 @@ export type CreateStandardSchemaV1Options<
   partialOutput?: PartialOutput;
 };
 
-type MaybePartial<PartialOutput extends boolean, T> = PartialOutput extends true ? Partial<T> : T;
+/** Output of {@link createStandardSchemaV1}: `Partial<T>` with `partialOutput: true`. */
+export type MaybePartial<PartialOutput extends boolean, T> = PartialOutput extends true
+  ? Partial<T>
+  : T;
 
 /**
  * Creates a Standard Schema validating search params state with the given parsers.

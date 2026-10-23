@@ -81,10 +81,36 @@ app.use(createVueQs({ adapter: createHistoryAdapter() }));
   made by other code.
 - On the server, search params are empty.
 
+## App-wide settings {#app-wide-settings}
+
+The plugin also accepts settings that apply to every composable using the adapter:
+
+```ts
+app.use(
+  createVueQs({
+    adapter: createVueRouterAdapter(router),
+    // Defaults for URL update options, overridden by parser, composable and call options
+    defaultOptions: { history: 'push', clearOnDefault: false },
+    // Runs right before each URL update
+    processUrlSearchParams: (search) => {
+      search.sort(); // canonical key order
+      return search;
+    },
+  })
+);
+```
+
+`defaultOptions` accepts `history`, `scroll`, `shallow`, `clearOnDefault` and
+`limitUrlUpdates`. `processUrlSearchParams` receives the search params that are about to be
+written; it may mutate and return them or return new ones. If it throws, the update is
+discarded and state follows the URL again. `createSerializer` accepts the same
+`processUrlSearchParams` option.
+
 ## Providing an adapter to part of the app
 
-Use `provideQueryAdapter` in a parent component's `setup`, or the `VueQsAdapter`
-component:
+Use `provideQueryAdapter(adapter, settings?)` in a parent component's `setup`, or the
+`VueQsAdapter` component, which takes the settings as props (`defaultOptions`,
+`processUrlSearchParams`):
 
 ```vue
 <script setup lang="ts">
