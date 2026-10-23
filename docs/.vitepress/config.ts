@@ -118,6 +118,7 @@ export default defineConfig({
             { text: 'Server', link: '/guide/server' },
             { text: 'Testing', link: '/guide/testing' },
             { text: 'Examples', link: '/guide/examples' },
+            { text: 'Comparison', link: '/guide/comparison' },
             { text: 'Migrating from 0.1.x', link: '/guide/migration' },
           ],
         },
