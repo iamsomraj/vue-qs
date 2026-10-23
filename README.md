@@ -21,6 +21,8 @@ const page = useQueryState('page', parseAsInteger.withDefault(1));
 page.value++; // ?page=2
 ```
 
+![vue-qs demo: tabs, search, sort and pagination kept in the URL](https://raw.githubusercontent.com/iamsomraj/vue-qs/main/docs/public/demo.gif)
+
 ## Why vue-qs?
 
 Filters, search terms, tabs, pagination and sort orders are state your users expect to
