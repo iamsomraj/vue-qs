@@ -2,6 +2,7 @@
 
 ![vue-qs social](https://iamsomraj.github.io/vue-qs/banner.svg)
 
+[![Mentioned in Awesome Vue](https://awesome.re/mentioned-badge.svg)](https://github.com/vuejs/awesome-vue#state-management)
 [![npm version](https://img.shields.io/npm/v/vue-qs.svg)](https://www.npmjs.com/package/vue-qs)
 [![npm downloads](https://img.shields.io/npm/dm/vue-qs.svg)](https://www.npmjs.com/package/vue-qs)
 [![CI](https://github.com/iamsomraj/vue-qs/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/iamsomraj/vue-qs/actions/workflows/ci.yml)
@@ -15,6 +16,8 @@ that uses Vue idioms: writable refs, `v-model`, reactive objects and a plugin.
 📖 **Documentation**: [https://iamsomraj.github.io/vue-qs/](https://iamsomraj.github.io/vue-qs/)
 
 ▶️ **Try it**: [open the playground on StackBlitz](https://stackblitz.com/github/iamsomraj/vue-qs/tree/main/examples/vite-vue-router)
+
+⭐ **Listed in** [Awesome Vue](https://github.com/vuejs/awesome-vue#state-management) under State Management.
 
 ```ts
 const page = useQueryState('page', parseAsInteger.withDefault(1));

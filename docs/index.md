@@ -6,7 +6,7 @@ description: 'vue-qs is a type-safe search params state manager for Vue 3 and Nu
 hero:
   name: vue-qs
   text: Type-safe search params state for Vue
-  tagline: A port of nuqs for Vue 3. Store state in the URL with writable refs, parsers and batched updates.
+  tagline: A port of nuqs for Vue 3. Store state in the URL with writable refs, parsers and batched updates. Listed in Awesome Vue.
   actions:
     - theme: brand
       text: Get Started
