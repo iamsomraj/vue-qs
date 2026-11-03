@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.2.6
+
+[compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.2.5...v0.2.6)
+
+vue-qs is now listed in [Awesome Vue](https://github.com/vuejs/awesome-vue#state-management) under State Management.
+
+### 📖 Documentation
+
+- Awesome Vue badge and mention in the README, and in the docs home page (en, zh) ([da1a983](https://github.com/iamsomraj/vue-qs/commit/da1a983))
+
 ## v0.2.5
 
 [compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.2.4...v0.2.5)
