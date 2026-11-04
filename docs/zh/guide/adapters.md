@@ -45,7 +45,22 @@ createApp(App)
 
 ## Nuxt {#nuxt}
 
-Nuxt 使用 Vue Router，因此在插件中使用 Vue Router 适配器即可：
+在 `nuxt.config` 中添加模块：
+
+```ts
+// nuxt.config.ts
+export default defineNuxtConfig({
+  modules: ['vue-qs/nuxt'],
+  // 可选：URL 更新选项的默认值
+  vueQs: { defaultOptions: { history: 'push' } },
+});
+```
+
+该模块会使用 Vue Router 适配器安装插件，并自动导入 `useQueryState`、`useQueryStates`
+和 `parseAs*` 解析器。设置 `vueQs.autoImports: false` 可改为手动导入。`defaultOptions`
+必须可以序列化为 JSON。
+
+如需自行配置插件（例如传入 `processUrlSearchParams`），可以不使用模块，改为在插件中安装：
 
 ```ts
 // plugins/vue-qs.ts

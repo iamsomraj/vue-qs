@@ -46,7 +46,23 @@ createApp(App)
 
 ## Nuxt
 
-Nuxt uses Vue Router, so use the Vue Router adapter in a plugin:
+Add the module to `nuxt.config`:
+
+```ts
+// nuxt.config.ts
+export default defineNuxtConfig({
+  modules: ['vue-qs/nuxt'],
+  // Optional: defaults for URL update options
+  vueQs: { defaultOptions: { history: 'push' } },
+});
+```
+
+The module installs the plugin with the Vue Router adapter and auto-imports
+`useQueryState`, `useQueryStates` and the `parseAs*` parsers. Set `vueQs.autoImports: false`
+to import them yourself. `defaultOptions` must be serializable to JSON.
+
+To configure the plugin yourself (e.g. to pass `processUrlSearchParams`), skip the module
+and install it in a plugin instead:
 
 ```ts
 // plugins/vue-qs.ts

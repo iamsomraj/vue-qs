@@ -73,6 +73,16 @@
         "default": "./dist/testing.cjs"
       }
     },
+    "./nuxt": {
+      "import": {
+        "types": "./dist/nuxt.d.ts",
+        "default": "./dist/nuxt.js"
+      },
+      "require": {
+        "types": "./dist/nuxt.d.cts",
+        "default": "./dist/nuxt.cjs"
+      }
+    },
     "./package.json": "./package.json"
   },
   "typesVersions": {
@@ -91,6 +101,9 @@
       ],
       "testing": [
         "./dist/testing.d.ts"
+      ],
+      "nuxt": [
+        "./dist/nuxt.d.ts"
       ]
     }
   },

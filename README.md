@@ -44,7 +44,7 @@ here too.
 - ✍️ **Writable refs**: assign `.value` or use `v-model`; `.set()` for options and promises
 - 📦 **Batched updates**: changes in the same tick produce a single URL update
 - ⏱️ **Throttle & debounce**: state is instant, URL writes are rate-limited
-- 🧭 **Adapters**: Vue Router (and Nuxt), History API, testing, custom
+- 🧭 **Adapters**: Vue Router, Nuxt module, History API, testing, custom
 - 🖥️ **Server utilities**: `createLoader` and `createSerializer` share your parsers
 - 🧪 **Testable**: an in-memory testing adapter
 
@@ -72,7 +72,14 @@ createApp(App)
   .mount('#app');
 ```
 
-For Nuxt, see the [adapters guide](https://iamsomraj.github.io/vue-qs/guide/adapters#nuxt).
+For Nuxt, add the module, which also auto-imports the composables and parsers:
+
+```ts
+// nuxt.config.ts
+export default defineNuxtConfig({ modules: ['vue-qs/nuxt'] });
+```
+
+See the [adapters guide](https://iamsomraj.github.io/vue-qs/guide/adapters#nuxt) for options.
 
 ## Usage
 
