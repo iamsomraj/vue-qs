@@ -19,6 +19,8 @@ app.use(createVueQs({ adapter }));
 | `createTestingAdapter(options)`  | `vue-qs/adapters/testing`    | 单元测试                     |
 | `createAdapter(adapter)`         | `vue-qs`                     | 其他任何场景                 |
 
+Nuxt 应用可以使用 [`vue-qs/nuxt` 模块](#nuxt)，它会自动配置 Vue Router 适配器。
+
 如果没有安装适配器，组合式函数会抛出一个说明清晰的错误。
 
 ## Vue Router {#vue-router}

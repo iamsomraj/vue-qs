@@ -19,6 +19,8 @@ app.use(createVueQs({ adapter }));
 | `createTestingAdapter(options)`  | `vue-qs/adapters/testing`    | Unit tests                  |
 | `createAdapter(adapter)`         | `vue-qs`                     | Anything else               |
 
+Nuxt apps can use the [`vue-qs/nuxt` module](#nuxt), which sets up the Vue Router adapter.
+
 Composables throw a descriptive error when no adapter is installed.
 
 ## Vue Router
