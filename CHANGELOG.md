@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.2.8
+
+[compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.2.7...v0.2.8)
+
+vue-qs has a mascot: a friendly green `?`, since every query string starts with one.
+
+### 📖 Documentation
+
+- Mascot as the favicon, nav logo and docs home hero image (en, zh), and a new 1280×640 social card used for the README banner and the docs OG image ([5615f42](https://github.com/iamsomraj/vue-qs/commit/5615f42))
+- One tagline, "Type-safe search params state for Vue and Nuxt", across the README, docs and social card ([5615f42](https://github.com/iamsomraj/vue-qs/commit/5615f42))
+
 ## v0.2.7
 
 [compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.2.6...v0.2.7)
