@@ -33,7 +33,7 @@
   </g>
   <g font-family="Inter, 'Helvetica Neue', Arial, sans-serif">
     <text x="560" y="300" font-size="124" font-weight="800" fill="#ffffff" letter-spacing="-4">vue-<tspan fill="#42b883">qs</tspan></text>
-    <text x="566" y="372" font-size="32" font-weight="600" fill="#e6e6e9">Type-safe URL query state for Vue &amp; Nuxt</text>
+    <text x="566" y="372" font-size="30" font-weight="600" fill="#e6e6e9">Type-safe search params state for Vue &amp; Nuxt</text>
     <text x="566" y="438" font-size="26" font-weight="500" fill="#8a8a93" font-family="Menlo, 'SF Mono', monospace">useQueryState('page', parseAsInteger)</text>
   </g>
 </svg>
