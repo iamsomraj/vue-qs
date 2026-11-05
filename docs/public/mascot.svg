@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-220 -320 440 640" width="440" height="640">
+  <title>vue-qs mascot</title>
+  <!-- ground shadow -->
+  <ellipse cx="0" cy="298" rx="78" ry="12" fill="#000" opacity="0.12"/>
+  <!-- body: the hook of the question mark -->
+  <path d="M -132 -74 A 132 132 0 1 1 44 44 Q 0 66 0 112 L 0 128"
+        fill="none" stroke="#2c8c62" stroke-width="132" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M -132 -74 A 132 132 0 1 1 44 44 Q 0 66 0 112 L 0 128"
+        fill="none" stroke="#42b883" stroke-width="116" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- soft highlight along the top -->
+  <path d="M -150 -60 A 150 150 0 0 1 -112 -168"
+        fill="none" stroke="#7fd8ae" stroke-width="18" stroke-linecap="round" opacity="0.8"/>
+  <!-- face -->
+  <ellipse cx="-74" cy="-176" rx="17" ry="10" fill="#ffa3b5" opacity="0.9"/>
+  <ellipse cx="74" cy="-176" rx="17" ry="10" fill="#ffa3b5" opacity="0.9"/>
+  <circle cx="-40" cy="-206" r="19" fill="#1d2b35"/>
+  <circle cx="40" cy="-206" r="19" fill="#1d2b35"/>
+  <circle cx="-34" cy="-213" r="7" fill="#fff"/>
+  <circle cx="46" cy="-213" r="7" fill="#fff"/>
+  <path d="M -18 -178 Q 0 -160 18 -178" fill="none" stroke="#1d2b35" stroke-width="7" stroke-linecap="round"/>
+  <!-- the dot it stands on -->
+  <circle cx="0" cy="236" r="58" fill="#2c8c62"/>
+  <circle cx="0" cy="236" r="50" fill="#42b883"/>
+  <path d="M -26 212 A 34 34 0 0 1 8 200" fill="none" stroke="#7fd8ae" stroke-width="10" stroke-linecap="round" opacity="0.8"/>
+</svg>

@@ -1,6 +1,6 @@
 # vue-qs
 
-![vue-qs social](https://iamsomraj.github.io/vue-qs/banner.svg)
+![vue-qs: type-safe search params state for Vue and Nuxt, with its question-mark mascot](https://raw.githubusercontent.com/iamsomraj/vue-qs/main/docs/public/og-image.png)
 
 [![Mentioned in Awesome Vue](https://awesome.re/mentioned-badge.svg)](https://github.com/vuejs/awesome-vue#state-management)
 [![npm version](https://img.shields.io/npm/v/vue-qs.svg)](https://www.npmjs.com/package/vue-qs)
@@ -10,7 +10,7 @@
 [![GitHub Discussions](https://img.shields.io/github/discussions/iamsomraj/vue-qs)](https://github.com/iamsomraj/vue-qs/discussions)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-Type-safe search params state manager for Vue 3. A port of [nuqs](https://nuqs.dev)
+Type-safe search params state for Vue 3 and Nuxt. A port of [nuqs](https://nuqs.dev)
 that uses Vue idioms: writable refs, `v-model`, reactive objects and a plugin.
 
 📖 **Documentation**: [https://iamsomraj.github.io/vue-qs/](https://iamsomraj.github.io/vue-qs/)

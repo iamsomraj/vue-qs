@@ -3,7 +3,7 @@ import { defineConfig, type HeadConfig } from 'vitepress';
 // https://vitepress.dev/reference/site-config
 const base = process.env.DOCS_BASE ?? '/';
 const siteUrl = 'https://iamsomraj.github.io/vue-qs/';
-const siteDescription = 'Type-safe search params state manager for Vue 3 - a port of nuqs';
+const siteDescription = 'Type-safe search params state for Vue 3 and Nuxt, a port of nuqs';
 const ogImage = `${siteUrl}og-image.png`;
 
 export default defineConfig({
@@ -25,11 +25,14 @@ export default defineConfig({
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:site_name', content: 'vue-qs' }],
     ['meta', { property: 'og:image', content: ogImage }],
-    ['meta', { property: 'og:image:width', content: '2240' }],
-    ['meta', { property: 'og:image:height', content: '1260' }],
+    ['meta', { property: 'og:image:width', content: '1280' }],
+    ['meta', { property: 'og:image:height', content: '640' }],
     [
       'meta',
-      { property: 'og:image:alt', content: 'vue-qs: type-safe search params state for Vue' },
+      {
+        property: 'og:image:alt',
+        content: 'vue-qs: type-safe search params state for Vue and Nuxt',
+      },
     ],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
     ['meta', { name: 'twitter:image', content: ogImage }],
@@ -103,6 +106,7 @@ export default defineConfig({
     },
   },
   themeConfig: {
+    logo: { src: '/mascot.svg', alt: 'vue-qs mascot' },
     search: {
       provider: 'local',
     },
