@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.2.7
+
+[compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.2.6...v0.2.7)
+
+vue-qs now ships a Nuxt module: add `modules: ['vue-qs/nuxt']` to `nuxt.config` and use `useQueryState` without any setup or imports.
+
+### 🚀 Enhancements
+
+- New `vue-qs/nuxt` module: installs the plugin with the Vue Router adapter and auto-imports `useQueryState`, `useQueryStates` and the `parseAs*` parsers; optional `vueQs.defaultOptions` and `vueQs.autoImports` ([12feeb0](https://github.com/iamsomraj/vue-qs/commit/12feeb0))
+
+### 📖 Documentation
+
+- Nuxt module setup in the README, getting started, adapters guide and docs home page (en, zh) ([12feeb0](https://github.com/iamsomraj/vue-qs/commit/12feeb0))
+
 ## v0.2.6
 
 [compare changes](https://github.com/iamsomraj/vue-qs/compare/v0.2.5...v0.2.6)
