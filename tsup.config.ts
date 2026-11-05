@@ -8,6 +8,7 @@ export default defineConfig({
     'adapters/vue-router': 'src/adapters/vue-router.ts',
     'adapters/testing': 'src/adapters/testing.ts',
     testing: 'src/testing.ts',
+    nuxt: 'src/nuxt.ts',
   },
   format: ['esm', 'cjs'],
   dts: {

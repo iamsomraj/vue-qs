@@ -68,7 +68,14 @@ createApp(App)
 
 :::
 
-使用 Nuxt？请参阅 [适配器 → Nuxt](./adapters#nuxt)。
+使用 Nuxt？改为添加模块即可，它还会自动导入组合式函数和解析器：
+
+```ts
+// nuxt.config.ts
+export default defineNuxtConfig({ modules: ['vue-qs/nuxt'] });
+```
+
+选项请参阅 [适配器 → Nuxt](./adapters#nuxt)。
 
 ## 第一个查询状态 {#your-first-query-state}
 

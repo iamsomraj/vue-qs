@@ -25,5 +25,5 @@ features:
   - title: Batched and rate-limited
     details: Updates in the same tick become one URL update. Throttle or debounce URL writes while state stays instant.
   - title: Vue Router, Nuxt and SSR
-    details: Adapters for Vue Router (and Nuxt), the History API and tests. Server loaders and serializers share the same parsers.
+    details: A Nuxt module with auto-imports, plus adapters for Vue Router, the History API and tests. Server loaders and serializers share the same parsers.
 ---

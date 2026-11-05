@@ -69,7 +69,14 @@ createApp(App)
 
 :::
 
-Using Nuxt? See [Adapters → Nuxt](./adapters#nuxt).
+Using Nuxt? Add the module instead, which also auto-imports the composables and parsers:
+
+```ts
+// nuxt.config.ts
+export default defineNuxtConfig({ modules: ['vue-qs/nuxt'] });
+```
+
+See [Adapters → Nuxt](./adapters#nuxt) for options.
 
 ## Your first query state
 
