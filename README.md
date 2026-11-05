@@ -1,6 +1,6 @@
 # vue-qs
 
-![vue-qs social](https://iamsomraj.github.io/vue-qs/banner.svg)
+![vue-qs: type-safe URL query state for Vue and Nuxt, with its question-mark mascot](https://raw.githubusercontent.com/iamsomraj/vue-qs/main/docs/public/og-image.png)
 
 [![Mentioned in Awesome Vue](https://awesome.re/mentioned-badge.svg)](https://github.com/vuejs/awesome-vue#state-management)
 [![npm version](https://img.shields.io/npm/v/vue-qs.svg)](https://www.npmjs.com/package/vue-qs)

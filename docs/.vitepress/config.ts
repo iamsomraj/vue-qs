@@ -25,8 +25,8 @@ export default defineConfig({
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:site_name', content: 'vue-qs' }],
     ['meta', { property: 'og:image', content: ogImage }],
-    ['meta', { property: 'og:image:width', content: '2240' }],
-    ['meta', { property: 'og:image:height', content: '1260' }],
+    ['meta', { property: 'og:image:width', content: '1280' }],
+    ['meta', { property: 'og:image:height', content: '640' }],
     [
       'meta',
       { property: 'og:image:alt', content: 'vue-qs: type-safe search params state for Vue' },
@@ -103,6 +103,7 @@ export default defineConfig({
     },
   },
   themeConfig: {
+    logo: { src: '/mascot.svg', alt: 'vue-qs mascot' },
     search: {
       provider: 'local',
     },

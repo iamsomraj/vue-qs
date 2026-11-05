@@ -7,6 +7,9 @@ hero:
   name: vue-qs
   text: 类型安全的 Vue URL 查询参数状态管理
   tagline: nuqs 的 Vue 3 移植版本。已收录于 Awesome Vue。
+  image:
+    src: /mascot.svg
+    alt: vue-qs 吉祥物，一个友好的绿色问号
   actions:
     - theme: brand
       text: 快速开始

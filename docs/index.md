@@ -7,6 +7,9 @@ hero:
   name: vue-qs
   text: Type-safe search params state for Vue
   tagline: A port of nuqs for Vue 3. Store state in the URL with writable refs, parsers and batched updates. Listed in Awesome Vue.
+  image:
+    src: /mascot.svg
+    alt: The vue-qs mascot, a friendly green question mark
   actions:
     - theme: brand
       text: Get Started
